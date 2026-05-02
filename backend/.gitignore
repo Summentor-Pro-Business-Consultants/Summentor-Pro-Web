@@ -1,0 +1,35 @@
+node_modules
+
+# Keep environment variables out of version control
+.env
+/keys/env-snippet.txt
+
+/src/generated
+
+dist/*
+dist
+logs
+./keys/*.pem
+.early.coverage
+tsconfig.tsbuildinfo
+
+coverage
+
+keys/*.pem
+
+/prisma/schema.prisma
+# generated config outputs
+*.js
+*.js.map
+*.d.ts
+*.d.ts.map
+eslint.config.d.mts
+eslint.config.d.mts.map
+eslint.config.mjs
+eslint.config.mjs.map
+
+.vscode/
+skills-portal.postman_collection.json
+
+.postman/
+postman/
