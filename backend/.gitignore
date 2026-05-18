@@ -19,6 +19,7 @@ keys/*.pem
 
 # generated config outputs
 *.js
+!esbuild.config.js
 *.js.map
 *.d.ts
 *.d.ts.map
