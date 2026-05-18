@@ -9,7 +9,9 @@
 
 import { NextRequest, NextResponse } from "next/server";
 
-const BACKEND = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:9090/api/v1";
+const BACKEND =
+  process.env.API_URL ?? process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:9090/api/v1";
+const API_KEY = process.env.API_KEY ?? "";
 
 export async function POST(req: NextRequest) {
   try {
@@ -20,6 +22,7 @@ export async function POST(req: NextRequest) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "x-api-key": API_KEY,
         "X-Forwarded-For": clientIp,
       },
       body,

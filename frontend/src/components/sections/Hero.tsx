@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import Container from "@/components/ui/Container";
 
@@ -29,15 +30,14 @@ export default function Hero() {
       />
 
       {/* Background conference photo — replaced by video later */}
-      <img
+      <Image
         src="/images/engagements/msme-consulting-2.jpeg"
         alt=""
         aria-hidden="true"
+        fill
+        priority
+        sizes="100vw"
         style={{
-          position: "absolute",
-          inset: 0,
-          width: "100%",
-          height: "100%",
           objectFit: "cover",
           objectPosition: "center top",
           opacity: 0.38,
@@ -92,7 +92,7 @@ export default function Hero() {
         <motion.div
           initial={{ opacity: 0, y: 36 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, ease: [0.25, 0.46, 0.45, 0.94] }}
+          transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
         >
           <h1
             style={{
@@ -132,7 +132,7 @@ export default function Hero() {
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.35 }}
+            transition={{ duration: 0.7, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
             className="flex flex-wrap gap-4"
             style={{ marginTop: 52 }}
           >

@@ -26,7 +26,11 @@
 import { NextRequest, NextResponse } from "next/server";
 
 /** Backend base URL — falls back to localhost for local development. */
-const BACKEND = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:9090/api/v1";
+// Server-only env (API_URL) preferred; NEXT_PUBLIC_API_URL kept as a
+// backward-compatible fallback. API_KEY is never exposed to the browser.
+const BACKEND =
+  process.env.API_URL ?? process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:9090/api/v1";
+const API_KEY = process.env.API_KEY ?? "";
 
 /**
  * POST /api/contact
@@ -51,10 +55,17 @@ export async function POST(req: NextRequest) {
     // Parse the request body — Next.js provides req.json() for this.
     const body = await req.json();
 
-    // Forward the parsed body to the Express backend as JSON.
+    // Forward to the backend with the shared API key (proxy-only) and the
+    // real client IP so the backend's per-IP contact rate limiter is accurate.
+    const clientIp =
+      req.headers.get("x-forwarded-for") ?? req.headers.get("x-real-ip") ?? "";
     const res = await fetch(`${BACKEND}/contact`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "x-api-key": API_KEY,
+        "X-Forwarded-For": clientIp,
+      },
       body: JSON.stringify(body),
     });
 

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import Container from "@/components/ui/Container";
 
@@ -139,7 +140,7 @@ export default function ProcessSection() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
           style={{ textAlign: "center", marginBottom: 52 }}
         >
           <h2
@@ -220,7 +221,7 @@ export default function ProcessSection() {
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.32 }}
+            transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
             className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center"
           >
             {/* Left: text */}
@@ -268,16 +269,19 @@ export default function ProcessSection() {
             {/* Right: photo */}
             <div
               style={{
+                position: "relative",
                 borderRadius: 12,
                 overflow: "hidden",
                 height: 320,
                 boxShadow: "0 8px 32px rgba(0,0,0,0.1)",
               }}
             >
-              <img
+              <Image
                 src={current.photo}
                 alt={current.photoAlt}
-                style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+                style={{ objectFit: "cover" }}
               />
             </div>
           </motion.div>

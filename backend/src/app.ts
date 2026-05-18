@@ -4,9 +4,10 @@ import cookieParser from "cookie-parser";
 import helmet from "helmet";
 import swaggerUi from "swagger-ui-express";
 
-import { originUrl } from "./config.ts";
+import { isProduction, originUrl } from "./config.ts";
 import logger from "./infrastructure/logger/logger.service.ts";
 import { errorHandler } from "./middlewares/error.middleware.ts";
+import { globalLimiter } from "./middlewares/rate-limit.middleware.ts";
 import router from "./routes.ts";
 import { NotFoundError } from "./shared/errors/api-error.class.ts";
 import { generateOpenAPIDocument } from "./swagger/index.ts";
@@ -21,19 +22,22 @@ type BigIntWithToJSON = bigint & {
 
 const app: Application = express();
 
-app.use(express.json({ limit: "10mb" }));
+// Requests arrive via the Next.js proxy / Render edge — trust one hop so
+// req.ip reflects the real client (needed for correct rate limiting).
+app.set("trust proxy", 1);
+
+app.use(express.json({ limit: "1mb" }));
 app.use(cookieParser());
 app.use((req, _res, next) => {
   logger.info(`INCOMING REQUEST: ${req.method} ${req.originalUrl} - ${req.ip}`);
-  logger.info("Cookies:", req.cookies);
   next();
 });
 
 app.use(
   express.urlencoded({
-    limit: "10mb",
+    limit: "1mb",
     extended: true,
-    parameterLimit: 50000,
+    parameterLimit: 1000,
   }),
 );
 
@@ -47,19 +51,22 @@ app.use(
 
 app.use(helmet());
 
-app.use(
-  "/api-docs",
-  swaggerUi.serve,
-  swaggerUi.setup(generateOpenAPIDocument(), {
-    swaggerOptions: {
-      persistAuthorization: true,
-      tryItOutEnabled: true,
-      displayRequestDuration: true,
-    },
-  }),
-);
+// API docs are an information-disclosure surface — expose only outside production.
+if (!isProduction) {
+  app.use(
+    "/api-docs",
+    swaggerUi.serve,
+    swaggerUi.setup(generateOpenAPIDocument(), {
+      swaggerOptions: {
+        persistAuthorization: true,
+        tryItOutEnabled: true,
+        displayRequestDuration: true,
+      },
+    }),
+  );
+}
 
-app.use("/api/v1", router);
+app.use("/api/v1", globalLimiter, router);
 
 app.use((_req, _res, next) => next(new NotFoundError()));
 app.use(errorHandler);

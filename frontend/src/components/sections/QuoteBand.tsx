@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
 import Container from "@/components/ui/Container";
 
@@ -23,7 +24,7 @@ export default function QuoteBand() {
             initial={{ opacity: 0, x: -32 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.7 }}
+            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
           >
             {/* Green accent bar */}
             <div
@@ -76,13 +77,15 @@ export default function QuoteBand() {
             initial={{ opacity: 0, x: 32 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.7, delay: 0.15 }}
+            transition={{ duration: 0.7, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
             style={{ position: "relative", borderRadius: 8, overflow: "hidden", height: 420 }}
           >
-            <img
+            <Image
               src="/images/engagements/meeting-cm-delhi.jpeg"
               alt="Strategic meeting"
-              style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top" }}
+              fill
+              sizes="(max-width: 768px) 100vw, 50vw"
+              style={{ objectFit: "cover", objectPosition: "center top" }}
             />
             {/* Gradient blend on left edge */}
             <div

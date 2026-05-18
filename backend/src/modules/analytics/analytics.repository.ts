@@ -285,28 +285,25 @@ export async function getActiveUsers() {
   const weekStart = new Date();
   weekStart.setDate(weekStart.getDate() - 7);
 
-  // Fetch all four counts in parallel.
-  // Unique visitor counts are derived in JS by deduplicating sessionIds in a Set
-  // rather than using Prisma's `distinct` — Prisma 7 requires the primary key in
-  // the select when distinct is used, making JS deduplication the safer approach.
-  const [pageViewsToday, pageViewsPastWeek, todayRows, weekRows] = await Promise.all([
+  // Total view counts (cheap aggregate) + distinct-session counts computed
+  // in Postgres via COUNT(DISTINCT) so we never pull every row into Node.
+  const [pageViewsToday, pageViewsPastWeek, uniqueRows] = await Promise.all([
     prisma.pageView.count({ where: { createdAt: { gte: todayStart } } }),
     prisma.pageView.count({ where: { createdAt: { gte: weekStart } } }),
-    prisma.pageView.findMany({
-      where: { createdAt: { gte: todayStart }, sessionId: { not: null } },
-      select: { sessionId: true },
-    }),
-    prisma.pageView.findMany({
-      where: { createdAt: { gte: weekStart }, sessionId: { not: null } },
-      select: { sessionId: true },
-    }),
+    prisma.$queryRaw<{ today: bigint; week: bigint }[]>`
+      SELECT
+        COUNT(DISTINCT session_id) FILTER (WHERE created_at >= ${todayStart}) AS today,
+        COUNT(DISTINCT session_id) FILTER (WHERE created_at >= ${weekStart}) AS week
+      FROM page_views
+      WHERE session_id IS NOT NULL
+    `,
   ]);
 
   return {
     pageViewsToday,
     pageViewsPastWeek,
-    uniqueUsersToday: new Set(todayRows.map((r) => r.sessionId)).size,
-    uniqueUsersPastWeek: new Set(weekRows.map((r) => r.sessionId)).size,
+    uniqueUsersToday: Number(uniqueRows[0]?.today ?? 0),
+    uniqueUsersPastWeek: Number(uniqueRows[0]?.week ?? 0),
   };
 }
 
@@ -318,26 +315,23 @@ export async function getActiveUsersTrend(days = 30) {
   const since = new Date();
   since.setDate(since.getDate() - days);
 
-  const views = await prisma.pageView.findMany({
-    where: { createdAt: { gte: since } },
-    select: { createdAt: true, sessionId: true },
-    orderBy: { createdAt: "asc" },
-  });
+  // Distinct sessions per UTC calendar day, computed in Postgres.
+  const rows = await prisma.$queryRaw<{ day: string; count: bigint }[]>`
+    SELECT to_char(created_at AT TIME ZONE 'UTC', 'YYYY-MM-DD') AS day,
+           COUNT(DISTINCT session_id) AS count
+    FROM page_views
+    WHERE created_at >= ${since} AND session_id IS NOT NULL
+    GROUP BY 1
+  `;
 
-  // Group sessions by calendar day, deduplicating by sessionId
-  const byDate: Record<string, Set<string>> = {};
-  for (const v of views) {
-    const key = v.createdAt.toISOString().split("T")[0]!;
-    if (!byDate[key]) byDate[key] = new Set();
-    if (v.sessionId) byDate[key]!.add(v.sessionId);
-  }
+  const byDate = new Map(rows.map((r) => [r.day, Number(r.count)]));
 
   const result = [];
   for (let i = days - 1; i >= 0; i--) {
     const d = new Date();
     d.setDate(d.getDate() - i);
     const key = d.toISOString().split("T")[0]!;
-    result.push({ date: key, count: byDate[key]?.size ?? 0 });
+    result.push({ date: key, count: byDate.get(key) ?? 0 });
   }
   return result;
 }
@@ -347,42 +341,30 @@ export async function getActiveUsersTrend(days = 30) {
  * Uses the city field recorded from the visitor's IP during tracking.
  */
 export async function getVisitorsByCity() {
-  const views = await prisma.pageView.findMany({
+  const rows = await prisma.pageView.groupBy({
+    by: ["city"],
     where: { city: { not: null } },
-    select: { city: true },
+    _count: { city: true },
+    orderBy: { _count: { city: "desc" } },
+    take: 10,
   });
 
-  const tally: Record<string, number> = {};
-  for (const v of views) {
-    const c = v.city!;
-    tally[c] = (tally[c] ?? 0) + 1;
-  }
-
-  return Object.entries(tally)
-    .sort(([, a], [, b]) => b - a)
-    .slice(0, 10)
-    .map(([city, count]) => ({ city, count }));
+  return rows.map((r) => ({ city: r.city!, count: r._count.city }));
 }
 
 /**
  * Returns the top 10 countries ranked by page view count.
  */
 export async function getVisitorsByCountry() {
-  const views = await prisma.pageView.findMany({
+  const rows = await prisma.pageView.groupBy({
+    by: ["country"],
     where: { country: { not: null } },
-    select: { country: true },
+    _count: { country: true },
+    orderBy: { _count: { country: "desc" } },
+    take: 10,
   });
 
-  const tally: Record<string, number> = {};
-  for (const v of views) {
-    const c = v.country!;
-    tally[c] = (tally[c] ?? 0) + 1;
-  }
-
-  return Object.entries(tally)
-    .sort(([, a], [, b]) => b - a)
-    .slice(0, 10)
-    .map(([country, count]) => ({ country, count }));
+  return rows.map((r) => ({ country: r.country!, count: r._count.country }));
 }
 
 /**
@@ -405,33 +387,26 @@ export async function getPageViewsBySection(days = 30) {
   const since = new Date();
   since.setDate(since.getDate() - days);
 
-  const views = await prisma.pageView.findMany({
-    where: { createdAt: { gte: since } },
-    select: { path: true },
-  });
-
+  // One count() per section (path prefixes are mutually exclusive) so the
+  // aggregation runs in Postgres instead of scanning every row in Node.
   const sections = [
-    { key: "Home", match: (p: string) => p === "/" },
-    { key: "Events", match: (p: string) => p.startsWith("/events") },
-    { key: "Connect", match: (p: string) => p.startsWith("/contact") },
-    { key: "Insights", match: (p: string) => p.startsWith("/blogs") },
-    { key: "Services", match: (p: string) => p.startsWith("/services") },
-    { key: "About", match: (p: string) => p.startsWith("/about") },
+    { key: "Home", where: { path: "/" } },
+    { key: "Events", where: { path: { startsWith: "/events" } } },
+    { key: "Connect", where: { path: { startsWith: "/contact" } } },
+    { key: "Insights", where: { path: { startsWith: "/blogs" } } },
+    { key: "Services", where: { path: { startsWith: "/services" } } },
+    { key: "About", where: { path: { startsWith: "/about" } } },
   ];
 
-  const tally: Record<string, number> = {};
-  for (const v of views) {
-    for (const s of sections) {
-      if (s.match(v.path)) {
-        tally[s.key] = (tally[s.key] ?? 0) + 1;
-        break;
-      }
-    }
-  }
+  const counts = await Promise.all(
+    sections.map((s) =>
+      prisma.pageView.count({ where: { ...s.where, createdAt: { gte: since } } }),
+    ),
+  );
 
   return sections
-    .filter((s) => tally[s.key])
-    .map((s) => ({ page: s.key, count: tally[s.key]! }))
+    .map((s, i) => ({ page: s.key, count: counts[i]! }))
+    .filter((s) => s.count > 0)
     .sort((a, b) => b.count - a.count);
 }
 
