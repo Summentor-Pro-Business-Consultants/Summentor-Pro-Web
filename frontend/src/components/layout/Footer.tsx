@@ -54,13 +54,13 @@ export default function Footer() {
       }}
     >
       {/* CTA band — green rounded card matching PDF design */}
-      <div style={{ padding: "48px 0" }}>
+      <div style={{ padding: "28px 0 32px" }}>
         <Container>
           <div
             style={{
               background: "var(--sp-green-700)",
               borderRadius: 20,
-              padding: "48px 56px",
+              padding: "36px 48px",
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
@@ -105,8 +105,8 @@ export default function Footer() {
                 src="/icons/handshake.svg"
                 alt=""
                 aria-hidden="true"
-                width={180}
-                height={180}
+                width={132}
+                height={132}
                 style={{
                   filter: "brightness(0) invert(1)",
                   opacity: 0.9,
@@ -118,10 +118,10 @@ export default function Footer() {
       </div>
 
       {/* Main footer columns */}
-      <div style={{ paddingTop: 64, paddingBottom: 32 }}>
+      <div style={{ paddingTop: 36, paddingBottom: 28 }}>
         <Container>
           <div
-            className="grid gap-10 pb-12"
+            className="grid gap-10 pb-8"
             style={{
               gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))",
               borderBottom: "1px solid var(--sp-navy-700)",
@@ -204,7 +204,7 @@ export default function Footer() {
           </div>
 
           {/* Recognition badges */}
-          <div className="flex justify-center gap-6 py-8" style={{ borderBottom: "1px solid var(--sp-navy-700)" }}>
+          <div className="flex justify-center gap-6 py-6" style={{ borderBottom: "1px solid var(--sp-navy-700)" }}>
             {badges.map((badge) => (
               <div
                 key={badge.label}
@@ -252,7 +252,7 @@ export default function Footer() {
 
           {/* Copyright bar */}
           <div
-            className="flex flex-col sm:flex-row justify-between items-center gap-4 mt-6"
+            className="flex flex-col sm:flex-row justify-between items-center gap-4 mt-5"
             style={{ fontFamily: "var(--sp-font-sans)", fontSize: 12, color: "var(--sp-navy-400)" }}
           >
             <div>

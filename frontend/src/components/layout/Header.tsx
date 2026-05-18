@@ -3,6 +3,7 @@
 import { useState, useEffect, Fragment } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import Logo from "@/components/ui/Logo";
 import Container from "@/components/ui/Container";
@@ -113,36 +114,44 @@ export default function Header() {
       </Container>
 
       {/* Mobile menu */}
-      {menuOpen && (
-        <div
-          style={{
-            background: "var(--sp-navy-800)",
-            borderTop: "1px solid var(--sp-navy-700)",
-          }}
-        >
-          <Container>
-            <nav className="flex flex-col py-4 gap-1">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  style={{
-                    fontFamily: "var(--sp-font-sans)",
-                    fontSize: 15,
-                    color: isActive(link.href) ? "var(--sp-green-400)" : "var(--sp-navy-200)",
-                    textDecoration: "none",
-                    padding: "10px 0",
-                    borderBottom: "1px solid var(--sp-navy-700)",
-                    fontWeight: isActive(link.href) ? 600 : 400,
-                  }}
-                >
-                  {link.label}
-                </Link>
-              ))}
-            </nav>
-          </Container>
-        </div>
-      )}
+      <AnimatePresence initial={false}>
+        {menuOpen && (
+          <motion.div
+            key="mobile-menu"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+            style={{
+              background: "var(--sp-navy-800)",
+              borderTop: "1px solid var(--sp-navy-700)",
+              overflow: "hidden",
+            }}
+          >
+            <Container>
+              <nav className="flex flex-col py-4 gap-1">
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    style={{
+                      fontFamily: "var(--sp-font-sans)",
+                      fontSize: 15,
+                      color: isActive(link.href) ? "var(--sp-green-400)" : "var(--sp-navy-200)",
+                      textDecoration: "none",
+                      padding: "10px 0",
+                      borderBottom: "1px solid var(--sp-navy-700)",
+                      fontWeight: isActive(link.href) ? 600 : 400,
+                    }}
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </nav>
+            </Container>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 }

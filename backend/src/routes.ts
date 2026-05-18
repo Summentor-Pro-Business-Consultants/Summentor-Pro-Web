@@ -24,6 +24,8 @@
 import { Router } from "express";
 
 import { requireAdmin } from "./middlewares/auth.middleware.ts";
+import { requireApiKey } from "./middlewares/api-key.middleware.ts";
+import { contactLimiter } from "./middlewares/rate-limit.middleware.ts";
 import authRouter from "./modules/auth/auth.routes.ts";
 import { contactAdminRouter, contactPublicRouter } from "./modules/contact/contact.routes.ts";
 import analyticsRouter from "./modules/analytics/analytics.routes.ts";
@@ -44,13 +46,16 @@ const router = Router();
 router.use("/auth", authRouter);
 
 // ---------------------------------------------------------------------------
-// Public API — no authentication needed.
-// Consumed directly by the Next.js marketing site pages.
+// Public API — consumed via the Next.js server-side proxy.
+// `/contact` and `/track` cause side effects (SES email, DB writes), so they
+// require the shared API key (sent only by the proxy, never the browser) and
+// are rate limited. `/events` and `/blogs` are idempotent reads — the global
+// limiter is sufficient there.
 // ---------------------------------------------------------------------------
-router.use("/contact", contactPublicRouter);
+router.use("/contact", requireApiKey, contactLimiter, contactPublicRouter);
 router.use("/events", eventsPublicRouter);
 router.use("/blogs", blogPublicRouter);
-router.use("/track", trackRouter);
+router.use("/track", requireApiKey, trackRouter);
 
 // ---------------------------------------------------------------------------
 // Admin API — all routes below require a valid JWT issued by this server.

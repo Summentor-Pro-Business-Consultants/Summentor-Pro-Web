@@ -1,9 +1,10 @@
 /**
- * middleware.ts
+ * proxy.ts
  *
- * Next.js middleware that acts as the route guard for all /admin/* pages.
- * Next.js automatically picks up this file at `src/middleware.ts` and runs
- * the exported `middleware` function for every path matched by `config.matcher`.
+ * Next.js proxy that acts as the route guard for all /admin/* pages.
+ * Next.js automatically picks up this file at `src/proxy.ts` and runs
+ * the exported `proxy` function for every path matched by `config.matcher`.
+ * (In Next.js 16 the `middleware.ts` convention was renamed to `proxy.ts`.)
  *
  * ROLE:
  *   This file is the server-side gatekeeper for the admin section.  It runs
@@ -51,7 +52,7 @@ import { NextRequest, NextResponse } from "next/server";
  * @returns A `NextResponse.redirect` to the login page if unauthenticated,
  *          or `NextResponse.next()` to allow the request through.
  */
-export function middleware(req: NextRequest) {
+export function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
   // Guard all /admin/* routes, but explicitly allow /admin/login so users

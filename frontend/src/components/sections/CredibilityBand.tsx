@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Container from "@/components/ui/Container";
@@ -64,7 +65,7 @@ const companies = [
   { name: "PhonePe",                 logo: "/logos/phonepe.png",     fallback: "https://logo.clearbit.com/phonepe.com" },
   { name: "Polycab",                 logo: "/logos/polycab.png",     fallback: "https://logo.clearbit.com/polycab.com" },
   { name: "Sproutlife Foods",        logo: "/logos/yogabars.png",    fallback: "https://logo.clearbit.com/yogabars.in" },
-  { name: "State Bank of India",     logo: "/logos/sbi.png",         fallback: "https://logo.clearbit.com/onlinesbi.sbi" },
+  { name: "State Bank of India",     logo: "https://logo.clearbit.com/sbi.co.in", fallback: "https://logo.clearbit.com/onlinesbi.sbi" },
   { name: "Tata Steel",              logo: "/logos/tatasteel.png",   fallback: "https://logo.clearbit.com/tatasteel.com" },
   { name: "TATA Teleservices",       logo: "/logos/tatatele.png",    fallback: "https://logo.clearbit.com/tatatelebusiness.com" },
   { name: "Zaggle",                  logo: "/logos/zaggle.png",      fallback: "https://logo.clearbit.com/zaggle.in" },
@@ -87,7 +88,7 @@ export default function CredibilityBand() {
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
           className="text-center"
           style={{ marginBottom: 48 }}
         >
@@ -122,7 +123,7 @@ export default function CredibilityBand() {
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 0.45, delay: i * 0.07 }}
+              transition={{ duration: 0.45, delay: i * 0.07, ease: [0.22, 1, 0.36, 1] }}
               style={{
                 display: "block",
                 textDecoration: "none",
@@ -143,11 +144,13 @@ export default function CredibilityBand() {
               }}
             >
               {/* JPG preview — clean, no dark borders */}
-              <div style={{ width: "100%", aspectRatio: "210 / 297", overflow: "hidden", background: "#fff" }}>
-                <img
+              <div style={{ position: "relative", width: "100%", aspectRatio: "210 / 297", overflow: "hidden", background: "#fff" }}>
+                <Image
                   src={letter.img}
                   alt={letter.label}
-                  style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top", display: "block" }}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                  style={{ objectFit: "cover", objectPosition: "top" }}
                 />
               </div>
               {/* Card footer */}
@@ -273,7 +276,7 @@ export default function CredibilityBand() {
                 initial={{ opacity: 0, scale: 0.96 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true, amount: 0.2 }}
-                transition={{ duration: 0.4, delay: i * 0.06 }}
+                transition={{ duration: 0.4, delay: i * 0.06, ease: [0.22, 1, 0.36, 1] }}
                 style={{
                   borderRadius: 6,
                   overflow: "hidden",
@@ -281,11 +284,15 @@ export default function CredibilityBand() {
                   background: "#F9FAFB",
                 }}
               >
-                <img
-                  src={photo.src}
-                  alt={photo.caption}
-                  style={{ width: "100%", height: 130, objectFit: "cover", display: "block" }}
-                />
+                <div style={{ position: "relative", width: "100%", height: 130 }}>
+                  <Image
+                    src={photo.src}
+                    alt={photo.caption}
+                    fill
+                    sizes="(max-width: 768px) 50vw, 20vw"
+                    style={{ objectFit: "cover" }}
+                  />
+                </div>
                 <div style={{ padding: "8px 10px" }}>
                   <p
                     style={{
@@ -337,6 +344,8 @@ export default function CredibilityBand() {
                     flexShrink: 0,
                   }}
                 >
+                  {/* Raw img kept: onError fallback chain to remote logo CDNs */}
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={co.logo}
                     alt={co.name}

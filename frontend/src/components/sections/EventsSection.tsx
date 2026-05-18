@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
 import Container from "@/components/ui/Container";
 
@@ -33,7 +34,7 @@ export default function EventsSection() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.4 }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
           style={{ marginBottom: 48 }}
         >
           <h2
@@ -59,7 +60,7 @@ export default function EventsSection() {
               initial={{ opacity: 0, x: -32 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, amount: 0.25 }}
-              transition={{ duration: 0.55, delay: i * 0.1 }}
+              transition={{ duration: 0.55, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
               whileHover={{ scale: 1.015, transition: { type: "spring", stiffness: 300, damping: 30 } }}
               style={{
                 display: "flex",
@@ -121,17 +122,13 @@ export default function EventsSection() {
               </div>
 
               {/* Photo */}
-              <div style={{ flex: "0 0 40%", position: "relative", overflow: "hidden" }}>
-                <img
+              <div style={{ flex: "0 0 40%", position: "relative", overflow: "hidden", minHeight: 220 }}>
+                <Image
                   src={platform.photo}
                   alt={platform.photoAlt}
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
-                    objectPosition: "center",
-                    display: "block",
-                  }}
+                  fill
+                  sizes="(max-width: 768px) 40vw, 360px"
+                  style={{ objectFit: "cover", objectPosition: "center" }}
                 />
               </div>
             </motion.div>
