@@ -5,8 +5,6 @@ import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Container from "@/components/ui/Container";
 
-const pub = (name: string) => "/" + encodeURIComponent(name);
-
 function WavyLine() {
   return (
     <svg
@@ -30,51 +28,47 @@ function WavyLine() {
 const letters = [
   {
     label: "Support Letter — Ministry of MSME",
-    pdf: pub("Support Letter - Ministry of MSME.pdf"),
-    img: pub("Support Letter - Ministry of MSME_page-0001.jpg"),
+    img: "/images/letters/ministry-msme.jpg",
   },
   {
     label: "Supporting Letter — Government of Delhi",
-    pdf: pub("Supporting Letter - Government of Delhi.pdf"),
-    img: pub("Supporting Letter - Government of Delhi_page-0001.jpg"),
+    img: "/images/letters/govt-delhi.jpg",
   },
   {
     label: "Supporting Letter — Ministry of Housing & Urban Affairs",
-    pdf: pub("Supporting Letter - Ministry of Housing and Urban Affairs.pdf"),
-    img: pub("Supporting Letter - Ministry of Housing and Urban Affairs_page-0001.jpg"),
+    img: "/images/letters/ministry-housing-urban-affairs.jpg",
   },
   {
     label: "Supporting Letter — Ministry of Housing & Urban Affairs (2)",
-    pdf: pub("Supporting Letter - Ministry of Housing and Urban Affairs 2.pdf"),
-    img: pub("Supporting Letter - Ministry of Housing and Urban Affairs 2_page-0001.jpg"),
+    img: "/images/letters/ministry-housing-urban-affairs-2.jpg",
   },
 ];
 
 const meetingPhotos = [
-  { src: pub("Meeting with Union Minister of MSME.jpeg"), caption: "Meeting with Union Minister of MSME" },
-  { src: pub("Meeting with CM, Delhi.jpeg"), caption: "Meeting with Chief Minister, Delhi" },
-  { src: pub("Meeting with Defence Minister.jpeg"), caption: "Meeting with Defence Minister" },
-  { src: pub("Meeting with Deputy CM, Odisha.jpeg"), caption: "Meeting with Deputy CM, Odisha" },
-  { src: pub("Meeting with Minister of State for MSME.jpeg"), caption: "Meeting with Minister of State for MSME" },
+  { src: "/images/engagements/meeting-union-minister-msme.jpeg", caption: "Meeting with Union Minister of MSME" },
+  { src: "/images/engagements/meeting-cm-delhi.jpeg", caption: "Meeting with Chief Minister, Delhi" },
+  { src: "/images/engagements/meeting-defence-minister.jpeg", caption: "Meeting with Defence Minister" },
+  { src: "/images/engagements/meeting-deputy-cm-odisha.jpeg", caption: "Meeting with Deputy CM, Odisha" },
+  { src: "/images/engagements/meeting-mos-msme.jpeg", caption: "Meeting with Minister of State for MSME" },
 ];
 
 const companies = [
-  { name: "ACKO General Insurance",  logo: "/assets/logos/acko.png",        fallback: "https://logo.clearbit.com/acko.com" },
-  { name: "Cashfree Payments",       logo: "/assets/logos/cashfree.png",    fallback: "https://logo.clearbit.com/cashfree.com" },
-  { name: "Clear",                   logo: "/assets/logos/clear.png",       fallback: "https://logo.clearbit.com/clear.in" },
-  { name: "Dalmia Cement",           logo: "/assets/logos/dalmia.png",      fallback: "https://logo.clearbit.com/dalmiacement.com" },
-  { name: "East West Seed",          logo: "/assets/logos/eastwestseed.png",fallback: "https://logo.clearbit.com/eastwestseed.com" },
-  { name: "Godrej & Boyce",          logo: "/assets/logos/godrej.png",      fallback: "https://logo.clearbit.com/godrejenterprises.com" },
-  { name: "ISB",                     logo: "/assets/logos/isb.png",         fallback: "https://logo.clearbit.com/isb.edu" },
-  { name: "Paytm",                   logo: "/assets/logos/paytm.png",       fallback: "https://logo.clearbit.com/paytm.com" },
-  { name: "PhonePe",                 logo: "/assets/logos/phonepe.png",     fallback: "https://logo.clearbit.com/phonepe.com" },
-  { name: "Polycab",                 logo: "/assets/logos/polycab.png",     fallback: "https://logo.clearbit.com/polycab.com" },
-  { name: "Sproutlife Foods",        logo: "/assets/logos/yogabars.png",    fallback: "https://logo.clearbit.com/yogabars.in" },
-  { name: "State Bank of India",     logo: "/assets/logos/sbi.png",         fallback: "https://logo.clearbit.com/onlinesbi.sbi" },
-  { name: "Tata Steel",              logo: "/assets/logos/tatasteel.png",   fallback: "https://logo.clearbit.com/tatasteel.com" },
-  { name: "TATA Teleservices",       logo: "/assets/logos/tatatele.png",    fallback: "https://logo.clearbit.com/tatatelebusiness.com" },
-  { name: "Zaggle",                  logo: "/assets/logos/zaggle.png",      fallback: "https://logo.clearbit.com/zaggle.in" },
-  { name: "Zetwerk",                 logo: "/assets/logos/zetwerk.png",     fallback: "https://logo.clearbit.com/zetwerk.com" },
+  { name: "ACKO General Insurance",  logo: "/logos/acko.png",        fallback: "https://logo.clearbit.com/acko.com" },
+  { name: "Cashfree Payments",       logo: "/logos/cashfree.png",    fallback: "https://logo.clearbit.com/cashfree.com" },
+  { name: "Clear",                   logo: "/logos/clear.png",       fallback: "https://logo.clearbit.com/clear.in" },
+  { name: "Dalmia Cement",           logo: "/logos/dalmia.png",      fallback: "https://logo.clearbit.com/dalmiacement.com" },
+  { name: "East West Seed",          logo: "/logos/eastwestseed.png",fallback: "https://logo.clearbit.com/eastwestseed.com" },
+  { name: "Godrej & Boyce",          logo: "/logos/godrej.png",      fallback: "https://logo.clearbit.com/godrejenterprises.com" },
+  { name: "ISB",                     logo: "/logos/isb.png",         fallback: "https://logo.clearbit.com/isb.edu" },
+  { name: "Paytm",                   logo: "/logos/paytm.png",       fallback: "https://logo.clearbit.com/paytm.com" },
+  { name: "PhonePe",                 logo: "/logos/phonepe.png",     fallback: "https://logo.clearbit.com/phonepe.com" },
+  { name: "Polycab",                 logo: "/logos/polycab.png",     fallback: "https://logo.clearbit.com/polycab.com" },
+  { name: "Sproutlife Foods",        logo: "/logos/yogabars.png",    fallback: "https://logo.clearbit.com/yogabars.in" },
+  { name: "State Bank of India",     logo: "/logos/sbi.png",         fallback: "https://logo.clearbit.com/onlinesbi.sbi" },
+  { name: "Tata Steel",              logo: "/logos/tatasteel.png",   fallback: "https://logo.clearbit.com/tatasteel.com" },
+  { name: "TATA Teleservices",       logo: "/logos/tatatele.png",    fallback: "https://logo.clearbit.com/tatatelebusiness.com" },
+  { name: "Zaggle",                  logo: "/logos/zaggle.png",      fallback: "https://logo.clearbit.com/zaggle.in" },
+  { name: "Zetwerk",                 logo: "/logos/zetwerk.png",     fallback: "https://logo.clearbit.com/zetwerk.com" },
 ];
 
 export default function CredibilityBand() {
@@ -121,8 +115,8 @@ export default function CredibilityBand() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5" style={{ marginBottom: 20 }}>
           {visibleLetters.map((letter, i) => (
             <motion.a
-              key={letter.pdf}
-              href={letter.pdf}
+              key={letter.img}
+              href={letter.img}
               target="_blank"
               rel="noopener noreferrer"
               initial={{ opacity: 0, y: 16 }}

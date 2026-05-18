@@ -4,8 +4,6 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import Container from "@/components/ui/Container";
 
-const pub = (name: string) => "/" + encodeURIComponent(name);
-
 export default function Hero() {
   return (
     <section
@@ -32,7 +30,7 @@ export default function Hero() {
 
       {/* Background conference photo — replaced by video later */}
       <img
-        src={pub("MSME Consulting & Government-Industry Engagement 2.jpeg")}
+        src="/images/engagements/msme-consulting-2.jpeg"
         alt=""
         aria-hidden="true"
         style={{

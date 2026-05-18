@@ -102,7 +102,7 @@ export default function Footer() {
             <div style={{ flexShrink: 0, position: "relative", zIndex: 1 }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/handshake-svgrepo-com.svg"
+                src="/icons/handshake.svg"
                 alt=""
                 aria-hidden="true"
                 width={180}
@@ -129,7 +129,7 @@ export default function Footer() {
           >
             {/* Brand column */}
             <div style={{ gridColumn: "span 2" }} className="min-w-0">
-              <Logo dark />
+              <Logo />
               <p
                 style={{
                   fontFamily: "var(--sp-font-sans)",

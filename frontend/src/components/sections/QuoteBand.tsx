@@ -3,8 +3,6 @@
 import { motion } from "framer-motion";
 import Container from "@/components/ui/Container";
 
-const pub = (name: string) => "/" + encodeURIComponent(name);
-
 export default function QuoteBand() {
   return (
     <section
@@ -82,7 +80,7 @@ export default function QuoteBand() {
             style={{ position: "relative", borderRadius: 8, overflow: "hidden", height: 420 }}
           >
             <img
-              src={pub("Meeting with CM, Delhi.jpeg")}
+              src="/images/engagements/meeting-cm-delhi.jpeg"
               alt="Strategic meeting"
               style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center top" }}
             />
