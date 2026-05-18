@@ -3,25 +3,23 @@
 import { motion } from "framer-motion";
 import Container from "@/components/ui/Container";
 
-const pub = (name: string) => "/" + encodeURIComponent(name);
-
 const platforms = [
   {
     title: "MSME & STARTUP INNOVATION SUMMIT",
     desc: "A platform bringing together founders, industry leaders, policymakers, and ecosystem enablers to accelerate innovation, entrepreneurship, growth, and collaboration.",
-    photo: pub("MSME Consulting & Government-Industry Engagement 2.jpeg"),
+    photo: "/images/engagements/msme-consulting-2.jpeg",
     photoAlt: "MSME & Startup Innovation Summit",
   },
   {
     title: "WOMEN EMPOWERMENT & LEADERSHIP INITIATIVES",
     desc: "Focused dialogues and initiatives designed to encourage leadership, inclusion, and business growth for women entrepreneurs and business professionals.",
-    photo: pub("Textile & Women Empowerment Initiative – Odisha.jpeg"),
+    photo: "/images/engagements/textile-women-empowerment-odisha.jpeg",
     photoAlt: "Women Empowerment & Leadership Initiatives",
   },
   {
     title: "STRATEGIC INDUSTRY DIALOGUES",
     desc: "Curated forums enabling businesses and stakeholders to exchange insights, explore opportunities, and build meaningful collaborations.",
-    photo: pub("Meeting with Union Minister of MSME.jpeg"),
+    photo: "/images/engagements/meeting-union-minister-msme.jpeg",
     photoAlt: "Strategic Industry Dialogues",
   },
 ];

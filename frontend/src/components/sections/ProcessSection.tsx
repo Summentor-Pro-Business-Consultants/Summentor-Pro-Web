@@ -4,8 +4,6 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Container from "@/components/ui/Container";
 
-const pub = (name: string) => "/" + encodeURIComponent(name);
-
 const tabs = [
   {
     id: "textile",
@@ -17,7 +15,7 @@ const tabs = [
       "MSM support & capacity building",
       "Grassroots entrepreneurship facilitation",
     ],
-    photo: pub("Textile & Women Empowerment Initiative – Odisha.jpeg"),
+    photo: "/images/engagements/textile-women-empowerment-odisha.jpeg",
     photoAlt: "Textile & Women Empowerment Initiative – Odisha",
   },
   {
@@ -30,7 +28,7 @@ const tabs = [
       "Industry collaboration & networking",
       "Market expansion support",
     ],
-    photo: pub("MSME Consulting & Government-Industry Engagement.jpeg"),
+    photo: "/images/engagements/msme-consulting-1.jpeg",
     photoAlt: "MSME Consulting & Government-Industry Engagement",
   },
   {
@@ -43,7 +41,7 @@ const tabs = [
       "Local partnership facilitation",
       "Rural livelihood through tourism",
     ],
-    photo: pub("CSR Initiative for Farmers – Odisha 2.jpeg"),
+    photo: "/images/engagements/csr-farmers-odisha-2.jpeg",
     photoAlt: "Eco-Tourism Development Initiative",
   },
   {
@@ -56,7 +54,7 @@ const tabs = [
       "Industry-academia collaboration",
       "Clean tech policy engagement",
     ],
-    photo: pub("CSR Initiative for Farmers – Odisha 3.jpeg"),
+    photo: "/images/engagements/csr-farmers-odisha-3.jpeg",
     photoAlt: "Waste-to-Energy & Clean Tech Platforms",
   },
   {
@@ -69,7 +67,7 @@ const tabs = [
       "Capacity building for farmers",
       "Government scheme facilitation",
     ],
-    photo: pub("CSR Initiative for Farmers – Odisha.jpeg"),
+    photo: "/images/engagements/csr-farmers-odisha-1.jpeg",
     photoAlt: "CSR Initiative for Farmers – Odisha",
   },
   {
@@ -82,7 +80,7 @@ const tabs = [
       "Sustainable growth frameworks",
       "Corporate-community partnerships",
     ],
-    photo: pub("CSR Initiative for Farmers – Odisha 2.jpeg"),
+    photo: "/images/engagements/csr-farmers-odisha-2.jpeg",
     photoAlt: "Corporate Social Responsibility Engagements",
   },
 ];

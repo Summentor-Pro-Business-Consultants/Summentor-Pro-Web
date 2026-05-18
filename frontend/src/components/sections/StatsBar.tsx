@@ -39,7 +39,6 @@ function AnimatedStat({ target, style }: AnimatedStatProps) {
   );
 }
 
-const pub = (name: string) => "/" + encodeURIComponent(name);
 
 function WavyLine() {
   return (
@@ -126,7 +125,7 @@ export default function StatsBar() {
             }}
           >
             <img
-              src={pub("MSME Consulting & Government-Industry Engagement 2.jpeg")}
+              src="/images/engagements/msme-consulting-2.jpeg"
               alt="Business stakeholders at a summit"
               style={{ width: 180, flexShrink: 0, objectFit: "cover", objectPosition: "center" }}
             />
@@ -165,7 +164,7 @@ export default function StatsBar() {
             }}
           >
             <img
-              src={pub("Meeting with Union Minister of MSME.jpeg")}
+              src="/images/engagements/meeting-union-minister-msme.jpeg"
               alt="Meeting with Union Minister of MSME"
               style={{ width: 180, flexShrink: 0, objectFit: "cover", objectPosition: "center" }}
             />
@@ -230,7 +229,7 @@ export default function StatsBar() {
             {/* Sub-pair 1 */}
             <div style={{ flex: 1, display: "flex", alignItems: "stretch", borderRight: "1px solid rgba(255,255,255,0.06)" }}>
               <img
-                src={pub("Textile & Women Empowerment Initiative – Odisha.jpeg")}
+                src="/images/engagements/textile-women-empowerment-odisha.jpeg"
                 alt="Multi-sector industry engagement"
                 style={{ width: 110, flexShrink: 0, objectFit: "cover", objectPosition: "center" }}
               />
@@ -244,7 +243,7 @@ export default function StatsBar() {
             {/* Sub-pair 2 */}
             <div style={{ flex: 1, display: "flex", alignItems: "stretch" }}>
               <img
-                src={pub("MSME Consulting & Government-Industry Engagement.jpeg")}
+                src="/images/engagements/msme-consulting-1.jpeg"
                 alt="Ecosystem participation"
                 style={{ width: 110, flexShrink: 0, objectFit: "cover", objectPosition: "center" }}
               />

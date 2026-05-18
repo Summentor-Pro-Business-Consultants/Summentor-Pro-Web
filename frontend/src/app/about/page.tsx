@@ -60,7 +60,7 @@ export default function AboutPage() {
         }}
       >
         <img
-          src="/assets/img-skyline.svg"
+          src="/icons/skyline.svg"
           alt=""
           aria-hidden="true"
           style={{
