@@ -47,7 +47,7 @@ export default function Header() {
     >
       <Container>
         <div className="flex items-center" style={{ height: 64 }}>
-          <Logo dark />
+          <Logo />
 
           {/* Desktop nav */}
           <nav className="hidden md:flex flex-1 items-center justify-end gap-0 ml-auto">

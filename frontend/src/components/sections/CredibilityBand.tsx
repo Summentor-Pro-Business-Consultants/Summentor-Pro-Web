@@ -30,22 +30,18 @@ function WavyLine() {
 const letters = [
   {
     label: "Support Letter — Ministry of MSME",
-    pdf: pub("Support Letter - Ministry of MSME.pdf"),
     img: pub("Support Letter - Ministry of MSME_page-0001.jpg"),
   },
   {
     label: "Supporting Letter — Government of Delhi",
-    pdf: pub("Supporting Letter - Government of Delhi.pdf"),
     img: pub("Supporting Letter - Government of Delhi_page-0001.jpg"),
   },
   {
     label: "Supporting Letter — Ministry of Housing & Urban Affairs",
-    pdf: pub("Supporting Letter - Ministry of Housing and Urban Affairs.pdf"),
     img: pub("Supporting Letter - Ministry of Housing and Urban Affairs_page-0001.jpg"),
   },
   {
     label: "Supporting Letter — Ministry of Housing & Urban Affairs (2)",
-    pdf: pub("Supporting Letter - Ministry of Housing and Urban Affairs 2.pdf"),
     img: pub("Supporting Letter - Ministry of Housing and Urban Affairs 2_page-0001.jpg"),
   },
 ];
@@ -121,8 +117,8 @@ export default function CredibilityBand() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5" style={{ marginBottom: 20 }}>
           {visibleLetters.map((letter, i) => (
             <motion.a
-              key={letter.pdf}
-              href={letter.pdf}
+              key={letter.img}
+              href={letter.img}
               target="_blank"
               rel="noopener noreferrer"
               initial={{ opacity: 0, y: 16 }}

@@ -129,7 +129,7 @@ export default function Footer() {
           >
             {/* Brand column */}
             <div style={{ gridColumn: "span 2" }} className="min-w-0">
-              <Logo dark />
+              <Logo />
               <p
                 style={{
                   fontFamily: "var(--sp-font-sans)",
