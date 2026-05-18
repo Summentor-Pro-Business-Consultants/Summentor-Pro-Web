@@ -21,9 +21,8 @@ import { defineConfig } from "prisma/config";
 import "dotenv/config";
 
 export default defineConfig({
+  schema: "./prisma/schema.prisma",
   datasource: {
-    // Read the connection string from the environment so credentials
-    // are never hard-coded in source control.
     url: process.env.DATABASE_URL ?? "",
   },
 });
