@@ -1,0 +1,117 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model AdminUser {
+  id            String         @id @default(uuid())
+  email         String         @unique
+  passwordHash  String         @map("password_hash")
+  name          String
+  createdAt     DateTime       @default(now()) @map("created_at")
+  updatedAt     DateTime       @updatedAt @map("updated_at")
+  refreshTokens RefreshToken[]
+
+  @@map("admin_users")
+}
+
+model RefreshToken {
+  id          String    @id @default(uuid())
+  token       String    @unique
+  adminUserId String    @map("admin_user_id")
+  adminUser   AdminUser @relation(fields: [adminUserId], references: [id], onDelete: Cascade)
+  expiresAt   DateTime  @map("expires_at")
+  createdAt   DateTime  @default(now()) @map("created_at")
+
+  @@map("refresh_tokens")
+}
+
+model ContactSubmission {
+  id             String   @id @default(uuid())
+  firstName      String   @map("first_name")
+  lastName       String   @map("last_name")
+  organisation   String
+  designation    String?
+  email          String
+  phone          String?
+  location       String?
+  industrySector String   @map("industry_sector")
+  referralSource String?  @map("referral_source")
+  budget         String?
+  message        String?
+  status         String   @default("new")
+  source         String   @default("contact-form")
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  @@map("contact_submissions")
+}
+
+model Event {
+  id            String              @id @default(uuid())
+  title         String
+  description   String
+  city          String
+  venue         String?
+  eventDate     DateTime            @map("event_date")
+  tag           String
+  capacity      Int?
+  status        String              @default("upcoming")
+  createdAt     DateTime            @default(now()) @map("created_at")
+  updatedAt     DateTime            @updatedAt @map("updated_at")
+  registrations EventRegistration[]
+
+  @@map("events")
+}
+
+model Blog {
+  id          String    @id @default(uuid())
+  title       String
+  slug        String    @unique
+  excerpt     String?
+  content     String
+  coverImage  String?   @map("cover_image")
+  author      String    @default("Summentor Pro Team")
+  tags        String    @default("")
+  status      String    @default("draft")
+  publishedAt DateTime? @map("published_at")
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+
+  @@map("blogs")
+}
+
+model PageView {
+  id        String   @id @default(uuid())
+  path      String
+  referrer  String?
+  source    String   @default("direct")
+  city      String?
+  country   String?
+  sessionId String?  @map("session_id")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("page_views")
+}
+
+model EventRegistration {
+  id        String   @id @default(uuid())
+  eventId   String   @map("event_id")
+  event     Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  name      String
+  email     String
+  company   String?
+  phone     String?
+  message   String?
+  status    String   @default("pending")
+  source    String   @default("website")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("event_registrations")
+}
