@@ -1,32 +1,27 @@
 // @ts-check
 const { build } = require("esbuild");
-const path = require("path");
-const fs = require("fs");
 
 /**
- * Recursively collect all .ts source files under `dir`, skipping the
- * `scripts/` sub-tree (seed scripts are run via ts-node, not compiled).
+ * Bundle the server into a single dist/index.js.
+ *
+ * `bundle: true` is required because the source imports use explicit `.ts`
+ * extensions (e.g. `import app from "./app.ts"`). esbuild only rewrites those
+ * specifiers when bundling; with bundle:false the `.ts` paths leak into the
+ * output and Node throws MODULE_NOT_FOUND at runtime. Bundling also inlines
+ * the generated Prisma client, which otherwise never reaches dist/.
+ *
+ * `packages: "external"` keeps everything in node_modules (express, pg,
+ * @prisma/adapter-pg, dotenv, …) as runtime require() calls — only our own
+ * src/** code is bundled.
  */
-function collectTs(dir, results = []) {
-  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
-    const full = path.join(dir, entry.name);
-    if (entry.isDirectory()) {
-      if (entry.name !== "scripts") collectTs(full, results);
-    } else if (entry.name.endsWith(".ts") && !entry.name.endsWith(".d.ts")) {
-      results.push(full);
-    }
-  }
-  return results;
-}
-
 build({
-  entryPoints: collectTs("src"),
-  outdir: "dist",
-  outbase: "src",
+  entryPoints: ["src/index.ts"],
+  outfile: "dist/index.js",
+  bundle: true,
   platform: "node",
   format: "cjs",
   target: "node20",
+  packages: "external",
   sourcemap: true,
-  bundle: false,
   logLevel: "info",
 }).catch(() => process.exit(1));
