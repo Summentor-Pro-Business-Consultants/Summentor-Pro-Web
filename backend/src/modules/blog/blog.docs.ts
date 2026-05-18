@@ -15,7 +15,7 @@
 
 import { z } from "zod";
 
-import { registry } from "./swagger.config.ts";
+import { registry } from "../../swagger/swagger.config.ts";
 
 // ---------------------------------------------------------------------------
 // Shared schemas
