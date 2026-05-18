@@ -1,0 +1,8 @@
+build/
+coverage/
+dist/
+keys/
+logs/
+node_modules/
+src/generated/
+*.md

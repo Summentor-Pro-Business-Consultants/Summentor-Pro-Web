@@ -1,0 +1,616 @@
+{
+  "info": {
+    "name": "Summentor Pro API",
+    "description": "Complete API collection for Summentor Pro.\n\n**Setup:**\n1. Set the `baseUrl` variable to your server (default: `http://localhost:5000/api/v1`).\n2. Set `apiKey` to the value in your backend `.env` (`API_KEY`).\n3. Run **Auth → Login** first — the `accessToken` variable is auto-set from the response.\n\n**Authentication:**\n- All requests include `x-api-key` from the collection variable.\n- Admin endpoints include `Authorization: Bearer {{accessToken}}`.\n- The Login request's test script auto-populates `{{accessToken}}`.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl",     "value": "http://localhost:5000/api/v1", "type": "string" },
+    { "key": "apiKey",      "value": "your-dev-api-key-here",        "type": "string" },
+    { "key": "accessToken", "value": "",                             "type": "string" }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      { "key": "in",    "value": "header",       "type": "string" },
+      { "key": "key",   "value": "x-api-key",    "type": "string" },
+      { "key": "value", "value": "{{apiKey}}",   "type": "string" }
+    ]
+  },
+  "item": [
+
+    {
+      "name": "Auth",
+      "description": "Admin login, token refresh, and logout.",
+      "item": [
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const json = pm.response.json();",
+                  "if (json.data && json.data.accessToken) {",
+                  "  pm.collectionVariables.set('accessToken', json.data.accessToken);",
+                  "  console.log('accessToken saved to collection variables.');",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@summentorpro.com\",\n  \"password\": \"Admin@123\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/auth/login", "host": ["{{baseUrl}}"], "path": ["auth", "login"] }
+          }
+        },
+        {
+          "name": "Refresh Token",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/auth/refresh", "host": ["{{baseUrl}}"], "path": ["auth", "refresh"] }
+          }
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+            "url": { "raw": "{{baseUrl}}/auth/logout", "host": ["{{baseUrl}}"], "path": ["auth", "logout"] }
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "Contact (Public)",
+      "description": "Public contact form endpoint — no JWT required.",
+      "item": [
+        {
+          "name": "Submit Contact Form",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"Priya\",\n  \"lastName\": \"Sharma\",\n  \"organisation\": \"Acme Corp\",\n  \"designation\": \"CTO\",\n  \"email\": \"priya.sharma@acmecorp.com\",\n  \"phone\": \"+91 98765 43210\",\n  \"location\": \"Bengaluru, India\",\n  \"industrySector\": \"IT\",\n  \"referralSource\": \"LinkedIn\",\n  \"budget\": \"₹5–10 L\",\n  \"message\": \"Looking for leadership coaching for my senior team.\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/contact", "host": ["{{baseUrl}}"], "path": ["contact"] }
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "Contact (Admin)",
+      "description": "Admin contact management — requires Bearer JWT.",
+      "item": [
+        {
+          "name": "List Contact Submissions",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+            "url": {
+              "raw": "{{baseUrl}}/admin/contacts?page=1&limit=20",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "contacts"],
+              "query": [
+                { "key": "page",   "value": "1" },
+                { "key": "limit",  "value": "20" },
+                { "key": "status", "value": "new",    "disabled": true },
+                { "key": "search", "value": "Priya",  "disabled": true }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update Contact Status",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type",  "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"reviewed\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/admin/contacts/:id/status",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "contacts", ":id", "status"],
+              "variable": [{ "key": "id", "value": "3fa85f64-5717-4562-b3fc-2c963f66afa6" }]
+            }
+          }
+        },
+        {
+          "name": "Delete Contact",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+            "url": {
+              "raw": "{{baseUrl}}/admin/contacts/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "contacts", ":id"],
+              "variable": [{ "key": "id", "value": "3fa85f64-5717-4562-b3fc-2c963f66afa6" }]
+            }
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "Events (Public)",
+      "description": "Public event listing and visitor registration.",
+      "item": [
+        {
+          "name": "List Upcoming Events",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/events", "host": ["{{baseUrl}}"], "path": ["events"] }
+          }
+        },
+        {
+          "name": "Get Event by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/events/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["events", ":id"],
+              "variable": [{ "key": "id", "value": "7c9e6679-7425-40de-944b-e07fc1f90ae7" }]
+            }
+          }
+        },
+        {
+          "name": "Register for Event",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Rahul Mehta\",\n  \"email\": \"rahul.mehta@techfirm.in\",\n  \"company\": \"TechFirm Pvt Ltd\",\n  \"phone\": \"+91 99001 12233\",\n  \"message\": \"Looking forward to the discussion.\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/events/:id/register",
+              "host": ["{{baseUrl}}"],
+              "path": ["events", ":id", "register"],
+              "variable": [{ "key": "id", "value": "7c9e6679-7425-40de-944b-e07fc1f90ae7" }]
+            }
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "Events (Admin)",
+      "description": "Admin event CRUD and per-event registration management.",
+      "item": [
+        {
+          "name": "List All Events",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+            "url": {
+              "raw": "{{baseUrl}}/admin/events?page=1&limit=20",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "events"],
+              "query": [
+                { "key": "page",   "value": "1" },
+                { "key": "limit",  "value": "20" },
+                { "key": "status", "value": "upcoming", "disabled": true }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Event",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type",  "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Leadership Roundtable — Bengaluru 2025\",\n  \"description\": \"A curated gathering of senior leaders exploring future-of-work themes.\",\n  \"city\": \"Bengaluru\",\n  \"venue\": \"The Leela Palace, Airport Road\",\n  \"eventDate\": \"2025-08-15T09:00:00.000Z\",\n  \"tag\": \"ROUNDTABLE\",\n  \"capacity\": 50,\n  \"status\": \"upcoming\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/admin/events", "host": ["{{baseUrl}}"], "path": ["admin", "events"] }
+          }
+        },
+        {
+          "name": "Update Event",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type",  "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"completed\",\n  \"capacity\": 60\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/admin/events/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "events", ":id"],
+              "variable": [{ "key": "id", "value": "7c9e6679-7425-40de-944b-e07fc1f90ae7" }]
+            }
+          }
+        },
+        {
+          "name": "Delete Event",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+            "url": {
+              "raw": "{{baseUrl}}/admin/events/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "events", ":id"],
+              "variable": [{ "key": "id", "value": "7c9e6679-7425-40de-944b-e07fc1f90ae7" }]
+            }
+          }
+        },
+        {
+          "name": "Get Event Registrations",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+            "url": {
+              "raw": "{{baseUrl}}/admin/events/:id/registrations?page=1&limit=20",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "events", ":id", "registrations"],
+              "variable": [{ "key": "id", "value": "7c9e6679-7425-40de-944b-e07fc1f90ae7" }],
+              "query": [
+                { "key": "page",   "value": "1" },
+                { "key": "limit",  "value": "20" },
+                { "key": "status", "value": "confirmed", "disabled": true }
+              ]
+            }
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "Registrations (Admin)",
+      "description": "Cross-event registration list and status management.",
+      "item": [
+        {
+          "name": "List All Registrations",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+            "url": {
+              "raw": "{{baseUrl}}/admin/registrations?page=1&limit=20",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "registrations"],
+              "query": [
+                { "key": "page",   "value": "1" },
+                { "key": "limit",  "value": "20" },
+                { "key": "status", "value": "pending", "disabled": true },
+                { "key": "search", "value": "Rahul",   "disabled": true }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update Registration Status",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type",  "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"confirmed\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/admin/registrations/:id/status",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "registrations", ":id", "status"],
+              "variable": [{ "key": "id", "value": "a1b2c3d4-e5f6-7890-abcd-ef1234567890" }]
+            }
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "Blog (Public)",
+      "description": "Published blog posts — no JWT required.",
+      "item": [
+        {
+          "name": "List Published Posts",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/blogs?page=1&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["blogs"],
+              "query": [
+                { "key": "page",  "value": "1" },
+                { "key": "limit", "value": "10" },
+                { "key": "tag",   "value": "leadership", "disabled": true }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Post by Slug",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/blogs/:slug",
+              "host": ["{{baseUrl}}"],
+              "path": ["blogs", ":slug"],
+              "variable": [{ "key": "slug", "value": "five-habits-of-high-impact-leaders" }]
+            }
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "Blog (Admin)",
+      "description": "Admin blog CRUD — requires Bearer JWT.",
+      "item": [
+        {
+          "name": "List All Posts",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+            "url": {
+              "raw": "{{baseUrl}}/admin/blogs?page=1&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "blogs"],
+              "query": [
+                { "key": "page",   "value": "1" },
+                { "key": "limit",  "value": "10" },
+                { "key": "status", "value": "draft",      "disabled": true },
+                { "key": "search", "value": "leadership", "disabled": true }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Post by ID",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+            "url": {
+              "raw": "{{baseUrl}}/admin/blogs/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "blogs", ":id"],
+              "variable": [{ "key": "id", "value": "550e8400-e29b-41d4-a716-446655440000" }]
+            }
+          }
+        },
+        {
+          "name": "Create Post",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type",  "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Five Habits of High-Impact Leaders\",\n  \"slug\": \"five-habits-of-high-impact-leaders\",\n  \"excerpt\": \"Explore the daily rituals that separate effective executives from the rest.\",\n  \"content\": \"<p>Leadership is not a title…</p>\",\n  \"coverImage\": \"https://cdn.summentorpro.com/blog/habits-cover.jpg\",\n  \"author\": \"Summentor Pro Team\",\n  \"tags\": \"leadership,productivity\",\n  \"status\": \"draft\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/admin/blogs", "host": ["{{baseUrl}}"], "path": ["admin", "blogs"] }
+          }
+        },
+        {
+          "name": "Update Post",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+              { "key": "Content-Type",  "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"published\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/admin/blogs/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "blogs", ":id"],
+              "variable": [{ "key": "id", "value": "550e8400-e29b-41d4-a716-446655440000" }]
+            }
+          }
+        },
+        {
+          "name": "Delete Post",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+            "url": {
+              "raw": "{{baseUrl}}/admin/blogs/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "blogs", ":id"],
+              "variable": [{ "key": "id", "value": "550e8400-e29b-41d4-a716-446655440000" }]
+            }
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "Tracking",
+      "description": "Client-side page-view ingestion.",
+      "item": [
+        {
+          "name": "Record Page View",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"path\": \"/events/7c9e6679-7425-40de-944b-e07fc1f90ae7\",\n  \"referrer\": \"https://www.linkedin.com/\",\n  \"sessionId\": \"f47ac10b-58cc-4372-a567-0e02b2c3d479\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/track", "host": ["{{baseUrl}}"], "path": ["track"] }
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "Analytics — Website",
+      "description": "Website visitor and contact form analytics. All require Bearer JWT.",
+      "item": [
+        {
+          "name": "Overview (KPIs)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+            "url": { "raw": "{{baseUrl}}/admin/analytics/overview", "host": ["{{baseUrl}}"], "path": ["admin", "analytics", "overview"] }
+          }
+        },
+        {
+          "name": "New Submissions (period filter)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+            "url": {
+              "raw": "{{baseUrl}}/admin/analytics/new-submissions?period=week",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "analytics", "new-submissions"],
+              "query": [{ "key": "period", "value": "week", "description": "today | yesterday | week | month | year" }]
+            }
+          }
+        },
+        {
+          "name": "Contact Trend (30 days)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+            "url": { "raw": "{{baseUrl}}/admin/analytics/contact-trend", "host": ["{{baseUrl}}"], "path": ["admin", "analytics", "contact-trend"] }
+          }
+        },
+        {
+          "name": "Status Breakdown",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+            "url": { "raw": "{{baseUrl}}/admin/analytics/status-breakdown", "host": ["{{baseUrl}}"], "path": ["admin", "analytics", "status-breakdown"] }
+          }
+        },
+        {
+          "name": "Active Users (KPIs)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+            "url": { "raw": "{{baseUrl}}/admin/analytics/active-users", "host": ["{{baseUrl}}"], "path": ["admin", "analytics", "active-users"] }
+          }
+        },
+        {
+          "name": "Active Users Trend (30 days)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+            "url": { "raw": "{{baseUrl}}/admin/analytics/active-users-trend", "host": ["{{baseUrl}}"], "path": ["admin", "analytics", "active-users-trend"] }
+          }
+        },
+        {
+          "name": "Visitors by City",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+            "url": { "raw": "{{baseUrl}}/admin/analytics/visitors-by-city", "host": ["{{baseUrl}}"], "path": ["admin", "analytics", "visitors-by-city"] }
+          }
+        },
+        {
+          "name": "Visitors by Country",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+            "url": { "raw": "{{baseUrl}}/admin/analytics/visitors-by-country", "host": ["{{baseUrl}}"], "path": ["admin", "analytics", "visitors-by-country"] }
+          }
+        },
+        {
+          "name": "Traffic Sources",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+            "url": { "raw": "{{baseUrl}}/admin/analytics/traffic-sources", "host": ["{{baseUrl}}"], "path": ["admin", "analytics", "traffic-sources"] }
+          }
+        },
+        {
+          "name": "Page Views by Section",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+            "url": { "raw": "{{baseUrl}}/admin/analytics/page-views-by-section", "host": ["{{baseUrl}}"], "path": ["admin", "analytics", "page-views-by-section"] }
+          }
+        },
+        {
+          "name": "Form Conversion Funnel",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+            "url": { "raw": "{{baseUrl}}/admin/analytics/form-conversion", "host": ["{{baseUrl}}"], "path": ["admin", "analytics", "form-conversion"] }
+          }
+        }
+      ]
+    },
+
+    {
+      "name": "Analytics — Events",
+      "description": "Event and registration analytics. All require Bearer JWT.",
+      "item": [
+        {
+          "name": "Registration Trend (per event)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+            "url": { "raw": "{{baseUrl}}/admin/analytics/registration-trend", "host": ["{{baseUrl}}"], "path": ["admin", "analytics", "registration-trend"] }
+          }
+        },
+        {
+          "name": "Top Cities by Registrations",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+            "url": { "raw": "{{baseUrl}}/admin/analytics/cities", "host": ["{{baseUrl}}"], "path": ["admin", "analytics", "cities"] }
+          }
+        },
+        {
+          "name": "Events Overview (KPIs)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+            "url": { "raw": "{{baseUrl}}/admin/analytics/events-overview", "host": ["{{baseUrl}}"], "path": ["admin", "analytics", "events-overview"] }
+          }
+        },
+        {
+          "name": "Single Event Analytics",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{accessToken}}" }],
+            "url": {
+              "raw": "{{baseUrl}}/admin/analytics/events/:id",
+              "host": ["{{baseUrl}}"],
+              "path": ["admin", "analytics", "events", ":id"],
+              "variable": [{ "key": "id", "value": "7c9e6679-7425-40de-944b-e07fc1f90ae7" }]
+            }
+          }
+        }
+      ]
+    }
+
+  ]
+}
