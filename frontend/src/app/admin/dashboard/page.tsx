@@ -556,7 +556,6 @@ function EventsTab() {
   ];
 
   const confirmed = evtOverview["confirmedRegistrations"] ?? 0;
-  const totalRegs = evtOverview["totalRegistrations"] ?? 0;
   const flatRevenue = Array.from({ length: 7 }, () => ({ value: 0 }));
 
   return (
@@ -785,9 +784,9 @@ function EventsTab() {
         </div>
       </div>
 
-      {/* Row B: Recent Registrations · Total Seats · Revenue Trend · Outreach */}
+      {/* Row B: Recent Registrations · Total Seats · Online Revenue */}
       <div
-        style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr", gap: 20, marginBottom: 36 }}
+        style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr", gap: 20, marginBottom: 36 }}
       >
         {/* Recent Registrations */}
         <div style={card}>
@@ -984,63 +983,6 @@ function EventsTab() {
           >
             Payment integration coming soon
           </p>
-        </div>
-
-        {/* Outreach Stats */}
-        <div style={card}>
-          <p
-            style={{
-              fontSize: 11,
-              fontWeight: 700,
-              color: "#64748B",
-              letterSpacing: "0.06em",
-              margin: "0 0 18px",
-            }}
-          >
-            OUTREACH STATS
-          </p>
-          <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
-            {[
-              {
-                label: "Total Registrations",
-                value: totalRegs,
-                color: "#EF4444",
-                max: Math.max(totalRegs, 50),
-              },
-              {
-                label: "Confirmed",
-                value: confirmed,
-                color: "#3C50E0",
-                max: Math.max(totalRegs, 50),
-              },
-            ].map(({ label, value, color, max }) => (
-              <div key={label}>
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    fontSize: 12,
-                    marginBottom: 6,
-                  }}
-                >
-                  <span style={{ color: "#64748B" }}>{label}</span>
-                  <span style={{ color, fontWeight: 700 }}>+{value}</span>
-                </div>
-                <div
-                  style={{ height: 5, background: "#F1F5F9", borderRadius: 3, overflow: "hidden" }}
-                >
-                  <div
-                    style={{
-                      height: "100%",
-                      width: `${Math.min((value / max) * 100, 100)}%`,
-                      background: color,
-                      borderRadius: 3,
-                    }}
-                  />
-                </div>
-              </div>
-            ))}
-          </div>
         </div>
       </div>
 
