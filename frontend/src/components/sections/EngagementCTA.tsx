@@ -20,6 +20,11 @@ const focusCards = [
 ];
 
 const EASE = [0.22, 1, 0.36, 1] as const;
+// Shared CSS transitions for the hover-to-dark card pattern. Same easing
+// curve as framer-motion variants so the visual rhythm stays consistent.
+const HOVER_CSS_EASE = "cubic-bezier(0.22, 1, 0.36, 1)";
+const CARD_TRANSITION = `background 0.45s ${HOVER_CSS_EASE}, border-color 0.45s ${HOVER_CSS_EASE}, box-shadow 0.45s ${HOVER_CSS_EASE}`;
+const TEXT_TRANSITION = `color 0.45s ${HOVER_CSS_EASE}`;
 
 const container: Variants = {
   hidden: {},
@@ -118,7 +123,7 @@ export default function EngagementCTA() {
               variants={fadeUp}
               style={{
                 fontFamily: "var(--sp-font-sans)",
-                fontSize: 18,
+                fontSize: 20,
                 fontWeight: 600,
                 color: "#374151",
                 margin: "0 0 16px 0",
@@ -130,7 +135,7 @@ export default function EngagementCTA() {
               variants={fadeUp}
               style={{
                 fontFamily: "var(--sp-font-sans)",
-                fontSize: 15,
+                fontSize: 17,
                 lineHeight: 1.75,
                 color: "#6B7280",
                 margin: 0,
@@ -186,8 +191,7 @@ export default function EngagementCTA() {
                       ? "0 18px 40px rgba(0,0,0,0.20)"
                       : "0 2px 12px rgba(0,0,0,0.06)",
                     cursor: "default",
-                    transition:
-                      "background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease",
+                    transition: CARD_TRANSITION,
                   }}
                 >
                   {/* Number indicator */}
@@ -204,7 +208,7 @@ export default function EngagementCTA() {
                       justifyContent: "center",
                       marginBottom: 16,
                       transformOrigin: "left center",
-                      transition: "background 0.3s ease",
+                      transition: `background 0.45s ${HOVER_CSS_EASE}`,
                     }}
                   >
                     <span
@@ -213,7 +217,7 @@ export default function EngagementCTA() {
                         fontSize: 14,
                         fontWeight: 700,
                         color: dark ? "#fff" : "var(--sp-green-700)",
-                        transition: "color 0.3s ease",
+                        transition: TEXT_TRANSITION,
                       }}
                     >
                       {String(i + 1).padStart(2, "0")}
@@ -223,12 +227,12 @@ export default function EngagementCTA() {
                   <h3
                     style={{
                       fontFamily: "var(--sp-font-sans)",
-                      fontSize: 15,
+                      fontSize: 17,
                       fontWeight: 700,
                       color: dark ? "#fff" : "var(--sp-navy-900)",
                       margin: "0 0 10px 0",
                       lineHeight: 1.3,
-                      transition: "color 0.3s ease",
+                      transition: TEXT_TRANSITION,
                     }}
                   >
                     {card.title}
@@ -236,11 +240,11 @@ export default function EngagementCTA() {
                   <p
                     style={{
                       fontFamily: "var(--sp-font-sans)",
-                      fontSize: 13,
+                      fontSize: 15,
                       lineHeight: 1.65,
                       color: dark ? "#9CA3AF" : "#6B7280",
                       margin: 0,
-                      transition: "color 0.3s ease",
+                      transition: TEXT_TRANSITION,
                     }}
                   >
                     {card.desc}

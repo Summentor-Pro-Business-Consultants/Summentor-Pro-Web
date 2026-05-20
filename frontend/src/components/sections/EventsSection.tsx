@@ -98,7 +98,7 @@ export default function EventsSection() {
                 <h3
                   style={{
                     fontFamily: "var(--sp-font-sans)",
-                    fontSize: "clamp(13px, 1.6vw, 16px)",
+                    fontSize: "clamp(15px, 1.75vw, 18px)",
                     fontWeight: 800,
                     letterSpacing: "0.06em",
                     textTransform: "uppercase",
@@ -111,7 +111,7 @@ export default function EventsSection() {
                 <p
                   style={{
                     fontFamily: "var(--sp-font-sans)",
-                    fontSize: 14,
+                    fontSize: 16,
                     lineHeight: 1.7,
                     color: "#6B7280",
                     margin: 0,
