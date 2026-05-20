@@ -167,7 +167,7 @@ export default function CredibilityBand() {
                 <p
                   style={{
                     fontFamily: "var(--sp-font-sans)",
-                    fontSize: 12,
+                    fontSize: 14,
                     color: "#6B7280",
                     margin: 0,
                     lineHeight: 1.4,
@@ -179,7 +179,7 @@ export default function CredibilityBand() {
                 <span
                   style={{
                     fontFamily: "var(--sp-font-sans)",
-                    fontSize: 12,
+                    fontSize: 14,
                     fontWeight: 600,
                     color: "var(--sp-green-600)",
                     whiteSpace: "nowrap",
@@ -375,7 +375,7 @@ export default function CredibilityBand() {
                   <span
                     style={{
                       fontFamily: "var(--sp-font-sans)",
-                      fontSize: 13,
+                      fontSize: 15,
                       fontWeight: 500,
                       color: "#9CA3AF",
                       whiteSpace: "nowrap",

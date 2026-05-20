@@ -1,188 +1,858 @@
-import type { Metadata } from "next";
-import AboutSection from "@/components/sections/AboutSection";
-import ProcessSection from "@/components/sections/ProcessSection";
-import EngagementCTA from "@/components/sections/EngagementCTA";
-import Section from "@/components/ui/Section";
-import Container from "@/components/ui/Container";
-import Eyebrow from "@/components/ui/Eyebrow";
-import { Target, Users, TrendingUp, Lightbulb, Shield, Leaf } from "lucide-react";
+"use client";
 
-export const metadata: Metadata = {
-  title: "About Us | Summentor Pro",
-  description:
-    "Learn about Summentor Pro — founded by Nitika Shahi and Suhaib Ahmed to elevate Indian businesses through strategic consulting, events, and partnerships.",
+import { useEffect, useState } from "react";
+import Image from "next/image";
+import { motion, AnimatePresence, type Variants } from "framer-motion";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import Container from "@/components/ui/Container";
+import EdgeGreenGradient from "@/components/ui/EdgeGreenGradient";
+import Typewriter from "@/components/ui/Typewriter";
+
+const EASE = [0.22, 1, 0.36, 1] as const;
+// Shared CSS transitions for the hover-to-dark card pattern. Same easing
+// curve as framer-motion so hover-on/off feels consistent everywhere.
+const HOVER_CSS_EASE = "cubic-bezier(0.22, 1, 0.36, 1)";
+const CARD_TRANSITION = `background 0.45s ${HOVER_CSS_EASE}, border-color 0.45s ${HOVER_CSS_EASE}, box-shadow 0.45s ${HOVER_CSS_EASE}`;
+const TEXT_TRANSITION = `color 0.45s ${HOVER_CSS_EASE}`;
+
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 24 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.65, ease: EASE } },
 };
 
-const values = [
+const stagger: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.1, delayChildren: 0.05 } },
+};
+
+function WavyLine() {
+  return (
+    <svg viewBox="0 0 200 12" width="160" height="12" xmlns="http://www.w3.org/2000/svg" style={{ display: "block", margin: "12px auto 0" }}>
+      <path d="M0,6 Q25,0 50,6 T100,6 T150,6 T200,6" stroke="var(--sp-green-500)" strokeWidth="2.5" fill="none" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+const focusEnablers = [
+  { title: "Meaningful business interactions", desc: "Curated environments that move past transactional networking into genuine dialogue." },
+  { title: "Strategic partnerships", desc: "Long-term collaborations between businesses, institutions, and ecosystem stakeholders." },
+  { title: "Industry dialogue", desc: "Structured conversations across MSMEs, enterprises, and policymakers." },
+  { title: "Government-industry engagement", desc: "Facilitated B2G pathways that turn policy access into real opportunity." },
+  { title: "High-value networking", desc: "Qualified introductions designed around intent, not volume." },
+];
+
+const initiatives = [
   {
-    icon: Target,
-    title: "Purpose-Driven",
-    desc: "Built with purpose, driven by passion. Every engagement is guided by a clear intent to create lasting impact.",
+    title: "Textile & Women Empowerment Initiative – Odisha",
+    desc: "Supported the establishment of a textile unit in Balasore, Odisha focused on creating employment opportunities for women through skilling, stitching, and livelihood development initiatives.",
+    focus: ["Women empowerment", "Rural employment", "Skill development", "MSME support"],
+    photo: "/images/engagements/textile-women-empowerment-odisha.jpeg",
   },
   {
-    icon: Users,
-    title: "Collaboration",
-    desc: "We believe in mutual growth and true partnership — your success is our success.",
+    title: "MSME Consulting & Government-Industry Engagement",
+    desc: "We support MSMEs and businesses in building meaningful B2G connections by facilitating government-industry engagement, identifying relevant project opportunities and enabling strategic conversations with institutional stakeholders.",
+    focus: [
+      "MSME growth consulting",
+      "B2G connection facilitation",
+      "Government relations",
+      "Institutional stakeholder engagement",
+      "Project opportunity mapping",
+      "Business expansion strategy",
+    ],
+    photo: "/images/engagements/msme-consulting-1.jpeg",
   },
   {
-    icon: TrendingUp,
-    title: "Results-Oriented",
-    desc: "Data-driven strategies with measurable outcomes. We track what matters and adjust continuously.",
+    title: "Architectural, Eco-Tourism & Infrastructure – Northeast India",
+    desc: "Facilitated business expansion and project engagement opportunities for a Chennai-based architect in Northeast India, supporting discussions across architectural services, eco-tourism development and infrastructure-related initiatives.",
+    focus: [
+      "Business expansion",
+      "Architectural project facilitation",
+      "Eco-tourism development",
+      "Infrastructure engagement",
+      "Strategic networking",
+      "Regional development",
+    ],
+    photo: "/images/engagements/meeting-deputy-cm-odisha.jpeg",
   },
   {
-    icon: Lightbulb,
-    title: "Innovation",
-    desc: "Staying ahead of industry trends ensures our clients always have access to the most relevant solutions.",
+    title: "Biomethanation & Waste-to-Energy – Assam",
+    desc: "Facilitated a biomethanation project in Guwahati, Assam for a Bengaluru-based client focused on sustainable waste management and renewable energy generation.",
+    focus: ["Sustainability", "Renewable energy", "Industrial facilitation", "Waste management"],
+    photo: "/images/engagements/csr-farmers-odisha-3.jpeg",
   },
   {
-    icon: Shield,
-    title: "Integrity",
-    desc: "Confidentiality, transparency, and ethical practice are non-negotiable foundations of every engagement.",
+    title: "CSR Initiative for Farmers – Odisha",
+    desc: "Supported a CSR-led agricultural initiative in Balasore, Odisha focused on improving rural livelihoods and strengthening agricultural productivity through new crop varieties and farmer training.",
+    focus: [
+      "CSR engagement",
+      "Agricultural development",
+      "Farmer training & skilling",
+      "Rural ecosystem development",
+      "Community impact",
+      "Seed production awareness",
+    ],
+    photo: "/images/engagements/csr-farmers-odisha-1.jpeg",
   },
-  {
-    icon: Leaf,
-    title: "Sustainability",
-    desc: "We aim to create lasting legacies — not just short-term wins — for businesses and communities alike.",
-  },
+];
+
+const leadershipPhotos = [
+  "/images/engagements/meeting-mos-msme.jpeg",
+  "/images/engagements/meeting-defence-minister.jpeg",
+  "/images/engagements/meeting-cm-delhi.jpeg",
 ];
 
 export default function AboutPage() {
   return (
     <>
-      {/* Page hero */}
-      <section
-        style={{
-          background: "var(--sp-navy-900)",
-          color: "#fff",
-          padding: "80px 0 72px",
-          position: "relative",
-          overflow: "hidden",
-        }}
-      >
-        <img
-          src="/icons/skyline.svg"
-          alt=""
-          aria-hidden="true"
-          style={{
-            position: "absolute",
-            inset: 0,
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-            opacity: 0.35,
-            pointerEvents: "none",
-          }}
-        />
-        <Container style={{ position: "relative", zIndex: 1 }}>
-          <Eyebrow gold={false} style={{ color: "var(--sp-gold-500)" }}>
-            OUR STORY
-          </Eyebrow>
-          <h1
-            style={{
-              fontFamily: "var(--sp-font-serif)",
-              fontSize: "clamp(34px, 5vw, 56px)",
-              fontWeight: 400,
-              letterSpacing: "var(--sp-track-display)",
-              lineHeight: 1.1,
-              color: "#fff",
-              marginTop: 16,
-              maxWidth: 700,
-            }}
-          >
-            About Summentor Pro
-          </h1>
-          <p
-            style={{
-              fontFamily: "var(--sp-font-sans)",
-              fontSize: 18,
-              lineHeight: 1.65,
-              color: "var(--sp-navy-200)",
-              marginTop: 20,
-              maxWidth: 580,
-            }}
-          >
-            A growth advisory firm founded with a singular mission — to elevate Indian businesses
-            through personalized strategies, real connections, and policy-level impact.
-          </p>
-        </Container>
-      </section>
-
-      <AboutSection />
-
-      {/* Core values */}
-      <Section>
-        <Container>
-          <div className="text-center mb-14">
-            <Eyebrow className="justify-center">OUR VALUES</Eyebrow>
-            <h2
-              style={{
-                fontFamily: "var(--sp-font-serif)",
-                fontSize: "clamp(26px, 3.5vw, 38px)",
-                fontWeight: 400,
-                letterSpacing: "var(--sp-track-h2)",
-                color: "var(--sp-navy-900)",
-                marginTop: 12,
-              }}
-            >
-              What we stand for.
-            </h2>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {values.map((value) => (
-              <div
-                key={value.title}
-                className="flex gap-4 p-6 rounded"
-                style={{
-                  border: "1px solid var(--sp-gray-200)",
-                  background: "var(--sp-gray-50)",
-                }}
-              >
-                <div
-                  style={{
-                    width: 40,
-                    height: 40,
-                    background: "var(--sp-gold-100)",
-                    borderRadius: "var(--sp-radius)",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    color: "var(--sp-gold-700)",
-                    flexShrink: 0,
-                  }}
-                >
-                  <value.icon size={20} strokeWidth={1.5} />
-                </div>
-                <div>
-                  <h4
-                    style={{
-                      fontFamily: "var(--sp-font-sans)",
-                      fontSize: 16,
-                      fontWeight: 600,
-                      color: "var(--sp-navy-900)",
-                      marginBottom: 6,
-                    }}
-                  >
-                    {value.title}
-                  </h4>
-                  <p
-                    style={{
-                      fontFamily: "var(--sp-font-sans)",
-                      fontSize: 14,
-                      lineHeight: 1.65,
-                      color: "var(--sp-gray-600)",
-                    }}
-                  >
-                    {value.desc}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </Container>
-      </Section>
-
-      <ProcessSection />
-      <EngagementCTA />
+      <Hero />
+      <Story />
+      <PullQuote />
+      <WhatMakesUsDifferent />
+      <Leadership />
+      <Initiatives />
     </>
   );
 }
+
+// ─── 1. Hero ────────────────────────────────────────────────────────────────
+function Hero() {
+  return (
+    <section
+      style={{
+        position: "relative",
+        minHeight: "70vh",
+        display: "flex",
+        alignItems: "center",
+        overflow: "hidden",
+        background: "#060e08",
+        paddingTop: 80,
+        paddingBottom: 120,
+      }}
+    >
+      <Image
+        src="/images/engagements/msme-consulting-2.jpeg"
+        alt=""
+        aria-hidden="true"
+        fill
+        priority
+        sizes="100vw"
+        style={{ objectFit: "cover", objectPosition: "center top", opacity: 0.28 }}
+      />
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          inset: 0,
+          background:
+            "linear-gradient(to bottom, rgba(6,14,8,0.6) 0%, rgba(6,14,8,0.78) 60%, #060e08 100%)",
+        }}
+      />
+      <Container>
+        <motion.div
+          initial="hidden"
+          animate="show"
+          variants={stagger}
+          style={{ position: "relative", textAlign: "center", maxWidth: 980, margin: "0 auto" }}
+        >
+          <motion.div variants={fadeUp}>
+            <span
+              style={{
+                fontFamily: "var(--sp-font-sans)",
+                fontSize: 13,
+                fontWeight: 700,
+                letterSpacing: "0.22em",
+                color: "#fff",
+                textTransform: "uppercase",
+                borderBottom: "2px solid #fff",
+                paddingBottom: 4,
+              }}
+            >
+              ABOUT US
+            </span>
+          </motion.div>
+          <motion.h1
+            variants={fadeUp}
+            style={{
+              fontFamily: "var(--sp-font-sans)",
+              fontSize: "clamp(34px, 5.5vw, 64px)",
+              fontWeight: 900,
+              letterSpacing: "0.01em",
+              textTransform: "uppercase",
+              color: "#fff",
+              lineHeight: 1.1,
+              margin: "28px 0 0",
+            }}
+          >
+            BUILDING BUSINESS ECOSYSTEMS
+            <br />
+            <span
+              style={{
+                background: "var(--sp-green-500)",
+                color: "#0a1a0d",
+                padding: "0 14px",
+                display: "inline-block",
+                marginTop: 8,
+              }}
+            >
+              <Typewriter text="THAT DRIVE REAL GROWTH." startDelay={550} />
+            </span>
+          </motion.h1>
+        </motion.div>
+      </Container>
+    </section>
+  );
+}
+
+// ─── 2. Story body ──────────────────────────────────────────────────────────
+function Story() {
+  const paragraphs = [
+    "At Summentor Pro, we specialize in strategic consulting, business innovation, government engagement, and ecosystem development. Founded by Nitika Shahi and Suhaib Ahmed, we have spent over a decade building one of India's emerging platforms focused on meaningful business growth, strategic collaboration, and ecosystem-driven engagement.",
+    "Summentor Pro is a strategic business consulting and ecosystem engagement firm committed to enabling impactful collaborations between MSMEs, enterprises, industry leaders, institutions, and ecosystem stakeholders.",
+    "Our integrated approach combines strategic consulting, government relations, business platforms, industry networking and MSME & Startup engagement, creating opportunities that encourage real conversations, partnerships, and measurable outcomes.",
+    "Over the years, we identified a significant gap in the business ecosystem. Many industry platforms had become increasingly transactional, overly sales-driven, and often lacked long-term value and meaningful engagement.",
+    "Summentor Pro was established to change that. Today, we focus on building platforms and strategic initiatives that encourage genuine business connections, industry collaboration, policy-level engagement, and scalable growth opportunities across sectors.",
+    "Through consulting, strategic networking, ecosystem-driven initiatives, and industry-government engagement, we work towards enabling long-term business growth and creating meaningful impact.",
+    "At Summentor Pro, we believe meaningful progress happens when the right strategy, ecosystem, and opportunities come together.",
+  ];
+
+  return (
+    <section
+      style={{
+        background: "#fff",
+        padding: "80px 0",
+        position: "relative",
+        overflow: "hidden",
+      }}
+    >
+      <EdgeGreenGradient side="right" />
+      <Container>
+        <motion.div
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.15 }}
+          variants={stagger}
+          style={{
+            maxWidth: 1280,
+            margin: "0 auto",
+            position: "relative",
+            textAlign: "center",
+          }}
+        >
+          {paragraphs.map((p, i) => (
+            <motion.p
+              key={i}
+              variants={fadeUp}
+              style={{
+                fontFamily: "var(--sp-font-sans)",
+                fontSize: "clamp(22px, 2.2vw, 30px)",
+                fontWeight: 500,
+                lineHeight: 1.6,
+                color: "#0a0a0a",
+                margin: "0 0 28px",
+                textAlign: "center",
+              }}
+            >
+              {p}
+            </motion.p>
+          ))}
+        </motion.div>
+      </Container>
+    </section>
+  );
+}
+
+// ─── 3. Pull-quote band ─────────────────────────────────────────────────────
+function PullQuote() {
+  return (
+    <section
+      style={{
+        background: "#0a1a0d",
+        backgroundImage:
+          "linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)",
+        backgroundSize: "44px 44px",
+        padding: "80px 0",
+        position: "relative",
+        overflow: "hidden",
+      }}
+    >
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          width: 700,
+          height: 400,
+          transform: "translate(-50%, -50%)",
+          background: "radial-gradient(ellipse, rgba(34,197,94,0.10) 0%, transparent 70%)",
+          pointerEvents: "none",
+        }}
+      />
+      <Container>
+        <motion.h2
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.4 }}
+          transition={{ duration: 0.7, ease: EASE }}
+          style={{
+            fontFamily: "var(--sp-font-sans)",
+            fontSize: "clamp(28px, 4.2vw, 52px)",
+            fontWeight: 900,
+            letterSpacing: "0.01em",
+            textTransform: "uppercase",
+            color: "#fff",
+            lineHeight: 1.15,
+            textAlign: "center",
+            margin: 0,
+            position: "relative",
+          }}
+        >
+          WHERE STRATEGY MEETS
+          <br />
+          <span style={{ color: "var(--sp-green-400)" }}>IMPACT, AND INNOVATION</span>
+          <br />
+          <span style={{ color: "var(--sp-green-400)" }}>DRIVES GROWTH.</span>
+        </motion.h2>
+      </Container>
+    </section>
+  );
+}
+
+// ─── 4. What Makes Us Different ─────────────────────────────────────────────
+function WhatMakesUsDifferent() {
+  const [index, setIndex] = useState(0);
+  const [hovered, setHovered] = useState<number | null>(null);
+  const perPage = 3;
+  const maxIndex = Math.max(0, focusEnablers.length - perPage);
+  const visible = focusEnablers.slice(index, index + perPage);
+
+  // Auto-advance every 5s; pause while a card is hovered. Loops back to the
+  // start once it reaches the last page so the carousel never stalls.
+  useEffect(() => {
+    if (hovered !== null) return;
+    const t = setTimeout(() => {
+      setIndex((i) => (i >= maxIndex ? 0 : i + 1));
+    }, 5000);
+    return () => clearTimeout(t);
+  }, [index, hovered, maxIndex]);
+
+  return (
+    <section
+      style={{
+        background: "#fff",
+        padding: "80px 0",
+        position: "relative",
+        overflow: "hidden",
+      }}
+    >
+      <EdgeGreenGradient side="left" />
+      <Container>
+        <motion.div
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.25 }}
+          variants={stagger}
+          style={{ textAlign: "center", marginBottom: 40, position: "relative" }}
+        >
+          <motion.h2
+            variants={fadeUp}
+            style={{
+              fontFamily: "var(--sp-font-sans)",
+              fontSize: "clamp(24px, 3.4vw, 38px)",
+              fontWeight: 800,
+              letterSpacing: "0.02em",
+              textTransform: "uppercase",
+              color: "var(--sp-navy-900)",
+              margin: 0,
+            }}
+          >
+            WHAT MAKES US <span style={{ color: "var(--sp-green-600)" }}>DIFFERENT</span>
+          </motion.h2>
+          <WavyLine />
+          <motion.p
+            variants={fadeUp}
+            style={{
+              fontFamily: "var(--sp-font-sans)",
+              fontSize: 16,
+              color: "#6B7280",
+              maxWidth: 720,
+              margin: "20px auto 0",
+              lineHeight: 1.65,
+            }}
+          >
+            Unlike conventional event or consulting companies, our approach is built around
+            creating long-term business ecosystems.
+          </motion.p>
+        </motion.div>
+
+        <p
+          style={{
+            fontFamily: "var(--sp-font-sans)",
+            fontSize: 13,
+            fontWeight: 700,
+            letterSpacing: "0.12em",
+            textTransform: "uppercase",
+            color: "#9CA3AF",
+            textAlign: "center",
+            margin: "0 0 28px",
+          }}
+        >
+          WE FOCUS ON ENABLING:
+        </p>
+
+        <div className="flex items-stretch gap-4" style={{ position: "relative" }}>
+          <ArrowButton
+            direction="left"
+            disabled={false}
+            onClick={() => setIndex((i) => (i <= 0 ? maxIndex : i - 1))}
+          />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 flex-1">
+            {visible.map((card, i) => {
+              const dark = hovered === i;
+              return (
+                <motion.div
+                  key={card.title + index}
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: i * 0.06, ease: EASE }}
+                  onMouseEnter={() => setHovered(i)}
+                  onMouseLeave={() => setHovered(null)}
+                  whileHover={{
+                    y: -8,
+                    transition: { type: "spring", stiffness: 300, damping: 20 },
+                  }}
+                  style={{
+                    background: dark ? "var(--sp-navy-900)" : "#fff",
+                    border: dark
+                      ? "1px solid rgba(255,255,255,0.06)"
+                      : "1px solid #E5E7EB",
+                    borderTop: dark
+                      ? "3px solid var(--sp-green-500)"
+                      : "3px solid transparent",
+                    borderRadius: 8,
+                    padding: "28px 24px",
+                    minHeight: 180,
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    cursor: "default",
+                    boxShadow: dark
+                      ? "0 18px 40px rgba(0,0,0,0.20)"
+                      : "0 2px 12px rgba(0,0,0,0.06)",
+                    transition: CARD_TRANSITION,
+                  }}
+                >
+                  <h3
+                    style={{
+                      fontFamily: "var(--sp-font-sans)",
+                      fontSize: 17,
+                      fontWeight: 700,
+                      color: dark ? "#fff" : "var(--sp-navy-900)",
+                      margin: "0 0 10px",
+                      lineHeight: 1.3,
+                      transition: TEXT_TRANSITION,
+                    }}
+                  >
+                    {card.title}
+                  </h3>
+                  <p
+                    style={{
+                      fontFamily: "var(--sp-font-sans)",
+                      fontSize: 15,
+                      lineHeight: 1.6,
+                      color: dark ? "#9CA3AF" : "#6B7280",
+                      margin: 0,
+                      transition: TEXT_TRANSITION,
+                    }}
+                  >
+                    {card.desc}
+                  </p>
+                </motion.div>
+              );
+            })}
+          </div>
+          <ArrowButton
+            direction="right"
+            disabled={false}
+            onClick={() => setIndex((i) => (i >= maxIndex ? 0 : i + 1))}
+          />
+        </div>
+
+        <Dots count={maxIndex + 1} active={index} onSelect={setIndex} />
+
+        <p
+          style={{
+            fontFamily: "var(--sp-font-sans)",
+            fontSize: 16,
+            color: "#6B7280",
+            textAlign: "center",
+            margin: "32px auto 0",
+            maxWidth: 720,
+            lineHeight: 1.7,
+          }}
+        >
+          Our goal is not just to organize platforms, but to create environments where businesses
+          can explore real growth opportunities.
+        </p>
+      </Container>
+    </section>
+  );
+}
+
+// ─── 5. Leadership ──────────────────────────────────────────────────────────
+function Leadership() {
+  return (
+    <section
+      style={{
+        background: "#0a1a0d",
+        padding: "80px 0",
+        position: "relative",
+        overflow: "hidden",
+      }}
+    >
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          top: 0,
+          right: 0,
+          width: 500,
+          height: 500,
+          background: "radial-gradient(circle, rgba(34,197,94,0.10) 0%, transparent 65%)",
+          pointerEvents: "none",
+        }}
+      />
+      <Container>
+        <div
+          className="grid grid-cols-1 md:grid-cols-2 gap-12"
+          style={{ position: "relative" }}
+        >
+          <motion.div
+            initial={{ opacity: 0, x: -24 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.7, ease: EASE }}
+          >
+            <h2
+              style={{
+                fontFamily: "var(--sp-font-sans)",
+                fontSize: "clamp(36px, 5vw, 60px)",
+                fontWeight: 900,
+                letterSpacing: "0.02em",
+                textTransform: "uppercase",
+                color: "#fff",
+                margin: "0 0 24px",
+                lineHeight: 1.05,
+              }}
+            >
+              LEADERSHIP
+            </h2>
+            <div
+              style={{
+                background: "rgba(255,255,255,0.04)",
+                border: "1px solid rgba(255,255,255,0.08)",
+                borderLeft: "3px solid var(--sp-green-500)",
+                borderRadius: 8,
+                padding: "24px 28px",
+              }}
+            >
+              <p
+                style={{
+                  fontFamily: "var(--sp-font-sans)",
+                  fontSize: 15,
+                  lineHeight: 1.75,
+                  color: "#CBD5E1",
+                  margin: "0 0 14px",
+                }}
+              >
+                Our leadership team brings together experience across business consulting, strategic
+                engagement, ecosystem development, and industry platforms.
+              </p>
+              <p
+                style={{
+                  fontFamily: "var(--sp-font-sans)",
+                  fontSize: 15,
+                  lineHeight: 1.75,
+                  color: "#CBD5E1",
+                  margin: 0,
+                }}
+              >
+                With a strong focus on collaboration and growth, we continue to work towards
+                building impactful opportunities for businesses and stakeholders across sectors.
+              </p>
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.2 }}
+            variants={stagger}
+            className="grid grid-cols-3 gap-3"
+            style={{ alignContent: "center" }}
+          >
+            {leadershipPhotos.map((src, i) => (
+              <motion.div
+                key={src}
+                variants={fadeUp}
+                style={{
+                  position: "relative",
+                  aspectRatio: "3 / 4",
+                  borderRadius: 8,
+                  overflow: "hidden",
+                  border: "1px solid rgba(255,255,255,0.08)",
+                  transform: i === 1 ? "translateY(20px)" : undefined,
+                }}
+              >
+                <Image
+                  src={src}
+                  alt=""
+                  fill
+                  sizes="(max-width: 768px) 33vw, 200px"
+                  style={{ objectFit: "cover", filter: "grayscale(0.15)" }}
+                />
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </Container>
+    </section>
+  );
+}
+
+// ─── 6. Initiatives (Beyond Platforms & Consulting) ─────────────────────────
+function Initiatives() {
+  const [index, setIndex] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const active = initiatives[index]!;
+  const last = initiatives.length - 1;
+
+  // Auto-advance every 6s (slightly slower than the 3-card carousel because
+  // each slide has more to read); pause while the card is hovered.
+  useEffect(() => {
+    if (paused) return;
+    const t = setTimeout(() => {
+      setIndex((i) => (i >= last ? 0 : i + 1));
+    }, 6000);
+    return () => clearTimeout(t);
+  }, [index, paused, last]);
+
+  return (
+    <section
+      style={{
+        background: "#fff",
+        padding: "80px 0 100px",
+        position: "relative",
+        overflow: "hidden",
+      }}
+    >
+      <EdgeGreenGradient side="right" />
+      <Container>
+        <div style={{ textAlign: "center", marginBottom: 16, position: "relative" }}>
+          <h2
+            style={{
+              fontFamily: "var(--sp-font-sans)",
+              fontSize: "clamp(24px, 3.4vw, 38px)",
+              fontWeight: 800,
+              letterSpacing: "0.02em",
+              textTransform: "uppercase",
+              color: "var(--sp-navy-900)",
+              margin: 0,
+            }}
+          >
+            BEYOND <span style={{ color: "var(--sp-green-600)" }}>PLATFORMS & CONSULTING</span>
+          </h2>
+          <WavyLine />
+          <p
+            style={{
+              fontFamily: "var(--sp-font-sans)",
+              fontSize: 15,
+              color: "#6B7280",
+              margin: "18px 0 40px",
+            }}
+          >
+            Impact Initiatives & Strategic Engagements
+          </p>
+        </div>
+
+        <div className="flex items-stretch gap-4" style={{ position: "relative" }}>
+          <ArrowButton
+            direction="left"
+            disabled={false}
+            onClick={() => setIndex((i) => (i <= 0 ? last : i - 1))}
+          />
+          <div style={{ flex: 1, position: "relative", minHeight: 360 }}>
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={active.title}
+                initial={{ opacity: 0, x: 24 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -24 }}
+                transition={{ duration: 0.4, ease: EASE }}
+                onMouseEnter={() => setPaused(true)}
+                onMouseLeave={() => setPaused(false)}
+                style={{
+                  background: "var(--sp-navy-900)",
+                  borderRadius: 12,
+                  overflow: "hidden",
+                }}
+                className="grid grid-cols-1 md:grid-cols-2"
+              >
+                <div style={{ padding: "36px 36px", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                  <h3
+                    style={{
+                      fontFamily: "var(--sp-font-sans)",
+                      fontSize: 22,
+                      fontWeight: 700,
+                      color: "var(--sp-green-400)",
+                      margin: "0 0 16px",
+                      lineHeight: 1.25,
+                    }}
+                  >
+                    {active.title}
+                  </h3>
+                  <p
+                    style={{
+                      fontFamily: "var(--sp-font-sans)",
+                      fontSize: 16,
+                      lineHeight: 1.7,
+                      color: "#CBD5E1",
+                      margin: "0 0 22px",
+                    }}
+                  >
+                    {active.desc}
+                  </p>
+                  <p
+                    style={{
+                      fontFamily: "var(--sp-font-sans)",
+                      fontSize: 13,
+                      fontWeight: 700,
+                      color: "#fff",
+                      margin: "0 0 10px",
+                      letterSpacing: "0.04em",
+                    }}
+                  >
+                    Focus Areas
+                  </p>
+                  <ul style={{ margin: 0, padding: 0, listStyle: "none", display: "grid", gap: 6 }}>
+                    {active.focus.map((f) => (
+                      <li
+                        key={f}
+                        style={{
+                          fontFamily: "var(--sp-font-sans)",
+                          fontSize: 15,
+                          color: "#9CA3AF",
+                          paddingLeft: 14,
+                          position: "relative",
+                        }}
+                      >
+                        <span
+                          style={{
+                            position: "absolute",
+                            left: 0,
+                            top: 8,
+                            width: 5,
+                            height: 5,
+                            borderRadius: "50%",
+                            background: "var(--sp-green-500)",
+                          }}
+                        />
+                        {f}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div style={{ position: "relative", minHeight: 360 }}>
+                  <Image
+                    src={active.photo}
+                    alt={active.title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    style={{ objectFit: "cover" }}
+                  />
+                </div>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+          <ArrowButton
+            direction="right"
+            disabled={false}
+            onClick={() => setIndex((i) => (i >= last ? 0 : i + 1))}
+          />
+        </div>
+
+        <Dots count={initiatives.length} active={index} onSelect={setIndex} />
+      </Container>
+    </section>
+  );
+}
+
+// ─── Shared controls ────────────────────────────────────────────────────────
+function ArrowButton({
+  direction,
+  disabled,
+  onClick,
+}: {
+  direction: "left" | "right";
+  disabled: boolean;
+  onClick: () => void;
+}) {
+  const Icon = direction === "left" ? ChevronLeft : ChevronRight;
+  return (
+    <button
+      onClick={onClick}
+      disabled={disabled}
+      aria-label={direction === "left" ? "Previous" : "Next"}
+      style={{
+        flexShrink: 0,
+        alignSelf: "center",
+        width: 40,
+        height: 40,
+        borderRadius: "50%",
+        border: "1px solid #D1D5DB",
+        background: "#fff",
+        cursor: disabled ? "default" : "pointer",
+        opacity: disabled ? 0.35 : 1,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        transition: "opacity 0.2s, background 0.2s",
+      }}
+    >
+      <Icon size={18} color="#374151" />
+    </button>
+  );
+}
+
+function Dots({
+  count,
+  active,
+  onSelect,
+}: {
+  count: number;
+  active: number;
+  onSelect: (i: number) => void;
+}) {
+  return (
+    <div className="flex justify-center items-center gap-2" style={{ marginTop: 28 }}>
+      {Array.from({ length: count }).map((_, i) => (
+        <button
+          key={i}
+          onClick={() => onSelect(i)}
+          aria-label={`Go to slide ${i + 1}`}
+          style={{
+            width: i === active ? 22 : 8,
+            height: 8,
+            borderRadius: 4,
+            background: i === active ? "var(--sp-green-500)" : "#D1D5DB",
+            border: "none",
+            cursor: "pointer",
+            padding: 0,
+            transition: "width 0.25s, background 0.25s",
+          }}
+        />
+      ))}
+    </div>
+  );
+}
+

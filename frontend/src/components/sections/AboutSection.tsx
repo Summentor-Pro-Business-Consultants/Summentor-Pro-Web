@@ -84,8 +84,8 @@ export default function AboutSection() {
           <p
             style={{
               fontFamily: "var(--sp-font-sans)",
-              fontSize: "clamp(16px, 2vw, 19px)",
-              lineHeight: 1.75,
+              fontSize: "clamp(18px, 2.1vw, 22px)",
+              lineHeight: 1.7,
               color: "#374151",
               marginTop: 32,
             }}
@@ -98,8 +98,8 @@ export default function AboutSection() {
           <p
             style={{
               fontFamily: "var(--sp-font-sans)",
-              fontSize: 16,
-              lineHeight: 1.75,
+              fontSize: 18,
+              lineHeight: 1.7,
               color: "#6B7280",
               marginTop: 20,
             }}

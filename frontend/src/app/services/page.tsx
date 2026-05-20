@@ -1,370 +1,525 @@
-import type { Metadata } from "next";
-import Link from "next/link";
-import ServicesGrid from "@/components/sections/ServicesGrid";
-import ProcessSection from "@/components/sections/ProcessSection";
-import EngagementCTA from "@/components/sections/EngagementCTA";
-import Section from "@/components/ui/Section";
-import Container from "@/components/ui/Container";
-import Eyebrow from "@/components/ui/Eyebrow";
-import Card from "@/components/ui/Card";
-import Button from "@/components/ui/Button";
-import {
-  Target,
-  Users,
-  Building2,
-  Award,
-  Globe,
-  Handshake,
-  FileText,
-  ArrowRight,
-} from "lucide-react";
+"use client";
 
-export const metadata: Metadata = {
-  title: "Services | Summentor Pro",
-  description:
-    "Explore Summentor Pro's full suite of B2B consulting, event management, government relations, brand building, and MSME advisory services.",
+import { useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { motion, AnimatePresence, type Variants } from "framer-motion";
+import Container from "@/components/ui/Container";
+import EdgeGreenGradient from "@/components/ui/EdgeGreenGradient";
+import Typewriter from "@/components/ui/Typewriter";
+
+const EASE = [0.22, 1, 0.36, 1] as const;
+
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 24 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.65, ease: EASE } },
 };
 
-const serviceDetails = [
+const stagger: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.1, delayChildren: 0.05 } },
+};
+
+interface Solution {
+  id: string;
+  pill: string;
+  title: string;
+  paragraphs: string[];
+  listLabel: string;
+  list: string[];
+}
+
+const solutions: Solution[] = [
   {
     id: "consulting",
-    icon: Target,
+    pill: "Strategic Consulting",
     title: "Strategic Consulting",
-    subtitle: "B2B & B2G Growth Strategy",
-    desc: "We craft tailored growth strategies for businesses at every stage — from startups finding product-market fit to established enterprises entering new verticals. Our consulting goes beyond advice: we embed with your leadership to architect operating systems, competitive positioning, and scalable business models.",
-    outcomes: [
-      "Market entry strategies",
-      "Competitive analysis & positioning",
-      "Revenue diversification plans",
-      "Operational efficiency frameworks",
+    paragraphs: [
+      "We support businesses with strategic guidance focused on growth, partnerships, expansion opportunities, and stakeholder engagement.",
     ],
-  },
-  {
-    id: "events",
-    icon: Users,
-    title: "B2B Events & Summits",
-    subtitle: "Industry Conferences & Networking",
-    desc: "We design, curate, and execute high-impact B2B events — from intimate roundtables to large-scale industry summits. Our events connect founders with investors, policymakers, and strategic partners in structured environments that drive real business outcomes.",
-    outcomes: [
-      "Industry conferences & trade shows",
-      "Invite-only founder summits",
-      "Monthly networking meetups",
-      "Government-industry roundtables",
+    listLabel: "Services Include",
+    list: [
+      "Market expansion strategy",
+      "Business partnerships",
+      "Stakeholder engagement",
+      "Ecosystem mapping",
+      "Growth advisory",
+      "Industry collaborations",
     ],
   },
   {
     id: "government",
-    icon: Building2,
-    title: "Government Relations",
-    subtitle: "Policy Navigation & Tender Management",
-    desc: "Navigating India's regulatory landscape requires experience and relationships. Our government relations desk provides direct access to policy advisors, helps businesses qualify for government schemes, and manages the end-to-end process of government tenders.",
-    outcomes: [
-      "Policy navigation & compliance",
-      "Government tender management",
-      "Regulatory approvals support",
-      "Ecosystem opportunity mapping",
+    pill: "Govt. & Industry Facilitation",
+    title: "Govt. & Industry Facilitation",
+    paragraphs: [
+      "We work towards enabling stronger collaboration between businesses, industry stakeholders, and institutional ecosystems.",
+      "Our focus includes facilitating meaningful engagement opportunities, industrial growth discussions, and ecosystem development initiatives.",
+    ],
+    listLabel: "Areas of Focus",
+    list: [
+      "Government-industry engagement",
+      "Industrial facilitation support",
+      "MSME ecosystem initiatives",
+      "Strategic stakeholder coordination",
+      "Institutional collaborations",
     ],
   },
   {
-    id: "branding",
-    icon: Award,
-    title: "Brand Building",
-    subtitle: "MSME Visibility & Market Expansion",
-    desc: "We build the credibility infrastructure that B2B brands need to win enterprise contracts, government tenders, and strategic partnerships. From executive positioning to category narrative — we make your brand stand out in a crowded market.",
-    outcomes: [
-      "B2B brand positioning",
-      "Executive thought leadership",
-      "Media & PR strategy",
-      "Digital presence optimization",
+    id: "ecosystems",
+    pill: "Business Ecosystems",
+    title: "Industry Platforms & Business Ecosystems",
+    paragraphs: [
+      "We curate high-impact business platforms that bring together founders, enterprises, policymakers, investors, and ecosystem enablers.",
+      "These platforms are designed to encourage collaboration, business visibility, networking, and knowledge exchange.",
+    ],
+    listLabel: "Platforms Include",
+    list: [
+      "Industry summits",
+      "Business conferences",
+      "Strategic roundtables",
+      "Networking forums",
+      "Leadership dialogues",
     ],
   },
   {
-    id: "marketing",
-    icon: Globe,
-    title: "Marketing & Strategic Relations",
-    subtitle: "Growth Strategies & Relationship Management",
-    desc: "Our marketing practice focuses on relationship-led growth — building the connections and programs that generate sustained business development. We combine data-driven marketing with deep relationship management across industries.",
-    outcomes: [
-      "Go-to-market strategy",
-      "Strategic relationship mapping",
-      "Partnership program design",
-      "Account-based marketing",
+    id: "networking",
+    pill: "Business Networking",
+    title: "ConnectNow — Business Networking Platform",
+    paragraphs: [
+      "ConnectNow is our dedicated business networking initiative designed to help businesses generate qualified connections and meaningful opportunities through curated engagement formats.",
+    ],
+    listLabel: "Platform Highlights",
+    list: [
+      "Curated business introductions",
+      "Networking meetups",
+      "One-on-one business interactions",
+      "Lead engagement support",
+      "Relationship-building opportunities",
     ],
   },
   {
-    id: "connect",
-    icon: Handshake,
-    title: "Lead Generation (Connect Now)",
-    subtitle: "Curated B2B Networking & Partnerships",
-    desc: "Through our proprietary Connect Now program, we curate high-intent B2B introductions based on strategic fit — not just industry overlap. Monthly meetups and verified partner networks ensure your pipeline is always warm.",
-    outcomes: [
-      "Qualified B2B introductions",
-      "Verified channel partnerships",
-      "Monthly networking sessions",
-      "Investor-founder matching",
+    id: "brand",
+    pill: "Brand & Market Growth",
+    title: "Brand & Market Growth",
+    paragraphs: [
+      "We help businesses strengthen visibility, market positioning, and outreach through strategic engagement and ecosystem-driven initiatives.",
     ],
-  },
-  {
-    id: "msme",
-    icon: FileText,
-    title: "MSME Tenders & Initiatives",
-    subtitle: "Tender Access & Subsidy Advisory",
-    desc: "India's MSME ecosystem offers significant government support — but accessing it requires expertise. We guide businesses through eligibility assessment, application preparation, and scheme execution for government tenders, subsidies, and MSME initiatives.",
-    outcomes: [
-      "Government scheme eligibility",
-      "Tender documentation & filing",
-      "Subsidy application support",
-      "MSME certification advisory",
+    listLabel: "Areas Include",
+    list: [
+      "Brand positioning",
+      "Market visibility",
+      "Strategic outreach",
+      "Industry engagement",
+      "Business communication support",
     ],
   },
 ];
 
-export default function ServicesPage() {
+export default function SolutionsPage() {
   return (
     <>
-      {/* Page hero */}
-      <section
+      <Hero />
+      <SolutionTabs />
+      <GrowthCTA />
+    </>
+  );
+}
+
+// ─── Hero ───────────────────────────────────────────────────────────────────
+function Hero() {
+  return (
+    <section
+      style={{
+        position: "relative",
+        minHeight: "70vh",
+        display: "flex",
+        alignItems: "center",
+        overflow: "hidden",
+        background: "#060e08",
+        paddingTop: 80,
+        paddingBottom: 120,
+      }}
+    >
+      <Image
+        src="/images/engagements/meeting-union-minister-msme.jpeg"
+        alt=""
+        aria-hidden="true"
+        fill
+        priority
+        sizes="100vw"
+        style={{ objectFit: "cover", objectPosition: "center", opacity: 0.25 }}
+      />
+      <div
+        aria-hidden="true"
         style={{
-          background: "var(--sp-navy-900)",
-          color: "#fff",
-          padding: "80px 0 72px",
-          position: "relative",
-          overflow: "hidden",
+          position: "absolute",
+          inset: 0,
+          background:
+            "linear-gradient(to bottom, rgba(6,14,8,0.65) 0%, rgba(6,14,8,0.82) 60%, #060e08 100%)",
         }}
-      >
-        <Container style={{ position: "relative", zIndex: 1 }}>
-          <Eyebrow gold={false} style={{ color: "var(--sp-gold-500)" }}>
-            WHAT WE DO
-          </Eyebrow>
-          <h1
-            style={{
-              fontFamily: "var(--sp-font-serif)",
-              fontSize: "clamp(34px, 5vw, 56px)",
-              fontWeight: 400,
-              letterSpacing: "var(--sp-track-display)",
-              lineHeight: 1.1,
-              color: "#fff",
-              marginTop: 16,
-              maxWidth: 700,
-            }}
-          >
-            Our Services
-          </h1>
-          <p
+      />
+
+      <Container>
+        <motion.div
+          initial="hidden"
+          animate="show"
+          variants={stagger}
+          style={{ position: "relative", textAlign: "center", maxWidth: 1000, margin: "0 auto" }}
+        >
+          <motion.div variants={fadeUp}>
+            <span
+              style={{
+                fontFamily: "var(--sp-font-sans)",
+                fontSize: 13,
+                fontWeight: 700,
+                letterSpacing: "0.22em",
+                color: "#fff",
+                textTransform: "uppercase",
+                borderBottom: "2px solid #fff",
+                paddingBottom: 4,
+              }}
+            >
+              SOLUTIONS
+            </span>
+          </motion.div>
+
+          <motion.h1
+            variants={fadeUp}
             style={{
               fontFamily: "var(--sp-font-sans)",
-              fontSize: 18,
-              lineHeight: 1.65,
-              color: "var(--sp-navy-200)",
-              marginTop: 20,
-              maxWidth: 580,
+              fontSize: "clamp(30px, 5vw, 56px)",
+              fontWeight: 900,
+              letterSpacing: "0.01em",
+              textTransform: "uppercase",
+              color: "#fff",
+              lineHeight: 1.15,
+              margin: "28px 0 22px",
             }}
           >
-            Seven integrated disciplines designed to drive sustainable business growth across
-            consulting, events, government relations, and strategic partnerships.
-          </p>
-        </Container>
-      </section>
+            STRATEGIC SOLUTIONS DESIGNED FOR
+            <br />
+            <span
+              style={{
+                background: "var(--sp-green-500)",
+                color: "#0a1a0d",
+                padding: "0 14px",
+                display: "inline-block",
+                marginTop: 8,
+              }}
+            >
+              <Typewriter text="GROWTH & BUSINESS ENGAGEMENT" startDelay={550} />
+            </span>
+          </motion.h1>
 
-      <ServicesGrid />
+          <motion.p
+            variants={fadeUp}
+            style={{
+              fontFamily: "var(--sp-font-sans)",
+              fontSize: "clamp(15px, 1.6vw, 18px)",
+              lineHeight: 1.75,
+              color: "#CBD5E1",
+              maxWidth: 780,
+              margin: "0 auto",
+            }}
+          >
+            We help businesses, MSMEs, startups, and institutions strengthen their market
+            presence, build strategic relationships, and explore growth opportunities through
+            consulting, engagement platforms, and ecosystem-driven initiatives.
+          </motion.p>
+        </motion.div>
+      </Container>
+    </section>
+  );
+}
 
-      {/* Detailed service sections */}
-      {serviceDetails.map((service, i) => (
-        <Section key={service.id} tint={i % 2 === 0} id={service.id}>
-          <Container>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-              {i % 2 === 0 ? (
-                <>
-                  <div>
-                    <Eyebrow>{`0${i + 1} — ${service.subtitle.toUpperCase()}`}</Eyebrow>
-                    <h2
-                      style={{
-                        fontFamily: "var(--sp-font-serif)",
-                        fontSize: "clamp(26px, 3.5vw, 38px)",
-                        fontWeight: 400,
-                        letterSpacing: "var(--sp-track-h2)",
-                        color: "var(--sp-navy-900)",
-                        marginTop: 12,
-                        lineHeight: 1.15,
-                      }}
-                    >
-                      {service.title}
-                    </h2>
-                    <p
+// ─── Solutions tabs ─────────────────────────────────────────────────────────
+function SolutionTabs() {
+  const [activeId, setActiveId] = useState(solutions[1]!.id);
+  const active = solutions.find((s) => s.id === activeId) ?? solutions[0]!;
+
+  return (
+    <section
+      style={{
+        background: "#F9FAFB",
+        padding: "80px 0",
+        position: "relative",
+        overflow: "hidden",
+      }}
+    >
+      <EdgeGreenGradient side="right" />
+      <Container>
+        <div
+          className="grid grid-cols-1 md:grid-cols-[300px_1fr] gap-10"
+          style={{ alignItems: "stretch", position: "relative" }}
+        >
+          {/* Left: pill buttons */}
+          <motion.div
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.25 }}
+            variants={stagger}
+            className="flex flex-col gap-4"
+            style={{ justifyContent: "center" }}
+          >
+            <p
+              style={{
+                fontFamily: "var(--sp-font-sans)",
+                fontSize: 11,
+                fontWeight: 700,
+                letterSpacing: "0.14em",
+                textTransform: "uppercase",
+                color: "var(--sp-green-700)",
+                margin: "0 0 4px 4px",
+              }}
+            >
+              Our Solutions
+            </p>
+            {solutions.map((s) => {
+              const isActive = s.id === activeId;
+              return (
+                <motion.button
+                  key={s.id}
+                  variants={fadeUp}
+                  // Hover activates (matches ProcessSection on home). Click +
+                  // focus kept for touch + keyboard access.
+                  onMouseEnter={() => setActiveId(s.id)}
+                  onFocus={() => setActiveId(s.id)}
+                  onClick={() => setActiveId(s.id)}
+                  style={{
+                    textAlign: "left",
+                    padding: "16px 24px",
+                    borderRadius: 999,
+                    border: "1.5px solid var(--sp-green-600)",
+                    background: isActive ? "var(--sp-green-600)" : "transparent",
+                    color: isActive ? "#fff" : "var(--sp-navy-900)",
+                    cursor: "pointer",
+                    fontFamily: "var(--sp-font-sans)",
+                    fontSize: 15,
+                    fontWeight: 600,
+                    boxShadow: isActive
+                      ? "0 8px 22px rgba(22,163,74,0.25)"
+                      : "0 1px 2px rgba(0,0,0,0.03)",
+                    transition:
+                      "background 0.25s ease, color 0.25s ease, box-shadow 0.25s ease",
+                  }}
+                >
+                  {s.pill}
+                </motion.button>
+              );
+            })}
+          </motion.div>
+
+          {/* Right: dark content card */}
+          <div style={{ position: "relative", minHeight: 420 }}>
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={active.id}
+                initial={{ opacity: 0, y: 14 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.35, ease: EASE }}
+                style={{
+                  background: "var(--sp-navy-900)",
+                  borderRadius: 14,
+                  padding: "32px 36px",
+                  border: "1px solid rgba(255,255,255,0.06)",
+                  boxShadow: "0 12px 36px rgba(10,26,13,0.18)",
+                }}
+              >
+                <h2
+                  style={{
+                    fontFamily: "var(--sp-font-sans)",
+                    fontSize: 22,
+                    fontWeight: 700,
+                    color: "#fff",
+                    margin: "0 0 18px",
+                    lineHeight: 1.3,
+                  }}
+                >
+                  {active.title}
+                </h2>
+
+                {active.paragraphs.map((p, i) => (
+                  <p
+                    key={i}
+                    style={{
+                      fontFamily: "var(--sp-font-sans)",
+                      fontSize: 16,
+                      lineHeight: 1.7,
+                      color: "#CBD5E1",
+                      margin: i === active.paragraphs.length - 1 ? "0 0 24px" : "0 0 14px",
+                    }}
+                  >
+                    {p}
+                  </p>
+                ))}
+
+                <p
+                  style={{
+                    fontFamily: "var(--sp-font-sans)",
+                    fontSize: 13,
+                    fontWeight: 700,
+                    color: "#fff",
+                    letterSpacing: "0.04em",
+                    margin: "0 0 12px",
+                  }}
+                >
+                  {active.listLabel}
+                </p>
+                <ul style={{ margin: 0, padding: 0, listStyle: "none", display: "grid", gap: 8 }}>
+                  {active.list.map((item) => (
+                    <li
+                      key={item}
                       style={{
                         fontFamily: "var(--sp-font-sans)",
                         fontSize: 16,
-                        lineHeight: 1.7,
-                        color: "var(--sp-gray-700)",
-                        marginTop: 16,
+                        color: "#CBD5E1",
+                        paddingLeft: 18,
+                        position: "relative",
+                        lineHeight: 1.5,
                       }}
                     >
-                      {service.desc}
-                    </p>
-                    <Link href="/contact" style={{ textDecoration: "none" }}>
-                      <Button
-                        variant="dark"
-                        size="md"
-                        icon={<ArrowRight size={15} strokeWidth={1.5} />}
-                        style={{ marginTop: 24 }}
-                      >
-                        Get Started
-                      </Button>
-                    </Link>
-                  </div>
-                  <Card>
-                    <div
-                      className="flex items-center justify-center mb-5"
-                      style={{
-                        width: 52,
-                        height: 52,
-                        background: "var(--sp-gold-100)",
-                        borderRadius: "var(--sp-radius)",
-                        color: "var(--sp-gold-700)",
-                      }}
-                    >
-                      <service.icon size={26} strokeWidth={1.5} />
-                    </div>
-                    <h4
-                      style={{
-                        fontFamily: "var(--sp-font-sans)",
-                        fontSize: 14,
-                        fontWeight: 600,
-                        color: "var(--sp-gray-500)",
-                        textTransform: "uppercase",
-                        letterSpacing: "0.06em",
-                        marginBottom: 14,
-                      }}
-                    >
-                      Key Outcomes
-                    </h4>
-                    <div className="flex flex-col gap-3">
-                      {service.outcomes.map((outcome) => (
-                        <div key={outcome} className="flex items-start gap-3">
-                          <div
-                            style={{
-                              width: 6,
-                              height: 6,
-                              borderRadius: "50%",
-                              background: "var(--sp-gold-500)",
-                              flexShrink: 0,
-                              marginTop: 7,
-                            }}
-                          />
-                          <span
-                            style={{
-                              fontFamily: "var(--sp-font-sans)",
-                              fontSize: 15,
-                              color: "var(--sp-gray-700)",
-                            }}
-                          >
-                            {outcome}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  </Card>
-                </>
-              ) : (
-                <>
-                  <Card>
-                    <div
-                      className="flex items-center justify-center mb-5"
-                      style={{
-                        width: 52,
-                        height: 52,
-                        background: "var(--sp-gold-100)",
-                        borderRadius: "var(--sp-radius)",
-                        color: "var(--sp-gold-700)",
-                      }}
-                    >
-                      <service.icon size={26} strokeWidth={1.5} />
-                    </div>
-                    <h4
-                      style={{
-                        fontFamily: "var(--sp-font-sans)",
-                        fontSize: 14,
-                        fontWeight: 600,
-                        color: "var(--sp-gray-500)",
-                        textTransform: "uppercase",
-                        letterSpacing: "0.06em",
-                        marginBottom: 14,
-                      }}
-                    >
-                      Key Outcomes
-                    </h4>
-                    <div className="flex flex-col gap-3">
-                      {service.outcomes.map((outcome) => (
-                        <div key={outcome} className="flex items-start gap-3">
-                          <div
-                            style={{
-                              width: 6,
-                              height: 6,
-                              borderRadius: "50%",
-                              background: "var(--sp-gold-500)",
-                              flexShrink: 0,
-                              marginTop: 7,
-                            }}
-                          />
-                          <span
-                            style={{
-                              fontFamily: "var(--sp-font-sans)",
-                              fontSize: 15,
-                              color: "var(--sp-gray-700)",
-                            }}
-                          >
-                            {outcome}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  </Card>
-                  <div>
-                    <Eyebrow>{`0${i + 1} — ${service.subtitle.toUpperCase()}`}</Eyebrow>
-                    <h2
-                      style={{
-                        fontFamily: "var(--sp-font-serif)",
-                        fontSize: "clamp(26px, 3.5vw, 38px)",
-                        fontWeight: 400,
-                        letterSpacing: "var(--sp-track-h2)",
-                        color: "var(--sp-navy-900)",
-                        marginTop: 12,
-                        lineHeight: 1.15,
-                      }}
-                    >
-                      {service.title}
-                    </h2>
-                    <p
-                      style={{
-                        fontFamily: "var(--sp-font-sans)",
-                        fontSize: 16,
-                        lineHeight: 1.7,
-                        color: "var(--sp-gray-700)",
-                        marginTop: 16,
-                      }}
-                    >
-                      {service.desc}
-                    </p>
-                    <Link href="/contact" style={{ textDecoration: "none" }}>
-                      <Button
-                        variant="dark"
-                        size="md"
-                        icon={<ArrowRight size={15} strokeWidth={1.5} />}
-                        style={{ marginTop: 24 }}
-                      >
-                        Get Started
-                      </Button>
-                    </Link>
-                  </div>
-                </>
-              )}
-            </div>
-          </Container>
-        </Section>
-      ))}
+                      <span
+                        style={{
+                          position: "absolute",
+                          left: 0,
+                          top: 9,
+                          width: 6,
+                          height: 6,
+                          borderRadius: "50%",
+                          background: "var(--sp-green-500)",
+                        }}
+                      />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+        </div>
+      </Container>
+    </section>
+  );
+}
 
-      <ProcessSection />
-      <EngagementCTA />
-    </>
+// ─── Green CTA band ─────────────────────────────────────────────────────────
+function GrowthCTA() {
+  return (
+    <section style={{ background: "#fff", padding: "60px 0 100px" }}>
+      <Container>
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.7, ease: EASE }}
+          style={{
+            background: "var(--sp-green-600)",
+            borderRadius: 22,
+            padding: "56px 56px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: 32,
+            overflow: "hidden",
+            position: "relative",
+            flexWrap: "wrap",
+          }}
+        >
+          <div
+            aria-hidden="true"
+            style={{
+              position: "absolute",
+              inset: 0,
+              borderRadius: 22,
+              background:
+                "radial-gradient(ellipse at bottom right, rgba(255,255,255,0.10) 0%, transparent 60%)",
+              pointerEvents: "none",
+            }}
+          />
+
+          <div style={{ position: "relative", zIndex: 1, flex: "1 1 380px" }}>
+            <h2
+              style={{
+                fontFamily: "var(--sp-font-sans)",
+                fontSize: "clamp(26px, 3.8vw, 46px)",
+                fontWeight: 900,
+                textTransform: "uppercase",
+                letterSpacing: "0.01em",
+                color: "#fff",
+                margin: "0 0 18px",
+                lineHeight: 1.1,
+              }}
+            >
+              LOOKING TO EXPLORE
+              <br />
+              STRATEGIC GROWTH
+              <br />
+              OPPORTUNITIES?
+            </h2>
+            <p
+              style={{
+                fontFamily: "var(--sp-font-sans)",
+                fontSize: 16,
+                lineHeight: 1.7,
+                color: "rgba(255,255,255,0.88)",
+                margin: "0 0 22px",
+                maxWidth: 520,
+              }}
+            >
+              Connect with us to explore how Summentor Pro can support your business through
+              consulting, strategic engagement, industry platforms, and growth-focused initiatives.
+            </p>
+            <Link
+              href="/contact"
+              style={{
+                display: "inline-block",
+                background: "#0a1a0d",
+                color: "#fff",
+                fontFamily: "var(--sp-font-sans)",
+                fontSize: 14,
+                fontWeight: 600,
+                padding: "12px 24px",
+                borderRadius: 8,
+                textDecoration: "none",
+                transition: "transform 0.2s ease, box-shadow 0.2s ease",
+              }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLElement).style.transform = "translateY(-2px)";
+                (e.currentTarget as HTMLElement).style.boxShadow = "0 6px 18px rgba(0,0,0,0.25)";
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
+                (e.currentTarget as HTMLElement).style.boxShadow = "none";
+              }}
+            >
+              Schedule a Consultation →
+            </Link>
+          </div>
+
+          {/* Upward arrow illustration */}
+          <div style={{ flexShrink: 0, position: "relative", zIndex: 1 }}>
+            <svg
+              width="180"
+              height="160"
+              viewBox="0 0 180 160"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+            >
+              <path d="M20 140 L130 30" stroke="white" strokeWidth="14" strokeLinecap="round" />
+              <path
+                d="M70 30 L140 30 L140 100"
+                stroke="white"
+                strokeWidth="14"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                fill="none"
+              />
+            </svg>
+          </div>
+        </motion.div>
+      </Container>
+    </section>
   );
 }

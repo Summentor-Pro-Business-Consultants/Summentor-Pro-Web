@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import Container from "@/components/ui/Container";
+import Typewriter from "@/components/ui/Typewriter";
 
 export default function Hero() {
   return (
@@ -17,17 +18,6 @@ export default function Hero() {
         background: "#060e08",
       }}
     >
-      {/* Grid pattern overlay */}
-      <div
-        style={{
-          position: "absolute",
-          inset: 0,
-          backgroundImage:
-            "linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px)",
-          backgroundSize: "44px 44px",
-          zIndex: 0,
-        }}
-      />
 
       {/* Background conference photo — replaced by video later */}
       <Image
@@ -125,7 +115,7 @@ export default function Hero() {
                 letterSpacing: "-0.005em",
               }}
             >
-              Business Growth
+              <Typewriter text="Business Growth" startDelay={600} />
             </span>
           </h1>
 

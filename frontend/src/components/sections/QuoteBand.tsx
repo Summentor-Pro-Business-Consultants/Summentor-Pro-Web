@@ -61,7 +61,7 @@ export default function QuoteBand() {
             <p
               style={{
                 fontFamily: "var(--sp-font-sans)",
-                fontSize: 15,
+                fontSize: 17,
                 fontStyle: "italic",
                 color: "#6B7280",
                 marginTop: 24,

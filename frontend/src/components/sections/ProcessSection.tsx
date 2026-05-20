@@ -191,6 +191,8 @@ export default function ProcessSection() {
 
               <button
                 onMouseEnter={() => setActiveTab(tab.id)}
+                onFocus={() => setActiveTab(tab.id)}
+                onClick={() => setActiveTab(tab.id)}
                 style={{
                   flex: 1,
                   padding: "14px 12px",
@@ -254,7 +256,7 @@ export default function ProcessSection() {
                     <span
                       style={{
                         fontFamily: "var(--sp-font-sans)",
-                        fontSize: 15,
+                        fontSize: 17,
                         color: "#374151",
                         lineHeight: 1.65,
                       }}
