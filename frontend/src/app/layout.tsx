@@ -1,25 +1,31 @@
 import type { Metadata } from "next";
-import { IBM_Plex_Sans, IBM_Plex_Serif, IBM_Plex_Mono } from "next/font/google";
+import { Poppins } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import PublicLayout from "@/components/layout/PublicLayout";
 import TrackPageView from "@/components/TrackPageView";
 
-const ibmPlexSans = IBM_Plex_Sans({
-  variable: "--font-ibm-plex-sans",
+// Body font — Poppins, only the thicker weights per the brand spec.
+const poppins = Poppins({
+  variable: "--font-poppins",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  weight: ["500", "600", "700", "800", "900"],
+  display: "swap",
 });
 
-const ibmPlexSerif = IBM_Plex_Serif({
-  variable: "--font-ibm-plex-serif",
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
-});
-
-const ibmPlexMono = IBM_Plex_Mono({
-  variable: "--font-ibm-plex-mono",
-  subsets: ["latin"],
-  weight: ["400", "500"],
+// Display font — Goia (real brand font, loaded from /public/fonts/Goia).
+// Brand spec: headings/subheadings use Goia Bold; never thin weights.
+// Only Bold and SemiBold .otf files are shipped, so:
+//   • 600       → SemiBold (lighter subheading role)
+//   • 700–900   → Bold (one file covers the heavy range so existing
+//                 fontWeight: 800/900 inline styles don't trigger faux-bold)
+const goia = localFont({
+  variable: "--font-display-serif",
+  display: "swap",
+  src: [
+    { path: "../../public/fonts/Goia/Goia-SemiBold.otf", weight: "600", style: "normal" },
+    { path: "../../public/fonts/Goia/Goia-Bold.otf", weight: "700 900", style: "normal" },
+  ],
 });
 
 export const metadata: Metadata = {
@@ -39,7 +45,7 @@ export default function RootLayout({
     <html
       lang="en"
       data-scroll-behavior="smooth"
-      className={`${ibmPlexSans.variable} ${ibmPlexSerif.variable} ${ibmPlexMono.variable}`}
+      className={`${poppins.variable} ${goia.variable}`}
     >
       <body>
         <TrackPageView />

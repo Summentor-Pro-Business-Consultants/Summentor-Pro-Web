@@ -27,7 +27,16 @@ const platforms = [
 
 export default function EventsSection() {
   return (
-    <section style={{ background: "#F9FAFB", paddingTop: 80, paddingBottom: 80 }}>
+    <section
+      style={{
+        background: "#F9FAFB",
+        backgroundImage:
+          "linear-gradient(rgba(10,26,13,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(10,26,13,0.045) 1px, transparent 1px)",
+        backgroundSize: "44px 44px",
+        paddingTop: "clamp(56px, 8vw, 80px)",
+        paddingBottom: "clamp(56px, 8vw, 80px)",
+      }}
+    >
       <Container>
         {/* Heading */}
         <motion.div

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { motion, AnimatePresence, type Variants } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Container from "@/components/ui/Container";
@@ -24,14 +25,6 @@ const stagger: Variants = {
   hidden: {},
   show: { transition: { staggerChildren: 0.1, delayChildren: 0.05 } },
 };
-
-function WavyLine() {
-  return (
-    <svg viewBox="0 0 200 12" width="160" height="12" xmlns="http://www.w3.org/2000/svg" style={{ display: "block", margin: "12px auto 0" }}>
-      <path d="M0,6 Q25,0 50,6 T100,6 T150,6 T200,6" stroke="var(--sp-green-500)" strokeWidth="2.5" fill="none" strokeLinecap="round" />
-    </svg>
-  );
-}
 
 const focusEnablers = [
   { title: "Meaningful business interactions", desc: "Curated environments that move past transactional networking into genuine dialogue." },
@@ -124,9 +117,11 @@ function Hero() {
         display: "flex",
         alignItems: "center",
         overflow: "hidden",
-        background: "#060e08",
-        paddingTop: 80,
-        paddingBottom: 120,
+        background: "var(--sp-dark-bg)",
+        paddingTop: "clamp(56px, 8vw, 80px)",
+        paddingBottom: "clamp(72px, 11vw, 120px)",
+        clipPath:
+          "polygon(0 0, 100% 0, 100% 100%, 0 calc(100% - var(--sp-slant)))",
       }}
     >
       <Image
@@ -147,12 +142,12 @@ function Hero() {
             "linear-gradient(to bottom, rgba(6,14,8,0.6) 0%, rgba(6,14,8,0.78) 60%, #060e08 100%)",
         }}
       />
-      <Container>
+      <Container wide>
         <motion.div
           initial="hidden"
           animate="show"
           variants={stagger}
-          style={{ position: "relative", textAlign: "center", maxWidth: 980, margin: "0 auto" }}
+          style={{ position: "relative", textAlign: "center", margin: "0 auto" }}
         >
           <motion.div variants={fadeUp}>
             <span
@@ -172,6 +167,9 @@ function Hero() {
           </motion.div>
           <motion.h1
             variants={fadeUp}
+            // whiteSpace nowrap kicks in only at md+ so the line stays single
+            // on desktop without forcing horizontal scroll on phones.
+            className="whitespace-normal md:whitespace-nowrap"
             style={{
               fontFamily: "var(--sp-font-sans)",
               fontSize: "clamp(34px, 5.5vw, 64px)",
@@ -183,15 +181,16 @@ function Hero() {
               margin: "28px 0 0",
             }}
           >
-            BUILDING BUSINESS ECOSYSTEMS
-            <br />
+            <span style={{ display: "block" }}>BUILDING BUSINESS ECOSYSTEMS</span>
             <span
               style={{
                 background: "var(--sp-green-500)",
-                color: "#0a1a0d",
+                color: "var(--sp-navy-900)",
                 padding: "0 14px",
                 display: "inline-block",
-                marginTop: 8,
+                marginTop: -10,
+                transform: "rotate(-3deg)",
+                transformOrigin: "center",
               }}
             >
               <Typewriter text="THAT DRIVE REAL GROWTH." startDelay={550} />
@@ -208,18 +207,16 @@ function Story() {
   const paragraphs = [
     "At Summentor Pro, we specialize in strategic consulting, business innovation, government engagement, and ecosystem development. Founded by Nitika Shahi and Suhaib Ahmed, we have spent over a decade building one of India's emerging platforms focused on meaningful business growth, strategic collaboration, and ecosystem-driven engagement.",
     "Summentor Pro is a strategic business consulting and ecosystem engagement firm committed to enabling impactful collaborations between MSMEs, enterprises, industry leaders, institutions, and ecosystem stakeholders.",
-    "Our integrated approach combines strategic consulting, government relations, business platforms, industry networking and MSME & Startup engagement, creating opportunities that encourage real conversations, partnerships, and measurable outcomes.",
-    "Over the years, we identified a significant gap in the business ecosystem. Many industry platforms had become increasingly transactional, overly sales-driven, and often lacked long-term value and meaningful engagement.",
-    "Summentor Pro was established to change that. Today, we focus on building platforms and strategic initiatives that encourage genuine business connections, industry collaboration, policy-level engagement, and scalable growth opportunities across sectors.",
-    "Through consulting, strategic networking, ecosystem-driven initiatives, and industry-government engagement, we work towards enabling long-term business growth and creating meaningful impact.",
-    "At Summentor Pro, we believe meaningful progress happens when the right strategy, ecosystem, and opportunities come together.",
   ];
 
   return (
     <section
       style={{
         background: "#fff",
-        padding: "80px 0",
+        backgroundImage:
+          "linear-gradient(rgba(10,26,13,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(10,26,13,0.045) 1px, transparent 1px)",
+        backgroundSize: "44px 44px",
+        padding: "clamp(56px, 8vw, 80px) 0",
         position: "relative",
         overflow: "hidden",
       }}
@@ -255,6 +252,41 @@ function Story() {
               {p}
             </motion.p>
           ))}
+
+          <motion.div
+            variants={fadeUp}
+            style={{ marginTop: 32, textAlign: "center" }}
+          >
+            <Link
+              href="/services"
+              style={{
+                display: "inline-block",
+                padding: "16px 38px",
+                borderRadius: 999,
+                border: "1.5px solid var(--sp-green-600)",
+                background: "transparent",
+                color: "var(--sp-navy-900)",
+                textDecoration: "none",
+                fontFamily: "var(--sp-font-sans)",
+                fontSize: 15,
+                fontWeight: 600,
+                letterSpacing: "0.04em",
+                transition: CARD_TRANSITION,
+              }}
+              onMouseEnter={(e) => {
+                const el = e.currentTarget as HTMLElement;
+                el.style.background = "var(--sp-green-600)";
+                el.style.color = "#fff";
+              }}
+              onMouseLeave={(e) => {
+                const el = e.currentTarget as HTMLElement;
+                el.style.background = "transparent";
+                el.style.color = "var(--sp-navy-900)";
+              }}
+            >
+              Know More
+            </Link>
+          </motion.div>
         </motion.div>
       </Container>
     </section>
@@ -266,28 +298,17 @@ function PullQuote() {
   return (
     <section
       style={{
-        background: "#0a1a0d",
+        background: "var(--sp-dark-bg)",
         backgroundImage:
-          "linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)",
-        backgroundSize: "44px 44px",
-        padding: "80px 0",
+          "linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px), var(--sp-dark-bg)",
+        backgroundSize: "44px 44px, 44px 44px, auto",
+        padding: "clamp(56px, 8vw, 80px) 0",
         position: "relative",
         overflow: "hidden",
+        clipPath:
+          "polygon(0 var(--sp-slant), 100% 0, 100% 100%, 0 calc(100% - var(--sp-slant)))",
       }}
     >
-      <div
-        aria-hidden="true"
-        style={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          width: 700,
-          height: 400,
-          transform: "translate(-50%, -50%)",
-          background: "radial-gradient(ellipse, rgba(34,197,94,0.10) 0%, transparent 70%)",
-          pointerEvents: "none",
-        }}
-      />
       <Container>
         <motion.h2
           initial={{ opacity: 0, y: 24 }}
@@ -340,7 +361,10 @@ function WhatMakesUsDifferent() {
     <section
       style={{
         background: "#fff",
-        padding: "80px 0",
+        backgroundImage:
+          "linear-gradient(rgba(10,26,13,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(10,26,13,0.045) 1px, transparent 1px)",
+        backgroundSize: "44px 44px",
+        padding: "clamp(56px, 8vw, 80px) 0",
         position: "relative",
         overflow: "hidden",
       }}
@@ -368,7 +392,6 @@ function WhatMakesUsDifferent() {
           >
             WHAT MAKES US <span style={{ color: "var(--sp-green-600)" }}>DIFFERENT</span>
           </motion.h2>
-          <WavyLine />
           <motion.p
             variants={fadeUp}
             style={{
@@ -504,28 +527,19 @@ function Leadership() {
   return (
     <section
       style={{
-        background: "#0a1a0d",
-        padding: "80px 0",
+        background: "var(--sp-dark-bg)",
+        padding: "clamp(56px, 8vw, 80px) 0",
         position: "relative",
         overflow: "hidden",
+        clipPath:
+          "polygon(0 var(--sp-slant), 100% 0, 100% 100%, 0 calc(100% - var(--sp-slant)))",
       }}
     >
-      <div
-        aria-hidden="true"
-        style={{
-          position: "absolute",
-          top: 0,
-          right: 0,
-          width: 500,
-          height: 500,
-          background: "radial-gradient(circle, rgba(34,197,94,0.10) 0%, transparent 65%)",
-          pointerEvents: "none",
-        }}
-      />
       <Container>
+        {/* Top row: title + description side by side */}
         <div
           className="grid grid-cols-1 md:grid-cols-2 gap-12"
-          style={{ position: "relative" }}
+          style={{ position: "relative", marginBottom: 48 }}
         >
           <motion.div
             initial={{ opacity: 0, x: -24 }}
@@ -541,80 +555,85 @@ function Leadership() {
                 letterSpacing: "0.02em",
                 textTransform: "uppercase",
                 color: "#fff",
-                margin: "0 0 24px",
+                margin: 0,
                 lineHeight: 1.05,
               }}
             >
               LEADERSHIP
             </h2>
-            <div
-              style={{
-                background: "rgba(255,255,255,0.04)",
-                border: "1px solid rgba(255,255,255,0.08)",
-                borderLeft: "3px solid var(--sp-green-500)",
-                borderRadius: 8,
-                padding: "24px 28px",
-              }}
-            >
-              <p
-                style={{
-                  fontFamily: "var(--sp-font-sans)",
-                  fontSize: 15,
-                  lineHeight: 1.75,
-                  color: "#CBD5E1",
-                  margin: "0 0 14px",
-                }}
-              >
-                Our leadership team brings together experience across business consulting, strategic
-                engagement, ecosystem development, and industry platforms.
-              </p>
-              <p
-                style={{
-                  fontFamily: "var(--sp-font-sans)",
-                  fontSize: 15,
-                  lineHeight: 1.75,
-                  color: "#CBD5E1",
-                  margin: 0,
-                }}
-              >
-                With a strong focus on collaboration and growth, we continue to work towards
-                building impactful opportunities for businesses and stakeholders across sectors.
-              </p>
-            </div>
           </motion.div>
 
           <motion.div
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, amount: 0.2 }}
-            variants={stagger}
-            className="grid grid-cols-3 gap-3"
-            style={{ alignContent: "center" }}
+            initial={{ opacity: 0, x: 24 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.7, ease: EASE }}
+            style={{
+              background: "rgba(255,255,255,0.04)",
+              border: "1px solid rgba(255,255,255,0.08)",
+              borderLeft: "3px solid var(--sp-green-500)",
+              borderRadius: 8,
+              padding: "clamp(20px, 4vw, 24px) clamp(22px, 5vw, 28px)",
+            }}
           >
-            {leadershipPhotos.map((src, i) => (
-              <motion.div
-                key={src}
-                variants={fadeUp}
-                style={{
-                  position: "relative",
-                  aspectRatio: "3 / 4",
-                  borderRadius: 8,
-                  overflow: "hidden",
-                  border: "1px solid rgba(255,255,255,0.08)",
-                  transform: i === 1 ? "translateY(20px)" : undefined,
-                }}
-              >
-                <Image
-                  src={src}
-                  alt=""
-                  fill
-                  sizes="(max-width: 768px) 33vw, 200px"
-                  style={{ objectFit: "cover", filter: "grayscale(0.15)" }}
-                />
-              </motion.div>
-            ))}
+            <p
+              style={{
+                fontFamily: "var(--sp-font-sans)",
+                fontSize: 16,
+                lineHeight: 1.75,
+                color: "#CBD5E1",
+                margin: "0 0 14px",
+              }}
+            >
+              Our leadership team brings together experience across business consulting, strategic
+              engagement, ecosystem development, and industry platforms.
+            </p>
+            <p
+              style={{
+                fontFamily: "var(--sp-font-sans)",
+                fontSize: 16,
+                lineHeight: 1.75,
+                color: "#CBD5E1",
+                margin: 0,
+              }}
+            >
+              With a strong focus on collaboration and growth, we continue to work towards
+              building impactful opportunities for businesses and stakeholders across sectors.
+            </p>
           </motion.div>
         </div>
+
+        {/* Bottom row: horizontal photo strip */}
+        <motion.div
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.2 }}
+          variants={stagger}
+          className="grid grid-cols-1 sm:grid-cols-3 gap-4"
+          style={{ position: "relative" }}
+        >
+          {leadershipPhotos.map((src) => (
+            <motion.div
+              key={src}
+              variants={fadeUp}
+              style={{
+                position: "relative",
+                aspectRatio: "4 / 3",
+                borderRadius: 10,
+                overflow: "hidden",
+                border: "1px solid rgba(255,255,255,0.08)",
+              }}
+            >
+              <Image
+                src={src}
+                alt=""
+                fill
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 33vw, 380px"
+                style={{ objectFit: "cover" }}
+              />
+            </motion.div>
+          ))}
+        </motion.div>
       </Container>
     </section>
   );
@@ -641,7 +660,10 @@ function Initiatives() {
     <section
       style={{
         background: "#fff",
-        padding: "80px 0 100px",
+        backgroundImage:
+          "linear-gradient(rgba(10,26,13,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(10,26,13,0.045) 1px, transparent 1px)",
+        backgroundSize: "44px 44px",
+        padding: "clamp(56px, 8vw, 80px) 0 clamp(64px, 10vw, 100px)",
         position: "relative",
         overflow: "hidden",
       }}
@@ -662,7 +684,6 @@ function Initiatives() {
           >
             BEYOND <span style={{ color: "var(--sp-green-600)" }}>PLATFORMS & CONSULTING</span>
           </h2>
-          <WavyLine />
           <p
             style={{
               fontFamily: "var(--sp-font-sans)",
@@ -698,7 +719,7 @@ function Initiatives() {
                 }}
                 className="grid grid-cols-1 md:grid-cols-2"
               >
-                <div style={{ padding: "36px 36px", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                <div style={{ padding: "clamp(22px, 5vw, 36px)", display: "flex", flexDirection: "column", justifyContent: "center" }}>
                   <h3
                     style={{
                       fontFamily: "var(--sp-font-sans)",
@@ -762,7 +783,7 @@ function Initiatives() {
                     ))}
                   </ul>
                 </div>
-                <div style={{ position: "relative", minHeight: 360 }}>
+                <div className="min-h-55 md:min-h-90" style={{ position: "relative" }}>
                   <Image
                     src={active.photo}
                     alt={active.title}
@@ -803,6 +824,8 @@ function ArrowButton({
       onClick={onClick}
       disabled={disabled}
       aria-label={direction === "left" ? "Previous" : "Next"}
+      // Hidden on mobile — carousels stay usable via auto-rotate + dots.
+      className="hidden sm:flex"
       style={{
         flexShrink: 0,
         alignSelf: "center",
@@ -813,7 +836,6 @@ function ArrowButton({
         background: "#fff",
         cursor: disabled ? "default" : "pointer",
         opacity: disabled ? 0.35 : 1,
-        display: "flex",
         alignItems: "center",
         justifyContent: "center",
         transition: "opacity 0.2s, background 0.2s",

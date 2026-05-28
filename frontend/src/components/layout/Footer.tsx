@@ -20,7 +20,6 @@ const footerColumns = [
     links: [
       { label: "About Us", href: "/about" },
       { label: "Platforms", href: "/events" },
-      { label: "Platform Highlights", href: "/blogs" },
       { label: "Contact", href: "/contact" },
     ],
   },
@@ -42,31 +41,38 @@ const badges = [
   { label: "NASSCOM", sub: "Partner" },
 ];
 
+// Half the CTA card's tallest rendered height — used as the negative
+// margin so the card straddles the footer's slant boundary 50/50.
+const CTA_OVERLAP = 110;
+
 export default function Footer() {
   return (
-    <footer
-      style={{
-        backgroundColor: "var(--sp-navy-1000, #050d1a)",
-        backgroundImage:
-          "linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)",
-        backgroundSize: "44px 44px",
-        color: "var(--sp-navy-300)",
-      }}
-    >
-      {/* CTA band — green rounded card matching PDF design */}
-      <div style={{ padding: "28px 0 32px" }}>
+    <>
+      {/* CTA band — rendered OUTSIDE the clipped <footer> so its top half
+          sits on the light section above and its bottom half on the dark
+          footer below. Negative marginBottom pulls the footer up so the
+          slant line crosses through the card's vertical centre. */}
+      <div
+        style={{
+          position: "relative",
+          zIndex: 2,
+          paddingTop: 32,
+          marginBottom: -CTA_OVERLAP,
+        }}
+      >
         <Container>
           <div
             style={{
               background: "var(--sp-green-700)",
               borderRadius: 20,
-              padding: "36px 48px",
+              padding: "clamp(28px, 5vw, 36px) clamp(22px, 5vw, 48px)",
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
               gap: 32,
               overflow: "hidden",
               position: "relative",
+              boxShadow: "0 24px 56px -20px rgba(10,26,13,0.45)",
             }}
           >
             {/* Subtle inner glow */}
@@ -98,8 +104,12 @@ export default function Footer() {
               TOGETHER.
             </h2>
 
-            {/* Handshake illustration */}
-            <div style={{ flexShrink: 0, position: "relative", zIndex: 1 }}>
+            {/* Handshake illustration — hidden on small screens so the
+                heading isn't crowded on phones. */}
+            <div
+              className="hidden sm:block"
+              style={{ flexShrink: 0, position: "relative", zIndex: 1 }}
+            >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/icons/handshake.svg"
@@ -117,8 +127,24 @@ export default function Footer() {
         </Container>
       </div>
 
+      <footer
+        style={{
+          background: "var(--sp-dark-bg)",
+          backgroundImage:
+            "linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px), var(--sp-dark-bg)",
+          backgroundSize: "44px 44px, 44px 44px, auto",
+          color: "var(--sp-navy-300)",
+          position: "relative",
+          // Left-downwards "/" slant on top → top-LEFT pushed down. Alternates
+          // from the StatsBar's bottom "\" slant above for the rhythm spec.
+          clipPath: "polygon(0 var(--sp-slant), 100% 0, 100% 100%, 0 100%)",
+          // Extra top padding so the columns clear the overlapping CTA card
+          // above and don't collide with its bottom half.
+          paddingTop: `calc(var(--sp-slant) + ${CTA_OVERLAP + 28}px)`,
+        }}
+      >
       {/* Main footer columns */}
-      <div style={{ paddingTop: 36, paddingBottom: 28 }}>
+      <div style={{ paddingBottom: 28 }}>
         <Container>
           <div
             className="grid gap-10 pb-8"
@@ -284,5 +310,6 @@ export default function Footer() {
         </Container>
       </div>
     </footer>
+    </>
   );
 }

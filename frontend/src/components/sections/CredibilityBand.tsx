@@ -6,26 +6,6 @@ import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Container from "@/components/ui/Container";
 
-function WavyLine() {
-  return (
-    <svg
-      viewBox="0 0 200 12"
-      width="160"
-      height="12"
-      xmlns="http://www.w3.org/2000/svg"
-      style={{ display: "block", margin: "14px auto 0" }}
-    >
-      <path
-        d="M0,6 Q25,0 50,6 T100,6 T150,6 T200,6"
-        stroke="var(--sp-green-500)"
-        strokeWidth="2.5"
-        fill="none"
-        strokeLinecap="round"
-      />
-    </svg>
-  );
-}
-
 const letters = [
   {
     label: "Support Letter — Ministry of MSME",
@@ -81,7 +61,7 @@ export default function CredibilityBand() {
   const visibleLetters = letters.slice(current, current + perPage);
 
   return (
-    <section style={{ background: "#fff", paddingTop: 80, paddingBottom: 80 }}>
+    <section style={{ background: "#fff", paddingTop: "clamp(56px, 8vw, 80px)", paddingBottom: "clamp(56px, 8vw, 80px)" }}>
       <Container>
         {/* Heading */}
         <motion.div
@@ -109,7 +89,6 @@ export default function CredibilityBand() {
             <br />
             INDUSTRY LEADERS &amp; BUSINESSES
           </h2>
-          <WavyLine />
         </motion.div>
 
         {/* Government support letter cards */}

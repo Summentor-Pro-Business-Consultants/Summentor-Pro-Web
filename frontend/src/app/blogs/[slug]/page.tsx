@@ -70,7 +70,7 @@ export default function BlogPostPage() {
         }}
       >
         <h1
-          style={{ fontFamily: "var(--sp-font-serif)", fontSize: 32, color: "var(--sp-navy-900)" }}
+          style={{ fontFamily: "var(--sp-font-sans)", fontSize: 32, color: "var(--sp-navy-900)" }}
         >
           Post not found
         </h1>
@@ -98,7 +98,7 @@ export default function BlogPostPage() {
       <div
         style={{
           background: "var(--sp-navy-1000, #050d1a)",
-          padding: "72px 0 56px",
+          padding: "clamp(48px, 7vw, 72px) 0 clamp(40px, 6vw, 56px)",
           borderBottom: "1px solid var(--sp-navy-800)",
         }}
       >
@@ -147,9 +147,9 @@ export default function BlogPostPage() {
 
             <h1
               style={{
-                fontFamily: "var(--sp-font-serif)",
+                fontFamily: "var(--sp-font-display)",
                 fontSize: "clamp(28px, 4vw, 48px)",
-                fontWeight: 400,
+                fontWeight: 700,
                 color: "#fff",
                 lineHeight: 1.15,
                 letterSpacing: "var(--sp-track-h1)",
@@ -222,7 +222,7 @@ export default function BlogPostPage() {
       )}
 
       {/* Body */}
-      <div style={{ padding: "60px 0 80px" }}>
+      <div style={{ padding: "clamp(40px, 6vw, 60px) 0 clamp(56px, 8vw, 80px)" }}>
         <Container>
           <div style={{ maxWidth: 720, margin: "0 auto" }}>
             <motion.div
@@ -287,8 +287,8 @@ export default function BlogPostPage() {
 
       <style>{`
         .blog-content { font-family: var(--sp-font-sans); font-size: 16px; line-height: 1.8; color: var(--sp-navy-800, #1a2740); }
-        .blog-content h2 { font-family: var(--sp-font-serif); font-size: 1.6em; font-weight: 500; margin: 1.6em 0 0.5em; color: var(--sp-navy-900); }
-        .blog-content h3 { font-family: var(--sp-font-serif); font-size: 1.25em; font-weight: 500; margin: 1.4em 0 0.4em; color: var(--sp-navy-900); }
+        .blog-content h2 { font-family: var(--sp-font-sans); font-size: 1.6em; font-weight: 500; margin: 1.6em 0 0.5em; color: var(--sp-navy-900); }
+        .blog-content h3 { font-family: var(--sp-font-sans); font-size: 1.25em; font-weight: 500; margin: 1.4em 0 0.4em; color: var(--sp-navy-900); }
         .blog-content p { margin: 0 0 1.1em; }
         .blog-content ul { list-style: disc; padding-left: 1.5em; margin: 0.8em 0 1.1em; }
         .blog-content ol { list-style: decimal; padding-left: 1.5em; margin: 0.8em 0 1.1em; }
