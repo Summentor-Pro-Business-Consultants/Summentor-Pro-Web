@@ -69,9 +69,9 @@ export default function BlogsPage() {
           </Eyebrow>
           <h1
             style={{
-              fontFamily: "var(--sp-font-serif)",
+              fontFamily: "var(--sp-font-display)",
               fontSize: "clamp(32px, 4vw, 52px)",
-              fontWeight: 400,
+              fontWeight: 700,
               color: "#fff",
               marginTop: 12,
               lineHeight: 1.1,
@@ -160,7 +160,7 @@ export default function BlogsPage() {
                       </div>
                       <h2
                         style={{
-                          fontFamily: "var(--sp-font-serif)",
+                          fontFamily: "var(--sp-font-sans)",
                           fontSize: 18,
                           fontWeight: 500,
                           color: "var(--sp-navy-900)",

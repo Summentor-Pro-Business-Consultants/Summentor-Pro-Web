@@ -111,8 +111,8 @@ export default function EventDetailPage() {
       <div
         style={{
           background: "linear-gradient(135deg, var(--sp-navy-800), var(--sp-navy-1000))",
-          paddingTop: 80,
-          paddingBottom: 80,
+          paddingTop: "clamp(56px, 8vw, 80px)",
+          paddingBottom: "clamp(56px, 8vw, 80px)",
           position: "relative",
         }}
       >
@@ -145,9 +145,9 @@ export default function EventDetailPage() {
           </div>
           <h1
             style={{
-              fontFamily: "var(--sp-font-serif)",
+              fontFamily: "var(--sp-font-display)",
               fontSize: "clamp(28px, 4vw, 48px)",
-              fontWeight: 400,
+              fontWeight: 700,
               color: "#fff",
               lineHeight: 1.15,
               margin: "0 0 24px",
@@ -196,9 +196,9 @@ export default function EventDetailPage() {
             <div>
               <h2
                 style={{
-                  fontFamily: "var(--sp-font-serif)",
+                  fontFamily: "var(--sp-font-display)",
                   fontSize: 28,
-                  fontWeight: 400,
+                  fontWeight: 700,
                   color: "var(--sp-navy-900)",
                   marginBottom: 16,
                 }}
@@ -235,13 +235,13 @@ export default function EventDetailPage() {
                 background: "#fff",
                 border: "1px solid var(--sp-gray-200)",
                 borderRadius: 12,
-                padding: "32px",
+                padding: "clamp(20px, 4vw, 32px)",
                 boxShadow: "var(--sp-shadow-md)",
               }}
             >
               <h3
                 style={{
-                  fontFamily: "var(--sp-font-serif)",
+                  fontFamily: "var(--sp-font-sans)",
                   fontSize: 22,
                   fontWeight: 500,
                   color: "var(--sp-navy-900)",
@@ -287,7 +287,7 @@ export default function EventDetailPage() {
                   onSubmit={handleSubmit}
                   style={{ display: "flex", flexDirection: "column", gap: 14 }}
                 >
-                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
                       <label
                         style={{
@@ -330,7 +330,7 @@ export default function EventDetailPage() {
                       />
                     </div>
                   </div>
-                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
                       <label
                         style={{

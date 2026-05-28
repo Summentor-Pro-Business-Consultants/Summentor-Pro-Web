@@ -325,7 +325,7 @@ export default function NewBlogPage() {
             <div style={{ marginBottom: 12 }}>
               {/* Tags hint: comma-separated so admins know the expected format */}
               <label style={label}>
-                Tags <span style={{ fontWeight: 400, color: "#94A3B8" }}>(comma-separated)</span>
+                Tags <span style={{ fontWeight: 500, color: "#94A3B8" }}>(comma-separated)</span>
               </label>
               <input
                 value={tags}

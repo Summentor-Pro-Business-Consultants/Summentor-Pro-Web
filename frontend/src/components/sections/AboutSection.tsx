@@ -3,34 +3,18 @@
 import { motion } from "framer-motion";
 import Container from "@/components/ui/Container";
 
-function WavyLine() {
-  return (
-    <svg
-      viewBox="0 0 200 12"
-      width="160"
-      height="12"
-      xmlns="http://www.w3.org/2000/svg"
-      style={{ display: "block", margin: "14px auto 0" }}
-    >
-      <path
-        d="M0,6 Q25,0 50,6 T100,6 T150,6 T200,6"
-        stroke="var(--sp-green-500)"
-        strokeWidth="2.5"
-        fill="none"
-        strokeLinecap="round"
-      />
-    </svg>
-  );
-}
-
 export default function AboutSection() {
   return (
     <section
       style={{
         position: "relative",
         background: "#fff",
-        paddingTop: 72,
-        paddingBottom: 72,
+        // Subtle grid background pattern — visible but not distracting.
+        backgroundImage:
+          "linear-gradient(rgba(10,26,13,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(10,26,13,0.045) 1px, transparent 1px)",
+        backgroundSize: "44px 44px",
+        paddingTop: "clamp(56px, 7vw, 72px)",
+        paddingBottom: "clamp(56px, 7vw, 72px)",
         overflow: "hidden",
       }}
     >
@@ -57,20 +41,21 @@ export default function AboutSection() {
           className="text-center"
           style={{ maxWidth: 800, margin: "0 auto" }}
         >
-          {/* Bordered heading pill */}
+          {/* Dark rounded badge */}
           <div
             style={{
               display: "inline-block",
               background: "var(--sp-navy-900)",
-              padding: "7px 22px",
+              padding: "20px 56px",
+              borderRadius: 22,
             }}
           >
             <span
               style={{
                 fontFamily: "var(--sp-font-sans)",
-                fontSize: 13,
+                fontSize: "clamp(18px, 2vw, 22px)",
                 fontWeight: 700,
-                letterSpacing: "0.12em",
+                letterSpacing: "0.14em",
                 textTransform: "uppercase",
                 color: "#fff",
               }}
@@ -78,8 +63,6 @@ export default function AboutSection() {
               About Summentor Pro
             </span>
           </div>
-
-          <WavyLine />
 
           <p
             style={{
@@ -93,22 +76,6 @@ export default function AboutSection() {
             Summentor Pro works with MSMEs, enterprises, industry leaders, and institutions to
             enable strategic growth through consulting, business platforms, market expansion
             initiatives, and ecosystem-driven collaborations.
-          </p>
-
-          <p
-            style={{
-              fontFamily: "var(--sp-font-sans)",
-              fontSize: 18,
-              lineHeight: 1.7,
-              color: "#6B7280",
-              marginTop: 20,
-            }}
-          >
-            We work across industries to facilitate meaningful business interactions, strategic
-            partnerships, and high-impact platforms that bring together policymakers, MSMEs,
-            enterprises, innovators, and decision-makers. From strategic consulting and market
-            expansion to industry platforms and ecosystem-driven networking initiatives, our focus
-            remains on enabling long-term growth, collaboration, and value creation.
           </p>
         </motion.div>
       </Container>

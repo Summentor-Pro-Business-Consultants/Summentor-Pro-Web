@@ -76,11 +76,26 @@
   --sp-border-gold: var(--sp-gold-500);
   --sp-focus-ring: var(--sp-gold-500);
 
-  /* Typography */
-  --sp-font-sans: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
-  --sp-font-serif: "IBM Plex Serif", Georgia, "Times New Roman", serif;
-  --sp-font-mono: "IBM Plex Mono", Menlo, Consolas, monospace;
-  --sp-font-display: "IBM Plex Serif", Georgia, serif;
+  /* Typography — two families only.
+     • --sp-font-sans → Poppins for body, labels, buttons (medium 500+ only,
+       never thin)
+     • --sp-font-display → Goia for headings & subheadings, loaded locally
+       from /public/fonts/Goia/. Only SemiBold (600) and Bold (700–900 range)
+       are shipped per brand spec. */
+  --sp-font-sans: var(--font-poppins), "Helvetica Neue", Arial, sans-serif;
+  --sp-font-serif: var(--font-display-serif), Georgia, "Times New Roman", serif;
+  --sp-font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --sp-font-display: var(--font-display-serif), Georgia, serif;
+
+  /* Dark sections — flat navy-1000. The earlier horizontal gradient (lifting
+     toward a greenish navy-700 on the right) created a visible colour seam
+     where the slant divider met the lighter edge of the gradient. A single
+     solid tone makes the slant transition read cleanly into the light grid
+     below, regardless of which page or slant direction it's on. */
+  --sp-dark-bg: var(--sp-navy-1000);
+  /* Slant height used for clip-path dividers between light and dark sections.
+     Kept gentle so adjacent sections still read as connected. */
+  --sp-slant: clamp(28px, 4.5vw, 60px);
 
   --sp-lh-tight: 1.1;
   --sp-lh-snug: 1.25;
@@ -122,55 +137,77 @@ html {
 html,
 body {
   font-family: var(--sp-font-sans);
-  font-size: 16px;
+  /* Brand spec: never use thin weights. Body defaults to Poppins Medium. */
+  font-weight: 500;
+  font-size: 18px;
   line-height: var(--sp-lh-normal);
   color: var(--sp-fg);
   background: var(--sp-bg);
+  /* Same grid pattern that light sections paint, applied to the body so
+     the triangular wedges exposed by slanted clip-paths show grid instead
+     of plain white. background-attachment: fixed keeps the grid anchored
+     to the viewport so it visually pattern-matches section grids during
+     scroll without depending on exact section heights. */
+  background-image:
+    linear-gradient(rgba(10, 26, 13, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(10, 26, 13, 0.045) 1px, transparent 1px);
+  background-size: 44px 44px;
+  background-attachment: fixed;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Headings + subheadings use the display font (Gioia Bold / Playfair).
+   Brand spec: every heading on the site uses the display family — this
+   rule uses !important so it wins against the many inline overrides that
+   pre-date the brand spec. h6 stays Poppins (small-caps eyebrow role). */
 h1,
 h2,
 h3,
 h4,
-h5,
-h6 {
-  font-family: var(--sp-font-display);
+h5 {
+  font-family: var(--sp-font-display) !important;
   color: var(--sp-fg-strong);
-  font-weight: 400;
+  font-weight: 700;
+  line-height: var(--sp-lh-tight);
+  margin: 0;
+}
+h6 {
+  font-family: var(--sp-font-sans);
+  color: var(--sp-fg-strong);
+  font-weight: 700;
   line-height: var(--sp-lh-tight);
   margin: 0;
 }
 
+/* One responsive type scale — !important so the dozens of inline
+   fontSize overrides scattered across section components can't drift
+   below the brand scale. If a single page needs a custom size, raise
+   the scale here, not per component. */
 h1 {
-  font-size: 40px;
+  font-size: clamp(40px, 6vw, 72px) !important;
   letter-spacing: var(--sp-track-h1);
 }
 h2 {
-  font-size: 32px;
+  font-size: clamp(30px, 4.2vw, 56px) !important;
   letter-spacing: var(--sp-track-h2);
 }
 h3 {
-  font-size: 24px;
+  font-size: clamp(22px, 2.6vw, 32px) !important;
   letter-spacing: var(--sp-track-tight);
   line-height: var(--sp-lh-snug);
 }
 h4 {
-  font-size: 20px;
-  font-family: var(--sp-font-sans);
-  font-weight: 600;
+  font-size: clamp(20px, 2vw, 26px) !important;
   line-height: var(--sp-lh-snug);
 }
 h5 {
-  font-size: 18px;
-  font-family: var(--sp-font-sans);
-  font-weight: 600;
+  font-size: clamp(18px, 1.6vw, 22px) !important;
 }
 h6 {
-  font-size: 16px;
+  font-size: 15px;
   font-family: var(--sp-font-sans);
-  font-weight: 600;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: var(--sp-track-caps);
   color: var(--sp-fg-muted);
@@ -178,6 +215,7 @@ h6 {
 
 p {
   margin: 0;
+  font-size: 18px;
   color: var(--sp-fg);
   line-height: var(--sp-lh-relaxed);
 }
@@ -203,13 +241,13 @@ samp {
 }
 
 small {
-  font-size: 12px;
+  font-size: 14px;
   color: var(--sp-fg-muted);
 }
 
 .sp-eyebrow {
   font-family: var(--sp-font-sans);
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: var(--sp-track-caps);

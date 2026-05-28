@@ -86,26 +86,6 @@ const tabs = [
   },
 ];
 
-function WavyLine() {
-  return (
-    <svg
-      viewBox="0 0 240 14"
-      width="180"
-      height="14"
-      xmlns="http://www.w3.org/2000/svg"
-      style={{ display: "block", margin: "16px auto 0" }}
-    >
-      <path
-        d="M0,7 Q30,0 60,7 T120,7 T180,7 T240,7"
-        stroke="var(--sp-green-500)"
-        strokeWidth="3"
-        fill="none"
-        strokeLinecap="round"
-      />
-    </svg>
-  );
-}
-
 export default function ProcessSection() {
   const [activeTab, setActiveTab] = useState("textile");
   const current = tabs.find((t) => t.id === activeTab) ?? tabs[0];
@@ -115,8 +95,11 @@ export default function ProcessSection() {
       style={{
         position: "relative",
         background: "#fff",
-        paddingTop: 88,
-        paddingBottom: 88,
+        backgroundImage:
+          "linear-gradient(rgba(10,26,13,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(10,26,13,0.045) 1px, transparent 1px)",
+        backgroundSize: "44px 44px",
+        paddingTop: "clamp(56px, 8vw, 88px)",
+        paddingBottom: "clamp(56px, 8vw, 88px)",
         overflow: "hidden",
       }}
     >
@@ -159,7 +142,6 @@ export default function ProcessSection() {
             <br />
             STRATEGIC ENGAGEMENTS
           </h2>
-          <WavyLine />
         </motion.div>
 
         {/* Single dark pill bar containing all tabs with dividers */}

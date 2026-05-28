@@ -8,13 +8,17 @@ export default function QuoteBand() {
   return (
     <section
       style={{
-        backgroundColor: "#060e08",
+        background: "var(--sp-dark-bg)",
         backgroundImage:
-          "linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px)",
-        backgroundSize: "44px 44px",
-        paddingTop: 100,
-        paddingBottom: 100,
+          "linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px), var(--sp-dark-bg)",
+        backgroundSize: "44px 44px, 44px 44px, auto",
+        paddingTop: "clamp(64px, 9vw, 100px)",
+        paddingBottom: "clamp(64px, 9vw, 100px)",
+        position: "relative",
         overflow: "hidden",
+        // Straight horizontal — no slant. Per the divider-mix spec, this
+        // section reads as a clean horizontal band between the slanted Hero
+        // above and the slanted dark sections elsewhere.
       }}
     >
       <Container>

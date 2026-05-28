@@ -135,9 +135,11 @@ function Hero() {
         display: "flex",
         alignItems: "center",
         overflow: "hidden",
-        background: "#060e08",
-        paddingTop: 80,
-        paddingBottom: 120,
+        background: "var(--sp-dark-bg)",
+        paddingTop: "clamp(56px, 8vw, 80px)",
+        paddingBottom: "clamp(72px, 11vw, 120px)",
+        clipPath:
+          "polygon(0 0, 100% 0, 100% 100%, 0 calc(100% - var(--sp-slant)))",
       }}
     >
       <Image
@@ -201,10 +203,12 @@ function Hero() {
             <span
               style={{
                 background: "var(--sp-green-500)",
-                color: "#0a1a0d",
+                color: "var(--sp-navy-900)",
                 padding: "0 14px",
                 display: "inline-block",
-                marginTop: 8,
+                marginTop: -10,
+                transform: "rotate(-3deg)",
+                transformOrigin: "center",
               }}
             >
               <Typewriter text="GROWTH & BUSINESS ENGAGEMENT" startDelay={550} />
@@ -241,7 +245,10 @@ function SolutionTabs() {
     <section
       style={{
         background: "#F9FAFB",
-        padding: "80px 0",
+        backgroundImage:
+          "linear-gradient(rgba(10,26,13,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(10,26,13,0.045) 1px, transparent 1px)",
+        backgroundSize: "44px 44px",
+        padding: "clamp(56px, 8vw, 80px) 0",
         position: "relative",
         overflow: "hidden",
       }}
@@ -321,7 +328,7 @@ function SolutionTabs() {
                 style={{
                   background: "var(--sp-navy-900)",
                   borderRadius: 14,
-                  padding: "32px 36px",
+                  padding: "clamp(22px, 4.5vw, 32px) clamp(22px, 5vw, 36px)",
                   border: "1px solid rgba(255,255,255,0.06)",
                   boxShadow: "0 12px 36px rgba(10,26,13,0.18)",
                 }}
@@ -406,7 +413,15 @@ function SolutionTabs() {
 // ─── Green CTA band ─────────────────────────────────────────────────────────
 function GrowthCTA() {
   return (
-    <section style={{ background: "#fff", padding: "60px 0 100px" }}>
+    <section
+      style={{
+        background: "#fff",
+        backgroundImage:
+          "linear-gradient(rgba(10,26,13,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(10,26,13,0.045) 1px, transparent 1px)",
+        backgroundSize: "44px 44px",
+        padding: "clamp(40px, 6vw, 60px) 0 clamp(64px, 10vw, 100px)",
+      }}
+    >
       <Container>
         <motion.div
           initial={{ opacity: 0, y: 24 }}
@@ -416,7 +431,7 @@ function GrowthCTA() {
           style={{
             background: "var(--sp-green-600)",
             borderRadius: 22,
-            padding: "56px 56px",
+            padding: "clamp(36px, 6vw, 56px) clamp(28px, 6vw, 56px)",
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
@@ -474,7 +489,7 @@ function GrowthCTA() {
               href="/contact"
               style={{
                 display: "inline-block",
-                background: "#0a1a0d",
+                background: "var(--sp-navy-900)",
                 color: "#fff",
                 fontFamily: "var(--sp-font-sans)",
                 fontSize: 14,

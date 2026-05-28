@@ -389,7 +389,7 @@ export default function EditBlogPage() {
             </div>
             <div style={{ marginBottom: 12 }}>
               <label style={label}>
-                Tags <span style={{ fontWeight: 400, color: "#94A3B8" }}>(comma-separated)</span>
+                Tags <span style={{ fontWeight: 500, color: "#94A3B8" }}>(comma-separated)</span>
               </label>
               <input
                 value={tags}

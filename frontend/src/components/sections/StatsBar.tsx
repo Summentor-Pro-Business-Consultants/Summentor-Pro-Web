@@ -38,28 +38,10 @@ function AnimatedStat({ target, style }: AnimatedStatProps) {
   );
 }
 
-function WavyLine() {
-  return (
-    <svg
-      viewBox="0 0 200 12"
-      width="160"
-      height="12"
-      xmlns="http://www.w3.org/2000/svg"
-      style={{ display: "block", margin: "14px auto 0" }}
-    >
-      <path
-        d="M0,6 Q25,0 50,6 T100,6 T150,6 T200,6"
-        stroke="var(--sp-green-500)"
-        strokeWidth="2.5"
-        fill="none"
-        strokeLinecap="round"
-      />
-    </svg>
-  );
-}
-
-const CARD_BG = "#111c12";
-const CARD_BORDER = "1px solid rgba(255,255,255,0.06)";
+// Transparent + borderless so the cards dissolve into the section's
+// flat navy-1000 background. Photo + number/text alone define each cell.
+const CARD_BG = "transparent";
+const CARD_BORDER = "none";
 const CARD_RADIUS = 10;
 
 const statNumber: React.CSSProperties = {
@@ -133,32 +115,22 @@ export default function StatsBar() {
   return (
     <section
       style={{
-        backgroundColor: "#0a1209",
+        background: "var(--sp-dark-bg)",
         backgroundImage:
-          "linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px)",
-        backgroundSize: "44px 44px",
-        paddingTop: 80,
-        paddingBottom: 80,
+          "linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px), var(--sp-dark-bg)",
+        backgroundSize: "44px 44px, 44px 44px, auto",
+        paddingTop: "clamp(56px, 8vw, 80px)",
+        paddingBottom: "clamp(56px, 8vw, 80px)",
         position: "relative",
         overflow: "hidden",
+        // Alternating slants — top "/" (left-downwards, bottom-left corner
+        // anchored), bottom "\" (right-downwards, bottom-right corner
+        // anchored). Forms a chevron-style trapezoid that flips direction
+        // from the Hero's bottom slant above it.
+        clipPath:
+          "polygon(0 var(--sp-slant), 100% 0, 100% 100%, 0 calc(100% - var(--sp-slant)))",
       }}
     >
-      {/* Atmospheric green glow for depth (SKILL.md) */}
-      <div
-        aria-hidden="true"
-        style={{
-          position: "absolute",
-          top: "20%",
-          left: "50%",
-          width: 800,
-          height: 500,
-          transform: "translateX(-50%)",
-          background:
-            "radial-gradient(ellipse, rgba(34,197,94,0.08) 0%, transparent 65%)",
-          pointerEvents: "none",
-        }}
-      />
-
       <Container>
         {/* Heading */}
         <motion.div
@@ -185,7 +157,6 @@ export default function StatsBar() {
             <br />
             BUSINESS ENGAGEMENTS
           </h2>
-          <WavyLine />
         </motion.div>
 
         {/* 2×2 grid */}
@@ -201,7 +172,7 @@ export default function StatsBar() {
             <Photo
               src="/images/engagements/msme-consulting-2.jpeg"
               alt="Business stakeholders at a summit"
-              className="w-[34%] md:w-[190px]"
+              className="w-[34%] md:w-47.5"
             />
             <div
               style={{
@@ -231,7 +202,7 @@ export default function StatsBar() {
             <Photo
               src="/images/engagements/meeting-union-minister-msme.jpeg"
               alt="Meeting with Union Minister of MSME"
-              className="w-[34%] md:w-[190px]"
+              className="w-[34%] md:w-47.5"
             />
             <div
               style={{
@@ -279,7 +250,7 @@ export default function StatsBar() {
             <Photo
               src="/images/engagements/meeting-deputy-cm-odisha.jpeg"
               alt="Strategic collaboration ceremony"
-              className="w-full h-[160px] sm:h-auto sm:w-[150px]"
+              className="w-full h-40 sm:h-auto sm:w-37.5"
             />
             <div
               style={{
@@ -300,7 +271,7 @@ export default function StatsBar() {
             <Photo
               src="/images/engagements/msme-consulting-1.jpeg"
               alt="Ecosystem participation across institutions"
-              className="w-[34%] md:w-[190px]"
+              className="w-[34%] md:w-47.5"
             />
             <div
               style={{
