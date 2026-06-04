@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import Container from "@/components/ui/Container";
+import PageHeading from "@/components/ui/PageHeading";
 import Typewriter from "@/components/ui/Typewriter";
 
 export default function Hero() {
@@ -68,19 +69,7 @@ export default function Hero() {
           transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
           style={{ textAlign: "center" }}
         >
-          <h1
-            style={{
-              fontFamily: "var(--sp-font-sans)",
-              fontSize: "clamp(36px, 6.5vw, 82px)",
-              fontWeight: 800,
-              lineHeight: 1.04,
-              color: "#ffffff",
-              letterSpacing: "-0.01em",
-              textTransform: "uppercase",
-              margin: "0 auto",
-              maxWidth: 900,
-            }}
-          >
+          <PageHeading>
             BUILDING STRATEGIC
             <br />
             PLATFORMS FOR
@@ -92,11 +81,8 @@ export default function Hero() {
                 color: "#fff",
                 fontStyle: "italic",
                 fontWeight: 700,
-                fontSize: "clamp(32px, 5.5vw, 70px)",
                 padding: "4px 20px 4px 16px",
                 marginTop: -10,
-                lineHeight: 1.15,
-                letterSpacing: "-0.005em",
                 // Slight counter-clockwise tilt to match the design — right
                 // edge lifts above the left so the block reads as dynamic
                 // rather than static.
@@ -106,7 +92,7 @@ export default function Hero() {
             >
               <Typewriter text="Business Growth" startDelay={600} />
             </span>
-          </h1>
+          </PageHeading>
 
           <motion.div
             initial={{ opacity: 0, y: 16 }}

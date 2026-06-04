@@ -4,6 +4,8 @@ import { useRef, useEffect, useState } from "react";
 import Image from "next/image";
 import { motion, useInView, type Variants } from "framer-motion";
 import Container from "@/components/ui/Container";
+import SectionHeading from "@/components/ui/SectionHeading";
+import WavyLine from "@/components/ui/WavyLine";
 
 interface AnimatedStatProps {
   target: number;
@@ -141,22 +143,12 @@ export default function StatsBar() {
           className="text-center"
           style={{ marginBottom: 56, position: "relative" }}
         >
-          <h2
-            style={{
-              fontFamily: "var(--sp-font-sans)",
-              fontSize: "clamp(26px, 4vw, 52px)",
-              fontWeight: 800,
-              letterSpacing: "0.02em",
-              textTransform: "uppercase",
-              color: "#fff",
-              lineHeight: 1.15,
-              margin: 0,
-            }}
-          >
+          <SectionHeading dark>
             DRIVING MEANINGFUL
             <br />
             BUSINESS ENGAGEMENTS
-          </h2>
+          </SectionHeading>
+          <WavyLine />
         </motion.div>
 
         {/* 2×2 grid */}

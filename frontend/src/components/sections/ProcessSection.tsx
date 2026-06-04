@@ -4,6 +4,8 @@ import { useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import Container from "@/components/ui/Container";
+import SectionHeading from "@/components/ui/SectionHeading";
+import WavyLine from "@/components/ui/WavyLine";
 
 const tabs = [
   {
@@ -126,22 +128,12 @@ export default function ProcessSection() {
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
           style={{ textAlign: "center", marginBottom: 52 }}
         >
-          <h2
-            style={{
-              fontFamily: "var(--sp-font-sans)",
-              fontSize: "clamp(24px, 4vw, 48px)",
-              fontWeight: 800,
-              textTransform: "uppercase",
-              letterSpacing: "0.02em",
-              color: "#111827",
-              lineHeight: 1.15,
-              margin: 0,
-            }}
-          >
+          <SectionHeading>
             IMPACT INITIATIVES &amp;
             <br />
             STRATEGIC ENGAGEMENTS
-          </h2>
+          </SectionHeading>
+          <WavyLine />
         </motion.div>
 
         {/* Single dark pill bar containing all tabs with dividers */}
@@ -224,16 +216,13 @@ export default function ProcessSection() {
               </h3>
               <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: 16 }}>
                 {current.bullets.map((bullet) => (
-                  <li key={bullet} style={{ display: "flex", alignItems: "flex-start", gap: 14 }}>
-                    <span
-                      style={{
-                        width: 9,
-                        height: 9,
-                        borderRadius: "50%",
-                        background: "var(--sp-green-500)",
-                        flexShrink: 0,
-                        marginTop: 7,
-                      }}
+                  <li key={bullet} style={{ display: "flex", alignItems: "flex-start", gap: 12 }}>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src="/icons/check.svg"
+                      alt=""
+                      aria-hidden="true"
+                      style={{ width: 22, height: 22, flexShrink: 0, marginTop: 2 }}
                     />
                     <span
                       style={{

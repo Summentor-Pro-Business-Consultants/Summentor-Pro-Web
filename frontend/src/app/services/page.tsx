@@ -6,6 +6,7 @@ import Link from "next/link";
 import { motion, AnimatePresence, type Variants } from "framer-motion";
 import Container from "@/components/ui/Container";
 import EdgeGreenGradient from "@/components/ui/EdgeGreenGradient";
+import PageHeading from "@/components/ui/PageHeading";
 import Typewriter from "@/components/ui/Typewriter";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
@@ -185,35 +186,25 @@ function Hero() {
             </span>
           </motion.div>
 
-          <motion.h1
-            variants={fadeUp}
-            style={{
-              fontFamily: "var(--sp-font-sans)",
-              fontSize: "clamp(30px, 5vw, 56px)",
-              fontWeight: 900,
-              letterSpacing: "0.01em",
-              textTransform: "uppercase",
-              color: "#fff",
-              lineHeight: 1.15,
-              margin: "28px 0 22px",
-            }}
-          >
-            STRATEGIC SOLUTIONS DESIGNED FOR
-            <br />
-            <span
-              style={{
-                background: "var(--sp-green-500)",
-                color: "var(--sp-navy-900)",
-                padding: "0 14px",
-                display: "inline-block",
-                marginTop: -10,
-                transform: "rotate(-3deg)",
-                transformOrigin: "center",
-              }}
-            >
-              <Typewriter text="GROWTH & BUSINESS ENGAGEMENT" startDelay={550} />
-            </span>
-          </motion.h1>
+          <motion.div variants={fadeUp} style={{ margin: "28px 0 22px" }}>
+            <PageHeading>
+              STRATEGIC SOLUTIONS DESIGNED FOR
+              <br />
+              <span
+                style={{
+                  background: "var(--sp-green-500)",
+                  color: "var(--sp-navy-900)",
+                  padding: "0 14px",
+                  display: "inline-block",
+                  marginTop: -10,
+                  transform: "rotate(-3deg)",
+                  transformOrigin: "center",
+                }}
+              >
+                <Typewriter text="GROWTH & BUSINESS ENGAGEMENT" startDelay={550} />
+              </span>
+            </PageHeading>
+          </motion.div>
 
           <motion.p
             variants={fadeUp}
@@ -373,7 +364,7 @@ function SolutionTabs() {
                 >
                   {active.listLabel}
                 </p>
-                <ul style={{ margin: 0, padding: 0, listStyle: "none", display: "grid", gap: 8 }}>
+                <ul style={{ margin: 0, padding: 0, listStyle: "none", display: "grid", gap: 10 }}>
                   {active.list.map((item) => (
                     <li
                       key={item}
@@ -381,21 +372,18 @@ function SolutionTabs() {
                         fontFamily: "var(--sp-font-sans)",
                         fontSize: 16,
                         color: "#CBD5E1",
-                        paddingLeft: 18,
-                        position: "relative",
+                        display: "flex",
+                        alignItems: "flex-start",
+                        gap: 10,
                         lineHeight: 1.5,
                       }}
                     >
-                      <span
-                        style={{
-                          position: "absolute",
-                          left: 0,
-                          top: 9,
-                          width: 6,
-                          height: 6,
-                          borderRadius: "50%",
-                          background: "var(--sp-green-500)",
-                        }}
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src="/icons/check.svg"
+                        alt=""
+                        aria-hidden="true"
+                        style={{ width: 20, height: 20, flexShrink: 0, marginTop: 2 }}
                       />
                       {item}
                     </li>

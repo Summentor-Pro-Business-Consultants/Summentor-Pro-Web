@@ -139,7 +139,8 @@ body {
   font-family: var(--sp-font-sans);
   /* Brand spec: never use thin weights. Body defaults to Poppins Medium. */
   font-weight: 500;
-  font-size: 18px;
+  /* 16px base = 1rem. All headings + body sizes below scale from this. */
+  font-size: 1rem;
   line-height: var(--sp-lh-normal);
   color: var(--sp-fg);
   background: var(--sp-bg);
@@ -180,32 +181,33 @@ h6 {
   margin: 0;
 }
 
-/* One responsive type scale — !important so the dozens of inline
-   fontSize overrides scattered across section components can't drift
-   below the brand scale. If a single page needs a custom size, raise
-   the scale here, not per component. */
+/* Brand type scale — page titles 32px (h1), section titles 24px (h2),
+   body 16px. All declared in rem against the 16px html root so the scale
+   stays accessible to user zoom. These are the DEFAULTS: hero sections
+   intentionally render their headings larger via their own inline
+   fontSize override (no !important here so that override is honoured). */
 h1 {
-  font-size: clamp(40px, 6vw, 72px) !important;
+  font-size: 2rem; /* 32px — page titles */
   letter-spacing: var(--sp-track-h1);
 }
 h2 {
-  font-size: clamp(30px, 4.2vw, 56px) !important;
+  font-size: 1.5rem; /* 24px — section titles */
   letter-spacing: var(--sp-track-h2);
 }
 h3 {
-  font-size: clamp(22px, 2.6vw, 32px) !important;
+  font-size: 1.25rem; /* 20px */
   letter-spacing: var(--sp-track-tight);
   line-height: var(--sp-lh-snug);
 }
 h4 {
-  font-size: clamp(20px, 2vw, 26px) !important;
+  font-size: 1.125rem; /* 18px */
   line-height: var(--sp-lh-snug);
 }
 h5 {
-  font-size: clamp(18px, 1.6vw, 22px) !important;
+  font-size: 1rem; /* 16px */
 }
 h6 {
-  font-size: 15px;
+  font-size: 0.875rem; /* 14px — eyebrow */
   font-family: var(--sp-font-sans);
   font-weight: 700;
   text-transform: uppercase;
@@ -215,7 +217,7 @@ h6 {
 
 p {
   margin: 0;
-  font-size: 18px;
+  font-size: 1rem; /* 16px — universal body text */
   color: var(--sp-fg);
   line-height: var(--sp-lh-relaxed);
 }
@@ -241,13 +243,13 @@ samp {
 }
 
 small {
-  font-size: 14px;
+  font-size: 0.875rem; /* 14px */
   color: var(--sp-fg-muted);
 }
 
 .sp-eyebrow {
   font-family: var(--sp-font-sans);
-  font-size: 14px;
+  font-size: 0.875rem; /* 14px */
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: var(--sp-track-caps);

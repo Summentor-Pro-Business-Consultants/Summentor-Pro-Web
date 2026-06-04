@@ -5,6 +5,8 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Container from "@/components/ui/Container";
+import SectionHeading from "@/components/ui/SectionHeading";
+import WavyLine from "@/components/ui/WavyLine";
 
 const letters = [
   {
@@ -72,23 +74,12 @@ export default function CredibilityBand() {
           className="text-center"
           style={{ marginBottom: 48 }}
         >
-          <h2
-            style={{
-              fontFamily: "var(--sp-font-sans)",
-              fontSize: "clamp(18px, 2.8vw, 30px)",
-              fontWeight: 800,
-              letterSpacing: "0.03em",
-              textTransform: "uppercase",
-              color: "#111827",
-              lineHeight: 1.3,
-              margin: 0,
-            }}
-          >
-            TRUSTED BY{" "}
-            <span style={{ color: "#111827" }}>ECOSYSTEM STAKEHOLDERS,</span>
+          <SectionHeading>
+            TRUSTED BY ECOSYSTEM STAKEHOLDERS,
             <br />
             INDUSTRY LEADERS &amp; BUSINESSES
-          </h2>
+          </SectionHeading>
+          <WavyLine />
         </motion.div>
 
         {/* Government support letter cards */}

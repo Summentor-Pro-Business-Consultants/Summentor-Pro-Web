@@ -6,7 +6,10 @@ import { motion, type Variants } from "framer-motion";
 import { Phone, Mail } from "lucide-react";
 import Container from "@/components/ui/Container";
 import EdgeGreenGradient from "@/components/ui/EdgeGreenGradient";
+import PageHeading from "@/components/ui/PageHeading";
+import SectionHeading from "@/components/ui/SectionHeading";
 import Typewriter from "@/components/ui/Typewriter";
+import WavyLine from "@/components/ui/WavyLine";
 
 // ─── Design system (matches About / Solutions / Platforms) ─────────────────
 const EASE = [0.22, 1, 0.36, 1] as const;
@@ -151,35 +154,25 @@ function Hero() {
             </span>
           </motion.div>
 
-          <motion.h1
-            variants={fadeUp}
-            style={{
-              fontFamily: "var(--sp-font-sans)",
-              fontSize: "clamp(30px, 5vw, 56px)",
-              fontWeight: 900,
-              letterSpacing: "0.01em",
-              textTransform: "uppercase",
-              color: "#fff",
-              lineHeight: 1.15,
-              margin: "28px 0 0",
-            }}
-          >
-            START YOUR JOURNEY WITH
-            <br />
-            <span
-              style={{
-                background: "var(--sp-green-500)",
-                color: "var(--sp-navy-900)",
-                padding: "0 14px",
-                display: "inline-block",
-                marginTop: -10,
-                transform: "rotate(-3deg)",
-                transformOrigin: "center",
-              }}
-            >
-              <Typewriter text="SUMMENTOR PRO" startDelay={550} />
-            </span>
-          </motion.h1>
+          <motion.div variants={fadeUp} style={{ marginTop: 28 }}>
+            <PageHeading>
+              START YOUR JOURNEY WITH
+              <br />
+              <span
+                style={{
+                  background: "var(--sp-green-500)",
+                  color: "var(--sp-navy-900)",
+                  padding: "0 14px",
+                  display: "inline-block",
+                  marginTop: -10,
+                  transform: "rotate(-3deg)",
+                  transformOrigin: "center",
+                }}
+              >
+                <Typewriter text="SUMMENTOR PRO" startDelay={550} />
+              </span>
+            </PageHeading>
+          </motion.div>
         </motion.div>
       </Container>
     </section>
@@ -524,22 +517,12 @@ function LocationBlock() {
       <EdgeGreenGradient side="left" />
       <Container>
         <div style={{ textAlign: "center", marginBottom: 36, position: "relative" }}>
-          <h2
-            style={{
-              fontFamily: "var(--sp-font-sans)",
-              fontSize: "clamp(24px, 3.4vw, 38px)",
-              fontWeight: 800,
-              letterSpacing: "0.02em",
-              textTransform: "uppercase",
-              color: "var(--sp-navy-900)",
-              margin: 0,
-              lineHeight: 1.2,
-            }}
-          >
+          <SectionHeading>
             SOLUTIONS DESIGNED FOR
             <br />
             <span style={{ color: "var(--sp-green-600)" }}>YOUR BUSINESS NEEDS</span>
-          </h2>
+          </SectionHeading>
+          <WavyLine />
         </div>
 
         <motion.div

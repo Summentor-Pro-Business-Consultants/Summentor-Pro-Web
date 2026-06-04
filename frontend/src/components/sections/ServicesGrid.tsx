@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import Container from "@/components/ui/Container";
+import SectionHeading from "@/components/ui/SectionHeading";
 
 const services = [
   {
@@ -55,20 +56,16 @@ export default function ServicesGrid() {
           transition={{ duration: 0.6 }}
           style={{ marginBottom: 48 }}
         >
-          <h2
+          <SectionHeading>WHAT WE DO</SectionHeading>
+          <p
             style={{
               fontFamily: "var(--sp-font-sans)",
-              fontSize: "clamp(22px, 3vw, 34px)",
-              fontWeight: 800,
-              textTransform: "uppercase",
-              letterSpacing: "0.04em",
-              color: "#111827",
-              margin: 0,
+              fontSize: 16,
+              color: "#6B7280",
+              margin: "12px 0 0 0",
+              textAlign: "center",
             }}
           >
-            WHAT WE DO
-          </h2>
-          <p style={{ fontFamily: "var(--sp-font-sans)", fontSize: 16, color: "#6B7280", margin: "8px 0 0 0" }}>
             Solutions Designed Around Growth &amp; Collaboration
           </p>
         </motion.div>

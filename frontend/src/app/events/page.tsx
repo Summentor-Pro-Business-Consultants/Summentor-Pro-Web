@@ -15,7 +15,10 @@ import {
 } from "lucide-react";
 import Container from "@/components/ui/Container";
 import EdgeGreenGradient from "@/components/ui/EdgeGreenGradient";
+import PageHeading from "@/components/ui/PageHeading";
+import SectionHeading from "@/components/ui/SectionHeading";
 import Typewriter from "@/components/ui/Typewriter";
+import WavyLine from "@/components/ui/WavyLine";
 
 // ─── Shared design system (matches About + Solutions) ───────────────────────
 const EASE = [0.22, 1, 0.36, 1] as const;
@@ -189,42 +192,32 @@ function Hero() {
             </span>
           </motion.div>
 
-          <motion.h1
-            variants={fadeUp}
-            style={{
-              fontFamily: "var(--sp-font-sans)",
-              fontSize: "clamp(30px, 5vw, 56px)",
-              fontWeight: 900,
-              letterSpacing: "0.01em",
-              textTransform: "uppercase",
-              color: "#fff",
-              lineHeight: 1.15,
-              margin: "28px 0 22px",
-            }}
-          >
-            BUSINESS PLATFORMS DESIGNED
-            <br />
-            <span
-              style={{
-                background: "var(--sp-green-500)",
-                color: "var(--sp-navy-900)",
-                padding: "0 14px",
-                display: "inline-block",
-                marginTop: -10,
-                transform: "rotate(-3deg)",
-                transformOrigin: "center",
-              }}
-            >
-              <Typewriter
-                text="AROUND COLLABORATION, GROWTH &"
-                startDelay={550}
-              />
-            </span>
-            <br />
-            <span style={{ marginTop: 8, display: "inline-block" }}>
-              INDUSTRY ENGAGEMENT
-            </span>
-          </motion.h1>
+          <motion.div variants={fadeUp} style={{ margin: "28px 0 22px" }}>
+            <PageHeading>
+              BUSINESS PLATFORMS DESIGNED
+              <br />
+              <span
+                style={{
+                  background: "var(--sp-green-500)",
+                  color: "var(--sp-navy-900)",
+                  padding: "0 14px",
+                  display: "inline-block",
+                  marginTop: -10,
+                  transform: "rotate(-3deg)",
+                  transformOrigin: "center",
+                }}
+              >
+                <Typewriter
+                  text="AROUND COLLABORATION, GROWTH &"
+                  startDelay={550}
+                />
+              </span>
+              <br />
+              <span style={{ marginTop: 8, display: "inline-block" }}>
+                INDUSTRY ENGAGEMENT
+              </span>
+            </PageHeading>
+          </motion.div>
 
           <motion.p
             variants={fadeUp}
@@ -284,20 +277,12 @@ function WhyOurPlatformsMatter() {
           variants={stagger}
           style={{ textAlign: "center", marginBottom: 40, position: "relative" }}
         >
-          <motion.h2
-            variants={fadeUp}
-            style={{
-              fontFamily: "var(--sp-font-sans)",
-              fontSize: "clamp(24px, 3.4vw, 38px)",
-              fontWeight: 800,
-              letterSpacing: "0.02em",
-              textTransform: "uppercase",
-              color: "var(--sp-navy-900)",
-              margin: 0,
-            }}
-          >
-            WHY OUR <span style={{ color: "var(--sp-green-600)" }}>PLATFORMS MATTER</span>
-          </motion.h2>
+          <motion.div variants={fadeUp}>
+            <SectionHeading>
+              WHY OUR <span style={{ color: "var(--sp-green-600)" }}>PLATFORMS MATTER</span>
+            </SectionHeading>
+          </motion.div>
+          <WavyLine />
           <motion.p
             variants={fadeUp}
             style={{
@@ -460,19 +445,10 @@ function FeaturedPlatforms() {
       <EdgeGreenGradient side="right" />
       <Container>
         <div style={{ textAlign: "center", marginBottom: 40, position: "relative" }}>
-          <h2
-            style={{
-              fontFamily: "var(--sp-font-sans)",
-              fontSize: "clamp(24px, 3.4vw, 38px)",
-              fontWeight: 800,
-              letterSpacing: "0.02em",
-              textTransform: "uppercase",
-              color: "var(--sp-navy-900)",
-              margin: 0,
-            }}
-          >
+          <SectionHeading>
             FEATURED <span style={{ color: "var(--sp-green-600)" }}>PLATFORMS</span>
-          </h2>
+          </SectionHeading>
+          <WavyLine />
         </div>
 
         <div className="flex items-stretch gap-4">
@@ -552,7 +528,7 @@ function FeaturedPlatforms() {
                   >
                     The platform brings together:
                   </p>
-                  <ul style={{ margin: 0, padding: 0, listStyle: "none", display: "grid", gap: 8 }}>
+                  <ul style={{ margin: 0, padding: 0, listStyle: "none", display: "grid", gap: 10 }}>
                     {active.bringsTogether.map((item) => (
                       <li
                         key={item}
@@ -560,21 +536,18 @@ function FeaturedPlatforms() {
                           fontFamily: "var(--sp-font-sans)",
                           fontSize: 15,
                           color: "#9CA3AF",
-                          paddingLeft: 16,
-                          position: "relative",
+                          display: "flex",
+                          alignItems: "flex-start",
+                          gap: 10,
                           lineHeight: 1.5,
                         }}
                       >
-                        <span
-                          style={{
-                            position: "absolute",
-                            left: 0,
-                            top: 9,
-                            width: 6,
-                            height: 6,
-                            borderRadius: "50%",
-                            background: "var(--sp-green-500)",
-                          }}
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src="/icons/check.svg"
+                          alt=""
+                          aria-hidden="true"
+                          style={{ width: 18, height: 18, flexShrink: 0, marginTop: 3 }}
                         />
                         {item}
                       </li>
@@ -613,19 +586,10 @@ function UpcomingPlatforms() {
       <EdgeGreenGradient side="left" />
       <Container>
         <div style={{ textAlign: "center", marginBottom: 40, position: "relative" }}>
-          <h2
-            style={{
-              fontFamily: "var(--sp-font-sans)",
-              fontSize: "clamp(24px, 3.4vw, 38px)",
-              fontWeight: 800,
-              letterSpacing: "0.02em",
-              textTransform: "uppercase",
-              color: "var(--sp-navy-900)",
-              margin: 0,
-            }}
-          >
+          <SectionHeading>
             UPCOMING <span style={{ color: "var(--sp-green-600)" }}>PLATFORMS</span>
-          </h2>
+          </SectionHeading>
+          <WavyLine />
         </div>
 
         <motion.div
@@ -720,20 +684,12 @@ function PartnerCTA() {
           variants={stagger}
           style={{ textAlign: "center", position: "relative" }}
         >
-          <motion.h2
-            variants={fadeUp}
-            style={{
-              fontFamily: "var(--sp-font-sans)",
-              fontSize: "clamp(24px, 3.4vw, 38px)",
-              fontWeight: 800,
-              letterSpacing: "0.02em",
-              textTransform: "uppercase",
-              color: "var(--sp-navy-900)",
-              margin: 0,
-            }}
-          >
-            PARTNER WITH OUR <span style={{ color: "var(--sp-green-600)" }}>PLATFORMS</span>
-          </motion.h2>
+          <motion.div variants={fadeUp}>
+            <SectionHeading>
+              PARTNER WITH OUR <span style={{ color: "var(--sp-green-600)" }}>PLATFORMS</span>
+            </SectionHeading>
+          </motion.div>
+          <WavyLine />
 
           <motion.p
             variants={fadeUp}
@@ -841,19 +797,10 @@ function PlatformHighlights() {
     >
       <Container>
         <div style={{ textAlign: "center", marginBottom: 40, position: "relative" }}>
-          <h2
-            style={{
-              fontFamily: "var(--sp-font-sans)",
-              fontSize: "clamp(24px, 3.4vw, 38px)",
-              fontWeight: 800,
-              letterSpacing: "0.02em",
-              textTransform: "uppercase",
-              color: "#fff",
-              margin: 0,
-            }}
-          >
+          <SectionHeading dark>
             PLATFORM <span style={{ color: "var(--sp-green-400)" }}>HIGHLIGHTS</span>
-          </h2>
+          </SectionHeading>
+          <WavyLine />
         </div>
 
         <div className="flex items-stretch gap-4" style={{ position: "relative" }}>
