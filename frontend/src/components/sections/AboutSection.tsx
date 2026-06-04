@@ -2,6 +2,8 @@
 
 import { motion } from "framer-motion";
 import Container from "@/components/ui/Container";
+import SectionHeading from "@/components/ui/SectionHeading";
+import WavyLine from "@/components/ui/WavyLine";
 
 export default function AboutSection() {
   return (
@@ -42,27 +44,9 @@ export default function AboutSection() {
           style={{ maxWidth: 800, margin: "0 auto" }}
         >
           {/* Dark rounded badge */}
-          <div
-            style={{
-              display: "inline-block",
-              background: "var(--sp-navy-900)",
-              padding: "20px 56px",
-              borderRadius: 22,
-            }}
-          >
-            <span
-              style={{
-                fontFamily: "var(--sp-font-sans)",
-                fontSize: "clamp(18px, 2vw, 22px)",
-                fontWeight: 700,
-                letterSpacing: "0.14em",
-                textTransform: "uppercase",
-                color: "#fff",
-              }}
-            >
-              About Summentor Pro
-            </span>
-          </div>
+          <SectionHeading>About Summentor Pro</SectionHeading>
+
+          <WavyLine />
 
           <p
             style={{

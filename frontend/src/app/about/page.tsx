@@ -7,7 +7,10 @@ import { motion, AnimatePresence, type Variants } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Container from "@/components/ui/Container";
 import EdgeGreenGradient from "@/components/ui/EdgeGreenGradient";
+import PageHeading from "@/components/ui/PageHeading";
+import SectionHeading from "@/components/ui/SectionHeading";
 import Typewriter from "@/components/ui/Typewriter";
+import WavyLine from "@/components/ui/WavyLine";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 // Shared CSS transitions for the hover-to-dark card pattern. Same easing
@@ -165,37 +168,24 @@ function Hero() {
               ABOUT US
             </span>
           </motion.div>
-          <motion.h1
-            variants={fadeUp}
-            // whiteSpace nowrap kicks in only at md+ so the line stays single
-            // on desktop without forcing horizontal scroll on phones.
-            className="whitespace-normal md:whitespace-nowrap"
-            style={{
-              fontFamily: "var(--sp-font-sans)",
-              fontSize: "clamp(34px, 5.5vw, 64px)",
-              fontWeight: 900,
-              letterSpacing: "0.01em",
-              textTransform: "uppercase",
-              color: "#fff",
-              lineHeight: 1.1,
-              margin: "28px 0 0",
-            }}
-          >
-            <span style={{ display: "block" }}>BUILDING BUSINESS ECOSYSTEMS</span>
-            <span
-              style={{
-                background: "var(--sp-green-500)",
-                color: "var(--sp-navy-900)",
-                padding: "0 14px",
-                display: "inline-block",
-                marginTop: -10,
-                transform: "rotate(-3deg)",
-                transformOrigin: "center",
-              }}
-            >
-              <Typewriter text="THAT DRIVE REAL GROWTH." startDelay={550} />
-            </span>
-          </motion.h1>
+          <motion.div variants={fadeUp} style={{ marginTop: 28 }}>
+            <PageHeading className="whitespace-normal md:whitespace-nowrap">
+              <span style={{ display: "block" }}>BUILDING BUSINESS ECOSYSTEMS</span>
+              <span
+                style={{
+                  background: "var(--sp-green-500)",
+                  color: "var(--sp-navy-900)",
+                  padding: "0 14px",
+                  display: "inline-block",
+                  marginTop: -10,
+                  transform: "rotate(-3deg)",
+                  transformOrigin: "center",
+                }}
+              >
+                <Typewriter text="THAT DRIVE REAL GROWTH." startDelay={550} />
+              </span>
+            </PageHeading>
+          </motion.div>
         </motion.div>
       </Container>
     </section>
@@ -378,20 +368,12 @@ function WhatMakesUsDifferent() {
           variants={stagger}
           style={{ textAlign: "center", marginBottom: 40, position: "relative" }}
         >
-          <motion.h2
-            variants={fadeUp}
-            style={{
-              fontFamily: "var(--sp-font-sans)",
-              fontSize: "clamp(24px, 3.4vw, 38px)",
-              fontWeight: 800,
-              letterSpacing: "0.02em",
-              textTransform: "uppercase",
-              color: "var(--sp-navy-900)",
-              margin: 0,
-            }}
-          >
-            WHAT MAKES US <span style={{ color: "var(--sp-green-600)" }}>DIFFERENT</span>
-          </motion.h2>
+          <motion.div variants={fadeUp}>
+            <SectionHeading>
+              WHAT MAKES US <span style={{ color: "var(--sp-green-600)" }}>DIFFERENT</span>
+            </SectionHeading>
+          </motion.div>
+          <WavyLine />
           <motion.p
             variants={fadeUp}
             style={{
@@ -671,19 +653,10 @@ function Initiatives() {
       <EdgeGreenGradient side="right" />
       <Container>
         <div style={{ textAlign: "center", marginBottom: 16, position: "relative" }}>
-          <h2
-            style={{
-              fontFamily: "var(--sp-font-sans)",
-              fontSize: "clamp(24px, 3.4vw, 38px)",
-              fontWeight: 800,
-              letterSpacing: "0.02em",
-              textTransform: "uppercase",
-              color: "var(--sp-navy-900)",
-              margin: 0,
-            }}
-          >
+          <SectionHeading>
             BEYOND <span style={{ color: "var(--sp-green-600)" }}>PLATFORMS & CONSULTING</span>
-          </h2>
+          </SectionHeading>
+          <WavyLine />
           <p
             style={{
               fontFamily: "var(--sp-font-sans)",
@@ -755,7 +728,7 @@ function Initiatives() {
                   >
                     Focus Areas
                   </p>
-                  <ul style={{ margin: 0, padding: 0, listStyle: "none", display: "grid", gap: 6 }}>
+                  <ul style={{ margin: 0, padding: 0, listStyle: "none", display: "grid", gap: 8 }}>
                     {active.focus.map((f) => (
                       <li
                         key={f}
@@ -763,20 +736,17 @@ function Initiatives() {
                           fontFamily: "var(--sp-font-sans)",
                           fontSize: 15,
                           color: "#9CA3AF",
-                          paddingLeft: 14,
-                          position: "relative",
+                          display: "flex",
+                          alignItems: "flex-start",
+                          gap: 10,
                         }}
                       >
-                        <span
-                          style={{
-                            position: "absolute",
-                            left: 0,
-                            top: 8,
-                            width: 5,
-                            height: 5,
-                            borderRadius: "50%",
-                            background: "var(--sp-green-500)",
-                          }}
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src="/icons/check.svg"
+                          alt=""
+                          aria-hidden="true"
+                          style={{ width: 18, height: 18, flexShrink: 0, marginTop: 2 }}
                         />
                         {f}
                       </li>

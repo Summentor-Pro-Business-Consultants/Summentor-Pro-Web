@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion, type Variants } from "framer-motion";
 import Container from "@/components/ui/Container";
+import SectionHeading from "@/components/ui/SectionHeading";
 
 const focusCards = [
   {
@@ -90,23 +91,12 @@ export default function EngagementCTA() {
           style={{ position: "relative" }}
         >
           {/* Top text block */}
-          <div style={{ maxWidth: 720, marginBottom: 56 }}>
-            <motion.h2
-              variants={fadeUp}
-              style={{
-                fontFamily: "var(--sp-font-sans)",
-                fontSize: "clamp(22px, 3vw, 34px)",
-                fontWeight: 800,
-                textTransform: "uppercase",
-                letterSpacing: "0.04em",
-                color: "var(--sp-navy-900)",
-                margin: "0 0 8px 0",
-              }}
-            >
-              WHY SUMMENTOR PRO?
-            </motion.h2>
+          <div style={{ marginBottom: 56 }}>
+            <motion.div variants={fadeUp}>
+              <SectionHeading>WHY SUMMENTOR PRO?</SectionHeading>
+            </motion.div>
 
-            {/* Accent underline grows in */}
+            {/* Accent underline grows in — centered to match heading */}
             <motion.div
               variants={{
                 hidden: { scaleX: 0 },
@@ -117,8 +107,8 @@ export default function EngagementCTA() {
                 width: 64,
                 background: "var(--sp-green-500)",
                 borderRadius: 2,
-                transformOrigin: "left center",
-                margin: "0 0 16px 0",
+                transformOrigin: "center",
+                margin: "16px auto 24px",
               }}
             />
 
@@ -129,7 +119,9 @@ export default function EngagementCTA() {
                 fontSize: 20,
                 fontWeight: 600,
                 color: "#374151",
-                margin: "0 0 16px 0",
+                margin: "0 auto 16px",
+                textAlign: "center",
+                maxWidth: 720,
               }}
             >
               Why Businesses Partner with Us
@@ -141,7 +133,9 @@ export default function EngagementCTA() {
                 fontSize: 17,
                 lineHeight: 1.75,
                 color: "#6B7280",
-                margin: 0,
+                margin: "0 auto",
+                textAlign: "center",
+                maxWidth: 720,
               }}
             >
               At Summentor Pro, we believe growth happens when the right people, ideas, and

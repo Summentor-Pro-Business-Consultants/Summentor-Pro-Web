@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import Container from "@/components/ui/Container";
+import SectionHeading from "@/components/ui/SectionHeading";
 
 const platforms = [
   {
@@ -46,19 +47,7 @@ export default function EventsSection() {
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
           style={{ marginBottom: 48 }}
         >
-          <h2
-            style={{
-              fontFamily: "var(--sp-font-sans)",
-              fontSize: "clamp(22px, 3vw, 34px)",
-              fontWeight: 800,
-              textTransform: "uppercase",
-              letterSpacing: "0.04em",
-              color: "var(--sp-navy-900)",
-              margin: 0,
-            }}
-          >
-            FEATURED INDUSTRY PLATFORMS
-          </h2>
+          <SectionHeading>FEATURED INDUSTRY PLATFORMS</SectionHeading>
         </motion.div>
 
         {/* Platform cards */}
