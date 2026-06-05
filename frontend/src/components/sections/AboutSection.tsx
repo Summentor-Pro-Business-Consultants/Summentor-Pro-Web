@@ -13,7 +13,7 @@ export default function AboutSection() {
         background: "#fff",
         // Subtle grid background pattern — visible but not distracting.
         backgroundImage:
-          "linear-gradient(rgba(10,26,13,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(10,26,13,0.045) 1px, transparent 1px)",
+          "linear-gradient(rgba(10,10,10,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(10,10,10,0.045) 1px, transparent 1px)",
         backgroundSize: "44px 44px",
         paddingTop: "clamp(56px, 7vw, 72px)",
         paddingBottom: "clamp(56px, 7vw, 72px)",
@@ -29,7 +29,7 @@ export default function AboutSection() {
           width: "45%",
           height: "100%",
           background:
-            "radial-gradient(ellipse at top right, rgba(34,197,94,0.13) 0%, rgba(34,197,94,0.05) 45%, transparent 75%)",
+            "radial-gradient(ellipse at top right, rgba(30,200,140,0.13) 0%, rgba(30,200,140,0.05) 45%, transparent 75%)",
           pointerEvents: "none",
         }}
       />

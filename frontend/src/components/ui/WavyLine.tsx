@@ -3,6 +3,8 @@ interface WavyLineProps {
   width?: string | number;
   /** Margin above the line, in px or any CSS length. */
   marginTop?: number | string;
+  /** Horizontal stretch factor — >1 makes the squiggle wider/flatter. */
+  stretch?: number;
 }
 
 /**
@@ -10,14 +12,17 @@ interface WavyLineProps {
  * beneath centered section headings. Sources /icons/Untitled-1.svg so
  * the asset itself stays the single source of truth.
  */
-// Default sits flush against the heading above — the SVG itself carries
-// extra whitespace inside its viewBox, so any positive marginTop reads
-// as a much larger visual gap than the px value suggests.
-export default function WavyLine({ width = 180, marginTop = 0 }: WavyLineProps) {
+// Negative default — the SVG carries ~20–30px of empty space inside
+// its viewBox above the actual green stroke, so the rendered image
+// already looks far below the heading even at marginTop:0. Pulling it
+// up with a negative margin closes that visual gap.
+//
+// `stretch` applies a horizontal scaleX so the line widens without
+// getting any taller (keeping the gap below the heading unchanged).
+export default function WavyLine({ width = 180, marginTop = -22, stretch = 1.3 }: WavyLineProps) {
   const w = typeof width === "number" ? `${width}px` : width;
   const mt = typeof marginTop === "number" ? `${marginTop}px` : marginTop;
   return (
-    // eslint-disable-next-line @next/next/no-img-element
     <img
       src="/icons/Untitled-1.svg"
       alt=""
@@ -27,6 +32,8 @@ export default function WavyLine({ width = 180, marginTop = 0 }: WavyLineProps) 
         width: w,
         height: "auto",
         margin: `${mt} auto 0`,
+        transform: `scaleX(${stretch})`,
+        transformOrigin: "center",
         pointerEvents: "none",
       }}
     />

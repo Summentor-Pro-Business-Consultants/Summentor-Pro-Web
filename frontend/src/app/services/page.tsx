@@ -136,7 +136,7 @@ function Hero() {
         display: "flex",
         alignItems: "center",
         overflow: "hidden",
-        background: "var(--sp-dark-bg)",
+        background: "var(--sp-dark-grad-a)",
         paddingTop: "clamp(56px, 8vw, 80px)",
         paddingBottom: "clamp(72px, 11vw, 120px)",
         clipPath:
@@ -158,7 +158,7 @@ function Hero() {
           position: "absolute",
           inset: 0,
           background:
-            "linear-gradient(to bottom, rgba(6,14,8,0.65) 0%, rgba(6,14,8,0.82) 60%, #060e08 100%)",
+            "linear-gradient(to bottom, rgba(8,8,8,0.65) 0%, rgba(8,8,8,0.82) 60%, #080808 100%)",
         }}
       />
 
@@ -237,7 +237,7 @@ function SolutionTabs() {
       style={{
         background: "#F9FAFB",
         backgroundImage:
-          "linear-gradient(rgba(10,26,13,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(10,26,13,0.045) 1px, transparent 1px)",
+          "linear-gradient(rgba(10,10,10,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(10,10,10,0.045) 1px, transparent 1px)",
         backgroundSize: "44px 44px",
         padding: "clamp(56px, 8vw, 80px) 0",
         position: "relative",
@@ -321,7 +321,7 @@ function SolutionTabs() {
                   borderRadius: 14,
                   padding: "clamp(22px, 4.5vw, 32px) clamp(22px, 5vw, 36px)",
                   border: "1px solid rgba(255,255,255,0.06)",
-                  boxShadow: "0 12px 36px rgba(10,26,13,0.18)",
+                  boxShadow: "0 12px 36px rgba(10,10,10,0.18)",
                 }}
               >
                 <h2
@@ -378,7 +378,6 @@ function SolutionTabs() {
                         lineHeight: 1.5,
                       }}
                     >
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src="/icons/check.svg"
                         alt=""
@@ -405,7 +404,7 @@ function GrowthCTA() {
       style={{
         background: "#fff",
         backgroundImage:
-          "linear-gradient(rgba(10,26,13,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(10,26,13,0.045) 1px, transparent 1px)",
+          "linear-gradient(rgba(10,10,10,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(10,10,10,0.045) 1px, transparent 1px)",
         backgroundSize: "44px 44px",
         padding: "clamp(40px, 6vw, 60px) 0 clamp(64px, 10vw, 100px)",
       }}

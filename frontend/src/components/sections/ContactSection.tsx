@@ -99,7 +99,7 @@ function Hero() {
         display: "flex",
         alignItems: "center",
         overflow: "hidden",
-        background: "var(--sp-dark-bg)",
+        background: "var(--sp-dark-grad-a)",
         paddingTop: "clamp(56px, 8vw, 80px)",
         paddingBottom: "clamp(72px, 11vw, 120px)",
         clipPath:
@@ -121,7 +121,7 @@ function Hero() {
           position: "absolute",
           inset: 0,
           background:
-            "linear-gradient(to bottom, rgba(6,14,8,0.6) 0%, rgba(6,14,8,0.8) 60%, #060e08 100%)",
+            "linear-gradient(to bottom, rgba(8,8,8,0.6) 0%, rgba(8,8,8,0.8) 60%, #080808 100%)",
         }}
       />
 
@@ -245,7 +245,7 @@ function FormBlock() {
       style={{
         background: "#fff",
         backgroundImage:
-          "linear-gradient(rgba(10,26,13,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(10,26,13,0.045) 1px, transparent 1px)",
+          "linear-gradient(rgba(10,10,10,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(10,10,10,0.045) 1px, transparent 1px)",
         backgroundSize: "44px 44px",
         padding: "clamp(56px, 8vw, 80px) 0",
         position: "relative",
@@ -507,7 +507,7 @@ function LocationBlock() {
       style={{
         background: "#fff",
         backgroundImage:
-          "linear-gradient(rgba(10,26,13,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(10,26,13,0.045) 1px, transparent 1px)",
+          "linear-gradient(rgba(10,10,10,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(10,10,10,0.045) 1px, transparent 1px)",
         backgroundSize: "44px 44px",
         padding: "clamp(40px, 6vw, 60px) 0 clamp(64px, 10vw, 100px)",
         position: "relative",
@@ -536,7 +536,7 @@ function LocationBlock() {
             margin: "0 auto",
             borderRadius: 12,
             overflow: "hidden",
-            boxShadow: "0 12px 36px rgba(10,26,13,0.10)",
+            boxShadow: "0 12px 36px rgba(10,10,10,0.10)",
           }}
         >
           {/* Embedded map */}
@@ -563,7 +563,6 @@ function LocationBlock() {
             }}
           >
             <div style={{ display: "flex", justifyContent: "center", marginBottom: 14 }}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/brand/summentor-pro-logo.png"
                 alt="Summentor Pro"

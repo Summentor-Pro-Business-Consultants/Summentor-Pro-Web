@@ -98,7 +98,7 @@ export default function ProcessSection() {
         position: "relative",
         background: "#fff",
         backgroundImage:
-          "linear-gradient(rgba(10,26,13,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(10,26,13,0.045) 1px, transparent 1px)",
+          "linear-gradient(rgba(10,10,10,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(10,10,10,0.045) 1px, transparent 1px)",
         backgroundSize: "44px 44px",
         paddingTop: "clamp(56px, 8vw, 88px)",
         paddingBottom: "clamp(56px, 8vw, 88px)",
@@ -114,7 +114,7 @@ export default function ProcessSection() {
           width: "50%",
           height: "100%",
           background:
-            "radial-gradient(ellipse at top left, rgba(34,197,94,0.18) 0%, rgba(34,197,94,0.07) 45%, transparent 72%)",
+            "radial-gradient(ellipse at top left, rgba(30,200,140,0.18) 0%, rgba(30,200,140,0.07) 45%, transparent 72%)",
           pointerEvents: "none",
         }}
       />
@@ -217,7 +217,6 @@ export default function ProcessSection() {
               <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: 16 }}>
                 {current.bullets.map((bullet) => (
                   <li key={bullet} style={{ display: "flex", alignItems: "flex-start", gap: 12 }}>
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src="/icons/check.svg"
                       alt=""

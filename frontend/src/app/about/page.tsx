@@ -120,7 +120,7 @@ function Hero() {
         display: "flex",
         alignItems: "center",
         overflow: "hidden",
-        background: "var(--sp-dark-bg)",
+        background: "var(--sp-dark-grad-a)",
         paddingTop: "clamp(56px, 8vw, 80px)",
         paddingBottom: "clamp(72px, 11vw, 120px)",
         clipPath:
@@ -142,7 +142,7 @@ function Hero() {
           position: "absolute",
           inset: 0,
           background:
-            "linear-gradient(to bottom, rgba(6,14,8,0.6) 0%, rgba(6,14,8,0.78) 60%, #060e08 100%)",
+            "linear-gradient(to bottom, rgba(8,8,8,0.6) 0%, rgba(8,8,8,0.78) 60%, #080808 100%)",
         }}
       />
       <Container wide>
@@ -204,7 +204,7 @@ function Story() {
       style={{
         background: "#fff",
         backgroundImage:
-          "linear-gradient(rgba(10,26,13,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(10,26,13,0.045) 1px, transparent 1px)",
+          "linear-gradient(rgba(10,10,10,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(10,10,10,0.045) 1px, transparent 1px)",
         backgroundSize: "44px 44px",
         padding: "clamp(56px, 8vw, 80px) 0",
         position: "relative",
@@ -288,10 +288,11 @@ function PullQuote() {
   return (
     <section
       style={{
-        background: "var(--sp-dark-bg)",
+        background: "var(--sp-navy-1000)",
+        // Grid lines on top, alternating dark gradient (grad-b) underneath.
         backgroundImage:
-          "linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px), var(--sp-dark-bg)",
-        backgroundSize: "44px 44px, 44px 44px, auto",
+          "linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px), var(--sp-dark-grad-b)",
+        backgroundSize: "44px 44px, 44px 44px, cover",
         padding: "clamp(56px, 8vw, 80px) 0",
         position: "relative",
         overflow: "hidden",
@@ -307,7 +308,7 @@ function PullQuote() {
           transition={{ duration: 0.7, ease: EASE }}
           style={{
             fontFamily: "var(--sp-font-sans)",
-            fontSize: "clamp(28px, 4.2vw, 52px)",
+            fontSize: "clamp(34px, 5vw, 64px)",
             fontWeight: 900,
             letterSpacing: "0.01em",
             textTransform: "uppercase",
@@ -352,7 +353,7 @@ function WhatMakesUsDifferent() {
       style={{
         background: "#fff",
         backgroundImage:
-          "linear-gradient(rgba(10,26,13,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(10,26,13,0.045) 1px, transparent 1px)",
+          "linear-gradient(rgba(10,10,10,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(10,10,10,0.045) 1px, transparent 1px)",
         backgroundSize: "44px 44px",
         padding: "clamp(56px, 8vw, 80px) 0",
         position: "relative",
@@ -509,7 +510,7 @@ function Leadership() {
   return (
     <section
       style={{
-        background: "var(--sp-dark-bg)",
+        background: "var(--sp-dark-grad-a)",
         padding: "clamp(56px, 8vw, 80px) 0",
         position: "relative",
         overflow: "hidden",
@@ -518,12 +519,13 @@ function Leadership() {
       }}
     >
       <Container>
-        {/* Top row: title + description side by side */}
+        {/* Top row: title + description side by side, vertically centered */}
         <div
-          className="grid grid-cols-1 md:grid-cols-2 gap-12"
+          className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center"
           style={{ position: "relative", marginBottom: 48 }}
         >
           <motion.div
+            className="min-w-0"
             initial={{ opacity: 0, x: -24 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, amount: 0.3 }}
@@ -546,16 +548,15 @@ function Leadership() {
           </motion.div>
 
           <motion.div
+            className="min-w-0"
             initial={{ opacity: 0, x: 24 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.7, ease: EASE }}
             style={{
-              background: "rgba(255,255,255,0.04)",
-              border: "1px solid rgba(255,255,255,0.08)",
+              background: "transparent",
               borderLeft: "3px solid var(--sp-green-500)",
-              borderRadius: 8,
-              padding: "clamp(20px, 4vw, 24px) clamp(22px, 5vw, 28px)",
+              paddingLeft: "clamp(20px, 3vw, 28px)",
             }}
           >
             <p
@@ -643,7 +644,7 @@ function Initiatives() {
       style={{
         background: "#fff",
         backgroundImage:
-          "linear-gradient(rgba(10,26,13,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(10,26,13,0.045) 1px, transparent 1px)",
+          "linear-gradient(rgba(10,10,10,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(10,10,10,0.045) 1px, transparent 1px)",
         backgroundSize: "44px 44px",
         padding: "clamp(56px, 8vw, 80px) 0 clamp(64px, 10vw, 100px)",
         position: "relative",
@@ -741,7 +742,6 @@ function Initiatives() {
                           gap: 10,
                         }}
                       >
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                           src="/icons/check.svg"
                           alt=""

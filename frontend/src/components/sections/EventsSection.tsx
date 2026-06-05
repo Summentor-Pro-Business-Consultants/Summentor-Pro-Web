@@ -4,11 +4,14 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import Container from "@/components/ui/Container";
 import SectionHeading from "@/components/ui/SectionHeading";
+import WavyLine from "@/components/ui/WavyLine";
+
+const EASE = [0.22, 1, 0.36, 1] as const;
 
 const platforms = [
   {
     title: "MSME & STARTUP INNOVATION SUMMIT",
-    desc: "A platform bringing together founders, industry leaders, policymakers, and ecosystem enablers to accelerate innovation, entrepreneurship, growth, and collaboration.",
+    desc: "A platform bringing together founders, industry leaders, policymakers, and ecosystem enablers to drive conversations around innovation, growth, and collaboration.",
     photo: "/images/engagements/msme-consulting-2.jpeg",
     photoAlt: "MSME & Startup Innovation Summit",
   },
@@ -30,12 +33,18 @@ export default function EventsSection() {
   return (
     <section
       style={{
-        background: "#F9FAFB",
+        position: "relative",
+        overflow: "hidden",
+        background: "var(--sp-navy-1000)",
+        // Grid lines on top, alternating dark gradient (grad-b) underneath.
         backgroundImage:
-          "linear-gradient(rgba(10,26,13,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(10,26,13,0.045) 1px, transparent 1px)",
-        backgroundSize: "44px 44px",
-        paddingTop: "clamp(56px, 8vw, 80px)",
-        paddingBottom: "clamp(56px, 8vw, 80px)",
+          "linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px), var(--sp-dark-grad-b)",
+        backgroundSize: "44px 44px, 44px 44px, cover",
+        paddingTop: "clamp(72px, 10vw, 110px)",
+        paddingBottom: "clamp(72px, 10vw, 110px)",
+        // Dark band between two light sections — slant on both edges.
+        clipPath:
+          "polygon(0 var(--sp-slant), 100% 0, 100% 100%, 0 calc(100% - var(--sp-slant)))",
       }}
     >
       <Container>
@@ -44,95 +53,150 @@ export default function EventsSection() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.4 }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          style={{ marginBottom: 48 }}
+          transition={{ duration: 0.6, ease: EASE }}
+          style={{ textAlign: "center", marginBottom: "clamp(48px, 7vw, 80px)" }}
         >
-          <SectionHeading>FEATURED INDUSTRY PLATFORMS</SectionHeading>
+          <SectionHeading dark>FEATURED INDUSTRY PLATFORMS</SectionHeading>
+          <WavyLine />
         </motion.div>
 
-        {/* Platform cards */}
-        <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-          {platforms.map((platform, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, x: -32 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, amount: 0.25 }}
-              transition={{ duration: 0.55, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
-              whileHover={{ scale: 1.015, transition: { type: "spring", stiffness: 300, damping: 30 } }}
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                borderRadius: 8,
-                overflow: "hidden",
-                border: "1px solid #E5E7EB",
-                background: "#fff",
-                boxShadow: "0 2px 12px rgba(0,0,0,0.06)",
-                transition: "box-shadow 0.2s ease, transform 0.2s ease",
-                minHeight: 220,
-              }}
-              onMouseEnter={(e) => {
-                const el = e.currentTarget as HTMLElement;
-                el.style.boxShadow = "0 8px 28px rgba(0,0,0,0.12)";
-                el.style.transform = "translateY(-3px)";
-              }}
-              onMouseLeave={(e) => {
-                const el = e.currentTarget as HTMLElement;
-                el.style.boxShadow = "0 2px 12px rgba(0,0,0,0.06)";
-                el.style.transform = "translateY(0)";
-              }}
-            >
-              {/* Text */}
-              <div
-                style={{
-                  flex: "0 0 60%",
-                  padding: "32px 36px",
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  borderLeft: "4px solid var(--sp-green-500)",
-                }}
-              >
-                <h3
+        {/* Alternating platform rows */}
+        <div style={{ display: "flex", flexDirection: "column", gap: "clamp(56px, 9vw, 96px)" }}>
+          {platforms.map((platform, i) => {
+            const imageLeft = i % 2 === 1;
+            const image = (
+              <PlatformImage
+                src={platform.photo}
+                alt={platform.photoAlt}
+                accent={imageLeft ? "left" : "right"}
+              />
+            );
+            const text = (
+              <div style={{ display: "flex", gap: "clamp(16px, 2vw, 22px)" }}>
+                {/* Green vertical accent bar */}
+                <div
                   style={{
-                    fontFamily: "var(--sp-font-sans)",
-                    fontSize: "clamp(15px, 1.75vw, 18px)",
-                    fontWeight: 800,
-                    letterSpacing: "0.06em",
-                    textTransform: "uppercase",
-                    color: "var(--sp-navy-900)",
-                    margin: "0 0 14px 0",
+                    width: 4,
+                    alignSelf: "stretch",
+                    background: "var(--sp-green-500)",
+                    borderRadius: 2,
+                    flexShrink: 0,
                   }}
-                >
-                  {platform.title}
-                </h3>
-                <p
-                  style={{
-                    fontFamily: "var(--sp-font-sans)",
-                    fontSize: 16,
-                    lineHeight: 1.7,
-                    color: "#6B7280",
-                    margin: 0,
-                  }}
-                >
-                  {platform.desc}
-                </p>
-              </div>
-
-              {/* Photo */}
-              <div style={{ flex: "0 0 40%", position: "relative", overflow: "hidden", minHeight: 220 }}>
-                <Image
-                  src={platform.photo}
-                  alt={platform.photoAlt}
-                  fill
-                  sizes="(max-width: 768px) 40vw, 360px"
-                  style={{ objectFit: "cover", objectPosition: "center" }}
                 />
+                <div>
+                  <h3
+                    style={{
+                      fontFamily: "var(--sp-font-sans)",
+                      fontSize: "clamp(22px, 3vw, 34px)",
+                      fontWeight: 800,
+                      letterSpacing: "0.02em",
+                      textTransform: "uppercase",
+                      color: "#fff",
+                      lineHeight: 1.18,
+                      margin: "0 0 16px 0",
+                    }}
+                  >
+                    {platform.title}
+                  </h3>
+                  <p
+                    style={{
+                      fontFamily: "var(--sp-font-sans)",
+                      fontSize: "clamp(16px, 1.8vw, 19px)",
+                      lineHeight: 1.75,
+                      color: "#CBD5E1",
+                      margin: 0,
+                    }}
+                  >
+                    {platform.desc}
+                  </p>
+                </div>
               </div>
-            </motion.div>
-          ))}
+            );
+
+            return (
+              <motion.div
+                key={platform.title}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.25 }}
+                transition={{ duration: 0.6, ease: EASE }}
+                // Text cell gets more room than the image cell; the wider
+                // fraction follows whichever side the text is on.
+                className={`grid grid-cols-1 items-center ${
+                  imageLeft
+                    ? "md:grid-cols-[0.8fr_1.2fr]"
+                    : "md:grid-cols-[1.2fr_0.8fr]"
+                }`}
+                style={{ gap: "clamp(28px, 5vw, 64px)" }}
+              >
+                {imageLeft ? (
+                  <>
+                    {image}
+                    {text}
+                  </>
+                ) : (
+                  <>
+                    {text}
+                    {image}
+                  </>
+                )}
+              </motion.div>
+            );
+          })}
         </div>
       </Container>
     </section>
+  );
+}
+
+// ─── Tilted photo with a green geometric accent peeking behind it ───────────
+function PlatformImage({
+  src,
+  alt,
+  accent,
+}: {
+  src: string;
+  alt: string;
+  accent: "left" | "right";
+}) {
+  // Image + green accent share the same tilt; the accent is offset toward
+  // the outer top corner so it pokes out behind the photo. Sharp corners on
+  // both (no border-radius) to match the design.
+  const tilt = accent === "right" ? -2.5 : 2.5;
+  const accentShift = accent === "right" ? "26px" : "-26px";
+
+  return (
+    <div style={{ position: "relative", padding: "26px" }}>
+      {/* Green accent block behind — sharp corners */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          inset: 26,
+          background: "var(--sp-green-500)",
+          transform: `rotate(${tilt}deg) translate(${accentShift}, -24px)`,
+          zIndex: 0,
+        }}
+      />
+      {/* Photo — sharp corners */}
+      <div
+        style={{
+          position: "relative",
+          zIndex: 1,
+          aspectRatio: "4 / 3",
+          overflow: "hidden",
+          transform: `rotate(${tilt}deg)`,
+          boxShadow: "0 28px 56px -18px rgba(0,0,0,0.7)",
+        }}
+      >
+        <Image
+          src={src}
+          alt={alt}
+          fill
+          sizes="(max-width: 768px) 100vw, 45vw"
+          style={{ objectFit: "cover", objectPosition: "center" }}
+        />
+      </div>
+    </div>
   );
 }

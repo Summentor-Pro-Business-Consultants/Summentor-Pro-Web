@@ -315,7 +315,6 @@ export default function CredibilityBand() {
                   }}
                 >
                   {/* Raw img kept: onError fallback chain to remote logo CDNs */}
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={co.logo}
                     alt={co.name}
