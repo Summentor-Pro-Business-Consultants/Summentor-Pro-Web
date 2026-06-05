@@ -8,10 +8,12 @@ export default function QuoteBand() {
   return (
     <section
       style={{
-        background: "var(--sp-dark-bg)",
+        background: "var(--sp-navy-1000)",
+        // Grid lines on top, alternating dark gradient (grad-a: light-left →
+        // dark-right) as the bottom layer.
         backgroundImage:
-          "linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px), var(--sp-dark-bg)",
-        backgroundSize: "44px 44px, 44px 44px, auto",
+          "linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px), var(--sp-dark-grad-a)",
+        backgroundSize: "44px 44px, 44px 44px, cover",
         paddingTop: "clamp(64px, 9vw, 100px)",
         paddingBottom: "clamp(64px, 9vw, 100px)",
         position: "relative",
@@ -76,13 +78,26 @@ export default function QuoteBand() {
             </p>
           </motion.div>
 
-          {/* Right: photo */}
+          {/* Right: photo — all four edges feathered to transparent with a
+              mask so the section's own background shows through and the photo
+              blends in instead of reading as a hard-edged card. Using a mask
+              (not a colour overlay) means it stays blended no matter what the
+              background tone is. */}
           <motion.div
             initial={{ opacity: 0, x: 32 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.7, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-            style={{ position: "relative", borderRadius: 8, overflow: "hidden", height: 420 }}
+            style={{
+              position: "relative",
+              height: 440,
+              WebkitMaskImage:
+                "linear-gradient(to right, transparent 0%, #000 13%, #000 96%, transparent 100%), linear-gradient(to bottom, transparent 0%, #000 9%, #000 91%, transparent 100%)",
+              maskImage:
+                "linear-gradient(to right, transparent 0%, #000 13%, #000 96%, transparent 100%), linear-gradient(to bottom, transparent 0%, #000 9%, #000 91%, transparent 100%)",
+              WebkitMaskComposite: "source-in",
+              maskComposite: "intersect",
+            }}
           >
             <Image
               src="/images/engagements/meeting-cm-delhi.jpeg"
@@ -90,15 +105,6 @@ export default function QuoteBand() {
               fill
               sizes="(max-width: 768px) 100vw, 50vw"
               style={{ objectFit: "cover", objectPosition: "center top" }}
-            />
-            {/* Gradient blend on left edge */}
-            <div
-              style={{
-                position: "absolute",
-                inset: 0,
-                background: "linear-gradient(to right, #060e08 0%, transparent 30%)",
-                pointerEvents: "none",
-              }}
             />
           </motion.div>
         </div>

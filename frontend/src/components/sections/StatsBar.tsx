@@ -117,10 +117,12 @@ export default function StatsBar() {
   return (
     <section
       style={{
-        background: "var(--sp-dark-bg)",
+        background: "var(--sp-navy-1000)",
+        // Grid lines on top, alternating dark gradient (grad-b: dark-left →
+        // light-right) as the bottom layer.
         backgroundImage:
-          "linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px), var(--sp-dark-bg)",
-        backgroundSize: "44px 44px, 44px 44px, auto",
+          "linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px), var(--sp-dark-grad-b)",
+        backgroundSize: "44px 44px, 44px 44px, cover",
         paddingTop: "clamp(56px, 8vw, 80px)",
         paddingBottom: "clamp(56px, 8vw, 80px)",
         position: "relative",

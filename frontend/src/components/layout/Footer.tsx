@@ -72,7 +72,7 @@ export default function Footer() {
               gap: 32,
               overflow: "hidden",
               position: "relative",
-              boxShadow: "0 24px 56px -20px rgba(10,26,13,0.45)",
+              boxShadow: "0 24px 56px -20px rgba(10,10,10,0.45)",
             }}
           >
             {/* Subtle inner glow */}
@@ -110,7 +110,6 @@ export default function Footer() {
               className="hidden sm:block"
               style={{ flexShrink: 0, position: "relative", zIndex: 1 }}
             >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/icons/handshake.svg"
                 alt=""
@@ -129,10 +128,12 @@ export default function Footer() {
 
       <footer
         style={{
-          background: "var(--sp-dark-bg)",
+          background: "var(--sp-navy-1000)",
+          // Grid lines on top, alternating dark gradient (grad-b: dark-left →
+          // light-right) as the bottom layer.
           backgroundImage:
-            "linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px), var(--sp-dark-bg)",
-          backgroundSize: "44px 44px, 44px 44px, auto",
+            "linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px), var(--sp-dark-grad-b)",
+          backgroundSize: "44px 44px, 44px 44px, cover",
           color: "var(--sp-navy-300)",
           position: "relative",
           // Left-downwards "/" slant on top → top-LEFT pushed down. Alternates

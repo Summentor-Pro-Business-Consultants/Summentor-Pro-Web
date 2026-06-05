@@ -16,7 +16,7 @@ export default function Hero() {
         display: "flex",
         alignItems: "center",
         overflow: "hidden",
-        background: "var(--sp-dark-bg)",
+        background: "var(--sp-dark-grad-a)",
         // Right-bottom slant → bottom-LEFT raised, dark extends further on the
         // RIGHT. Matches the home-page PDF where the dark hero's bottom edge
         // slopes down toward the right.
@@ -46,7 +46,7 @@ export default function Hero() {
           position: "absolute",
           inset: 0,
           background:
-            "linear-gradient(135deg, rgba(6,14,8,0.75) 0%, rgba(6,14,8,0.5) 60%, rgba(6,14,8,0.65) 100%)",
+            "linear-gradient(135deg, rgba(8,8,8,0.75) 0%, rgba(8,8,8,0.5) 60%, rgba(8,8,8,0.65) 100%)",
         }}
       />
 
@@ -58,7 +58,7 @@ export default function Hero() {
           left: 0,
           right: 0,
           height: 120,
-          background: "linear-gradient(to bottom, transparent, rgba(6,14,8,0.85))",
+          background: "linear-gradient(to bottom, transparent, rgba(8,8,8,0.85))",
         }}
       />
 

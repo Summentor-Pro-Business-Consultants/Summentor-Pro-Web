@@ -41,7 +41,7 @@ export default function ServicesGrid() {
       style={{
         background: "#fff",
         backgroundImage:
-          "linear-gradient(rgba(10,26,13,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(10,26,13,0.045) 1px, transparent 1px)",
+          "linear-gradient(rgba(10,10,10,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(10,10,10,0.045) 1px, transparent 1px)",
         backgroundSize: "44px 44px",
         paddingTop: "clamp(56px, 8vw, 80px)",
         paddingBottom: "clamp(56px, 8vw, 80px)",
@@ -84,7 +84,7 @@ export default function ServicesGrid() {
                 onMouseEnter={() => setHovered(i)}
                 onMouseLeave={() => setHovered(null)}
                 style={{
-                  background: dark ? "#0f1f12" : "#F4F5F7",
+                  background: dark ? "#161616" : "#F4F5F7",
                   border: `1.5px solid ${dark ? "rgba(255,255,255,0.07)" : "transparent"}`,
                   borderRadius: 16,
                   overflow: "hidden",

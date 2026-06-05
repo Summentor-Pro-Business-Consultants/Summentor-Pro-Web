@@ -142,7 +142,7 @@ function Hero() {
         display: "flex",
         alignItems: "center",
         overflow: "hidden",
-        background: "var(--sp-dark-bg)",
+        background: "var(--sp-dark-grad-a)",
         paddingTop: "clamp(56px, 8vw, 80px)",
         paddingBottom: "clamp(72px, 11vw, 120px)",
         clipPath:
@@ -164,7 +164,7 @@ function Hero() {
           position: "absolute",
           inset: 0,
           background:
-            "linear-gradient(to bottom, rgba(6,14,8,0.65) 0%, rgba(6,14,8,0.82) 60%, #060e08 100%)",
+            "linear-gradient(to bottom, rgba(8,8,8,0.65) 0%, rgba(8,8,8,0.82) 60%, #080808 100%)",
         }}
       />
 
@@ -261,7 +261,7 @@ function WhyOurPlatformsMatter() {
       style={{
         background: "#fff",
         backgroundImage:
-          "linear-gradient(rgba(10,26,13,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(10,26,13,0.045) 1px, transparent 1px)",
+          "linear-gradient(rgba(10,10,10,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(10,10,10,0.045) 1px, transparent 1px)",
         backgroundSize: "44px 44px",
         padding: "clamp(56px, 8vw, 80px) 0",
         position: "relative",
@@ -435,7 +435,7 @@ function FeaturedPlatforms() {
       style={{
         background: "#fff",
         backgroundImage:
-          "linear-gradient(rgba(10,26,13,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(10,26,13,0.045) 1px, transparent 1px)",
+          "linear-gradient(rgba(10,10,10,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(10,10,10,0.045) 1px, transparent 1px)",
         backgroundSize: "44px 44px",
         padding: "clamp(56px, 8vw, 80px) 0",
         position: "relative",
@@ -542,7 +542,6 @@ function FeaturedPlatforms() {
                           lineHeight: 1.5,
                         }}
                       >
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
                           src="/icons/check.svg"
                           alt=""
@@ -576,7 +575,7 @@ function UpcomingPlatforms() {
       style={{
         background: "#fff",
         backgroundImage:
-          "linear-gradient(rgba(10,26,13,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(10,26,13,0.045) 1px, transparent 1px)",
+          "linear-gradient(rgba(10,10,10,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(10,10,10,0.045) 1px, transparent 1px)",
         backgroundSize: "44px 44px",
         padding: "clamp(56px, 8vw, 80px) 0",
         position: "relative",
@@ -624,7 +623,7 @@ function UpcomingPlatforms() {
                     ? "1px solid var(--sp-green-600)"
                     : "1px solid rgba(255,255,255,0.06)",
                   boxShadow: highlighted
-                    ? "0 12px 32px rgba(34,197,94,0.18)"
+                    ? "0 12px 32px rgba(30,200,140,0.18)"
                     : "0 4px 16px rgba(0,0,0,0.08)",
                 }}
               >
@@ -646,7 +645,7 @@ function UpcomingPlatforms() {
                     margin: 0,
                     lineHeight: 1.5,
                     color: highlighted
-                      ? "rgba(10,26,13,0.78)"
+                      ? "rgba(10,10,10,0.78)"
                       : "rgba(255,255,255,0.72)",
                   }}
                 >
@@ -668,7 +667,7 @@ function PartnerCTA() {
       style={{
         background: "#fff",
         backgroundImage:
-          "linear-gradient(rgba(10,26,13,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(10,26,13,0.045) 1px, transparent 1px)",
+          "linear-gradient(rgba(10,10,10,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(10,10,10,0.045) 1px, transparent 1px)",
         backgroundSize: "44px 44px",
         padding: "clamp(40px, 6vw, 60px) 0 clamp(64px, 10vw, 100px)",
         position: "relative",
@@ -787,7 +786,7 @@ function PlatformHighlights() {
   return (
     <section
       style={{
-        background: "var(--sp-dark-bg)",
+        background: "var(--sp-dark-grad-b)",
         padding: "clamp(56px, 8vw, 80px) 0",
         position: "relative",
         overflow: "hidden",

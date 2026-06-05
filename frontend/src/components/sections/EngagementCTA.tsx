@@ -55,7 +55,7 @@ export default function EngagementCTA() {
       style={{
         background: "#F9FAFB",
         backgroundImage:
-          "linear-gradient(rgba(10,26,13,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(10,26,13,0.045) 1px, transparent 1px)",
+          "linear-gradient(rgba(10,10,10,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(10,10,10,0.045) 1px, transparent 1px)",
         backgroundSize: "44px 44px",
         paddingTop: "clamp(56px, 8vw, 80px)",
         paddingBottom: "clamp(56px, 8vw, 80px)",
@@ -77,7 +77,7 @@ export default function EngagementCTA() {
           width: 520,
           height: 520,
           background:
-            "radial-gradient(circle, rgba(34,197,94,0.10) 0%, rgba(34,197,94,0.04) 40%, transparent 70%)",
+            "radial-gradient(circle, rgba(30,200,140,0.10) 0%, rgba(30,200,140,0.04) 40%, transparent 70%)",
           pointerEvents: "none",
         }}
       />

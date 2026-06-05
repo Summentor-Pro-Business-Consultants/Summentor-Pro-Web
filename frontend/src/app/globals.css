@@ -1,27 +1,31 @@
 @import "tailwindcss";
 
 :root {
-  /* Brand — Dark Green */
-  --sp-navy-1000: #050a06;
-  --sp-navy-900: #0a1a0d;
-  --sp-navy-800: #0f2112;
-  --sp-navy-700: #183220;
-  --sp-navy-600: #1e3d28;
-  --sp-navy-500: #2a5436;
-  --sp-navy-400: #4a7d5a;
-  --sp-navy-300: #7aaa8a;
-  --sp-navy-200: #b0ccb8;
-  --sp-navy-100: #d8ead8;
-  --sp-navy-50: #eef5ee;
+  /* Dark neutrals — formerly a green-tinted "navy"; now true neutral greys
+     (no hue) so every dark background / card / border reads as black-to-grey
+     rather than dark green. Kept the --sp-navy-* names so all references
+     update in place. Lightness preserved per step. */
+  --sp-navy-1000: #070707;
+  --sp-navy-900: #101010;
+  --sp-navy-800: #161616;
+  --sp-navy-700: #232323;
+  --sp-navy-600: #2b2b2b;
+  --sp-navy-500: #3a3a3a;
+  --sp-navy-400: #5c5c5c;
+  --sp-navy-300: #8a8a8a;
+  --sp-navy-200: #c0c0c0;
+  --sp-navy-100: #dadada;
+  --sp-navy-50: #f0f0f0;
 
-  /* Brand — Green */
-  --sp-green-900: #14532d;
-  --sp-green-800: #166534;
-  --sp-green-700: #15803d;
-  --sp-green-600: #16a34a;
-  --sp-green-500: #22c55e;
-  --sp-green-400: #4ade80;
-  --sp-green-100: #dcfce7;
+  /* Brand — Green (sea-green / teal-leaning: hue nudged toward ~160° so the
+     whole palette reads a touch more sea-green than pure emerald). */
+  --sp-green-900: #105846;
+  --sp-green-800: #126b52;
+  --sp-green-700: #108662;
+  --sp-green-600: #12a876;
+  --sp-green-500: #1ec88c;
+  --sp-green-400: #42e0a8;
+  --sp-green-100: #d2faee;
 
   /* Brand — Gold */
   --sp-gold-900: #6a4e10;
@@ -83,16 +87,31 @@
        from /public/fonts/Goia/. Only SemiBold (600) and Bold (700–900 range)
        are shipped per brand spec. */
   --sp-font-sans: var(--font-poppins), "Helvetica Neue", Arial, sans-serif;
-  --sp-font-serif: var(--font-display-serif), Georgia, "Times New Roman", serif;
   --sp-font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
   --sp-font-display: var(--font-display-serif), Georgia, serif;
 
-  /* Dark sections — flat navy-1000. The earlier horizontal gradient (lifting
-     toward a greenish navy-700 on the right) created a visible colour seam
-     where the slant divider met the lighter edge of the gradient. A single
-     solid tone makes the slant transition read cleanly into the light grid
-     below, regardless of which page or slant direction it's on. */
+  /* Dark sections — solid base + two alternating linear gradients. Neutral
+     greys only (R = G = B) so the gradient reads as true black → lifted
+     charcoal with NO green cast (the brand navy palette is green-tinted, so
+     it is deliberately not used here). Travels #0a0a0a → #242424 — visible
+     depth while staying dark enough that the slant dividers read cleanly.
+     Sections alternate direction down each page:
+       • grad-a → light on the LEFT, dark on the RIGHT
+       • grad-b → dark on the LEFT, light on the RIGHT
+     --sp-dark-bg stays as the flat fallback colour. */
   --sp-dark-bg: var(--sp-navy-1000);
+  --sp-dark-grad-a: linear-gradient(
+    to right,
+    #242424 0%,
+    #141414 55%,
+    #0a0a0a 100%
+  );
+  --sp-dark-grad-b: linear-gradient(
+    to right,
+    #0a0a0a 0%,
+    #141414 45%,
+    #242424 100%
+  );
   /* Slant height used for clip-path dividers between light and dark sections.
      Kept gentle so adjacent sections still read as connected. */
   --sp-slant: clamp(28px, 4.5vw, 60px);
@@ -126,7 +145,6 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--sp-font-sans);
-  --font-serif: var(--sp-font-serif);
   --font-mono: var(--sp-font-mono);
 }
 
@@ -150,8 +168,8 @@ body {
      to the viewport so it visually pattern-matches section grids during
      scroll without depending on exact section heights. */
   background-image:
-    linear-gradient(rgba(10, 26, 13, 0.045) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(10, 26, 13, 0.045) 1px, transparent 1px);
+    linear-gradient(rgba(10, 10, 10, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(10, 10, 10, 0.045) 1px, transparent 1px);
   background-size: 44px 44px;
   background-attachment: fixed;
   -webkit-font-smoothing: antialiased;
@@ -261,17 +279,3 @@ small {
   outline-offset: 2px;
 }
 
-/* Grain overlay for dark sections */
-.grain {
-  position: relative;
-}
-.grain::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
-  background-size: 200px 200px;
-  opacity: 0.04;
-  pointer-events: none;
-  z-index: 0;
-}
