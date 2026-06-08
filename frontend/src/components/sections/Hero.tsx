@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import Image from "next/image";
+import { motion, useReducedMotion } from "framer-motion";
 import Container from "@/components/ui/Container";
 import PageHeading from "@/components/ui/PageHeading";
 import Typewriter from "@/components/ui/Typewriter";
@@ -14,19 +15,29 @@ const HERO_VIDEO = "/videos/spro-website.mp4";
 const HERO_POSTER = "/images/engagements/msme-consulting-2.jpeg";
 
 export default function Hero() {
-  // The hero video is a muted, decorative background loop, so it always plays
-  // regardless of the reduced-motion preference. React doesn't reliably set
-  // the `muted` *property* on <video>, which makes browsers block autoplay, so
-  // we force muted + kick off play() imperatively.
+  // Production-grade reduced-motion handling: an autoplaying background video
+  // is exactly the kind of large, continuous motion that should NOT play for
+  // visitors who ask for reduced motion — they get the still poster instead.
+  // Render the video for SSR + the first client paint (mounted === false) so
+  // there is no hydration mismatch, then swap to the still after mount if the
+  // visitor prefers reduced motion.
+  const reduceMotion = useReducedMotion();
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  const showStill = mounted && reduceMotion;
+
+  // React doesn't reliably set the `muted` *property* on <video>, which makes
+  // browsers block autoplay, so force muted + kick off play() imperatively
+  // whenever the video is the one being rendered.
   const videoRef = useRef<HTMLVideoElement>(null);
   useEffect(() => {
     const v = videoRef.current;
-    if (!v) return;
+    if (!v || showStill) return;
     v.muted = true;
     v.defaultMuted = true;
     const p = v.play();
     if (p) p.catch(() => {});
-  }, []);
+  }, [showStill]);
 
   return (
     <section
@@ -45,30 +56,43 @@ export default function Hero() {
       }}
     >
 
-      {/* Background hero video — always autoplays muted on loop. The poster
-          (first conference photo) shows only while the video buffers, so there
-          is never a blank frame. */}
-      <video
-        ref={videoRef}
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="auto"
-        poster={HERO_POSTER}
-        aria-hidden="true"
-        style={{
-          position: "absolute",
-          inset: 0,
-          width: "100%",
-          height: "100%",
-          objectFit: "cover",
-          objectPosition: "center",
-          opacity: 0.65,
-        }}
-      >
-        <source src={HERO_VIDEO} type="video/mp4" />
-      </video>
+      {/* Background — autoplaying muted video loop for default visitors; a
+          still poster for reduced-motion visitors. The poster also shows while
+          the video buffers, so there is never a blank frame. */}
+      {showStill ? (
+        <Image
+          src={HERO_POSTER}
+          alt=""
+          aria-hidden="true"
+          fill
+          quality={100}
+          priority
+          sizes="100vw"
+          style={{ objectFit: "cover", objectPosition: "center", opacity: 0.6 }}
+        />
+      ) : (
+        <video
+          ref={videoRef}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          poster={HERO_POSTER}
+          aria-hidden="true"
+          style={{
+            position: "absolute",
+            inset: 0,
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            objectPosition: "center",
+            opacity: 0.65,
+          }}
+        >
+          <source src={HERO_VIDEO} type="video/mp4" />
+        </video>
+      )}
 
       {/* Dark gradient overlay */}
       <div

@@ -252,7 +252,7 @@ export default function ProcessSection() {
                 src={current.photo}
                 alt={current.photoAlt}
                 fill
-                quality={92}
+                quality={100}
                 sizes="(max-width: 768px) 100vw, 50vw"
                 style={{ objectFit: "cover" }}
               />

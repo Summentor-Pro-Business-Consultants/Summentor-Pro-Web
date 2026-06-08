@@ -71,7 +71,7 @@ function Photo({ src, alt }: { src: string; alt: string }) {
         src={src}
         alt={alt}
         fill
-        quality={92}
+        quality={100}
         sizes="(max-width: 768px) 70vw, 250px"
         style={{ objectFit: "cover", objectPosition: "center" }}
       />

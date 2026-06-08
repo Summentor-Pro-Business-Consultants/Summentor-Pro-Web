@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion, AnimatePresence, type Variants } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion, type Variants } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Container from "@/components/ui/Container";
 import EdgeGreenGradient from "@/components/ui/EdgeGreenGradient";
@@ -132,7 +132,7 @@ function Hero() {
         alt=""
         aria-hidden="true"
         fill
-        quality={92}
+        quality={100}
         priority
         sizes="100vw"
         style={{ objectFit: "cover", objectPosition: "center top", opacity: 0.28 }}
@@ -333,6 +333,7 @@ function PullQuote() {
 
 // ─── 4. What Makes Us Different ─────────────────────────────────────────────
 function WhatMakesUsDifferent() {
+  const reduceMotion = useReducedMotion();
   const [index, setIndex] = useState(0);
   const [hovered, setHovered] = useState<number | null>(null);
   const perPage = 3;
@@ -340,14 +341,15 @@ function WhatMakesUsDifferent() {
   const visible = focusEnablers.slice(index, index + perPage);
 
   // Auto-advance every 5s; pause while a card is hovered. Loops back to the
-  // start once it reaches the last page so the carousel never stalls.
+  // start once it reaches the last page so the carousel never stalls. Disabled
+  // entirely for reduced-motion visitors — they advance via the arrows/dots.
   useEffect(() => {
-    if (hovered !== null) return;
+    if (hovered !== null || reduceMotion) return;
     const t = setTimeout(() => {
       setIndex((i) => (i >= maxIndex ? 0 : i + 1));
     }, 5000);
     return () => clearTimeout(t);
-  }, [index, hovered, maxIndex]);
+  }, [index, hovered, maxIndex, reduceMotion]);
 
   return (
     <section
@@ -612,7 +614,7 @@ function Leadership() {
                 src={src}
                 alt=""
                 fill
-                quality={92}
+                quality={100}
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 33vw, 380px"
                 style={{ objectFit: "cover" }}
               />
@@ -626,20 +628,22 @@ function Leadership() {
 
 // ─── 6. Initiatives (Beyond Platforms & Consulting) ─────────────────────────
 function Initiatives() {
+  const reduceMotion = useReducedMotion();
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
   const active = initiatives[index]!;
   const last = initiatives.length - 1;
 
   // Auto-advance every 6s (slightly slower than the 3-card carousel because
-  // each slide has more to read); pause while the card is hovered.
+  // each slide has more to read); pause while the card is hovered, and off
+  // entirely for reduced-motion visitors (manual arrows/dots remain).
   useEffect(() => {
-    if (paused) return;
+    if (paused || reduceMotion) return;
     const t = setTimeout(() => {
       setIndex((i) => (i >= last ? 0 : i + 1));
     }, 6000);
     return () => clearTimeout(t);
-  }, [index, paused, last]);
+  }, [index, paused, last, reduceMotion]);
 
   return (
     <section
@@ -760,7 +764,7 @@ function Initiatives() {
                     src={active.photo}
                     alt={active.title}
                     fill
-                    quality={92}
+                    quality={100}
                     sizes="(max-width: 768px) 100vw, 50vw"
                     style={{ objectFit: "cover" }}
                   />
