@@ -132,6 +132,7 @@ function Hero() {
         alt=""
         aria-hidden="true"
         fill
+        quality={92}
         priority
         sizes="100vw"
         style={{ objectFit: "cover", objectPosition: "center top", opacity: 0.28 }}
@@ -380,7 +381,7 @@ function WhatMakesUsDifferent() {
             style={{
               fontFamily: "var(--sp-font-sans)",
               fontSize: 16,
-              color: "#6B7280",
+              color: "#4B5563",
               maxWidth: 720,
               margin: "20px auto 0",
               lineHeight: 1.65,
@@ -466,7 +467,7 @@ function WhatMakesUsDifferent() {
                       fontFamily: "var(--sp-font-sans)",
                       fontSize: 15,
                       lineHeight: 1.6,
-                      color: dark ? "#9CA3AF" : "#6B7280",
+                      color: dark ? "#9CA3AF" : "#4B5563",
                       margin: 0,
                       transition: TEXT_TRANSITION,
                     }}
@@ -490,7 +491,7 @@ function WhatMakesUsDifferent() {
           style={{
             fontFamily: "var(--sp-font-sans)",
             fontSize: 16,
-            color: "#6B7280",
+            color: "#4B5563",
             textAlign: "center",
             margin: "32px auto 0",
             maxWidth: 720,
@@ -564,7 +565,7 @@ function Leadership() {
                 fontFamily: "var(--sp-font-sans)",
                 fontSize: 16,
                 lineHeight: 1.75,
-                color: "#CBD5E1",
+                color: "#EBEEF2",
                 margin: "0 0 14px",
               }}
             >
@@ -576,7 +577,7 @@ function Leadership() {
                 fontFamily: "var(--sp-font-sans)",
                 fontSize: 16,
                 lineHeight: 1.75,
-                color: "#CBD5E1",
+                color: "#EBEEF2",
                 margin: 0,
               }}
             >
@@ -611,6 +612,7 @@ function Leadership() {
                 src={src}
                 alt=""
                 fill
+                quality={92}
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 33vw, 380px"
                 style={{ objectFit: "cover" }}
               />
@@ -662,7 +664,7 @@ function Initiatives() {
             style={{
               fontFamily: "var(--sp-font-sans)",
               fontSize: 15,
-              color: "#6B7280",
+              color: "#4B5563",
               margin: "18px 0 40px",
             }}
           >
@@ -711,7 +713,7 @@ function Initiatives() {
                       fontFamily: "var(--sp-font-sans)",
                       fontSize: 16,
                       lineHeight: 1.7,
-                      color: "#CBD5E1",
+                      color: "#EBEEF2",
                       margin: "0 0 22px",
                     }}
                   >
@@ -758,6 +760,7 @@ function Initiatives() {
                     src={active.photo}
                     alt={active.title}
                     fill
+                    quality={92}
                     sizes="(max-width: 768px) 100vw, 50vw"
                     style={{ objectFit: "cover" }}
                   />
@@ -811,7 +814,7 @@ function ArrowButton({
         transition: "opacity 0.2s, background 0.2s",
       }}
     >
-      <Icon size={18} color="#374151" />
+      <Icon size={18} color="#1F2937" />
     </button>
   );
 }

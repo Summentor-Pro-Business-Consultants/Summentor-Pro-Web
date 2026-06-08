@@ -154,6 +154,7 @@ function Hero() {
         alt=""
         aria-hidden="true"
         fill
+        quality={92}
         priority
         sizes="100vw"
         style={{ objectFit: "cover", objectPosition: "center", opacity: 0.25 }}
@@ -225,7 +226,7 @@ function Hero() {
               fontFamily: "var(--sp-font-sans)",
               fontSize: "clamp(15px, 1.6vw, 18px)",
               lineHeight: 1.75,
-              color: "#CBD5E1",
+              color: "#EBEEF2",
               maxWidth: 820,
               margin: "0 auto",
             }}
@@ -288,7 +289,7 @@ function WhyOurPlatformsMatter() {
             style={{
               fontFamily: "var(--sp-font-sans)",
               fontSize: 16,
-              color: "#6B7280",
+              color: "#4B5563",
               maxWidth: 720,
               margin: "20px auto 0",
               lineHeight: 1.65,
@@ -392,7 +393,7 @@ function WhyOurPlatformsMatter() {
                       fontFamily: "var(--sp-font-sans)",
                       fontSize: 15,
                       lineHeight: 1.6,
-                      color: dark ? "#9CA3AF" : "#6B7280",
+                      color: dark ? "#9CA3AF" : "#4B5563",
                       margin: 0,
                       transition: TEXT_TRANSITION,
                     }}
@@ -481,6 +482,7 @@ function FeaturedPlatforms() {
                     src={active.photo}
                     alt={active.title}
                     fill
+                    quality={92}
                     sizes="(max-width: 768px) 100vw, 50vw"
                     style={{ objectFit: "cover" }}
                   />
@@ -510,7 +512,7 @@ function FeaturedPlatforms() {
                       fontFamily: "var(--sp-font-sans)",
                       fontSize: 16,
                       lineHeight: 1.7,
-                      color: "#CBD5E1",
+                      color: "#EBEEF2",
                       margin: "0 0 22px",
                     }}
                   >
@@ -695,7 +697,7 @@ function PartnerCTA() {
             style={{
               fontFamily: "var(--sp-font-sans)",
               fontSize: 16,
-              color: "#6B7280",
+              color: "#4B5563",
               maxWidth: 820,
               margin: "20px auto 32px",
               lineHeight: 1.7,
@@ -827,6 +829,7 @@ function PlatformHighlights() {
                   src={src}
                   alt=""
                   fill
+                  quality={92}
                   sizes="(max-width: 640px) 100vw, 50vw"
                   style={{ objectFit: "cover", filter: "grayscale(1)" }}
                 />
@@ -877,7 +880,7 @@ function ArrowButton({
         transition: "background 0.2s ease",
       }}
     >
-      <Icon size={18} color={dark ? "#fff" : "#374151"} />
+      <Icon size={18} color={dark ? "#fff" : "#1F2937"} />
     </button>
   );
 }

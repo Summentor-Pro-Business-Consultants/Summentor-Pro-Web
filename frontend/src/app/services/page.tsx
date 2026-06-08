@@ -148,6 +148,7 @@ function Hero() {
         alt=""
         aria-hidden="true"
         fill
+        quality={92}
         priority
         sizes="100vw"
         style={{ objectFit: "cover", objectPosition: "center", opacity: 0.25 }}
@@ -212,7 +213,7 @@ function Hero() {
               fontFamily: "var(--sp-font-sans)",
               fontSize: "clamp(15px, 1.6vw, 18px)",
               lineHeight: 1.75,
-              color: "#CBD5E1",
+              color: "#EBEEF2",
               maxWidth: 780,
               margin: "0 auto",
             }}
@@ -344,7 +345,7 @@ function SolutionTabs() {
                       fontFamily: "var(--sp-font-sans)",
                       fontSize: 16,
                       lineHeight: 1.7,
-                      color: "#CBD5E1",
+                      color: "#EBEEF2",
                       margin: i === active.paragraphs.length - 1 ? "0 0 24px" : "0 0 14px",
                     }}
                   >
@@ -371,7 +372,7 @@ function SolutionTabs() {
                       style={{
                         fontFamily: "var(--sp-font-sans)",
                         fontSize: 16,
-                        color: "#CBD5E1",
+                        color: "#EBEEF2",
                         display: "flex",
                         alignItems: "flex-start",
                         gap: 10,

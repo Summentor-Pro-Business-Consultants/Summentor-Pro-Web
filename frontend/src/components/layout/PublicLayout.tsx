@@ -1,6 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
+import { MotionConfig } from "framer-motion";
 import Header from "./Header";
 import Footer from "./Footer";
 
@@ -11,10 +12,14 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
   if (isAdmin) return <>{children}</>;
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <Header />
-      <main className="flex-1">{children}</main>
-      <Footer />
-    </div>
+    // reducedMotion="user" makes every framer-motion reveal/animation across
+    // the site honour the visitor's OS "reduce motion" setting automatically.
+    <MotionConfig reducedMotion="user">
+      <div className="min-h-screen flex flex-col">
+        <Header />
+        <main className="flex-1">{children}</main>
+        <Footer />
+      </div>
+    </MotionConfig>
   );
 }

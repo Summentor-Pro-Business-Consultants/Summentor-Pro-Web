@@ -111,6 +111,7 @@ function Hero() {
         alt=""
         aria-hidden="true"
         fill
+        quality={92}
         priority
         sizes="100vw"
         style={{ objectFit: "cover", objectPosition: "center", opacity: 0.22 }}
@@ -574,7 +575,7 @@ function LocationBlock() {
                 fontFamily: "var(--sp-font-sans)",
                 fontSize: "clamp(15px, 1.8vw, 17px)",
                 lineHeight: 1.6,
-                color: "#CBD5E1",
+                color: "#EBEEF2",
                 margin: "0 0 18px",
               }}
             >

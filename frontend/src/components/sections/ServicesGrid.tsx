@@ -28,7 +28,7 @@ const services = [
   },
   {
     num: "5.",
-    title: "CONNECTNOW –\nBUSINESS NETWORKING\nPLATFORM",
+    title: "CONNECTNOW\nBUSINESS NETWORKING\nPLATFORM",
     desc: "ConnectNow is our dedicated business networking initiative designed to help businesses generate qualified connections and pursue meaningful opportunities through intelligent matching",
   },
 ];
@@ -61,7 +61,7 @@ export default function ServicesGrid() {
             style={{
               fontFamily: "var(--sp-font-sans)",
               fontSize: 16,
-              color: "#6B7280",
+              color: "#4B5563",
               margin: "12px 0 0 0",
               textAlign: "center",
             }}
@@ -169,7 +169,7 @@ export default function ServicesGrid() {
                       fontFamily: "var(--sp-font-sans)",
                       fontSize: "clamp(14px, 1.4vw, 18px)",
                       lineHeight: 1.65,
-                      color: dark ? "#9CA3AF" : "#374151",
+                      color: dark ? "#9CA3AF" : "#1F2937",
                       margin: 0,
                       transition: "color 0.28s ease",
                     }}

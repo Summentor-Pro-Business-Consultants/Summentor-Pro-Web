@@ -51,7 +51,11 @@ export default function Header() {
       <div
         className="flex items-center"
         style={{
-          height: 108,
+          height: 84,
+          // Logo PNG carries generous built-in whitespace top/bottom; clip it
+          // so the bar can be shorter while the visible mark stays the same
+          // rendered size (height={100}).
+          overflow: "hidden",
           paddingLeft: "clamp(20px, 3vw, 48px)",
           paddingRight: "clamp(20px, 3vw, 48px)",
         }}
@@ -66,8 +70,8 @@ export default function Header() {
                 <span
                   style={{
                     color: "var(--sp-gray-300)",
-                    fontSize: 21,
-                    margin: "0 10px",
+                    fontSize: 19.5,
+                    margin: "0 9px",
                     userSelect: "none",
                   }}
                 >
@@ -78,10 +82,10 @@ export default function Header() {
                 href={link.href}
                 style={{
                   fontFamily: "var(--sp-font-sans)",
-                  fontSize: 21,
+                  fontSize: 19.5,
                   color: isActive(link.href) ? "var(--sp-green-700)" : "var(--sp-navy-900)",
                   textDecoration: "none",
-                  padding: "41px 14px",
+                  padding: "28px 13px",
                   borderBottom: isActive(link.href)
                     ? "2px solid var(--sp-green-600)"
                     : "2px solid transparent",

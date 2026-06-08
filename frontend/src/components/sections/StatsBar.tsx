@@ -1,19 +1,17 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, type ReactNode } from "react";
 import Image from "next/image";
 import { motion, useInView, type Variants } from "framer-motion";
 import Container from "@/components/ui/Container";
 import SectionHeading from "@/components/ui/SectionHeading";
 import WavyLine from "@/components/ui/WavyLine";
 
-interface AnimatedStatProps {
-  target: number;
-  style?: React.CSSProperties;
-}
+const EASE = [0.22, 1, 0.36, 1] as const;
 
-function AnimatedStat({ target, style }: AnimatedStatProps) {
-  const ref = useRef<HTMLDivElement>(null);
+// ─── Count-up number ────────────────────────────────────────────────────────
+function AnimatedStat({ target }: { target: number }) {
+  const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true });
   const [count, setCount] = useState(0);
 
@@ -21,7 +19,6 @@ function AnimatedStat({ target, style }: AnimatedStatProps) {
     if (!inView) return;
     const duration = 1800;
     const start = performance.now();
-
     function tick(now: number) {
       const progress = Math.min((now - start) / duration, 1);
       const eased = 1 - Math.pow(1 - progress, 3);
@@ -29,258 +26,221 @@ function AnimatedStat({ target, style }: AnimatedStatProps) {
       if (progress < 1) requestAnimationFrame(tick);
       else setCount(target);
     }
-
     requestAnimationFrame(tick);
   }, [inView, target]);
 
   return (
-    <div ref={ref} style={style}>
-      {count}+
-    </div>
+    <span
+      ref={ref}
+      style={{
+        fontFamily: "var(--sp-font-sans)",
+        fontWeight: 800,
+        color: "var(--sp-green-500)",
+        lineHeight: 1,
+        fontSize: "clamp(42px, 5vw, 72px)",
+        letterSpacing: "-0.02em",
+        display: "block",
+        marginBottom: 6,
+      }}
+    >
+      {count.toLocaleString()}+
+    </span>
   );
 }
 
-// Transparent + borderless so the cards dissolve into the section's
-// flat navy-1000 background. Photo + number/text alone define each cell.
-const CARD_BG = "transparent";
-const CARD_BORDER = "none";
-const CARD_RADIUS = 10;
-
-const statNumber: React.CSSProperties = {
-  fontFamily: "var(--sp-font-sans)",
-  fontWeight: 800,
-  color: "var(--sp-green-500)",
-  lineHeight: 1,
-};
-const bodyText: React.CSSProperties = {
-  fontFamily: "var(--sp-font-sans)",
-  lineHeight: 1.5,
-  color: "#CBD5E1",
-  margin: 0,
+const item: Variants = {
+  hidden: { opacity: 0, y: 26 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASE } },
 };
 
-const grid: Variants = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.12, delayChildren: 0.05 } },
-};
-const cell: Variants = {
-  hidden: { opacity: 0, y: 24 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
-  },
-};
-
-/** Photo column that fills the card height (Next.js optimized image). */
-function Photo({
-  src,
-  alt,
-  className,
-}: {
-  src: string;
-  alt: string;
-  className?: string;
-}) {
+// ─── Building blocks ────────────────────────────────────────────────────────
+/** Landscape rectangle photo — sharp corners, faint static ring. */
+function Photo({ src, alt }: { src: string; alt: string }) {
   return (
     <div
-      className={className}
-      style={{ position: "relative", flexShrink: 0, alignSelf: "stretch" }}
+      style={{
+        position: "relative",
+        flexShrink: 0,
+        width: "clamp(180px, 18vw, 250px)",
+        aspectRatio: "3 / 2",
+        overflow: "hidden",
+        border: "1px solid rgba(255,255,255,0.12)",
+      }}
     >
       <Image
         src={src}
         alt={alt}
         fill
-        sizes="(max-width: 768px) 40vw, 200px"
+        quality={92}
+        sizes="(max-width: 768px) 70vw, 250px"
         style={{ objectFit: "cover", objectPosition: "center" }}
       />
     </div>
   );
 }
 
-const cardBase: React.CSSProperties = {
-  display: "flex",
-  alignItems: "stretch",
-  background: CARD_BG,
-  border: CARD_BORDER,
-  borderRadius: CARD_RADIUS,
-  overflow: "hidden",
-  minHeight: 210,
+const labelStyle: React.CSSProperties = {
+  fontFamily: "var(--sp-font-sans)",
+  fontWeight: 400,
+  color: "#F2F4F7",
+  fontSize: "clamp(18px, 1.85vw, 25px)",
+  lineHeight: 1.35,
+  margin: 0,
+  maxWidth: 250,
 };
 
-const hoverLift = {
-  y: -6,
-  transition: { type: "spring" as const, stiffness: 300, damping: 22 },
+/** A grouped image+content unit (image left, content right). */
+function Pair({
+  src,
+  alt,
+  children,
+}: {
+  src: string;
+  alt: string;
+  children: ReactNode;
+}) {
+  return (
+    <motion.div
+      variants={item}
+      className="flex flex-col items-center text-center sm:flex-row sm:items-center sm:text-left"
+      style={{ gap: "clamp(14px, 1.4vw, 22px)" }}
+    >
+      <Photo src={src} alt={alt} />
+      <div>{children}</div>
+    </motion.div>
+  );
+}
+
+/** A standalone statistic block (number above label). */
+function StatBlock({
+  target,
+  label,
+  className = "",
+}: {
+  target: number;
+  label: string;
+  className?: string;
+}) {
+  return (
+    <motion.div variants={item} className={`text-center sm:text-left ${className}`}>
+      <AnimatedStat target={target} />
+      <p style={labelStyle}>{label}</p>
+    </motion.div>
+  );
+}
+
+const rowContainer: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.13, delayChildren: 0.05 } },
 };
 
 export default function StatsBar() {
   return (
     <section
       style={{
+        position: "relative",
+        overflow: "hidden",
         background: "var(--sp-navy-1000)",
-        // Grid lines on top, alternating dark gradient (grad-b: dark-left →
-        // light-right) as the bottom layer.
         backgroundImage:
           "linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px), var(--sp-dark-grad-b)",
         backgroundSize: "44px 44px, 44px 44px, cover",
-        paddingTop: "clamp(56px, 8vw, 80px)",
-        paddingBottom: "clamp(56px, 8vw, 80px)",
-        position: "relative",
-        overflow: "hidden",
-        // Alternating slants — top "/" (left-downwards, bottom-left corner
-        // anchored), bottom "\" (right-downwards, bottom-right corner
-        // anchored). Forms a chevron-style trapezoid that flips direction
-        // from the Hero's bottom slant above it.
+        paddingTop: "clamp(64px, 9vw, 96px)",
+        paddingBottom: "clamp(72px, 10vw, 110px)",
         clipPath:
           "polygon(0 var(--sp-slant), 100% 0, 100% 100%, 0 calc(100% - var(--sp-slant)))",
       }}
     >
-      <Container>
-        {/* Heading */}
+      <style>{`
+        /* Gap between blocks in a stats row. Set here (not via a Tailwind
+           arbitrary class) so the clamp() value is reliably applied. */
+        .sp-statrow { gap: 3rem; }
+        @media (min-width: 1024px) {
+          .sp-statrow { gap: clamp(16px, 1.8vw, 36px); }
+          /* Tighten ONLY the gap after the standalone stat block (100+) so it
+             sits closer to its neighbouring image, without touching the other
+             gaps in the row. */
+          .sp-stat-tight { margin-right: clamp(-24px, -1.2vw, -8px); }
+        }
+      `}</style>
+
+      <Container wide>
+        {/* Heading + decorative stroke (nudged slightly right of centre) */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.6, ease: EASE }}
           className="text-center"
-          style={{ marginBottom: 56, position: "relative" }}
+          style={{ marginBottom: "clamp(48px, 7vw, 84px)" }}
         >
           <SectionHeading dark>
             DRIVING MEANINGFUL
             <br />
             BUSINESS ENGAGEMENTS
           </SectionHeading>
-          <WavyLine />
+          <div style={{ transform: "translateX(6%)" }}>
+            <WavyLine />
+          </div>
         </motion.div>
 
-        {/* 2×2 grid */}
+        {/* Row 1 — two image-text pairs packed together, centred (no dead gap) */}
         <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 gap-4"
-          variants={grid}
+          variants={rowContainer}
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.2 }}
+          className="sp-statrow flex flex-col items-center lg:flex-row lg:flex-nowrap lg:justify-center lg:items-center"
+          style={{ marginBottom: "clamp(56px, 8vw, 110px)" }}
         >
-          {/* Row 1, Left — Photo + 3000+ */}
-          <motion.div variants={cell} whileHover={hoverLift} style={cardBase}>
-            <Photo
-              src="/images/engagements/msme-consulting-2.jpeg"
-              alt="Business stakeholders at a summit"
-              className="w-[34%] md:w-47.5"
-            />
-            <div
-              style={{
-                flex: 1,
-                padding: "28px",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-              }}
-            >
-              <AnimatedStat
-                target={3000}
-                style={{
-                  ...statNumber,
-                  fontSize: "clamp(44px, 6vw, 72px)",
-                  marginBottom: 10,
-                }}
-              />
-              <p style={{ ...bodyText, fontSize: "clamp(15px, 1.6vw, 20px)" }}>
-                Business Stakeholders Engaged
-              </p>
-            </div>
-          </motion.div>
-
-          {/* Row 1, Right — Photo + participation text */}
-          <motion.div variants={cell} whileHover={hoverLift} style={cardBase}>
-            <Photo
-              src="/images/engagements/meeting-union-minister-msme.jpeg"
-              alt="Meeting with Union Minister of MSME"
-              className="w-[34%] md:w-47.5"
-            />
-            <div
-              style={{
-                flex: 1,
-                padding: "28px",
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
-              <p style={{ ...bodyText, fontSize: "clamp(16px, 1.7vw, 22px)" }}>
-                Government &amp; Industry Participation Across Strategic
-                Platforms &amp; Initiatives
-              </p>
-            </div>
-          </motion.div>
-
-          {/* Row 2, Left — 100+ stat · Photo · Multi-Sector text (3 parts) */}
-          <motion.div
-            variants={cell}
-            whileHover={hoverLift}
-            style={cardBase}
-            className="flex-col sm:flex-row"
+          <Pair
+            src="/images/engagements/msme-consulting-2.jpeg"
+            alt="Business stakeholders at a summit"
           >
-            <div
-              style={{
-                flex: 1,
-                padding: "28px",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-              }}
-            >
-              <AnimatedStat
-                target={100}
-                style={{
-                  ...statNumber,
-                  fontSize: "clamp(48px, 6.5vw, 80px)",
-                  marginBottom: 10,
-                }}
-              />
-              <p style={{ ...bodyText, fontSize: "clamp(14px, 1.5vw, 18px)" }}>
-                Strategic Collaborations Facilitated
-              </p>
-            </div>
-            <Photo
-              src="/images/engagements/meeting-deputy-cm-odisha.jpeg"
-              alt="Strategic collaboration ceremony"
-              className="w-full h-40 sm:h-auto sm:w-37.5"
-            />
-            <div
-              style={{
-                flex: 1,
-                padding: "28px",
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
-              <p style={{ ...bodyText, fontSize: "clamp(14px, 1.5vw, 18px)" }}>
-                Multi-Sector Industry Platforms Executed
-              </p>
-            </div>
-          </motion.div>
+            <AnimatedStat target={3000} />
+            <p style={labelStyle}>Business Stakeholders Engaged</p>
+          </Pair>
 
-          {/* Row 2, Right — Photo + ecosystem text */}
-          <motion.div variants={cell} whileHover={hoverLift} style={cardBase}>
-            <Photo
-              src="/images/engagements/msme-consulting-1.jpeg"
-              alt="Ecosystem participation across institutions"
-              className="w-[34%] md:w-47.5"
-            />
-            <div
-              style={{
-                flex: 1,
-                padding: "28px",
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
-              <p style={{ ...bodyText, fontSize: "clamp(16px, 1.7vw, 22px)" }}>
-                Ecosystem Participation Across MSMEs, Enterprises &amp;
-                Institutions
-              </p>
-            </div>
-          </motion.div>
+          <Pair
+            src="/images/engagements/meeting-union-minister-msme.jpeg"
+            alt="Meeting with Union Minister of MSME"
+          >
+            <p style={labelStyle}>
+              Government &amp; Industry Participation Across Strategic Platforms
+              &amp; Initiatives
+            </p>
+          </Pair>
+        </motion.div>
+
+        {/* Row 2 — three blocks packed together, centred (no dead gap) */}
+        <motion.div
+          variants={rowContainer}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.2 }}
+          className="sp-statrow flex flex-col items-center lg:flex-row lg:flex-nowrap lg:justify-center lg:items-center"
+        >
+          <StatBlock
+            target={100}
+            label="Strategic Collaborations Facilitated"
+            className="sp-stat-tight"
+          />
+
+          <Pair
+            src="/images/engagements/meeting-deputy-cm-odisha.jpeg"
+            alt="Strategic collaboration ceremony"
+          >
+            <p style={labelStyle}>Multi-Sector Industry Platforms Executed</p>
+          </Pair>
+
+          <Pair
+            src="/images/engagements/msme-consulting-1.jpeg"
+            alt="Ecosystem participation across institutions"
+          >
+            <p style={labelStyle}>
+              Ecosystem Participation Across MSMEs, Enterprises &amp;
+              Institutions
+            </p>
+          </Pair>
         </motion.div>
       </Container>
     </section>

@@ -155,10 +155,11 @@ html {
 html,
 body {
   font-family: var(--sp-font-sans);
-  /* Brand spec: never use thin weights. Body defaults to Poppins Medium. */
-  font-weight: 500;
-  /* 16px base = 1rem. All headings + body sizes below scale from this. */
-  font-size: 1rem;
+  /* Body copy is Poppins Regular (400) — lighter than the old Medium so
+     paragraphs read softer; labels/buttons set their own heavier weight. */
+  font-weight: 400;
+  /* 17px base = 1.0625rem. All headings + body sizes scale from this. */
+  font-size: 1.0625rem;
   line-height: var(--sp-lh-normal);
   color: var(--sp-fg);
   background: var(--sp-bg);
@@ -235,7 +236,8 @@ h6 {
 
 p {
   margin: 0;
-  font-size: 1rem; /* 16px — universal body text */
+  font-size: 1.0625rem; /* 17px — universal body text */
+  font-weight: 400;
   color: var(--sp-fg);
   line-height: var(--sp-lh-relaxed);
 }
@@ -277,5 +279,23 @@ small {
 *:focus-visible {
   outline: 2px solid var(--sp-focus-ring);
   outline-offset: 2px;
+}
+
+/* Accessibility — honour the OS "reduce motion" preference. Framer-motion
+   reveals are handled by <MotionConfig reducedMotion="user">; this covers
+   the remaining CSS transitions/animations and the smooth-scroll so the
+   whole experience calms down for users who ask for it. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 

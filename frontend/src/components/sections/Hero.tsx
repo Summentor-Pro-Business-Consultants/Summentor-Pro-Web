@@ -1,13 +1,33 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { motion } from "framer-motion";
 import Container from "@/components/ui/Container";
 import PageHeading from "@/components/ui/PageHeading";
 import Typewriter from "@/components/ui/Typewriter";
 
+// Background hero video (lives in /public/videos) — compressed 720p H.264
+// loop (~8 MB, down from the 100 MB master) tuned for a muted, half-opacity
+// background under the dark overlay.
+const HERO_VIDEO = "/videos/spro-website.mp4";
+const HERO_POSTER = "/images/engagements/msme-consulting-2.jpeg";
+
 export default function Hero() {
+  // The hero video is a muted, decorative background loop, so it always plays
+  // regardless of the reduced-motion preference. React doesn't reliably set
+  // the `muted` *property* on <video>, which makes browsers block autoplay, so
+  // we force muted + kick off play() imperatively.
+  const videoRef = useRef<HTMLVideoElement>(null);
+  useEffect(() => {
+    const v = videoRef.current;
+    if (!v) return;
+    v.muted = true;
+    v.defaultMuted = true;
+    const p = v.play();
+    if (p) p.catch(() => {});
+  }, []);
+
   return (
     <section
       style={{
@@ -25,20 +45,30 @@ export default function Hero() {
       }}
     >
 
-      {/* Background conference photo — replaced by video later */}
-      <Image
-        src="/images/engagements/msme-consulting-2.jpeg"
-        alt=""
+      {/* Background hero video — always autoplays muted on loop. The poster
+          (first conference photo) shows only while the video buffers, so there
+          is never a blank frame. */}
+      <video
+        ref={videoRef}
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="auto"
+        poster={HERO_POSTER}
         aria-hidden="true"
-        fill
-        priority
-        sizes="100vw"
         style={{
+          position: "absolute",
+          inset: 0,
+          width: "100%",
+          height: "100%",
           objectFit: "cover",
-          objectPosition: "center top",
-          opacity: 0.38,
+          objectPosition: "center",
+          opacity: 0.65,
         }}
-      />
+      >
+        <source src={HERO_VIDEO} type="video/mp4" />
+      </video>
 
       {/* Dark gradient overlay */}
       <div
@@ -46,7 +76,7 @@ export default function Hero() {
           position: "absolute",
           inset: 0,
           background:
-            "linear-gradient(135deg, rgba(8,8,8,0.75) 0%, rgba(8,8,8,0.5) 60%, rgba(8,8,8,0.65) 100%)",
+            "linear-gradient(135deg, rgba(8,8,8,0.62) 0%, rgba(8,8,8,0.4) 60%, rgba(8,8,8,0.55) 100%)",
         }}
       />
 

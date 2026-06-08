@@ -5,11 +5,12 @@ import "./globals.css";
 import PublicLayout from "@/components/layout/PublicLayout";
 import TrackPageView from "@/components/TrackPageView";
 
-// Body font — Poppins, only the thicker weights per the brand spec.
+// Body font — Poppins. 400 (Regular) for body copy, heavier weights for
+// labels/buttons/emphasis.
 const poppins = Poppins({
   variable: "--font-poppins",
   subsets: ["latin"],
-  weight: ["500", "600", "700", "800", "900"],
+  weight: ["400", "500", "600", "700", "800", "900"],
   display: "swap",
 });
 

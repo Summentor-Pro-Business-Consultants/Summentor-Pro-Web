@@ -103,7 +103,7 @@ export default function EventsSection() {
                       fontFamily: "var(--sp-font-sans)",
                       fontSize: "clamp(16px, 1.8vw, 19px)",
                       lineHeight: 1.75,
-                      color: "#CBD5E1",
+                      color: "#EBEEF2",
                       margin: 0,
                     }}
                   >
@@ -193,6 +193,7 @@ function PlatformImage({
           src={src}
           alt={alt}
           fill
+          quality={92}
           sizes="(max-width: 768px) 100vw, 45vw"
           style={{ objectFit: "cover", objectPosition: "center" }}
         />
