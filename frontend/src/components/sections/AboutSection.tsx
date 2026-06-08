@@ -41,7 +41,7 @@ export default function AboutSection() {
           viewport={{ once: true, amount: 0.4 }}
           transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
           className="text-center"
-          style={{ maxWidth: 800, margin: "0 auto" }}
+          style={{ maxWidth: 1080, margin: "0 auto" }}
         >
           {/* Dark rounded badge */}
           <SectionHeading>About Summentor Pro</SectionHeading>
@@ -51,9 +51,9 @@ export default function AboutSection() {
           <p
             style={{
               fontFamily: "var(--sp-font-sans)",
-              fontSize: "clamp(18px, 2.1vw, 22px)",
+              fontSize: "clamp(20px, 2.5vw, 27px)",
               lineHeight: 1.7,
-              color: "#374151",
+              color: "#1F2937",
               marginTop: 32,
             }}
           >

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useReducedMotion } from "framer-motion";
 
 interface TypewriterProps {
   /** Final text to type out. */
@@ -25,8 +26,14 @@ export default function Typewriter({
   style,
 }: TypewriterProps) {
   const [count, setCount] = useState(0);
+  const reduceMotion = useReducedMotion();
 
   useEffect(() => {
+    // Respect reduced-motion: skip the per-character reveal entirely.
+    if (reduceMotion) {
+      setCount(text.length);
+      return;
+    }
     setCount(0);
 
     let intervalId: ReturnType<typeof setInterval> | null = null;
@@ -46,7 +53,7 @@ export default function Typewriter({
       clearTimeout(startId);
       if (intervalId) clearInterval(intervalId);
     };
-  }, [text, speed, startDelay]);
+  }, [text, speed, startDelay, reduceMotion]);
 
   return (
     <span className={className} style={style}>

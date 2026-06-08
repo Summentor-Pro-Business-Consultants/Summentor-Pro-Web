@@ -141,3 +141,7 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
+
+# Hero video master (100 MB) — kept local only; the compressed
+# spro-website.mp4 is what ships and is committed.
+/frontend/public/videos/spro website.mp4

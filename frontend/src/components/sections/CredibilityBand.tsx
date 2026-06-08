@@ -119,6 +119,7 @@ export default function CredibilityBand() {
                   src={letter.img}
                   alt={letter.label}
                   fill
+                  quality={92}
                   sizes="(max-width: 768px) 100vw, 33vw"
                   style={{ objectFit: "cover", objectPosition: "top" }}
                 />
@@ -138,7 +139,7 @@ export default function CredibilityBand() {
                   style={{
                     fontFamily: "var(--sp-font-sans)",
                     fontSize: 14,
-                    color: "#6B7280",
+                    color: "#4B5563",
                     margin: 0,
                     lineHeight: 1.4,
                     flex: 1,
@@ -182,7 +183,7 @@ export default function CredibilityBand() {
               transition: "opacity 0.2s",
             }}
           >
-            <ChevronLeft size={16} color="#374151" />
+            <ChevronLeft size={16} color="#1F2937" />
           </button>
           <div className="flex gap-2">
             {Array.from({ length: maxIndex + 1 }).map((_, i) => (
@@ -219,7 +220,7 @@ export default function CredibilityBand() {
               transition: "opacity 0.2s",
             }}
           >
-            <ChevronRight size={16} color="#374151" />
+            <ChevronRight size={16} color="#1F2937" />
           </button>
         </div>
 
@@ -259,6 +260,7 @@ export default function CredibilityBand() {
                     src={photo.src}
                     alt={photo.caption}
                     fill
+                    quality={92}
                     sizes="(max-width: 768px) 50vw, 20vw"
                     style={{ objectFit: "cover" }}
                   />
@@ -268,7 +270,7 @@ export default function CredibilityBand() {
                     style={{
                       fontFamily: "var(--sp-font-sans)",
                       fontSize: 11,
-                      color: "#6B7280",
+                      color: "#4B5563",
                       margin: 0,
                       lineHeight: 1.4,
                     }}

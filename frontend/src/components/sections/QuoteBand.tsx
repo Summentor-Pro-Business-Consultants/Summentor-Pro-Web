@@ -69,7 +69,7 @@ export default function QuoteBand() {
                 fontFamily: "var(--sp-font-sans)",
                 fontSize: 17,
                 fontStyle: "italic",
-                color: "#6B7280",
+                color: "#C2C8D0",
                 marginTop: 24,
                 lineHeight: 1.6,
               }}
@@ -103,6 +103,7 @@ export default function QuoteBand() {
               src="/images/engagements/meeting-cm-delhi.jpeg"
               alt="Strategic meeting"
               fill
+              quality={92}
               sizes="(max-width: 768px) 100vw, 50vw"
               style={{ objectFit: "cover", objectPosition: "center top" }}
             />

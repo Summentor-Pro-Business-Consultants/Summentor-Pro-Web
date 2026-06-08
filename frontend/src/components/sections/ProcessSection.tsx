@@ -227,7 +227,7 @@ export default function ProcessSection() {
                       style={{
                         fontFamily: "var(--sp-font-sans)",
                         fontSize: 17,
-                        color: "#374151",
+                        color: "#1F2937",
                         lineHeight: 1.65,
                       }}
                     >
@@ -252,6 +252,7 @@ export default function ProcessSection() {
                 src={current.photo}
                 alt={current.photoAlt}
                 fill
+                quality={92}
                 sizes="(max-width: 768px) 100vw, 50vw"
                 style={{ objectFit: "cover" }}
               />
