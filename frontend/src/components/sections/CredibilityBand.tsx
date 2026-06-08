@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Container from "@/components/ui/Container";
 import SectionHeading from "@/components/ui/SectionHeading";
@@ -35,26 +35,71 @@ const meetingPhotos = [
   { src: "/images/engagements/meeting-mos-msme.jpeg", caption: "Meeting with Minister of State for MSME" },
 ];
 
-const companies = [
-  { name: "ACKO General Insurance",  logo: "/logos/acko.png",        fallback: "https://logo.clearbit.com/acko.com" },
-  { name: "Cashfree Payments",       logo: "/logos/cashfree.png",    fallback: "https://logo.clearbit.com/cashfree.com" },
-  { name: "Clear",                   logo: "/logos/clear.png",       fallback: "https://logo.clearbit.com/clear.in" },
-  { name: "Dalmia Cement",           logo: "/logos/dalmia.png",      fallback: "https://logo.clearbit.com/dalmiacement.com" },
-  { name: "East West Seed",          logo: "/logos/eastwestseed.png",fallback: "https://logo.clearbit.com/eastwestseed.com" },
-  { name: "Godrej & Boyce",          logo: "/logos/godrej.png",      fallback: "https://logo.clearbit.com/godrejenterprises.com" },
-  { name: "ISB",                     logo: "/logos/isb.png",         fallback: "https://logo.clearbit.com/isb.edu" },
-  { name: "Paytm",                   logo: "/logos/paytm.png",       fallback: "https://logo.clearbit.com/paytm.com" },
-  { name: "PhonePe",                 logo: "/logos/phonepe.png",     fallback: "https://logo.clearbit.com/phonepe.com" },
-  { name: "Polycab",                 logo: "/logos/polycab.png",     fallback: "https://logo.clearbit.com/polycab.com" },
-  { name: "Sproutlife Foods",        logo: "/logos/yogabars.png",    fallback: "https://logo.clearbit.com/yogabars.in" },
-  { name: "State Bank of India",     logo: "https://logo.clearbit.com/sbi.co.in", fallback: "https://logo.clearbit.com/onlinesbi.sbi" },
-  { name: "Tata Steel",              logo: "/logos/tatasteel.png",   fallback: "https://logo.clearbit.com/tatasteel.com" },
-  { name: "TATA Teleservices",       logo: "/logos/tatatele.png",    fallback: "https://logo.clearbit.com/tatatelebusiness.com" },
-  { name: "Zaggle",                  logo: "/logos/zaggle.png",      fallback: "https://logo.clearbit.com/zaggle.in" },
-  { name: "Zetwerk",                 logo: "/logos/zetwerk.png",     fallback: "https://logo.clearbit.com/zetwerk.com" },
+// Each company shows a local logo (in /public/logos) beside its name. Logos
+// are bundled locally — the old Clearbit logo CDN was shut down, so there is
+// no remote fallback. Companies without a bundled logo set `logo: null` and
+// render as a clean name-only chip instead of a broken image.
+const companies: { name: string; logo: string | null }[] = [
+  { name: "ACKO General Insurance", logo: "/logos/acko.png" },
+  { name: "Cashfree Payments",      logo: "/logos/cashfree.png" },
+  { name: "Clear",                  logo: "/logos/clear.png" },
+  { name: "Dalmia Cement",          logo: "/logos/dalmia.png" },
+  { name: "East West Seed",         logo: "/logos/eastwestseed.png" },
+  { name: "Godrej & Boyce",         logo: "/logos/godrej.png" },
+  { name: "ISB",                    logo: "/logos/isb.png" },
+  { name: "Paytm",                  logo: "/logos/paytm.png" },
+  { name: "PhonePe",                logo: "/logos/phonepe.png" },
+  { name: "Polycab",                logo: "/logos/polycab.png" },
+  { name: "Sproutlife Foods",       logo: "/logos/yogabars.png" },
+  { name: "State Bank of India",    logo: null },
+  { name: "Tata Steel",             logo: "/logos/tatasteel.png" },
+  { name: "TATA Teleservices",      logo: "/logos/tatatele.png" },
+  { name: "Zaggle",                 logo: "/logos/zaggle.png" },
+  { name: "Zetwerk",                logo: "/logos/zetwerk.png" },
 ];
 
+/** One logo + company name. alt="" because the name is shown alongside, so a
+ *  failed image can't leak alt text — it just hides, leaving a name-only chip. */
+function LogoChip({ co }: { co: { name: string; logo: string | null } }) {
+  return (
+    <div style={{ display: "flex", alignItems: "center", gap: 10, flexShrink: 0 }}>
+      {co.logo && (
+        <img
+          src={co.logo}
+          alt=""
+          aria-hidden="true"
+          style={{ height: 32, width: "auto", maxWidth: 80, objectFit: "contain" }}
+          onError={(e) => {
+            (e.currentTarget as HTMLImageElement).style.display = "none";
+          }}
+        />
+      )}
+      <span
+        style={{
+          fontFamily: "var(--sp-font-sans)",
+          fontSize: 15,
+          fontWeight: 500,
+          color: "#9CA3AF",
+          whiteSpace: "nowrap",
+        }}
+      >
+        {co.name}
+      </span>
+    </div>
+  );
+}
+
 export default function CredibilityBand() {
+  // Reduced-motion variant: default visitors get the continuously scrolling
+  // marquee; visitors who prefer reduced motion get a calm, static wrapped row
+  // of the same logos (no infinite motion). Gated behind `mounted` so SSR and
+  // the first client paint always render the marquee — avoids a hydration
+  // mismatch — then swap to the static row after mount if reduced is set.
+  const reduceMotion = useReducedMotion();
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  const calmLogos = mounted && reduceMotion;
+
   const [current, setCurrent] = useState(0);
   const perPage = 3;
   const maxIndex = letters.length - perPage; // 4 - 3 = 1, so positions 0 and 1
@@ -119,7 +164,7 @@ export default function CredibilityBand() {
                   src={letter.img}
                   alt={letter.label}
                   fill
-                  quality={92}
+                  quality={100}
                   sizes="(max-width: 768px) 100vw, 33vw"
                   style={{ objectFit: "cover", objectPosition: "top" }}
                 />
@@ -260,7 +305,7 @@ export default function CredibilityBand() {
                     src={photo.src}
                     alt={photo.caption}
                     fill
-                    quality={92}
+                    quality={100}
                     sizes="(max-width: 768px) 50vw, 20vw"
                     style={{ objectFit: "cover" }}
                   />
@@ -299,65 +344,31 @@ export default function CredibilityBand() {
           >
             Trusted by leading businesses across India
           </p>
-          <div style={{ overflow: "hidden" }}>
-            <motion.div
-              animate={{ x: ["0%", "-50%"] }}
-              transition={{ duration: 36, repeat: Infinity, ease: "linear" }}
-              className="flex items-center"
-              style={{ width: "max-content", gap: 56 }}
-            >
-              {[...companies, ...companies].map((co, i) => (
-                <div
-                  key={i}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 10,
-                    flexShrink: 0,
-                  }}
-                >
-                  {/* Raw img kept: onError fallback chain to remote logo CDNs */}
-                  <img
-                    src={co.logo}
-                    alt={co.name}
-                    style={{
-                      height: 32,
-                      width: "auto",
-                      maxWidth: 80,
-                      objectFit: "contain",
-                      filter: "none",
-                      opacity: 1,
-                    }}
-                    onError={(e) => {
-                      const el = e.currentTarget as HTMLImageElement;
-                      const domain = co.fallback.replace("https://logo.clearbit.com/", "");
-                      const googleFavicon = `https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=https://${domain}&size=256`;
-                      if (!el.dataset.tried) {
-                        el.dataset.tried = "1";
-                        el.src = co.fallback;
-                      } else if (el.dataset.tried === "1") {
-                        el.dataset.tried = "2";
-                        el.src = googleFavicon;
-                      } else {
-                        el.style.display = "none";
-                      }
-                    }}
-                  />
-                  <span
-                    style={{
-                      fontFamily: "var(--sp-font-sans)",
-                      fontSize: 15,
-                      fontWeight: 500,
-                      color: "#9CA3AF",
-                      whiteSpace: "nowrap",
-                    }}
-                  >
-                    {co.name}
-                  </span>
-                </div>
+
+          {calmLogos ? (
+            // Reduced motion: a calm, static, centred wrapped row — all logos
+            // visible at once, no continuous scrolling.
+            <div className="flex flex-wrap items-center justify-center" style={{ gap: "20px 48px" }}>
+              {companies.map((co) => (
+                <LogoChip key={co.name} co={co} />
               ))}
-            </motion.div>
-          </div>
+            </div>
+          ) : (
+            // Default: seamless infinite marquee (companies duplicated so the
+            // -50% loop is invisible).
+            <div style={{ overflow: "hidden" }}>
+              <motion.div
+                animate={{ x: ["0%", "-50%"] }}
+                transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
+                className="flex items-center"
+                style={{ width: "max-content", gap: 56 }}
+              >
+                {[...companies, ...companies].map((co, i) => (
+                  <LogoChip key={i} co={co} />
+                ))}
+              </motion.div>
+            </div>
+          )}
         </div>
       </Container>
     </section>

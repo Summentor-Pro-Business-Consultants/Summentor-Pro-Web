@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion, AnimatePresence, type Variants } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion, type Variants } from "framer-motion";
 import {
   ChevronLeft,
   ChevronRight,
@@ -154,7 +154,7 @@ function Hero() {
         alt=""
         aria-hidden="true"
         fill
-        quality={92}
+        quality={100}
         priority
         sizes="100vw"
         style={{ objectFit: "cover", objectPosition: "center", opacity: 0.25 }}
@@ -243,19 +243,22 @@ function Hero() {
 
 // ─── 2. Why Our Platforms Matter ────────────────────────────────────────────
 function WhyOurPlatformsMatter() {
+  const reduceMotion = useReducedMotion();
   const [index, setIndex] = useState(0);
   const [hovered, setHovered] = useState<number | null>(null);
   const perPage = 3;
   const maxIndex = Math.max(0, designedTo.length - perPage);
   const visible = designedTo.slice(index, index + perPage);
 
+  // Auto-advance paused on hover and disabled for reduced-motion visitors
+  // (arrows/dots remain for manual navigation).
   useEffect(() => {
-    if (hovered !== null) return;
+    if (hovered !== null || reduceMotion) return;
     const t = setTimeout(() => {
       setIndex((i) => (i >= maxIndex ? 0 : i + 1));
     }, 5000);
     return () => clearTimeout(t);
-  }, [index, hovered, maxIndex]);
+  }, [index, hovered, maxIndex, reduceMotion]);
 
   return (
     <section
@@ -418,18 +421,20 @@ function WhyOurPlatformsMatter() {
 
 // ─── 3. Featured Platforms ──────────────────────────────────────────────────
 function FeaturedPlatforms() {
+  const reduceMotion = useReducedMotion();
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
   const active = featuredPlatforms[index]!;
   const last = featuredPlatforms.length - 1;
 
+  // Auto-advance paused on hover and disabled for reduced-motion visitors.
   useEffect(() => {
-    if (paused) return;
+    if (paused || reduceMotion) return;
     const t = setTimeout(() => {
       setIndex((i) => (i >= last ? 0 : i + 1));
     }, 6000);
     return () => clearTimeout(t);
-  }, [index, paused, last]);
+  }, [index, paused, last, reduceMotion]);
 
   return (
     <section
@@ -482,7 +487,7 @@ function FeaturedPlatforms() {
                     src={active.photo}
                     alt={active.title}
                     fill
-                    quality={92}
+                    quality={100}
                     sizes="(max-width: 768px) 100vw, 50vw"
                     style={{ objectFit: "cover" }}
                   />
@@ -772,16 +777,19 @@ function PartnerPill({
 
 // ─── 6. Platform Highlights (B&W photo carousel) ────────────────────────────
 function PlatformHighlights() {
+  const reduceMotion = useReducedMotion();
   const [index, setIndex] = useState(0);
   const perPage = 2;
   const maxIndex = Math.max(0, highlightPhotos.length - perPage);
 
+  // Auto-advance disabled for reduced-motion visitors (arrows/dots remain).
   useEffect(() => {
+    if (reduceMotion) return;
     const t = setTimeout(() => {
       setIndex((i) => (i >= maxIndex ? 0 : i + 1));
     }, 5500);
     return () => clearTimeout(t);
-  }, [index, maxIndex]);
+  }, [index, maxIndex, reduceMotion]);
 
   const visible = highlightPhotos.slice(index, index + perPage);
 
@@ -829,7 +837,7 @@ function PlatformHighlights() {
                   src={src}
                   alt=""
                   fill
-                  quality={92}
+                  quality={100}
                   sizes="(max-width: 640px) 100vw, 50vw"
                   style={{ objectFit: "cover", filter: "grayscale(1)" }}
                 />

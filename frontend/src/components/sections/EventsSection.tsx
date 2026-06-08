@@ -193,7 +193,7 @@ function PlatformImage({
           src={src}
           alt={alt}
           fill
-          quality={92}
+          quality={100}
           sizes="(max-width: 768px) 100vw, 45vw"
           style={{ objectFit: "cover", objectPosition: "center" }}
         />

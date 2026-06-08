@@ -103,7 +103,7 @@ export default function QuoteBand() {
               src="/images/engagements/meeting-cm-delhi.jpeg"
               alt="Strategic meeting"
               fill
-              quality={92}
+              quality={100}
               sizes="(max-width: 768px) 100vw, 50vw"
               style={{ objectFit: "cover", objectPosition: "center top" }}
             />

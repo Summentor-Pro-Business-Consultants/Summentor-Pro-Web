@@ -148,7 +148,7 @@ function Hero() {
         alt=""
         aria-hidden="true"
         fill
-        quality={92}
+        quality={100}
         priority
         sizes="100vw"
         style={{ objectFit: "cover", objectPosition: "center", opacity: 0.25 }}
