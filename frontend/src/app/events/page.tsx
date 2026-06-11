@@ -625,6 +625,8 @@ function FeaturedPlatforms() {
 
 // ─── 4. Upcoming Platforms ──────────────────────────────────────────────────
 function UpcomingPlatforms() {
+  const [hovered, setHovered] = useState<number | null>(null);
+
   return (
     <section
       style={{
@@ -651,41 +653,45 @@ function UpcomingPlatforms() {
           style={{
             display: "flex",
             flexDirection: "column",
-            gap: 16,
+            gap: 22,
             position: "relative",
-            maxWidth: 880,
+            maxWidth: 1120,
             margin: "0 auto",
           }}
         >
           {upcomingPlatforms.map((p, i) => {
-            const highlighted = i === 0;
+            const hover = hovered === i;
             return (
               <motion.div
                 key={i}
                 variants={fadeUp}
+                onMouseEnter={() => setHovered(i)}
+                onMouseLeave={() => setHovered(null)}
                 style={{
-                  background: highlighted
-                    ? "var(--sp-green-500)"
-                    : "var(--sp-navy-900)",
-                  color: highlighted ? "#000" : "#fff",
-                  borderRadius: 10,
-                  padding: "clamp(20px, 4vw, 26px) clamp(20px, 5vw, 32px)",
+                  // Black by default, green on hover (title + text stay white).
+                  background: hover ? "var(--sp-green-600)" : "var(--sp-navy-900)",
+                  color: "#fff",
+                  borderRadius: 12,
+                  padding: "clamp(34px, 5.5vw, 56px) clamp(28px, 5vw, 56px)",
                   textAlign: "center",
-                  border: highlighted
+                  border: hover
                     ? "1px solid var(--sp-green-600)"
                     : "1px solid rgba(255,255,255,0.06)",
-                  boxShadow: highlighted
-                    ? "0 12px 32px rgba(5,161,113,0.18)"
+                  boxShadow: hover
+                    ? "0 14px 36px rgba(5,161,113,0.28)"
                     : "0 4px 16px rgba(0,0,0,0.08)",
+                  cursor: "default",
+                  transition: "background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease",
                 }}
               >
                 <p
                   style={{
                     fontFamily: "var(--sp-font-sans)",
-                    fontSize: 18,
-                    fontWeight: 700,
-                    margin: "0 0 6px",
-                    lineHeight: 1.35,
+                    fontSize: "clamp(28px, 3.2vw, 42px)",
+                    fontWeight: 600,
+                    margin: "0 0 12px",
+                    lineHeight: 1.22,
+                    color: "#fff",
                   }}
                 >
                   {p.title}
@@ -693,12 +699,10 @@ function UpcomingPlatforms() {
                 <p
                   style={{
                     fontFamily: "var(--sp-font-sans)",
-                    fontSize: 15,
+                    fontSize: "clamp(22px, 2.4vw, 31px)",
                     margin: 0,
-                    lineHeight: 1.5,
-                    color: highlighted
-                      ? "rgba(10,10,10,0.78)"
-                      : "rgba(255,255,255,0.72)",
+                    lineHeight: 1.45,
+                    color: "rgba(255,255,255,0.9)",
                   }}
                 >
                   {p.desc}
@@ -724,7 +728,7 @@ function PartnerCTA() {
       }}
     >
       <EdgeGreenGradient side="right" />
-      <Container>
+      <Container wide>
         <motion.div
           initial="hidden"
           whileInView="show"
@@ -734,7 +738,10 @@ function PartnerCTA() {
         >
           <motion.div variants={fadeUp}>
             <SectionHeading>
-              PARTNER WITH OUR <span style={{ color: "var(--sp-green-600)" }}>PLATFORMS</span>
+              <span style={{ fontWeight: 900, WebkitTextStroke: "1px currentColor" }}>
+                PARTNER WITH
+              </span>{" "}
+              OUR PLATFORMS
             </SectionHeading>
           </motion.div>
           <WavyLine />
@@ -743,11 +750,11 @@ function PartnerCTA() {
             variants={fadeUp}
             style={{
               fontFamily: "var(--sp-font-sans)",
-              fontSize: 16,
-              color: "#4B5563",
-              maxWidth: 820,
-              margin: "20px auto 32px",
-              lineHeight: 1.7,
+              fontSize: "clamp(25px, 2.6vw, 34px)",
+              color: "#000",
+              maxWidth: 1340,
+              margin: "22px auto 40px",
+              lineHeight: 1.5,
             }}
           >
             Whether you are looking to strengthen your market presence, engage with industry
@@ -790,14 +797,14 @@ function PartnerPill({
       href={href}
       style={{
         display: "inline-block",
-        padding: "14px 26px",
+        padding: "15px 38px",
         borderRadius: 999,
-        border: "1.5px solid var(--sp-green-600)",
+        border: filled ? "2px solid var(--sp-green-600)" : "1.5px solid #1f2937",
         background: filled ? "var(--sp-green-600)" : "transparent",
         color: filled ? "#fff" : "#000",
         textDecoration: "none",
         fontFamily: "var(--sp-font-sans)",
-        fontSize: 15,
+        fontSize: 28,
         fontWeight: 600,
         transition: CARD_TRANSITION,
       }}
@@ -805,11 +812,13 @@ function PartnerPill({
         const el = e.currentTarget as HTMLElement;
         el.style.background = "var(--sp-green-600)";
         el.style.color = "#fff";
+        el.style.borderColor = "var(--sp-green-600)";
       }}
       onMouseLeave={(e) => {
         const el = e.currentTarget as HTMLElement;
         el.style.background = filled ? "var(--sp-green-600)" : "transparent";
         el.style.color = filled ? "#fff" : "#000";
+        el.style.borderColor = filled ? "var(--sp-green-600)" : "#1f2937";
       }}
     >
       {children}
