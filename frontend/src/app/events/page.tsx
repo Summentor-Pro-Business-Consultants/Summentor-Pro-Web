@@ -298,7 +298,7 @@ function WhyOurPlatformsMatter() {
           <motion.div variants={fadeUp}>
             <SectionHeading>
               WHY OUR{" "}
-              <span style={{ color: "var(--sp-green-500)", fontWeight: 900 }}>PLATFORMS MATTER</span>
+              <span style={{ fontWeight: 900, WebkitTextStroke: "1px currentColor" }}>PLATFORMS MATTER</span>
             </SectionHeading>
           </motion.div>
           <WavyLine />
@@ -469,7 +469,7 @@ function FeaturedPlatforms() {
       <Container>
         <div style={{ textAlign: "center", marginBottom: 40, position: "relative" }}>
           <SectionHeading>
-            FEATURED <span style={{ color: "var(--sp-green-500)", fontWeight: 900 }}>PLATFORMS</span>
+            FEATURED <span style={{ fontWeight: 900, WebkitTextStroke: "1px currentColor" }}>PLATFORMS</span>
           </SectionHeading>
           <WavyLine />
         </div>
@@ -640,7 +640,7 @@ function UpcomingPlatforms() {
       <Container>
         <div style={{ textAlign: "center", marginBottom: 40, position: "relative" }}>
           <SectionHeading>
-            UPCOMING <span style={{ color: "var(--sp-green-600)" }}>PLATFORMS</span>
+            UPCOMING <span style={{ fontWeight: 900, WebkitTextStroke: "1px currentColor" }}>PLATFORMS</span>
           </SectionHeading>
           <WavyLine />
         </div>
@@ -830,81 +830,136 @@ function PartnerPill({
 function PlatformHighlights() {
   const reduceMotion = useReducedMotion();
   const [index, setIndex] = useState(0);
-  const perPage = 2;
-  const maxIndex = Math.max(0, highlightPhotos.length - perPage);
+  const last = highlightPhotos.length - 1;
+
+  // Measure the viewport so the active photo sits at the left while the next
+  // photo peeks (in B&W) on the right.
+  const viewportRef = useRef<HTMLDivElement>(null);
+  const [vw, setVw] = useState(1100);
+  useEffect(() => {
+    const el = viewportRef.current;
+    if (!el) return;
+    const update = () => setVw(el.offsetWidth);
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
+  const GAP = 20;
+  const cardW = Math.min(vw * 0.66, 900);
+  const translate = -index * (cardW + GAP);
 
   // Auto-advance disabled for reduced-motion visitors (arrows/dots remain).
   useEffect(() => {
     if (reduceMotion) return;
     const t = setTimeout(() => {
-      setIndex((i) => (i >= maxIndex ? 0 : i + 1));
+      setIndex((i) => (i >= last ? 0 : i + 1));
     }, 5500);
     return () => clearTimeout(t);
-  }, [index, maxIndex, reduceMotion]);
+  }, [index, last, reduceMotion]);
 
-  const visible = highlightPhotos.slice(index, index + perPage);
+  // The photo row is rendered OUTSIDE the dark section and pulled up so the
+  // section's slanted bottom cuts through the middle of the (full) photos.
+  const OVERLAP = 235;
 
   return (
-    <section
-      style={{
-        background: "var(--sp-dark-grad-b)",
-        padding: "clamp(56px, 8vw, 80px) 0",
-        position: "relative",
-        overflow: "hidden",
-        // Top slant only — Footer below is also dark, no slant needed there.
-        clipPath: "polygon(0 var(--sp-slant), 100% 0, 100% 100%, 0 100%)",
-      }}
-    >
-      <Container>
-        <div style={{ textAlign: "center", marginBottom: 40, position: "relative" }}>
-          <SectionHeading dark>
-            PLATFORM <span style={{ color: "var(--sp-green-400)" }}>HIGHLIGHTS</span>
-          </SectionHeading>
-          <WavyLine />
-        </div>
+    <>
+      <section
+        style={{
+          background: "var(--sp-dark-grad-b)",
+          // Extra bottom space hosts the upper half of the straddling photos.
+          padding: "clamp(56px, 8vw, 80px) 0 clamp(260px, 24vw, 330px)",
+          position: "relative",
+          zIndex: 1,
+          overflow: "hidden",
+          // Top slant + bottom slant (right-up → left-down).
+          clipPath:
+            "polygon(0 var(--sp-slant), 100% 0, 100% calc(100% - var(--sp-slant)), 0 100%)",
+        }}
+      >
+        <Container>
+          <div style={{ textAlign: "center", position: "relative" }}>
+            <SectionHeading dark>
+              PLATFORM <span style={{ fontWeight: 900, WebkitTextStroke: "1px currentColor" }}>HIGHLIGHTS</span>
+            </SectionHeading>
+            <WavyLine />
+          </div>
+        </Container>
+      </section>
 
-        <div className="flex items-stretch gap-4" style={{ position: "relative" }}>
-          <ArrowButton
-            direction="left"
-            dark
-            onClick={() => setIndex((i) => (i <= 0 ? maxIndex : i - 1))}
-          />
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 flex-1">
-            {visible.map((src, i) => (
-              <motion.div
-                key={src + index}
-                initial={{ opacity: 0, scale: 0.96 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5, delay: i * 0.08, ease: EASE }}
+      {/* Photo carousel straddling the section's bottom slant. Active photo is
+          full + colour; the next one peeks on the right in black & white. The
+          bottom padding gives the bar indicators clear white space below. */}
+      <div
+        style={{
+          position: "relative",
+          zIndex: 2,
+          marginTop: -OVERLAP,
+          paddingBottom: "clamp(56px, 8vw, 100px)",
+        }}
+      >
+        <Container>
+          <div ref={viewportRef} style={{ position: "relative" }}>
+            <div style={{ overflow: "hidden" }}>
+              <div
                 style={{
-                  position: "relative",
-                  aspectRatio: "4 / 3",
-                  borderRadius: 10,
-                  overflow: "hidden",
-                  border: "1px solid rgba(255,255,255,0.08)",
+                  display: "flex",
+                  gap: GAP,
+                  transform: `translateX(${translate}px)`,
+                  transition: "transform 0.55s cubic-bezier(0.22, 1, 0.36, 1)",
                 }}
               >
-                <Image
-                  src={src}
-                  alt=""
-                  fill
-                  quality={100}
-                  sizes="(max-width: 640px) 100vw, 50vw"
-                  style={{ objectFit: "cover", filter: "grayscale(1)" }}
-                />
-              </motion.div>
-            ))}
-          </div>
-          <ArrowButton
-            direction="right"
-            dark
-            onClick={() => setIndex((i) => (i >= maxIndex ? 0 : i + 1))}
-          />
-        </div>
+                {highlightPhotos.map((src, i) => {
+                  const isActive = i === index;
+                  return (
+                    <div
+                      key={src}
+                      style={{
+                        flexShrink: 0,
+                        width: cardW,
+                        aspectRatio: "16 / 10",
+                        position: "relative",
+                        overflow: "hidden",
+                        boxShadow: "0 28px 56px -20px rgba(0,0,0,0.6)",
+                      }}
+                    >
+                      <Image
+                        src={src}
+                        alt=""
+                        fill
+                        quality={100}
+                        sizes="(max-width: 768px) 90vw, 66vw"
+                        style={{
+                          objectFit: "cover",
+                          // Active photo in colour, the peeking next one in B&W.
+                          filter: isActive ? "none" : "grayscale(1)",
+                          transition: "filter 0.5s ease",
+                        }}
+                      />
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
 
-        <Dots count={maxIndex + 1} active={index} onSelect={setIndex} dark />
-      </Container>
-    </section>
+            {/* Green arrows half-merged into the row's left & right edges */}
+            <GreenArrow
+              direction="left"
+              x={0}
+              onClick={() => setIndex((i) => (i <= 0 ? last : i - 1))}
+            />
+            <GreenArrow
+              direction="right"
+              x="100%"
+              onClick={() => setIndex((i) => (i >= last ? 0 : i + 1))}
+            />
+          </div>
+
+          <Dots count={highlightPhotos.length} active={index} onSelect={setIndex} />
+        </Container>
+      </div>
+    </>
   );
 }
 

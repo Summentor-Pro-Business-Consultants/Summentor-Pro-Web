@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { motion, type Variants } from "framer-motion";
-import { Phone, Mail } from "lucide-react";
+import { RiPhoneFill, RiMailFill } from "react-icons/ri";
 import Container from "@/components/ui/Container";
 import EdgeGreenGradient from "@/components/ui/EdgeGreenGradient";
 import PageHeading from "@/components/ui/PageHeading";
@@ -52,6 +52,14 @@ const REFERRAL_OPTIONS = [
   "Other",
 ];
 
+const EVENT_OPTIONS = [
+  "MSME & Startup Innovation Summit",
+  "Women Empowerment & Leadership Initiatives",
+  "Global Smart Build Summit",
+  "Rural & Urban Development Excellence Awards",
+  "MSME Textile Investor Meet",
+];
+
 interface FormState {
   fullName: string;
   designation: string;
@@ -61,6 +69,7 @@ interface FormState {
   industrySector: string;
   service: string;
   referralSource: string;
+  event: string;
   country: string;
   message: string;
 }
@@ -74,6 +83,7 @@ const EMPTY_FORM: FormState = {
   industrySector: "",
   service: "",
   referralSource: "",
+  event: "",
   country: "",
   message: "",
 };
@@ -102,7 +112,7 @@ function Hero() {
         paddingTop: "clamp(56px, 8vw, 80px)",
         paddingBottom: "clamp(72px, 11vw, 120px)",
         clipPath:
-          "polygon(0 0, 100% 0, 100% 100%, 0 calc(100% - var(--sp-slant)))",
+          "polygon(0 0, 100% 0, 100% calc(100% - var(--sp-slant)), 0 100%)",
       }}
     >
       <Image
@@ -125,7 +135,7 @@ function Hero() {
         }}
       />
 
-      <Container>
+      <Container wide>
         <motion.div
           initial="hidden"
           animate="show"
@@ -133,40 +143,41 @@ function Hero() {
           style={{
             position: "relative",
             textAlign: "center",
-            maxWidth: 900,
+            maxWidth: 1280,
             margin: "0 auto",
           }}
         >
           <motion.div variants={fadeUp}>
-            <span
+            <SectionHeading
+              dark
               style={{
-                fontFamily: "var(--sp-font-sans)",
-                fontSize: 13,
-                fontWeight: 700,
-                letterSpacing: "0.22em",
-                color: "#fff",
-                textTransform: "uppercase",
-                borderBottom: "2px solid #fff",
-                paddingBottom: 4,
+                display: "inline-block",
+                fontSize: "clamp(25px, 3.6vw, 44px)",
+                fontWeight: 600,
+                borderBottom: "3px solid #fff",
+                paddingBottom: 10,
               }}
             >
               CONTACT US
-            </span>
+            </SectionHeading>
           </motion.div>
 
           <motion.div variants={fadeUp} style={{ marginTop: 28 }}>
-            <PageHeading>
-              START YOUR JOURNEY WITH
-              <br />
+            <PageHeading style={{ fontSize: "clamp(30px, 5.2vw, 64px)" }}>
+              <span style={{ display: "block", fontWeight: 600 }}>
+                START YOUR JOURNEY WITH
+              </span>
               <span
                 style={{
                   background: "var(--sp-green-500)",
                   color: "#000",
-                  padding: "0 14px",
                   display: "inline-block",
-                  marginTop: -10,
-                  transform: "rotate(-3deg)",
-                  transformOrigin: "center",
+                  padding: "13px 8px",
+                  marginTop: -6,
+                  // Trapezium: vertical, parallel side edges; taller on the
+                  // right (same as the About / Solutions headings).
+                  clipPath:
+                    "polygon(0 13px, 100% 0, 100% 100%, 0 calc(100% - 13px))",
                 }}
               >
                 SUMMENTOR PRO
@@ -212,7 +223,11 @@ function FormBlock() {
         location: form.country,
         referralSource: form.referralSource,
         budget: form.service,
-        message: form.message,
+        // Selected event is folded into the message so no backend field change
+        // is needed.
+        message: form.event
+          ? `[Event of interest: ${form.event}] ${form.message}`.trim()
+          : form.message,
       };
       Object.keys(payload).forEach((k) => {
         if (payload[k] === "") delete payload[k];
@@ -244,9 +259,6 @@ function FormBlock() {
     <section
       style={{
         background: "#fff",
-        backgroundImage:
-          "linear-gradient(rgba(10,10,10,0.075) 1px, transparent 1px), linear-gradient(90deg, rgba(10,10,10,0.075) 1px, transparent 1px)",
-        backgroundSize: "44px 44px",
         padding: "clamp(56px, 8vw, 80px) 0",
         position: "relative",
         overflow: "hidden",
@@ -387,7 +399,17 @@ function FormBlock() {
                     ))}
                   </select>
                 </Field>
-                <Field label="Country" className="md:col-span-2">
+                <Field label="Select Event">
+                  <select value={form.event} onChange={set("event")} style={inputStyle}>
+                    <option value="">— Select —</option>
+                    {EVENT_OPTIONS.map((s) => (
+                      <option key={s} value={s}>
+                        {s}
+                      </option>
+                    ))}
+                  </select>
+                </Field>
+                <Field label="Country">
                   <input
                     type="text"
                     value={form.country}
@@ -430,13 +452,13 @@ function FormBlock() {
                   disabled={submitting}
                   style={{
                     display: "inline-block",
-                    padding: "14px 40px",
+                    padding: "11px 46px",
                     borderRadius: 999,
                     border: "1.5px solid var(--sp-green-600)",
                     background: "var(--sp-green-600)",
-                    color: "#fff",
+                    color: "#000",
                     fontFamily: "var(--sp-font-sans)",
-                    fontSize: 15,
+                    fontSize: 27,
                     fontWeight: 600,
                     cursor: submitting ? "wait" : "pointer",
                     opacity: submitting ? 0.7 : 1,
@@ -506,21 +528,18 @@ function LocationBlock() {
     <section
       style={{
         background: "#fff",
-        backgroundImage:
-          "linear-gradient(rgba(10,10,10,0.075) 1px, transparent 1px), linear-gradient(90deg, rgba(10,10,10,0.075) 1px, transparent 1px)",
-        backgroundSize: "44px 44px",
         padding: "clamp(40px, 6vw, 60px) 0 clamp(64px, 10vw, 100px)",
         position: "relative",
         overflow: "hidden",
       }}
     >
       <EdgeGreenGradient side="left" />
-      <Container>
+      <Container wide>
         <div style={{ textAlign: "center", marginBottom: 36, position: "relative" }}>
           <SectionHeading>
             SOLUTIONS DESIGNED FOR
             <br />
-            <span style={{ color: "var(--sp-green-600)" }}>YOUR BUSINESS NEEDS</span>
+            <span style={{ fontWeight: 900, WebkitTextStroke: "1px currentColor" }}>YOUR BUSINESS NEEDS</span>
           </SectionHeading>
           <WavyLine />
         </div>
@@ -532,9 +551,9 @@ function LocationBlock() {
           transition={{ duration: 0.7, ease: EASE }}
           style={{
             position: "relative",
-            maxWidth: 1080,
+            maxWidth: 1340,
             margin: "0 auto",
-            borderRadius: 12,
+            borderRadius: 0,
             overflow: "hidden",
             boxShadow: "0 12px 36px rgba(10,10,10,0.10)",
           }}
@@ -562,20 +581,20 @@ function LocationBlock() {
               color: "#fff",
             }}
           >
-            <div style={{ display: "flex", justifyContent: "center", marginBottom: 14 }}>
+            <div style={{ display: "flex", justifyContent: "center", marginBottom: 24 }}>
               <img
                 src="/brand/summentor-pro-logo.png"
                 alt="Summentor Pro"
-                style={{ height: 44, width: "auto", filter: "brightness(0) invert(1)" }}
+                style={{ height: 132, width: "auto", filter: "brightness(0) invert(1)" }}
               />
             </div>
             <p
               style={{
                 fontFamily: "var(--sp-font-sans)",
-                fontSize: "clamp(15px, 1.8vw, 17px)",
-                lineHeight: 1.6,
+                fontSize: "clamp(23px, 2.5vw, 32px)",
+                lineHeight: 1.5,
                 color: "#fff",
-                margin: "0 0 18px",
+                margin: "0 0 24px",
               }}
             >
               5th Block, SPD Plaza, #52, 1st Floor, Jyoti Nivas College Road,
@@ -584,8 +603,14 @@ function LocationBlock() {
             </p>
             <div
               style={{
-                borderTop: "1px solid rgba(255,255,255,0.12)",
-                paddingTop: 16,
+                width: "clamp(420px, 72%, 780px)",
+                height: 2,
+                background: "rgba(255,255,255,0.85)",
+                margin: "0 auto 18px",
+              }}
+            />
+            <div
+              style={{
                 display: "flex",
                 justifyContent: "center",
                 gap: "clamp(16px, 4vw, 36px)",
@@ -601,10 +626,10 @@ function LocationBlock() {
                   color: "#fff",
                   textDecoration: "none",
                   fontFamily: "var(--sp-font-sans)",
-                  fontSize: 15,
+                  fontSize: 26,
                 }}
               >
-                <Phone size={16} color="var(--sp-green-400)" strokeWidth={2} />
+                <RiPhoneFill size={28} color="var(--sp-green-400)" />
                 080-41574773
               </a>
               <a
@@ -616,10 +641,10 @@ function LocationBlock() {
                   color: "#fff",
                   textDecoration: "none",
                   fontFamily: "var(--sp-font-sans)",
-                  fontSize: 15,
+                  fontSize: 26,
                 }}
               >
-                <Mail size={16} color="var(--sp-green-400)" strokeWidth={2} />
+                <RiMailFill size={28} color="var(--sp-green-400)" />
                 info@summentorpro.com
               </a>
             </div>
