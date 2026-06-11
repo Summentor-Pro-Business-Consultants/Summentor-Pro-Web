@@ -71,12 +71,28 @@ export default function Footer() {
           marginBottom: -CTA_OVERLAP,
         }}
       >
-        <Container style={{ maxWidth: 1320 }}>
+        {/* White backdrop over the light area only (above the footer overlap)
+            so the body grid doesn't show around the straddling card. The
+            bottom CTA_OVERLAP stays transparent so the card's lower corners
+            sit on the dark footer. */}
+        <div
+          aria-hidden="true"
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: CTA_OVERLAP,
+            background: "#fff",
+            zIndex: 0,
+          }}
+        />
+        <Container style={{ maxWidth: 1320, position: "relative", zIndex: 1 }}>
           <div
             style={{
               background: "var(--sp-green-700)",
               borderRadius: 24,
-              padding: "clamp(28px, 5vw, 48px) clamp(32px, 6vw, 72px)",
+              padding: "clamp(20px, 4vw, 36px) clamp(28px, 5vw, 56px)",
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
@@ -192,8 +208,8 @@ export default function Footer() {
           // Grid lines on top, alternating dark gradient (grad-b: dark-left →
           // light-right) as the bottom layer.
           backgroundImage:
-            "linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px), var(--sp-dark-grad-b)",
-          backgroundSize: "44px 44px, 44px 44px, cover",
+            "linear-gradient(transparent, rgba(255,255,255,0.035) 1.5px, transparent 3px), linear-gradient(90deg, transparent, rgba(255,255,255,0.035) 1.5px, transparent 3px), var(--sp-dark-grad-b)",
+          backgroundSize: "52px 52px, 52px 52px, cover",
           color: "var(--sp-navy-300)",
           position: "relative",
           // Left-downwards "/" slant on top → top-LEFT pushed down. Alternates
@@ -231,7 +247,7 @@ export default function Footer() {
                 style={{
                   fontFamily: "var(--sp-font-sans)",
                   fontSize: 14,
-                  lineHeight: 1.6,
+                  lineHeight: 1.45,
                   color: "var(--sp-navy-300)",
                   marginTop: 16,
                   maxWidth: 300,

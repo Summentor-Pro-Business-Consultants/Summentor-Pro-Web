@@ -122,7 +122,7 @@
   --sp-lh-tight: 1.1;
   --sp-lh-snug: 1.25;
   --sp-lh-normal: 1.45;
-  --sp-lh-relaxed: 1.6;
+  --sp-lh-relaxed: 1.5;
 
   --sp-track-display: -0.02em;
   --sp-track-h1: -0.015em;
@@ -166,16 +166,8 @@ body {
   line-height: var(--sp-lh-normal);
   color: var(--sp-fg);
   background: var(--sp-bg);
-  /* Same grid pattern that light sections paint, applied to the body so
-     the triangular wedges exposed by slanted clip-paths show grid instead
-     of plain white. background-attachment: fixed keeps the grid anchored
-     to the viewport so it visually pattern-matches section grids during
-     scroll without depending on exact section heights. */
-  background-image:
-    linear-gradient(rgba(10, 10, 10, 0.075) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(10, 10, 10, 0.075) 1px, transparent 1px);
-  background-size: 44px 44px;
-  background-attachment: fixed;
+  /* No body grid — the slant cut-outs reveal plain background, not a grid. */
+  background-image: none;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

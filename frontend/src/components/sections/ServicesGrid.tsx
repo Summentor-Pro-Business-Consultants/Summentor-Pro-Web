@@ -142,7 +142,7 @@ export default function ServicesGrid() {
                   style={{
                     width: "46%",
                     flexShrink: 0,
-                    padding: "48px 26px 48px 52px",
+                    padding: "30px 26px 30px 52px",
                     display: "flex",
                     flexDirection: "row",
                     alignItems: "center",
@@ -206,7 +206,7 @@ export default function ServicesGrid() {
                 <div
                   style={{
                     flex: 1,
-                    padding: "48px 48px 48px 42px",
+                    padding: "30px 48px 30px 42px",
                     display: "flex",
                     alignItems: "center",
                   }}
@@ -214,8 +214,8 @@ export default function ServicesGrid() {
                   <p
                     style={{
                       fontFamily: "var(--sp-font-sans)",
-                      fontSize: "clamp(19px, 2.3vw, 30px)",
-                      lineHeight: 1.55,
+                      fontSize: "clamp(18px, 2.15vw, 28px)",
+                      lineHeight: 1.45,
                       fontWeight: 400,
                       color: dark ? "#E5E7EB" : "#000",
                       margin: 0,

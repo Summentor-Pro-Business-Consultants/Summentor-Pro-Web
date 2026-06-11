@@ -42,6 +42,9 @@ export default function Hero() {
     <section
       style={{
         position: "relative",
+        // Paints above AboutSection, which slides up behind this slanted
+        // bottom so its grid fills the cut-out wedge.
+        zIndex: 1,
         minHeight: "100vh",
         display: "flex",
         alignItems: "center",

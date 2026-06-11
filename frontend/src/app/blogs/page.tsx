@@ -87,7 +87,7 @@ export default function BlogsPage() {
               color: "var(--sp-navy-300)",
               marginTop: 16,
               maxWidth: 520,
-              lineHeight: 1.65,
+              lineHeight: 1.45,
             }}
           >
             Perspectives on business growth, MSME strategy, government relations, and the Indian
@@ -177,7 +177,7 @@ export default function BlogsPage() {
                             fontFamily: "var(--sp-font-sans)",
                             fontSize: 14,
                             color: "var(--sp-gray-600)",
-                            lineHeight: 1.6,
+                            lineHeight: 1.45,
                             marginTop: 10,
                             display: "-webkit-box",
                             WebkitLineClamp: 3,

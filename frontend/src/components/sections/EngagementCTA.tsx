@@ -116,7 +116,7 @@ export default function EngagementCTA() {
             style={{
               fontFamily: "var(--sp-font-sans)",
               fontSize: "clamp(24px, 2.6vw, 33px)",
-              lineHeight: 1.6,
+              lineHeight: 1.45,
               color: "#000",
               margin: "0 auto",
               maxWidth: 1120,

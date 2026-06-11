@@ -227,7 +227,7 @@ function Hero() {
             style={{
               fontFamily: "var(--sp-font-sans)",
               fontSize: "clamp(22px, 2.4vw, 31px)",
-              lineHeight: 1.6,
+              lineHeight: 1.45,
               color: "#fff",
               maxWidth: 1040,
               margin: "0 auto",
@@ -310,7 +310,7 @@ function WhyOurPlatformsMatter() {
               color: "#000",
               maxWidth: 860,
               margin: "22px auto 0",
-              lineHeight: 1.6,
+              lineHeight: 1.45,
             }}
           >
             At Summentor Pro, we believe impactful business ecosystems are built through the right
