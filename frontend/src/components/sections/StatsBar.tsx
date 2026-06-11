@@ -187,9 +187,7 @@ export default function StatsBar() {
             <br />
             BUSINESS ENGAGEMENTS
           </SectionHeading>
-          <div style={{ transform: "translateX(6%)" }}>
-            <WavyLine />
-          </div>
+          <WavyLine />
         </motion.div>
 
         {/* Row 1 — two image-text pairs packed together, centred (no dead gap) */}

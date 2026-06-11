@@ -5,6 +5,8 @@ interface WavyLineProps {
   marginTop?: number | string;
   /** Horizontal stretch factor — >1 makes the squiggle wider/flatter. */
   stretch?: number;
+  /** Horizontal nudge from centre, in px. Positive = right, negative = left. */
+  offsetX?: number;
 }
 
 /**
@@ -19,7 +21,12 @@ interface WavyLineProps {
 //
 // `stretch` applies a horizontal scaleX so the line widens without
 // getting any taller (keeping the gap below the heading unchanged).
-export default function WavyLine({ width = 180, marginTop = -22, stretch = 1.3 }: WavyLineProps) {
+export default function WavyLine({
+  width = 180,
+  marginTop = -3,
+  stretch = 1.3,
+  offsetX = 44,
+}: WavyLineProps) {
   const w = typeof width === "number" ? `${width}px` : width;
   const mt = typeof marginTop === "number" ? `${marginTop}px` : marginTop;
   return (
@@ -32,6 +39,8 @@ export default function WavyLine({ width = 180, marginTop = -22, stretch = 1.3 }
         width: w,
         height: "auto",
         margin: `${mt} auto 0`,
+        position: "relative",
+        left: offsetX,
         transform: `scaleX(${stretch})`,
         transformOrigin: "center",
         pointerEvents: "none",
