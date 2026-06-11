@@ -1,62 +1,60 @@
 "use client";
 
-import { useState } from "react";
-import { motion, type Variants } from "framer-motion";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import Container from "@/components/ui/Container";
+import EdgeGreenGradient from "@/components/ui/EdgeGreenGradient";
 import SectionHeading from "@/components/ui/SectionHeading";
-
-const focusCards = [
-  {
-    title: "Strategic Networking & Engagement",
-    desc: "Connecting you with the right people, decision-makers, and opportunities across industries to build meaningful and lasting relationships.",
-  },
-  {
-    title: "Industry & Ecosystem Collaboration",
-    desc: "Facilitating meaningful dialogues and partnerships across MSMEs, enterprises, and institutions for shared growth and value creation.",
-  },
-  {
-    title: "Curated Networking Opportunities",
-    desc: "Bringing together business leaders through structured networking platforms and curated introductions that open doors to new markets.",
-  },
-];
+import WavyLine from "@/components/ui/WavyLine";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
-// Shared CSS transitions for the hover-to-dark card pattern. Same easing
-// curve as framer-motion variants so the visual rhythm stays consistent.
-const HOVER_CSS_EASE = "cubic-bezier(0.22, 1, 0.36, 1)";
-const CARD_TRANSITION = `background 0.45s ${HOVER_CSS_EASE}, border-color 0.45s ${HOVER_CSS_EASE}, box-shadow 0.45s ${HOVER_CSS_EASE}`;
-const TEXT_TRANSITION = `color 0.45s ${HOVER_CSS_EASE}`;
 
-const container: Variants = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.12, delayChildren: 0.05 } },
-};
-
-const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 26 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: EASE } },
-};
-
-const cardsWrap: Variants = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.14, delayChildren: 0.12 } },
-};
-
-const cardItem: Variants = {
-  hidden: { opacity: 0, y: 34, scale: 0.97 },
-  show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.65, ease: EASE } },
-};
+// The five focus areas from the content file ("We focus on:").
+const focusItems = [
+  "Strategic business engagement",
+  "Industry & government collaboration",
+  "Curated networking opportunities",
+  "High-intent business interactions",
+  "Long-term ecosystem development",
+];
 
 export default function EngagementCTA() {
-  const [hovered, setHovered] = useState<number | null>(null);
+  const reduceMotion = useReducedMotion();
+  const [active, setActive] = useState(1);
+  const [dir, setDir] = useState(1);
+  const [paused, setPaused] = useState(false);
+
+  const n = focusItems.length;
+  const goTo = (i: number) => {
+    setDir(i >= active ? 1 : -1);
+    setActive(((i % n) + n) % n);
+  };
+  const prev = () => {
+    setDir(-1);
+    setActive((a) => (a - 1 + n) % n);
+  };
+  const next = () => {
+    setDir(1);
+    setActive((a) => (a + 1) % n);
+  };
+
+  // Auto-advance — paused on hover, disabled under reduced-motion.
+  useEffect(() => {
+    if (reduceMotion || paused) return;
+    const id = setInterval(() => {
+      setDir(1);
+      setActive((a) => (a + 1) % n);
+    }, 5000);
+    return () => clearInterval(id);
+  }, [reduceMotion, paused, n]);
+
+  // The trio of cards currently on screen: previous, active (centre), next.
+  const trio = [(active - 1 + n) % n, active, (active + 1) % n];
 
   return (
     <section
       style={{
-        background: "#F9FAFB",
-        backgroundImage:
-          "linear-gradient(rgba(10,10,10,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(10,10,10,0.045) 1px, transparent 1px)",
-        backgroundSize: "44px 44px",
+        background: "#fff",
         paddingTop: "clamp(56px, 8vw, 80px)",
         paddingBottom: "clamp(56px, 8vw, 80px)",
         position: "relative",
@@ -77,181 +75,228 @@ export default function EngagementCTA() {
           width: 520,
           height: 520,
           background:
-            "radial-gradient(circle, rgba(30,200,140,0.10) 0%, rgba(30,200,140,0.04) 40%, transparent 70%)",
+            "radial-gradient(circle, rgba(5,161,113,0.10) 0%, rgba(5,161,113,0.04) 40%, transparent 70%)",
           pointerEvents: "none",
         }}
       />
 
-      <Container>
+      {/* Soft green curved gradients glowing in from both edges */}
+      <EdgeGreenGradient side="left" position="middle" />
+      <EdgeGreenGradient side="right" position="bottom" />
+
+      <Container style={{ position: "relative", zIndex: 1 }}>
+        {/* Top text block — one self-contained reveal. */}
         <motion.div
-          variants={container}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.25 }}
-          style={{ position: "relative" }}
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.6, ease: EASE }}
+          style={{ marginBottom: 64, textAlign: "center", position: "relative" }}
         >
-          {/* Top text block */}
-          <div style={{ marginBottom: 56 }}>
-            <motion.div variants={fadeUp}>
-              <SectionHeading>WHY SUMMENTOR PRO?</SectionHeading>
-            </motion.div>
+          <SectionHeading>WHY SUMMENTOR PRO?</SectionHeading>
 
-            {/* Accent underline grows in — centered to match heading */}
-            <motion.div
-              variants={{
-                hidden: { scaleX: 0 },
-                show: { scaleX: 1, transition: { duration: 0.7, ease: EASE } },
-              }}
-              style={{
-                height: 3,
-                width: 64,
-                background: "var(--sp-green-500)",
-                borderRadius: 2,
-                transformOrigin: "center",
-                margin: "16px auto 24px",
-              }}
-            />
+          {/* Brand wavy accent — directly beneath the main heading. */}
+          <WavyLine />
 
-            <motion.p
-              variants={fadeUp}
-              style={{
-                fontFamily: "var(--sp-font-sans)",
-                fontSize: 20,
-                fontWeight: 600,
-                color: "#1F2937",
-                margin: "0 auto 16px",
-                textAlign: "center",
-                maxWidth: 720,
-              }}
-            >
-              Why Businesses Partner with Us
-            </motion.p>
-            <motion.p
-              variants={fadeUp}
-              style={{
-                fontFamily: "var(--sp-font-sans)",
-                fontSize: 17,
-                lineHeight: 1.75,
-                color: "#4B5563",
-                margin: "0 auto",
-                textAlign: "center",
-                maxWidth: 720,
-              }}
-            >
-              At Summentor Pro, we believe growth happens when the right people, ideas, and
-              opportunities come together. Our approach combines consulting, strategic engagement,
-              business networking, and ecosystem-building to create platforms that generate real
-              connections and long-term value.
-            </motion.p>
-          </div>
-
-          {/* Focus cards label */}
-          <motion.p
-            variants={fadeUp}
+          <p
             style={{
               fontFamily: "var(--sp-font-sans)",
-              fontSize: 13,
-              fontWeight: 700,
-              letterSpacing: "0.1em",
-              textTransform: "uppercase",
-              color: "#9CA3AF",
-              marginBottom: 20,
+              fontSize: "clamp(26px, 2.9vw, 36px)",
+              fontWeight: 500,
+              color: "#000",
+              margin: "18px auto 28px",
+              maxWidth: 880,
             }}
           >
-            WE FOCUS ON:
-          </motion.p>
+            Why Businesses Partner with Us
+          </p>
 
-          {/* Cards grid — hover triggers dark state + springy lift */}
-          <motion.div
-            className="grid grid-cols-1 md:grid-cols-3 gap-5"
-            variants={cardsWrap}
+          {/* Exact line breaks per the design — hard-coded with <br/>. */}
+          <p
+            style={{
+              fontFamily: "var(--sp-font-sans)",
+              fontSize: "clamp(24px, 2.6vw, 33px)",
+              lineHeight: 1.6,
+              color: "#000",
+              margin: "0 auto",
+              maxWidth: 1120,
+            }}
           >
-            {focusCards.map((card, i) => {
-              const dark = hovered === i;
-              return (
+            At Summentor Pro, we believe growth happens when the
+            <br />
+            right people, ideas, and opportunities come together.
+            <br />
+            Our approach combines consulting, strategic engagement,
+            <br />
+            business networking, and ecosystem-building to create
+            <br />
+            platforms that generate real conversations and long-term value.
+          </p>
+        </motion.div>
+
+        {/* WE FOCUS ON — subheading + wavy + carousel */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.25 }}
+          transition={{ duration: 0.6, ease: EASE }}
+          style={{ textAlign: "center" }}
+        >
+          <SectionHeading>WE FOCUS ON:</SectionHeading>
+          <WavyLine />
+
+          {/* Carousel: prev arrow · three cards · next arrow */}
+          <div
+            onMouseEnter={() => setPaused(true)}
+            onMouseLeave={() => setPaused(false)}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "clamp(8px, 1.6vw, 22px)",
+              marginTop: "clamp(32px, 4.5vw, 52px)",
+            }}
+          >
+            <ArrowButton dir="prev" onClick={prev} />
+
+            <div style={{ flex: 1, overflow: "hidden" }}>
+              <AnimatePresence mode="wait" custom={dir} initial={false}>
                 <motion.div
-                  key={i}
-                  variants={cardItem}
-                  onMouseEnter={() => setHovered(i)}
-                  onMouseLeave={() => setHovered(null)}
-                  whileHover={{
-                    y: -8,
-                    transition: { type: "spring", stiffness: 300, damping: 20 },
-                  }}
+                  key={active}
+                  custom={dir}
+                  initial={{ opacity: 0, x: dir >= 0 ? 60 : -60 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: dir >= 0 ? -60 : 60 }}
+                  transition={{ duration: 0.4, ease: EASE }}
                   style={{
-                    background: dark ? "var(--sp-navy-900)" : "#fff",
-                    border: dark ? "1px solid rgba(255,255,255,0.06)" : "1px solid #E5E7EB",
-                    borderTop: dark ? "3px solid var(--sp-green-500)" : "3px solid transparent",
-                    borderRadius: 8,
-                    padding: "28px 24px",
-                    boxShadow: dark
-                      ? "0 18px 40px rgba(0,0,0,0.20)"
-                      : "0 2px 12px rgba(0,0,0,0.06)",
-                    cursor: "default",
-                    transition: CARD_TRANSITION,
+                    display: "grid",
+                    gridTemplateColumns: "1fr 1fr 1fr",
+                    gap: "clamp(14px, 2vw, 28px)",
+                    alignItems: "center",
                   }}
                 >
-                  {/* Number indicator */}
-                  <motion.div
-                    animate={{ scale: dark ? 1.08 : 1 }}
-                    transition={{ type: "spring", stiffness: 320, damping: 18 }}
-                    style={{
-                      width: 36,
-                      height: 36,
-                      borderRadius: 4,
-                      background: dark ? "var(--sp-green-600)" : "var(--sp-green-100)",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      marginBottom: 16,
-                      transformOrigin: "left center",
-                      transition: `background 0.45s ${HOVER_CSS_EASE}`,
-                    }}
-                  >
-                    <span
-                      style={{
-                        fontFamily: "var(--sp-font-sans)",
-                        fontSize: 14,
-                        fontWeight: 700,
-                        color: dark ? "#fff" : "var(--sp-green-700)",
-                        transition: TEXT_TRANSITION,
-                      }}
-                    >
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                  </motion.div>
-
-                  <h3
-                    style={{
-                      fontFamily: "var(--sp-font-sans)",
-                      fontSize: 17,
-                      fontWeight: 700,
-                      color: dark ? "#fff" : "var(--sp-navy-900)",
-                      margin: "0 0 10px 0",
-                      lineHeight: 1.3,
-                      transition: TEXT_TRANSITION,
-                    }}
-                  >
-                    {card.title}
-                  </h3>
-                  <p
-                    style={{
-                      fontFamily: "var(--sp-font-sans)",
-                      fontSize: 15,
-                      lineHeight: 1.65,
-                      color: dark ? "#9CA3AF" : "#4B5563",
-                      margin: 0,
-                      transition: TEXT_TRANSITION,
-                    }}
-                  >
-                    {card.desc}
-                  </p>
+                  {trio.map((idx, pos) => (
+                    <FocusCard
+                      key={idx}
+                      label={focusItems[idx]}
+                      center={pos === 1}
+                    />
+                  ))}
                 </motion.div>
+              </AnimatePresence>
+            </div>
+
+            <ArrowButton dir="next" onClick={next} />
+          </div>
+
+          {/* Dash indicators */}
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              gap: 10,
+              marginTop: "clamp(24px, 3.5vw, 38px)",
+            }}
+          >
+            {focusItems.map((item, i) => {
+              const isActive = i === active;
+              return (
+                <button
+                  key={item}
+                  onClick={() => goTo(i)}
+                  aria-label={`Go to ${item}`}
+                  aria-current={isActive}
+                  style={{
+                    width: isActive ? 30 : 24,
+                    height: 3,
+                    borderRadius: 2,
+                    background: isActive ? "var(--sp-green-500)" : "#334155",
+                    border: "none",
+                    padding: 0,
+                    cursor: "pointer",
+                    transition: "width 0.3s ease, background 0.3s ease",
+                  }}
+                />
               );
             })}
-          </motion.div>
+          </div>
         </motion.div>
       </Container>
     </section>
+  );
+}
+
+// ─── Single focus card ──────────────────────────────────────────────────────
+function FocusCard({ label, center }: { label: string; center: boolean }) {
+  return (
+    <div
+      style={{
+        aspectRatio: "1.55 / 1",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        textAlign: "center",
+        padding: "20px 22px",
+        borderRadius: 0,
+        background: center ? "#252525" : "#fff",
+        border: center
+          ? "4px solid var(--sp-green-500)"
+          : "3px solid var(--sp-green-500)",
+        transform: center ? "scale(1.06)" : "scale(1)",
+        boxShadow: center
+          ? "0 26px 50px -22px rgba(0,0,0,0.45)"
+          : "0 6px 18px -10px rgba(0,0,0,0.12)",
+        transition: "background 0.4s ease, transform 0.4s ease, box-shadow 0.4s ease",
+      }}
+    >
+      <span
+        style={{
+          fontFamily: "var(--sp-font-sans)",
+          fontSize: "clamp(20px, 2.3vw, 29px)",
+          fontWeight: 500,
+          lineHeight: 1.3,
+          color: center ? "#fff" : "var(--sp-green-700)",
+          transition: "color 0.4s ease",
+        }}
+      >
+        {label}
+      </span>
+    </div>
+  );
+}
+
+// ─── Round prev / next arrow ────────────────────────────────────────────────
+function ArrowButton({ dir, onClick }: { dir: "prev" | "next"; onClick: () => void }) {
+  const [hover, setHover] = useState(false);
+  return (
+    <button
+      onClick={onClick}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      aria-label={dir === "prev" ? "Previous" : "Next"}
+      style={{
+        flexShrink: 0,
+        width: "clamp(38px, 4vw, 46px)",
+        height: "clamp(38px, 4vw, 46px)",
+        borderRadius: "50%",
+        background: "#fff",
+        border: `1.5px solid ${hover ? "var(--sp-green-500)" : "#000"}`,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        cursor: "pointer",
+        transition: "border-color 0.25s ease",
+      }}
+    >
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path
+          d={dir === "prev" ? "M15 5 L8 12 L15 19" : "M9 5 L16 12 L9 19"}
+          stroke={hover ? "var(--sp-green-600)" : "#000"}
+          strokeWidth="2.6"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    </button>
   );
 }

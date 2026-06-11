@@ -1,12 +1,14 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence, useReducedMotion, type Variants } from "framer-motion";
 import {
   ChevronLeft,
   ChevronRight,
+  ArrowLeft,
+  ArrowRight,
   Network,
   MessagesSquare,
   Eye,
@@ -17,7 +19,6 @@ import Container from "@/components/ui/Container";
 import EdgeGreenGradient from "@/components/ui/EdgeGreenGradient";
 import PageHeading from "@/components/ui/PageHeading";
 import SectionHeading from "@/components/ui/SectionHeading";
-import Typewriter from "@/components/ui/Typewriter";
 import WavyLine from "@/components/ui/WavyLine";
 
 // ─── Shared design system (matches About + Solutions) ───────────────────────
@@ -122,6 +123,10 @@ const highlightPhotos = [
 export default function PlatformsPage() {
   return (
     <>
+      {/* Drop the global body grid on this route so it doesn't show through
+          the slanted wedges around the dark sections. Restored on navigation
+          away (this style unmounts with the page). */}
+      <style>{`body { background-image: none !important; }`}</style>
       <Hero />
       <WhyOurPlatformsMatter />
       <FeaturedPlatforms />
@@ -146,7 +151,7 @@ function Hero() {
         paddingTop: "clamp(56px, 8vw, 80px)",
         paddingBottom: "clamp(72px, 11vw, 120px)",
         clipPath:
-          "polygon(0 0, 100% 0, 100% 100%, 0 calc(100% - var(--sp-slant)))",
+          "polygon(0 0, 100% 0, 100% calc(100% - var(--sp-slant)), 0 100%)",
       }}
     >
       <Image
@@ -169,52 +174,49 @@ function Hero() {
         }}
       />
 
-      <Container>
+      <Container wide>
         <motion.div
           initial="hidden"
           animate="show"
           variants={stagger}
-          style={{ position: "relative", textAlign: "center", maxWidth: 1000, margin: "0 auto" }}
+          style={{ position: "relative", textAlign: "center", maxWidth: 1280, margin: "0 auto" }}
         >
           <motion.div variants={fadeUp}>
-            <span
+            <SectionHeading
+              dark
               style={{
-                fontFamily: "var(--sp-font-sans)",
-                fontSize: 13,
-                fontWeight: 700,
-                letterSpacing: "0.22em",
-                color: "#fff",
-                textTransform: "uppercase",
-                borderBottom: "2px solid #fff",
-                paddingBottom: 4,
+                display: "inline-block",
+                fontSize: "clamp(25px, 3.6vw, 44px)",
+                fontWeight: 600,
+                borderBottom: "3px solid #fff",
+                paddingBottom: 10,
               }}
             >
               PLATFORMS
-            </span>
+            </SectionHeading>
           </motion.div>
 
           <motion.div variants={fadeUp} style={{ margin: "28px 0 22px" }}>
-            <PageHeading>
-              BUSINESS PLATFORMS DESIGNED
-              <br />
+            <PageHeading style={{ fontSize: "clamp(30px, 5.2vw, 64px)" }}>
+              <span style={{ display: "block", fontWeight: 600 }}>
+                BUSINESS PLATFORMS DESIGNED
+              </span>
               <span
                 style={{
                   background: "var(--sp-green-500)",
-                  color: "var(--sp-navy-900)",
-                  padding: "0 14px",
+                  color: "#000",
                   display: "inline-block",
-                  marginTop: -10,
-                  transform: "rotate(-3deg)",
-                  transformOrigin: "center",
+                  padding: "13px 8px",
+                  marginTop: -6,
+                  // Trapezium: vertical, parallel side edges; taller on the
+                  // right (same as the About / Solutions headings).
+                  clipPath:
+                    "polygon(0 13px, 100% 0, 100% 100%, 0 calc(100% - 13px))",
                 }}
               >
-                <Typewriter
-                  text="AROUND COLLABORATION, GROWTH &"
-                  startDelay={550}
-                />
+                AROUND COLLABORATION, GROWTH &amp;
               </span>
-              <br />
-              <span style={{ marginTop: 8, display: "inline-block" }}>
+              <span style={{ display: "block", fontWeight: 600, marginTop: 8 }}>
                 INDUSTRY ENGAGEMENT
               </span>
             </PageHeading>
@@ -224,10 +226,10 @@ function Hero() {
             variants={fadeUp}
             style={{
               fontFamily: "var(--sp-font-sans)",
-              fontSize: "clamp(15px, 1.6vw, 18px)",
-              lineHeight: 1.75,
-              color: "#EBEEF2",
-              maxWidth: 820,
+              fontSize: "clamp(22px, 2.4vw, 31px)",
+              lineHeight: 1.6,
+              color: "#fff",
+              maxWidth: 1040,
               margin: "0 auto",
             }}
           >
@@ -244,29 +246,41 @@ function Hero() {
 // ─── 2. Why Our Platforms Matter ────────────────────────────────────────────
 function WhyOurPlatformsMatter() {
   const reduceMotion = useReducedMotion();
-  const [index, setIndex] = useState(0);
-  const [hovered, setHovered] = useState<number | null>(null);
-  const perPage = 3;
-  const maxIndex = Math.max(0, designedTo.length - perPage);
-  const visible = designedTo.slice(index, index + perPage);
+  const [active, setActive] = useState(1);
+  const [dir, setDir] = useState(1);
+  const [paused, setPaused] = useState(false);
 
-  // Auto-advance paused on hover and disabled for reduced-motion visitors
-  // (arrows/dots remain for manual navigation).
+  const n = designedTo.length;
+  const prev = () => {
+    setDir(-1);
+    setActive((a) => (a - 1 + n) % n);
+  };
+  const next = () => {
+    setDir(1);
+    setActive((a) => (a + 1) % n);
+  };
+  const goTo = (i: number) => {
+    setDir(i >= active ? 1 : -1);
+    setActive(((i % n) + n) % n);
+  };
+
+  // Auto-advance every 5s; paused on hover, off under reduced-motion.
   useEffect(() => {
-    if (hovered !== null || reduceMotion) return;
-    const t = setTimeout(() => {
-      setIndex((i) => (i >= maxIndex ? 0 : i + 1));
+    if (reduceMotion || paused) return;
+    const t = setInterval(() => {
+      setDir(1);
+      setActive((a) => (a + 1) % n);
     }, 5000);
-    return () => clearTimeout(t);
-  }, [index, hovered, maxIndex, reduceMotion]);
+    return () => clearInterval(t);
+  }, [reduceMotion, paused, n]);
+
+  // Three cards on screen: previous, active (centre), next.
+  const trio = [(active - 1 + n) % n, active, (active + 1) % n];
 
   return (
     <section
       style={{
         background: "#fff",
-        backgroundImage:
-          "linear-gradient(rgba(10,10,10,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(10,10,10,0.045) 1px, transparent 1px)",
-        backgroundSize: "44px 44px",
         padding: "clamp(56px, 8vw, 80px) 0",
         position: "relative",
         overflow: "hidden",
@@ -283,7 +297,8 @@ function WhyOurPlatformsMatter() {
         >
           <motion.div variants={fadeUp}>
             <SectionHeading>
-              WHY OUR <span style={{ color: "var(--sp-green-600)" }}>PLATFORMS MATTER</span>
+              WHY OUR{" "}
+              <span style={{ color: "var(--sp-green-500)", fontWeight: 900 }}>PLATFORMS MATTER</span>
             </SectionHeading>
           </motion.div>
           <WavyLine />
@@ -291,11 +306,11 @@ function WhyOurPlatformsMatter() {
             variants={fadeUp}
             style={{
               fontFamily: "var(--sp-font-sans)",
-              fontSize: 16,
-              color: "#4B5563",
-              maxWidth: 720,
-              margin: "20px auto 0",
-              lineHeight: 1.65,
+              fontSize: "clamp(18px, 2vw, 24px)",
+              color: "#000",
+              maxWidth: 860,
+              margin: "22px auto 0",
+              lineHeight: 1.6,
             }}
           >
             At Summentor Pro, we believe impactful business ecosystems are built through the right
@@ -303,119 +318,107 @@ function WhyOurPlatformsMatter() {
           </motion.p>
         </motion.div>
 
-        <p
+        {/* Subheading — sentence case (override the heading's uppercase) */}
+        <SectionHeading
           style={{
-            fontFamily: "var(--sp-font-sans)",
-            fontSize: 13,
-            fontWeight: 700,
-            letterSpacing: "0.12em",
-            textTransform: "uppercase",
-            color: "#9CA3AF",
-            textAlign: "center",
-            margin: "0 0 28px",
+            fontSize: "clamp(24px, 2.9vw, 38px)",
+            textTransform: "none",
+            marginBottom: "clamp(28px, 4vw, 44px)",
           }}
         >
           Our platforms are designed to:
-        </p>
+        </SectionHeading>
 
-        <div className="flex items-stretch gap-4" style={{ position: "relative" }}>
-          <ArrowButton
-            direction="left"
-            onClick={() => setIndex((i) => (i <= 0 ? maxIndex : i - 1))}
-          />
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 flex-1">
-            {visible.map((card, i) => {
-              const dark = hovered === i;
-              const Icon = card.icon;
-              return (
-                <motion.div
-                  key={card.title + index}
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: i * 0.06, ease: EASE }}
-                  onMouseEnter={() => setHovered(i)}
-                  onMouseLeave={() => setHovered(null)}
-                  whileHover={{
-                    y: -8,
-                    transition: { type: "spring", stiffness: 300, damping: 20 },
-                  }}
-                  style={{
-                    background: dark ? "var(--sp-navy-900)" : "#fff",
-                    border: dark
-                      ? "1px solid rgba(255,255,255,0.06)"
-                      : "1px solid #E5E7EB",
-                    borderTop: dark
-                      ? "3px solid var(--sp-green-500)"
-                      : "3px solid transparent",
-                    borderRadius: 8,
-                    padding: "28px 24px",
-                    minHeight: 200,
-                    display: "flex",
-                    flexDirection: "column",
-                    cursor: "default",
-                    boxShadow: dark
-                      ? "0 18px 40px rgba(0,0,0,0.20)"
-                      : "0 2px 12px rgba(0,0,0,0.06)",
-                    transition: CARD_TRANSITION,
-                  }}
-                >
-                  <div
-                    style={{
-                      width: 40,
-                      height: 40,
-                      borderRadius: 8,
-                      background: dark ? "var(--sp-green-600)" : "var(--sp-green-100)",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      marginBottom: 16,
-                      transition: `background 0.45s ${HOVER_CSS_EASE}`,
-                    }}
-                  >
-                    <Icon
-                      size={20}
-                      color={dark ? "#fff" : "var(--sp-green-700)"}
-                      strokeWidth={2}
-                    />
-                  </div>
-                  <h3
-                    style={{
-                      fontFamily: "var(--sp-font-sans)",
-                      fontSize: 17,
-                      fontWeight: 700,
-                      color: dark ? "#fff" : "var(--sp-navy-900)",
-                      margin: "0 0 10px",
-                      lineHeight: 1.3,
-                      transition: TEXT_TRANSITION,
-                    }}
-                  >
-                    {card.title}
-                  </h3>
-                  <p
-                    style={{
-                      fontFamily: "var(--sp-font-sans)",
-                      fontSize: 15,
-                      lineHeight: 1.6,
-                      color: dark ? "#9CA3AF" : "#4B5563",
-                      margin: 0,
-                      transition: TEXT_TRANSITION,
-                    }}
-                  >
-                    {card.desc}
-                  </p>
-                </motion.div>
-              );
-            })}
+        {/* Carousel: prev arrow · three cards · next arrow */}
+        <div
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
+          style={{ display: "flex", alignItems: "center", gap: "clamp(8px, 1.6vw, 22px)" }}
+        >
+          <ArrowButton direction="left" onClick={prev} />
+
+          <div style={{ flex: 1, overflow: "hidden" }}>
+            <AnimatePresence mode="wait" custom={dir} initial={false}>
+              <motion.div
+                key={active}
+                custom={dir}
+                initial={{ opacity: 0, x: dir >= 0 ? 60 : -60 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: dir >= 0 ? -60 : 60 }}
+                transition={{ duration: 0.4, ease: EASE }}
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "1fr 1fr 1fr",
+                  gap: "clamp(14px, 2vw, 28px)",
+                  alignItems: "stretch",
+                }}
+              >
+                {trio.map((idx, pos) => (
+                  <PlatformCard key={idx} item={designedTo[idx]!} center={pos === 1} />
+                ))}
+              </motion.div>
+            </AnimatePresence>
           </div>
-          <ArrowButton
-            direction="right"
-            onClick={() => setIndex((i) => (i >= maxIndex ? 0 : i + 1))}
-          />
+
+          <ArrowButton direction="right" onClick={next} />
         </div>
 
-        <Dots count={maxIndex + 1} active={index} onSelect={setIndex} />
+        <Dots count={n} active={active} onSelect={goTo} />
       </Container>
     </section>
+  );
+}
+
+// Single "designed to" card — the centre card is dark with a green icon +
+// text; the side cards are white with a dark icon + text (matches design).
+function PlatformCard({
+  item,
+  center,
+}: {
+  item: (typeof designedTo)[number];
+  center: boolean;
+}) {
+  const Icon = item.icon;
+  return (
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        textAlign: "center",
+        gap: 16,
+        padding: "clamp(26px, 3.2vw, 40px) 18px",
+        borderRadius: 0,
+        background: center ? "#252525" : "#fff",
+        border: center ? "2px solid var(--sp-green-600)" : "1px solid #E5E7EB",
+        transform: center ? "scale(1.05)" : "scale(1)",
+        boxShadow: center
+          ? "0 24px 48px -22px rgba(0,0,0,0.45)"
+          : "0 6px 18px -10px rgba(0,0,0,0.10)",
+        transition: "background 0.4s ease, transform 0.4s ease, box-shadow 0.4s ease",
+      }}
+    >
+      <Icon
+        size={40}
+        color={center ? "var(--sp-green-400)" : "#1a1a1a"}
+        strokeWidth={2}
+        style={{ transition: "color 0.4s ease" }}
+      />
+      <h3
+        style={{
+          fontFamily: "var(--sp-font-sans)",
+          fontSize: "clamp(18px, 2vw, 24px)",
+          fontWeight: 600,
+          lineHeight: 1.3,
+          color: center ? "var(--sp-green-400)" : "#000",
+          margin: 0,
+          transition: "color 0.4s ease",
+        }}
+      >
+        {item.title}
+      </h3>
+    </div>
   );
 }
 
@@ -424,8 +427,25 @@ function FeaturedPlatforms() {
   const reduceMotion = useReducedMotion();
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
-  const active = featuredPlatforms[index]!;
   const last = featuredPlatforms.length - 1;
+
+  // Measure the viewport so the active card sits at the left edge while the
+  // next card peeks in (blurred) on the right.
+  const viewportRef = useRef<HTMLDivElement>(null);
+  const [vw, setVw] = useState(1100);
+  useEffect(() => {
+    const el = viewportRef.current;
+    if (!el) return;
+    const update = () => setVw(el.offsetWidth);
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
+  const GAP = 24;
+  const cardW = Math.min(vw * 0.78, 1080);
+  const translate = -index * (cardW + GAP);
 
   // Auto-advance paused on hover and disabled for reduced-motion visitors.
   useEffect(() => {
@@ -440,9 +460,6 @@ function FeaturedPlatforms() {
     <section
       style={{
         background: "#fff",
-        backgroundImage:
-          "linear-gradient(rgba(10,10,10,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(10,10,10,0.045) 1px, transparent 1px)",
-        backgroundSize: "44px 44px",
         padding: "clamp(56px, 8vw, 80px) 0",
         position: "relative",
         overflow: "hidden",
@@ -452,121 +469,152 @@ function FeaturedPlatforms() {
       <Container>
         <div style={{ textAlign: "center", marginBottom: 40, position: "relative" }}>
           <SectionHeading>
-            FEATURED <span style={{ color: "var(--sp-green-600)" }}>PLATFORMS</span>
+            FEATURED <span style={{ color: "var(--sp-green-500)", fontWeight: 900 }}>PLATFORMS</span>
           </SectionHeading>
           <WavyLine />
         </div>
 
-        <div className="flex items-stretch gap-4">
-          <ArrowButton
-            direction="left"
-            onClick={() => setIndex((i) => (i <= 0 ? last : i - 1))}
-          />
-          <div style={{ flex: 1, position: "relative", minHeight: 380 }}>
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={active.title}
-                initial={{ opacity: 0, x: 24 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -24 }}
-                transition={{ duration: 0.4, ease: EASE }}
-                onMouseEnter={() => setPaused(true)}
-                onMouseLeave={() => setPaused(false)}
-                style={{
-                  background: "var(--sp-navy-900)",
-                  borderRadius: 12,
-                  overflow: "hidden",
-                }}
-                className="grid grid-cols-1 md:grid-cols-2"
-              >
-                <div
-                  className="min-h-55 md:min-h-80"
-                  style={{ position: "relative" }}
-                >
-                  <Image
-                    src={active.photo}
-                    alt={active.title}
-                    fill
-                    quality={100}
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                    style={{ objectFit: "cover" }}
-                  />
-                </div>
-                <div
-                  style={{
-                    padding: "clamp(22px, 4.5vw, 36px)",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                  }}
-                >
-                  <h3
+        <div style={{ position: "relative" }}>
+          <div ref={viewportRef} style={{ overflow: "hidden" }}>
+            <div
+              style={{
+                display: "flex",
+                gap: GAP,
+                alignItems: "stretch",
+                transform: `translateX(${translate}px)`,
+                transition: "transform 0.55s cubic-bezier(0.22, 1, 0.36, 1)",
+              }}
+            >
+              {featuredPlatforms.map((p, i) => {
+                const isActive = i === index;
+                return (
+                  <div
+                    key={p.title}
+                    onMouseEnter={() => setPaused(true)}
+                    onMouseLeave={() => setPaused(false)}
+                    aria-hidden={!isActive}
                     style={{
-                      fontFamily: "var(--sp-font-sans)",
-                      fontSize: 22,
-                      fontWeight: 700,
-                      color: "#fff",
-                      margin: "0 0 14px",
-                      lineHeight: 1.25,
+                      flexShrink: 0,
+                      width: cardW,
+                      background: "var(--sp-navy-900)",
+                      overflow: "hidden",
+                      // The next card peeking in on the right renders blurred.
+                      filter: isActive ? "none" : "blur(5px)",
+                      opacity: isActive ? 1 : 0.5,
+                      transition: "filter 0.45s ease, opacity 0.45s ease",
                     }}
                   >
-                    {active.title}
-                  </h3>
-                  <p
-                    style={{
-                      fontFamily: "var(--sp-font-sans)",
-                      fontSize: 16,
-                      lineHeight: 1.7,
-                      color: "#EBEEF2",
-                      margin: "0 0 22px",
-                    }}
-                  >
-                    {active.desc}
-                  </p>
-                  <p
-                    style={{
-                      fontFamily: "var(--sp-font-sans)",
-                      fontSize: 13,
-                      fontWeight: 700,
-                      color: "#fff",
-                      margin: "0 0 12px",
-                      letterSpacing: "0.04em",
-                    }}
-                  >
-                    The platform brings together:
-                  </p>
-                  <ul style={{ margin: 0, padding: 0, listStyle: "none", display: "grid", gap: 10 }}>
-                    {active.bringsTogether.map((item) => (
-                      <li
-                        key={item}
+                    {/* Image */}
+                    <div style={{ position: "relative", width: "100%", aspectRatio: "16 / 8" }}>
+                      <Image
+                        src={p.photo}
+                        alt={p.title}
+                        fill
+                        quality={100}
+                        sizes="(max-width: 768px) 90vw, 80vw"
+                        style={{ objectFit: "cover" }}
+                      />
+                    </div>
+
+                    {/* Content */}
+                    <div style={{ padding: "clamp(26px, 3.6vw, 44px)" }}>
+                      <h3
                         style={{
                           fontFamily: "var(--sp-font-sans)",
-                          fontSize: 15,
-                          color: "#9CA3AF",
-                          display: "flex",
-                          alignItems: "flex-start",
-                          gap: 10,
-                          lineHeight: 1.5,
+                          fontSize: "clamp(27px, 3.1vw, 41px)",
+                          fontWeight: 800,
+                          textTransform: "uppercase",
+                          letterSpacing: "0.01em",
+                          color: "#fff",
+                          margin: "0 0 14px",
+                          lineHeight: 1.2,
                         }}
                       >
-                        <img
-                          src="/icons/check.svg"
-                          alt=""
-                          aria-hidden="true"
-                          style={{ width: 18, height: 18, flexShrink: 0, marginTop: 3 }}
-                        />
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </motion.div>
-            </AnimatePresence>
+                        {p.title}
+                      </h3>
+                      <p
+                        style={{
+                          fontFamily: "var(--sp-font-sans)",
+                          fontSize: "clamp(20px, 2.1vw, 27px)",
+                          lineHeight: 1.5,
+                          color: "#fff",
+                          margin: "0 0 24px",
+                        }}
+                      >
+                        {p.desc}
+                      </p>
+                      <div style={{ height: 2, background: "rgba(255,255,255,0.85)", margin: "0 0 22px" }} />
+                      <p
+                        style={{
+                          fontFamily: "var(--sp-font-sans)",
+                          fontSize: "clamp(20px, 2.1vw, 27px)",
+                          fontWeight: 700,
+                          color: "#fff",
+                          margin: "0 0 16px",
+                        }}
+                      >
+                        The platform brings together:
+                      </p>
+                      <ul
+                        style={{
+                          margin: "0 0 26px",
+                          paddingLeft: 26,
+                          listStyleType: "disc",
+                          display: "grid",
+                          gap: 8,
+                        }}
+                      >
+                        {p.bringsTogether.map((item) => (
+                          <li
+                            key={item}
+                            style={{
+                              fontFamily: "var(--sp-font-sans)",
+                              fontSize: "clamp(20px, 2.2vw, 27px)",
+                              color: "#fff",
+                              lineHeight: 1.45,
+                            }}
+                          >
+                            {item}
+                          </li>
+                        ))}
+                      </ul>
+                      <Link
+                        href="/contact"
+                        style={{
+                          display: "inline-block",
+                          padding: "11px 60px",
+                          borderRadius: 999,
+                          border: "2px solid var(--sp-green-500)",
+                          color: "#fff",
+                          textDecoration: "none",
+                          fontFamily: "var(--sp-font-sans)",
+                          fontSize: 29,
+                          fontWeight: 500,
+                          letterSpacing: "0.06em",
+                          textTransform: "uppercase",
+                          transition: "background 0.2s ease, border-color 0.2s ease, color 0.2s ease",
+                        }}
+                        onMouseEnter={(e) => {
+                          (e.currentTarget as HTMLElement).style.background = "var(--sp-green-500)";
+                          (e.currentTarget as HTMLElement).style.color = "#000";
+                        }}
+                        onMouseLeave={(e) => {
+                          (e.currentTarget as HTMLElement).style.background = "transparent";
+                          (e.currentTarget as HTMLElement).style.color = "#fff";
+                        }}
+                      >
+                        Know More
+                      </Link>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
-          <ArrowButton
-            direction="right"
-            onClick={() => setIndex((i) => (i >= last ? 0 : i + 1))}
-          />
+
+          {/* Green arrows straddle the active card's left & right edges. */}
+          <GreenArrow direction="left" x={0} onClick={() => setIndex((i) => (i <= 0 ? last : i - 1))} />
+          <GreenArrow direction="right" x={cardW} onClick={() => setIndex((i) => (i >= last ? 0 : i + 1))} />
         </div>
 
         <Dots count={featuredPlatforms.length} active={index} onSelect={setIndex} />
@@ -581,9 +629,6 @@ function UpcomingPlatforms() {
     <section
       style={{
         background: "#fff",
-        backgroundImage:
-          "linear-gradient(rgba(10,10,10,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(10,10,10,0.045) 1px, transparent 1px)",
-        backgroundSize: "44px 44px",
         padding: "clamp(56px, 8vw, 80px) 0",
         position: "relative",
         overflow: "hidden",
@@ -622,7 +667,7 @@ function UpcomingPlatforms() {
                   background: highlighted
                     ? "var(--sp-green-500)"
                     : "var(--sp-navy-900)",
-                  color: highlighted ? "var(--sp-navy-900)" : "#fff",
+                  color: highlighted ? "#000" : "#fff",
                   borderRadius: 10,
                   padding: "clamp(20px, 4vw, 26px) clamp(20px, 5vw, 32px)",
                   textAlign: "center",
@@ -630,7 +675,7 @@ function UpcomingPlatforms() {
                     ? "1px solid var(--sp-green-600)"
                     : "1px solid rgba(255,255,255,0.06)",
                   boxShadow: highlighted
-                    ? "0 12px 32px rgba(30,200,140,0.18)"
+                    ? "0 12px 32px rgba(5,161,113,0.18)"
                     : "0 4px 16px rgba(0,0,0,0.08)",
                 }}
               >
@@ -673,9 +718,6 @@ function PartnerCTA() {
     <section
       style={{
         background: "#fff",
-        backgroundImage:
-          "linear-gradient(rgba(10,10,10,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(10,10,10,0.045) 1px, transparent 1px)",
-        backgroundSize: "44px 44px",
         padding: "clamp(40px, 6vw, 60px) 0 clamp(64px, 10vw, 100px)",
         position: "relative",
         overflow: "hidden",
@@ -752,7 +794,7 @@ function PartnerPill({
         borderRadius: 999,
         border: "1.5px solid var(--sp-green-600)",
         background: filled ? "var(--sp-green-600)" : "transparent",
-        color: filled ? "#fff" : "var(--sp-navy-900)",
+        color: filled ? "#fff" : "#000",
         textDecoration: "none",
         fontFamily: "var(--sp-font-sans)",
         fontSize: 15,
@@ -767,7 +809,7 @@ function PartnerPill({
       onMouseLeave={(e) => {
         const el = e.currentTarget as HTMLElement;
         el.style.background = filled ? "var(--sp-green-600)" : "transparent";
-        el.style.color = filled ? "#fff" : "var(--sp-navy-900)";
+        el.style.color = filled ? "#fff" : "#000";
       }}
     >
       {children}
@@ -858,6 +900,48 @@ function PlatformHighlights() {
 }
 
 // ─── Shared controls ────────────────────────────────────────────────────────
+// Solid green circular arrow — absolutely positioned so it half-overlaps a
+// card edge (`x` is the horizontal centre point).
+function GreenArrow({
+  direction,
+  onClick,
+  x,
+}: {
+  direction: "left" | "right";
+  onClick: () => void;
+  x: number | string;
+}) {
+  const Icon = direction === "left" ? ArrowLeft : ArrowRight;
+  return (
+    <button
+      onClick={onClick}
+      aria-label={direction === "left" ? "Previous" : "Next"}
+      className="hidden sm:flex"
+      style={{
+        position: "absolute",
+        left: x,
+        top: "50%",
+        transform: "translate(-50%, -50%)",
+        zIndex: 3,
+        width: "clamp(52px, 5.4vw, 64px)",
+        height: "clamp(52px, 5.4vw, 64px)",
+        borderRadius: "50%",
+        border: "none",
+        background: "var(--sp-green-500)",
+        alignItems: "center",
+        justifyContent: "center",
+        cursor: "pointer",
+        boxShadow: "0 10px 24px -8px rgba(5,161,113,0.55)",
+        transition: "background 0.2s ease",
+      }}
+      onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.background = "var(--sp-green-600)")}
+      onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.background = "var(--sp-green-500)")}
+    >
+      <Icon size={26} color="#fff" strokeWidth={2.4} />
+    </button>
+  );
+}
+
 function ArrowButton({
   direction,
   onClick,
@@ -880,15 +964,15 @@ function ArrowButton({
         width: 40,
         height: 40,
         borderRadius: "50%",
-        border: dark ? "1px solid rgba(255,255,255,0.18)" : "1px solid #D1D5DB",
-        background: dark ? "rgba(255,255,255,0.04)" : "#fff",
+        border: dark ? "1px solid rgba(255,255,255,0.18)" : "1px solid #000",
+        background: dark ? "rgba(255,255,255,0.06)" : "#fff",
         cursor: "pointer",
         alignItems: "center",
         justifyContent: "center",
         transition: "background 0.2s ease",
       }}
     >
-      <Icon size={18} color={dark ? "#fff" : "#1F2937"} />
+      <Icon size={26} color={dark ? "#fff" : "#000"} strokeWidth={2.5} />
     </button>
   );
 }
@@ -912,15 +996,15 @@ function Dots({
           onClick={() => onSelect(i)}
           aria-label={`Go to slide ${i + 1}`}
           style={{
-            width: i === active ? 22 : 8,
-            height: 8,
-            borderRadius: 4,
+            width: i === active ? 30 : 24,
+            height: 4,
+            borderRadius: 2,
             background:
               i === active
                 ? "var(--sp-green-500)"
                 : dark
-                  ? "rgba(255,255,255,0.18)"
-                  : "#D1D5DB",
+                  ? "rgba(255,255,255,0.25)"
+                  : "#334155",
             border: "none",
             cursor: "pointer",
             padding: 0,

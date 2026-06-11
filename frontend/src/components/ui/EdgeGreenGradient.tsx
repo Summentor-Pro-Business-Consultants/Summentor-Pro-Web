@@ -33,7 +33,7 @@ export default function EdgeGreenGradient({
         width: size,
         height: size,
         borderRadius: "50%",
-        background: `radial-gradient(circle, rgba(30,200,140,${intensity}) 0%, rgba(30,200,140,${intensity * 0.35}) 35%, transparent 70%)`,
+        background: `radial-gradient(circle, rgba(5,161,113,${intensity}) 0%, rgba(5,161,113,${intensity * 0.35}) 35%, transparent 70%)`,
         pointerEvents: "none",
         ...verticalAnchor,
       }}

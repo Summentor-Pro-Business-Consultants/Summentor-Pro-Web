@@ -6,7 +6,6 @@ import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
 import Container from "@/components/ui/Container";
 import PageHeading from "@/components/ui/PageHeading";
-import Typewriter from "@/components/ui/Typewriter";
 
 // Background hero video (lives in /public/videos) — compressed 720p H.264
 // loop (~8 MB, down from the 100 MB master) tuned for a muted, half-opacity
@@ -48,11 +47,11 @@ export default function Hero() {
         alignItems: "center",
         overflow: "hidden",
         background: "var(--sp-dark-grad-a)",
-        // Right-bottom slant → bottom-LEFT raised, dark extends further on the
-        // RIGHT. Matches the home-page PDF where the dark hero's bottom edge
-        // slopes down toward the right.
+        // Bottom slant rises to the RIGHT → bottom-RIGHT raised, dark extends
+        // further on the LEFT (the dark hero's bottom edge slopes down toward
+        // the left).
         clipPath:
-          "polygon(0 0, 100% 0, 100% 100%, 0 calc(100% - var(--sp-slant)))",
+          "polygon(0 0, 100% 0, 100% calc(100% - var(--sp-slant)), 0 100%)",
       }}
     >
 
@@ -144,7 +143,7 @@ export default function Hero() {
                 transformOrigin: "center",
               }}
             >
-              <Typewriter text="Business Growth" startDelay={600} />
+              Business Growth
             </span>
           </PageHeading>
 
@@ -160,13 +159,13 @@ export default function Hero() {
               <button
                 style={{
                   fontFamily: "var(--sp-font-sans)",
-                  fontSize: 17,
-                  fontWeight: 500,
+                  fontSize: 28,
+                  fontWeight: 400,
                   color: "#fff",
                   background: "transparent",
                   border: "2px solid var(--sp-green-500)",
                   borderRadius: 999,
-                  padding: "14px 36px",
+                  padding: "12px 44px",
                   cursor: "pointer",
                   transition: "all 0.2s ease",
                   letterSpacing: "0.01em",
@@ -174,7 +173,7 @@ export default function Hero() {
                 onMouseEnter={(e) => {
                   const el = e.currentTarget;
                   el.style.background = "var(--sp-green-500)";
-                  el.style.color = "var(--sp-navy-900)";
+                  el.style.color = "#000";
                 }}
                 onMouseLeave={(e) => {
                   const el = e.currentTarget;
@@ -191,13 +190,13 @@ export default function Hero() {
               <button
                 style={{
                   fontFamily: "var(--sp-font-sans)",
-                  fontSize: 17,
-                  fontWeight: 500,
-                  color: "var(--sp-navy-900)",
+                  fontSize: 28,
+                  fontWeight: 400,
+                  color: "#000",
                   background: "#fff",
                   border: "2px solid #fff",
                   borderRadius: 999,
-                  padding: "14px 36px",
+                  padding: "12px 44px",
                   cursor: "pointer",
                   transition: "all 0.2s ease",
                   letterSpacing: "0.01em",

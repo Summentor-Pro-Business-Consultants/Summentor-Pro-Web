@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import Container from "@/components/ui/Container";
 import Logo from "@/components/ui/Logo";
 
@@ -43,15 +44,24 @@ const badges = [
 
 // Half the CTA card's tallest rendered height — used as the negative
 // margin so the card straddles the footer's slant boundary 50/50.
-const CTA_OVERLAP = 110;
+const CTA_OVERLAP = 124;
 
 export default function Footer() {
+  const pathname = usePathname();
+  const isServices = pathname === "/services";
+  // The straddling green CTA band is hidden only on About (it ends with its own
+  // section). Solutions shows the band but with its own "Looking to explore"
+  // copy + logo. About + Solutions get the flat (no-slant) footer top.
+  const hideCta = pathname === "/about";
+  const flatFooter = pathname === "/about" || pathname === "/services";
+
   return (
     <>
       {/* CTA band — rendered OUTSIDE the clipped <footer> so its top half
           sits on the light section above and its bottom half on the dark
           footer below. Negative marginBottom pulls the footer up so the
           slant line crosses through the card's vertical centre. */}
+      {!hideCta && (
       <div
         style={{
           position: "relative",
@@ -60,16 +70,16 @@ export default function Footer() {
           marginBottom: -CTA_OVERLAP,
         }}
       >
-        <Container>
+        <Container style={{ maxWidth: 1320 }}>
           <div
             style={{
               background: "var(--sp-green-700)",
-              borderRadius: 20,
-              padding: "clamp(28px, 5vw, 36px) clamp(22px, 5vw, 48px)",
+              borderRadius: 24,
+              padding: "clamp(28px, 5vw, 48px) clamp(32px, 6vw, 72px)",
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
-              gap: 32,
+              gap: 40,
               overflow: "hidden",
               position: "relative",
               boxShadow: "0 24px 56px -20px rgba(10,10,10,0.45)",
@@ -86,7 +96,7 @@ export default function Footer() {
             <h2
               style={{
                 fontFamily: "var(--sp-font-sans)",
-                fontSize: "clamp(22px, 3.2vw, 44px)",
+                fontSize: "clamp(28px, 4vw, 56px)",
                 fontWeight: 900,
                 textTransform: "uppercase",
                 letterSpacing: "0.01em",
@@ -97,34 +107,83 @@ export default function Footer() {
                 zIndex: 1,
               }}
             >
-              LET&apos;S BUILD MEANINGFUL
-              <br />
-              BUSINESS OPPORTUNITIES
-              <br />
-              TOGETHER.
+              {isServices ? (
+                <>
+                  LOOKING TO EXPLORE
+                  <br />
+                  STRATEGIC GROWTH
+                  <br />
+                  OPPORTUNITIES?
+                </>
+              ) : (
+                <>
+                  LET&apos;S BUILD MEANINGFUL
+                  <br />
+                  BUSINESS OPPORTUNITIES
+                  <br />
+                  TOGETHER.
+                </>
+              )}
             </h2>
 
-            {/* Handshake illustration — hidden on small screens so the
-                heading isn't crowded on phones. */}
+            {/* Illustration — hidden on small screens so the heading isn't
+                crowded on phones. Solutions uses the brand logo mark; other
+                pages use the handshake. Both rendered as white silhouettes. */}
             <div
               className="hidden sm:block"
-              style={{ flexShrink: 0, position: "relative", zIndex: 1 }}
+              style={{
+                flexShrink: 0,
+                position: "relative",
+                zIndex: 1,
+                marginRight: "clamp(16px, 3.5vw, 64px)",
+              }}
             >
-              <img
-                src="/icons/handshake.svg"
-                alt=""
-                aria-hidden="true"
-                width={132}
-                height={132}
-                style={{
-                  filter: "brightness(0) invert(1)",
-                  opacity: 0.9,
-                }}
-              />
+              {isServices ? (
+                <svg
+                  aria-hidden="true"
+                  width={185}
+                  height={185}
+                  viewBox="0 0 120 120"
+                  fill="none"
+                  style={{ display: "block" }}
+                >
+                  {/* Bold up-right "explore / growth" arrow */}
+                  <path
+                    d="M26 94 L94 26"
+                    stroke="#fff"
+                    strokeWidth={13}
+                    strokeLinecap="round"
+                  />
+                  <path
+                    d="M48 26 L94 26 L94 72"
+                    stroke="#fff"
+                    strokeWidth={13}
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              ) : (
+                <img
+                  src="/icons/handshake.svg"
+                  alt=""
+                  aria-hidden="true"
+                  width={216}
+                  height={216}
+                  style={{
+                    // brightness(0) invert(1) → pure white; the stacked white
+                    // drop-shadows thicken the (fill-based) icon so it reads
+                    // bolder, since stroke-width can't be changed on an <img>.
+                    filter:
+                      "brightness(0) invert(1) drop-shadow(1.2px 0 0 #fff) drop-shadow(-1.2px 0 0 #fff) drop-shadow(0 1.2px 0 #fff) drop-shadow(0 -1.2px 0 #fff)",
+                    opacity: 0.95,
+                  }}
+                />
+              )}
             </div>
           </div>
         </Container>
       </div>
+      )}
 
       <footer
         style={{
@@ -132,16 +191,24 @@ export default function Footer() {
           // Grid lines on top, alternating dark gradient (grad-b: dark-left →
           // light-right) as the bottom layer.
           backgroundImage:
-            "linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px), var(--sp-dark-grad-b)",
+            "linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px), var(--sp-dark-grad-b)",
           backgroundSize: "44px 44px, 44px 44px, cover",
           color: "var(--sp-navy-300)",
           position: "relative",
           // Left-downwards "/" slant on top → top-LEFT pushed down. Alternates
           // from the StatsBar's bottom "\" slant above for the rhythm spec.
-          clipPath: "polygon(0 var(--sp-slant), 100% 0, 100% 100%, 0 100%)",
-          // Extra top padding so the columns clear the overlapping CTA card
-          // above and don't collide with its bottom half.
-          paddingTop: `calc(var(--sp-slant) + ${CTA_OVERLAP + 28}px)`,
+          // The About page footer is flat (no slant); other pages keep it.
+          clipPath: flatFooter
+            ? "none"
+            : "polygon(0 var(--sp-slant), 100% 0, 100% 100%, 0 100%)",
+          // Top padding: no CTA (About) → small pad; CTA on a flat footer
+          // (Solutions) → clear the straddle, no slant; CTA on a slanted
+          // footer (other pages) → clear the straddle + slant.
+          paddingTop: hideCta
+            ? `56px`
+            : flatFooter
+              ? `${CTA_OVERLAP + 40}px`
+              : `calc(var(--sp-slant) + ${CTA_OVERLAP + 28}px)`,
         }}
       >
       {/* Main footer columns */}
@@ -156,7 +223,7 @@ export default function Footer() {
           >
             {/* Brand column */}
             <div style={{ gridColumn: "span 2" }} className="min-w-0">
-              <Logo />
+              <Logo height={92} />
               <p
                 style={{
                   fontFamily: "var(--sp-font-sans)",
@@ -197,7 +264,7 @@ export default function Footer() {
                     fontWeight: 700,
                     letterSpacing: "0.1em",
                     textTransform: "uppercase",
-                    color: "var(--sp-green-500)",
+                    color: "var(--sp-green-400)",
                     marginBottom: 16,
                   }}
                 >
@@ -301,7 +368,7 @@ export default function Footer() {
                   textTransform: "uppercase" as const,
                   fontWeight: 600,
                 }}
-                onMouseEnter={(e) => ((e.target as HTMLElement).style.color = "var(--sp-green-500)")}
+                onMouseEnter={(e) => ((e.target as HTMLElement).style.color = "var(--sp-green-400)")}
                 onMouseLeave={(e) => ((e.target as HTMLElement).style.color = "var(--sp-navy-600)")}
               >
                 Admin

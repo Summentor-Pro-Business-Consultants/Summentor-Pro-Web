@@ -2,12 +2,11 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { motion, AnimatePresence, type Variants } from "framer-motion";
 import Container from "@/components/ui/Container";
 import EdgeGreenGradient from "@/components/ui/EdgeGreenGradient";
 import PageHeading from "@/components/ui/PageHeading";
-import Typewriter from "@/components/ui/Typewriter";
+import SectionHeading from "@/components/ui/SectionHeading";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -119,9 +118,12 @@ const solutions: Solution[] = [
 export default function SolutionsPage() {
   return (
     <>
+      {/* Drop the global body grid on this route so it doesn't show through
+          the slanted wedges around the dark sections. Restored on navigation
+          away (this style unmounts with the page). */}
+      <style>{`body { background-image: none !important; }`}</style>
       <Hero />
       <SolutionTabs />
-      <GrowthCTA />
     </>
   );
 }
@@ -163,46 +165,47 @@ function Hero() {
         }}
       />
 
-      <Container>
+      <Container wide>
         <motion.div
           initial="hidden"
           animate="show"
           variants={stagger}
-          style={{ position: "relative", textAlign: "center", maxWidth: 1000, margin: "0 auto" }}
+          style={{ position: "relative", textAlign: "center", maxWidth: 1280, margin: "0 auto" }}
         >
           <motion.div variants={fadeUp}>
-            <span
+            <SectionHeading
+              dark
               style={{
-                fontFamily: "var(--sp-font-sans)",
-                fontSize: 13,
-                fontWeight: 700,
-                letterSpacing: "0.22em",
-                color: "#fff",
-                textTransform: "uppercase",
-                borderBottom: "2px solid #fff",
-                paddingBottom: 4,
+                display: "inline-block",
+                fontSize: "clamp(25px, 3.6vw, 44px)",
+                fontWeight: 600,
+                borderBottom: "3px solid #fff",
+                paddingBottom: 10,
               }}
             >
               SOLUTIONS
-            </span>
+            </SectionHeading>
           </motion.div>
 
           <motion.div variants={fadeUp} style={{ margin: "28px 0 22px" }}>
-            <PageHeading>
-              STRATEGIC SOLUTIONS DESIGNED FOR
-              <br />
+            <PageHeading style={{ fontSize: "clamp(30px, 5.2vw, 64px)" }}>
+              <span style={{ display: "block", fontWeight: 600 }}>
+                STRATEGIC SOLUTIONS DESIGNED FOR
+              </span>
               <span
                 style={{
                   background: "var(--sp-green-500)",
-                  color: "var(--sp-navy-900)",
-                  padding: "0 14px",
+                  color: "#000",
                   display: "inline-block",
-                  marginTop: -10,
-                  transform: "rotate(-3deg)",
-                  transformOrigin: "center",
+                  padding: "13px 8px",
+                  marginTop: -6,
+                  // Trapezium: vertical, parallel side edges; taller on the
+                  // right (same as the About page heading).
+                  clipPath:
+                    "polygon(0 13px, 100% 0, 100% 100%, 0 calc(100% - 13px))",
                 }}
               >
-                <Typewriter text="GROWTH & BUSINESS ENGAGEMENT" startDelay={550} />
+                GROWTH &amp; BUSINESS ENGAGEMENT
               </span>
             </PageHeading>
           </motion.div>
@@ -211,10 +214,10 @@ function Hero() {
             variants={fadeUp}
             style={{
               fontFamily: "var(--sp-font-sans)",
-              fontSize: "clamp(15px, 1.6vw, 18px)",
-              lineHeight: 1.75,
-              color: "#EBEEF2",
-              maxWidth: 780,
+              fontSize: "clamp(22px, 2.4vw, 31px)",
+              lineHeight: 1.6,
+              color: "#fff",
+              maxWidth: 1040,
               margin: "0 auto",
             }}
           >
@@ -237,9 +240,6 @@ function SolutionTabs() {
     <section
       style={{
         background: "#F9FAFB",
-        backgroundImage:
-          "linear-gradient(rgba(10,10,10,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(10,10,10,0.045) 1px, transparent 1px)",
-        backgroundSize: "44px 44px",
         padding: "clamp(56px, 8vw, 80px) 0",
         position: "relative",
         overflow: "hidden",
@@ -248,7 +248,7 @@ function SolutionTabs() {
       <EdgeGreenGradient side="right" />
       <Container>
         <div
-          className="grid grid-cols-1 md:grid-cols-[300px_1fr] gap-10"
+          className="grid grid-cols-1 md:grid-cols-[360px_1fr] gap-10"
           style={{ alignItems: "stretch", position: "relative" }}
         >
           {/* Left: pill buttons */}
@@ -258,21 +258,8 @@ function SolutionTabs() {
             viewport={{ once: true, amount: 0.25 }}
             variants={stagger}
             className="flex flex-col gap-4"
-            style={{ justifyContent: "center" }}
+            style={{ justifyContent: "center", marginLeft: "clamp(-48px, -3vw, -12px)" }}
           >
-            <p
-              style={{
-                fontFamily: "var(--sp-font-sans)",
-                fontSize: 11,
-                fontWeight: 700,
-                letterSpacing: "0.14em",
-                textTransform: "uppercase",
-                color: "var(--sp-green-700)",
-                margin: "0 0 4px 4px",
-              }}
-            >
-              Our Solutions
-            </p>
             {solutions.map((s) => {
               const isActive = s.id === activeId;
               return (
@@ -286,14 +273,14 @@ function SolutionTabs() {
                   onClick={() => setActiveId(s.id)}
                   style={{
                     textAlign: "left",
-                    padding: "16px 24px",
+                    padding: "18px 26px",
                     borderRadius: 999,
                     border: "1.5px solid var(--sp-green-600)",
                     background: isActive ? "var(--sp-green-600)" : "transparent",
-                    color: isActive ? "#fff" : "var(--sp-navy-900)",
+                    color: isActive ? "#fff" : "#000",
                     cursor: "pointer",
                     fontFamily: "var(--sp-font-sans)",
-                    fontSize: 15,
+                    fontSize: "clamp(19px, 1.9vw, 25px)",
                     fontWeight: 600,
                     boxShadow: isActive
                       ? "0 8px 22px rgba(22,163,74,0.25)"
@@ -320,7 +307,7 @@ function SolutionTabs() {
                 style={{
                   background: "var(--sp-navy-900)",
                   borderRadius: 14,
-                  padding: "clamp(22px, 4.5vw, 32px) clamp(22px, 5vw, 36px)",
+                  padding: "clamp(30px, 5vw, 46px) clamp(30px, 5.5vw, 50px)",
                   border: "1px solid rgba(255,255,255,0.06)",
                   boxShadow: "0 12px 36px rgba(10,10,10,0.18)",
                 }}
@@ -328,11 +315,11 @@ function SolutionTabs() {
                 <h2
                   style={{
                     fontFamily: "var(--sp-font-sans)",
-                    fontSize: 22,
+                    fontSize: "clamp(26px, 2.9vw, 36px)",
                     fontWeight: 700,
                     color: "#fff",
-                    margin: "0 0 18px",
-                    lineHeight: 1.3,
+                    margin: "0 0 20px",
+                    lineHeight: 1.25,
                   }}
                 >
                   {active.title}
@@ -343,10 +330,10 @@ function SolutionTabs() {
                     key={i}
                     style={{
                       fontFamily: "var(--sp-font-sans)",
-                      fontSize: 16,
-                      lineHeight: 1.7,
-                      color: "#EBEEF2",
-                      margin: i === active.paragraphs.length - 1 ? "0 0 24px" : "0 0 14px",
+                      fontSize: "clamp(18px, 1.9vw, 23px)",
+                      lineHeight: 1.4,
+                      color: "#fff",
+                      margin: i === active.paragraphs.length - 1 ? "0 0 28px" : "0 0 14px",
                     }}
                   >
                     {p}
@@ -356,34 +343,39 @@ function SolutionTabs() {
                 <p
                   style={{
                     fontFamily: "var(--sp-font-sans)",
-                    fontSize: 13,
-                    fontWeight: 700,
+                    fontSize: "clamp(18px, 1.9vw, 23px)",
+                    fontWeight: 600,
                     color: "#fff",
-                    letterSpacing: "0.04em",
-                    margin: "0 0 12px",
+                    letterSpacing: "0.01em",
+                    margin: "0 0 14px",
                   }}
                 >
                   {active.listLabel}
                 </p>
-                <ul style={{ margin: 0, padding: 0, listStyle: "none", display: "grid", gap: 10 }}>
+                <ul style={{ margin: 0, padding: 0, listStyle: "none", display: "grid", gap: 6 }}>
                   {active.list.map((item) => (
                     <li
                       key={item}
                       style={{
                         fontFamily: "var(--sp-font-sans)",
-                        fontSize: 16,
-                        color: "#EBEEF2",
+                        fontSize: "clamp(17px, 1.8vw, 22px)",
+                        color: "#fff",
                         display: "flex",
                         alignItems: "flex-start",
-                        gap: 10,
-                        lineHeight: 1.5,
+                        gap: 12,
+                        lineHeight: 1.3,
                       }}
                     >
-                      <img
-                        src="/icons/check.svg"
-                        alt=""
+                      <span
                         aria-hidden="true"
-                        style={{ width: 20, height: 20, flexShrink: 0, marginTop: 2 }}
+                        style={{
+                          width: 8,
+                          height: 8,
+                          borderRadius: "50%",
+                          background: "var(--sp-green-400)",
+                          flexShrink: 0,
+                          marginTop: "0.55em",
+                        }}
                       />
                       {item}
                     </li>
@@ -398,131 +390,3 @@ function SolutionTabs() {
   );
 }
 
-// ─── Green CTA band ─────────────────────────────────────────────────────────
-function GrowthCTA() {
-  return (
-    <section
-      style={{
-        background: "#fff",
-        backgroundImage:
-          "linear-gradient(rgba(10,10,10,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(10,10,10,0.045) 1px, transparent 1px)",
-        backgroundSize: "44px 44px",
-        padding: "clamp(40px, 6vw, 60px) 0 clamp(64px, 10vw, 100px)",
-      }}
-    >
-      <Container>
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.7, ease: EASE }}
-          style={{
-            background: "var(--sp-green-600)",
-            borderRadius: 22,
-            padding: "clamp(36px, 6vw, 56px) clamp(28px, 6vw, 56px)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            gap: 32,
-            overflow: "hidden",
-            position: "relative",
-            flexWrap: "wrap",
-          }}
-        >
-          <div
-            aria-hidden="true"
-            style={{
-              position: "absolute",
-              inset: 0,
-              borderRadius: 22,
-              background:
-                "radial-gradient(ellipse at bottom right, rgba(255,255,255,0.10) 0%, transparent 60%)",
-              pointerEvents: "none",
-            }}
-          />
-
-          <div style={{ position: "relative", zIndex: 1, flex: "1 1 380px" }}>
-            <h2
-              style={{
-                fontFamily: "var(--sp-font-sans)",
-                fontSize: "clamp(26px, 3.8vw, 46px)",
-                fontWeight: 900,
-                textTransform: "uppercase",
-                letterSpacing: "0.01em",
-                color: "#fff",
-                margin: "0 0 18px",
-                lineHeight: 1.1,
-              }}
-            >
-              LOOKING TO EXPLORE
-              <br />
-              STRATEGIC GROWTH
-              <br />
-              OPPORTUNITIES?
-            </h2>
-            <p
-              style={{
-                fontFamily: "var(--sp-font-sans)",
-                fontSize: 16,
-                lineHeight: 1.7,
-                color: "rgba(255,255,255,0.88)",
-                margin: "0 0 22px",
-                maxWidth: 520,
-              }}
-            >
-              Connect with us to explore how Summentor Pro can support your business through
-              consulting, strategic engagement, industry platforms, and growth-focused initiatives.
-            </p>
-            <Link
-              href="/contact"
-              style={{
-                display: "inline-block",
-                background: "var(--sp-navy-900)",
-                color: "#fff",
-                fontFamily: "var(--sp-font-sans)",
-                fontSize: 14,
-                fontWeight: 600,
-                padding: "12px 24px",
-                borderRadius: 8,
-                textDecoration: "none",
-                transition: "transform 0.2s ease, box-shadow 0.2s ease",
-              }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLElement).style.transform = "translateY(-2px)";
-                (e.currentTarget as HTMLElement).style.boxShadow = "0 6px 18px rgba(0,0,0,0.25)";
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLElement).style.transform = "translateY(0)";
-                (e.currentTarget as HTMLElement).style.boxShadow = "none";
-              }}
-            >
-              Schedule a Consultation →
-            </Link>
-          </div>
-
-          {/* Upward arrow illustration */}
-          <div style={{ flexShrink: 0, position: "relative", zIndex: 1 }}>
-            <svg
-              width="180"
-              height="160"
-              viewBox="0 0 180 160"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              aria-hidden="true"
-            >
-              <path d="M20 140 L130 30" stroke="white" strokeWidth="14" strokeLinecap="round" />
-              <path
-                d="M70 30 L140 30 L140 100"
-                stroke="white"
-                strokeWidth="14"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                fill="none"
-              />
-            </svg>
-          </div>
-        </motion.div>
-      </Container>
-    </section>
-  );
-}
