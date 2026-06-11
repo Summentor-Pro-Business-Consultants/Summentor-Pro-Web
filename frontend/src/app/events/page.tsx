@@ -9,11 +9,6 @@ import {
   ChevronRight,
   ArrowLeft,
   ArrowRight,
-  Network,
-  MessagesSquare,
-  Eye,
-  TrendingUp,
-  Users,
 } from "lucide-react";
 import Container from "@/components/ui/Container";
 import EdgeGreenGradient from "@/components/ui/EdgeGreenGradient";
@@ -39,11 +34,11 @@ const stagger: Variants = {
 
 // ─── Data ───────────────────────────────────────────────────────────────────
 const designedTo = [
-  { icon: Network, title: "Enable strategic networking", desc: "Curated business introductions across MSMEs, enterprises, and policymakers." },
-  { icon: MessagesSquare, title: "Encourage industry dialogue", desc: "Structured conversations that turn into long-term partnerships." },
-  { icon: Eye, title: "Facilitate business visibility", desc: "Help businesses position themselves in the right rooms with the right audiences." },
-  { icon: TrendingUp, title: "Support MSME & startup growth", desc: "Platforms tailored to founders building from the ground up." },
-  { icon: Users, title: "Create meaningful engagement", desc: "Genuine exchange between businesses, institutions, and ecosystem stakeholders." },
+  { icon: "/icons/cooperation.svg", title: "Enable strategic networking", desc: "Curated business introductions across MSMEs, enterprises, and policymakers." },
+  { icon: "/icons/puzzle.svg", title: "Encourage industry dialogue", desc: "Structured conversations that turn into long-term partnerships." },
+  { icon: "/icons/diagram.svg", title: "Facilitate business visibility", desc: "Help businesses position themselves in the right rooms with the right audiences." },
+  { icon: "/icons/increase.svg", title: "Support MSME & startup growth", desc: "Platforms tailored to founders building from the ground up." },
+  { icon: "/icons/team-leader.svg", title: "Create meaningful engagement", desc: "Genuine exchange between businesses, institutions, and ecosystem stakeholders." },
 ];
 
 const featuredPlatforms = [
@@ -378,9 +373,13 @@ function PlatformCard({
   item: (typeof designedTo)[number];
   center: boolean;
 }) {
-  const Icon = item.icon;
+  const [hover, setHover] = useState(false);
+  // Green accent applies to the centre card and to any card on hover.
+  const accent = center || hover;
   return (
     <div
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
       style={{
         display: "flex",
         flexDirection: "column",
@@ -388,7 +387,7 @@ function PlatformCard({
         justifyContent: "center",
         textAlign: "center",
         gap: 16,
-        padding: "clamp(26px, 3.2vw, 40px) 18px",
+        padding: "clamp(18px, 2.3vw, 28px) 18px",
         borderRadius: 0,
         background: center ? "#252525" : "#fff",
         border: center ? "2px solid var(--sp-green-600)" : "1px solid #E5E7EB",
@@ -399,19 +398,33 @@ function PlatformCard({
         transition: "background 0.4s ease, transform 0.4s ease, box-shadow 0.4s ease",
       }}
     >
-      <Icon
-        size={40}
-        color={center ? "var(--sp-green-400)" : "#1a1a1a"}
-        strokeWidth={2}
-        style={{ transition: "color 0.4s ease" }}
+      {/* The SVG is used as a CSS mask so its silhouette takes the card's
+          icon colour (green on the centre card, dark on the side cards). */}
+      <span
+        aria-hidden="true"
+        style={{
+          width: 72,
+          height: 72,
+          flexShrink: 0,
+          backgroundColor: accent ? "var(--sp-green-400)" : "#1a1a1a",
+          WebkitMaskImage: `url(${item.icon})`,
+          maskImage: `url(${item.icon})`,
+          WebkitMaskRepeat: "no-repeat",
+          maskRepeat: "no-repeat",
+          WebkitMaskPosition: "center",
+          maskPosition: "center",
+          WebkitMaskSize: "contain",
+          maskSize: "contain",
+          transition: "background-color 0.4s ease",
+        }}
       />
       <h3
         style={{
           fontFamily: "var(--sp-font-sans)",
-          fontSize: "clamp(18px, 2vw, 24px)",
-          fontWeight: 600,
+          fontSize: "clamp(24px, 2.9vw, 34px)",
+          fontWeight: 500,
           lineHeight: 1.3,
-          color: center ? "var(--sp-green-400)" : "#000",
+          color: accent ? "var(--sp-green-400)" : "#000",
           margin: 0,
           transition: "color 0.4s ease",
         }}
