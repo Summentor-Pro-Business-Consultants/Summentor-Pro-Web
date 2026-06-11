@@ -302,7 +302,7 @@ function FormBlock() {
                   fontSize: 15,
                   color: "var(--sp-green-900)",
                   margin: 0,
-                  lineHeight: 1.6,
+                  lineHeight: 1.45,
                 }}
               >
                 Your message has reached the team. We typically respond within 1–2 business days.

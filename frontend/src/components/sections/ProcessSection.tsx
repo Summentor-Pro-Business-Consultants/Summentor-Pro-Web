@@ -136,7 +136,11 @@ export default function ProcessSection() {
           </SectionHeading>
           <WavyLine />
         </motion.div>
+      </Container>
 
+      {/* Pill bar gets a wider container so longer tab labels stay on two
+          lines instead of wrapping to three. */}
+      <Container wide style={{ position: "relative", zIndex: 1, maxWidth: 1320 }}>
         {/* Single dark pill bar containing all tabs with dividers */}
         <div
           style={{
@@ -155,10 +159,10 @@ export default function ProcessSection() {
               {i > 0 && (
                 <div
                   style={{
-                    width: 1,
-                    background: "rgba(255,255,255,0.12)",
+                    width: 2,
+                    background: "#fff",
                     alignSelf: "stretch",
-                    margin: "8px 0",
+                    margin: "6px 12px",
                     flexShrink: 0,
                   }}
                 />
@@ -170,13 +174,13 @@ export default function ProcessSection() {
                 onClick={() => setActiveTab(tab.id)}
                 style={{
                   flex: 1,
-                  padding: "14px 12px",
+                  padding: "9px 12px",
                   borderRadius: 12,
                   border: "none",
                   background: activeTab === tab.id ? "var(--sp-green-600)" : "transparent",
                   color: activeTab === tab.id ? "#fff" : "rgba(255,255,255,0.92)",
                   fontFamily: "var(--sp-font-sans)",
-                  fontSize: "clamp(16px, 1.7vw, 22px)",
+                  fontSize: "clamp(20px, 2.2vw, 29px)",
                   fontWeight: 500,
                   lineHeight: 1.4,
                   cursor: "pointer",
@@ -190,7 +194,9 @@ export default function ProcessSection() {
             </div>
           ))}
         </div>
+      </Container>
 
+      <Container style={{ position: "relative", zIndex: 1 }}>
         {/* Tab content */}
         <AnimatePresence mode="wait">
           <motion.div
@@ -220,7 +226,7 @@ export default function ProcessSection() {
                   fontFamily: "var(--sp-font-sans)",
                   fontSize: "clamp(16px, 1.75vw, 21px)",
                   color: "#4b5563",
-                  lineHeight: 1.6,
+                  lineHeight: 1.45,
                   margin: "0 0 30px 0",
                   maxWidth: 560,
                 }}

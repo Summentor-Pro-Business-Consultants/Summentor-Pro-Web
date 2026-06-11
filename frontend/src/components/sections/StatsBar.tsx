@@ -142,12 +142,18 @@ export default function StatsBar() {
     <section
       style={{
         position: "relative",
+        // Slide up over AboutSection (this section paints on top) so its top
+        // slant cut reveals AboutSection's grid behind, not a blank wedge.
+        zIndex: 1,
+        marginTop: "calc(-1 * var(--sp-slant))",
         overflow: "hidden",
         background: "var(--sp-navy-1000)",
         backgroundImage:
-          "linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px), var(--sp-dark-grad-b)",
-        backgroundSize: "44px 44px, 44px 44px, cover",
-        paddingTop: "clamp(64px, 9vw, 96px)",
+          "linear-gradient(transparent, rgba(255,255,255,0.04) 1.5px, transparent 3px), linear-gradient(90deg, transparent, rgba(255,255,255,0.04) 1.5px, transparent 3px), var(--sp-dark-grad-b)",
+        backgroundSize: "52px 52px, 52px 52px, cover",
+        // Slant added back into top padding so the heading keeps its position
+        // despite the negative top margin pulling the section up.
+        paddingTop: "calc(clamp(64px, 9vw, 96px) + var(--sp-slant))",
         paddingBottom: "clamp(72px, 10vw, 110px)",
         // Top slant runs left-up → right-down (top-LEFT at the top edge,
         // top-RIGHT dropped by the slant). Bottom edge unchanged.

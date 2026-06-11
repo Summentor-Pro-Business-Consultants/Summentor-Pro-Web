@@ -215,7 +215,7 @@ function Hero() {
             style={{
               fontFamily: "var(--sp-font-sans)",
               fontSize: "clamp(22px, 2.4vw, 31px)",
-              lineHeight: 1.6,
+              lineHeight: 1.45,
               color: "#fff",
               maxWidth: 1040,
               margin: "0 auto",

@@ -245,7 +245,7 @@ function Story() {
                 fontFamily: "var(--sp-font-sans)",
                 fontSize: "clamp(23px, 2.4vw, 33px)",
                 fontWeight: 400,
-                lineHeight: 1.6,
+                lineHeight: 1.45,
                 color: "#000",
                 margin: "0 0 28px",
                 textAlign: "center",
@@ -377,7 +377,7 @@ function WhatMakesUsDifferent() {
               color: "#000",
               maxWidth: 1280,
               margin: "22px auto 0",
-              lineHeight: 1.55,
+              lineHeight: 1.45,
             }}
           >
             Unlike conventional event or consulting companies, our approach is built around
@@ -447,7 +447,7 @@ function WhatMakesUsDifferent() {
             textAlign: "center",
             margin: "36px auto 0",
             maxWidth: 1400,
-            lineHeight: 1.55,
+            lineHeight: 1.45,
             position: "relative",
           }}
         >

@@ -43,8 +43,8 @@ export default function EventsSection() {
         background: "var(--sp-navy-1000)",
         // Grid lines on top, alternating dark gradient (grad-b) underneath.
         backgroundImage:
-          "linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px), var(--sp-dark-grad-b)",
-        backgroundSize: "44px 44px, 44px 44px, cover",
+          "linear-gradient(transparent, rgba(255,255,255,0.04) 1.5px, transparent 3px), linear-gradient(90deg, transparent, rgba(255,255,255,0.04) 1.5px, transparent 3px), var(--sp-dark-grad-b)",
+        backgroundSize: "52px 52px, 52px 52px, cover",
         // Extra top padding clears the ~150px straddle of the last "What We Do"
         // card (ConnectNow), whose lower half overlaps this section's top.
         paddingTop: "clamp(185px, 17vw, 215px)",

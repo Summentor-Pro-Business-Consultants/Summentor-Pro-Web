@@ -9,12 +9,19 @@ export default function AboutSection() {
     <section
       style={{
         position: "relative",
+        // Slide up behind the Hero's slanted bottom (Hero has the higher
+        // z-index) so this section's grid fills the Hero's cut-out wedge and
+        // scrolls with the page instead of revealing a blank background.
+        zIndex: 0,
+        marginTop: "calc(-1 * var(--sp-slant))",
         background: "#fff",
         // Subtle grid background pattern — visible but not distracting.
         backgroundImage:
-          "linear-gradient(rgba(10,10,10,0.075) 1px, transparent 1px), linear-gradient(90deg, rgba(10,10,10,0.075) 1px, transparent 1px)",
-        backgroundSize: "44px 44px",
-        paddingTop: "clamp(56px, 7vw, 72px)",
+          "linear-gradient(transparent, rgba(10,10,10,0.05) 1.5px, transparent 3px), linear-gradient(90deg, transparent, rgba(10,10,10,0.05) 1.5px, transparent 3px)",
+        backgroundSize: "52px 52px",
+        // Slant added back into the top padding so the heading keeps its
+        // position despite the negative top margin pulling the section up.
+        paddingTop: "calc(clamp(56px, 7vw, 72px) + var(--sp-slant))",
         paddingBottom: "clamp(56px, 7vw, 72px)",
         overflow: "hidden",
       }}
@@ -71,7 +78,7 @@ export default function AboutSection() {
             style={{
               fontFamily: "var(--sp-font-sans)",
               fontSize: "clamp(24px, 3.2vw, 36px)",
-              lineHeight: 1.6,
+              lineHeight: 1.45,
               color: "#000",
               marginTop: 40,
             }}

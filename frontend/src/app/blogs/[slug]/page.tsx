@@ -168,7 +168,7 @@ export default function BlogPostPage() {
                   color: "var(--sp-navy-300)",
                   marginTop: 16,
                   maxWidth: 680,
-                  lineHeight: 1.65,
+                  lineHeight: 1.45,
                 }}
               >
                 {blog.excerpt}

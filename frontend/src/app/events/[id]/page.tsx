@@ -209,7 +209,7 @@ export default function EventDetailPage() {
                 style={{
                   fontFamily: "var(--sp-font-sans)",
                   fontSize: 16,
-                  lineHeight: 1.7,
+                  lineHeight: 1.45,
                   color: "var(--sp-gray-700)",
                 }}
               >
