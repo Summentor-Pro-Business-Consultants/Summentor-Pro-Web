@@ -8,7 +8,6 @@ import Container from "@/components/ui/Container";
 import EdgeGreenGradient from "@/components/ui/EdgeGreenGradient";
 import PageHeading from "@/components/ui/PageHeading";
 import SectionHeading from "@/components/ui/SectionHeading";
-import Typewriter from "@/components/ui/Typewriter";
 import WavyLine from "@/components/ui/WavyLine";
 
 // ─── Design system (matches About / Solutions / Platforms) ─────────────────
@@ -162,7 +161,7 @@ function Hero() {
               <span
                 style={{
                   background: "var(--sp-green-500)",
-                  color: "var(--sp-navy-900)",
+                  color: "#000",
                   padding: "0 14px",
                   display: "inline-block",
                   marginTop: -10,
@@ -170,7 +169,7 @@ function Hero() {
                   transformOrigin: "center",
                 }}
               >
-                <Typewriter text="SUMMENTOR PRO" startDelay={550} />
+                SUMMENTOR PRO
               </span>
             </PageHeading>
           </motion.div>
@@ -246,7 +245,7 @@ function FormBlock() {
       style={{
         background: "#fff",
         backgroundImage:
-          "linear-gradient(rgba(10,10,10,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(10,10,10,0.045) 1px, transparent 1px)",
+          "linear-gradient(rgba(10,10,10,0.075) 1px, transparent 1px), linear-gradient(90deg, rgba(10,10,10,0.075) 1px, transparent 1px)",
         backgroundSize: "44px 44px",
         padding: "clamp(56px, 8vw, 80px) 0",
         position: "relative",
@@ -461,7 +460,7 @@ const inputStyle: React.CSSProperties = {
   padding: "0 14px",
   fontFamily: "var(--sp-font-sans)",
   fontSize: 15,
-  color: "var(--sp-navy-900)",
+  color: "#000",
   background: "#F4F5F7",
   border: "1px solid transparent",
   borderRadius: 6,
@@ -490,7 +489,7 @@ function Field({
           fontFamily: "var(--sp-font-sans)",
           fontSize: 13,
           fontWeight: 600,
-          color: "var(--sp-navy-900)",
+          color: "#000",
         }}
       >
         {label}
@@ -508,7 +507,7 @@ function LocationBlock() {
       style={{
         background: "#fff",
         backgroundImage:
-          "linear-gradient(rgba(10,10,10,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(10,10,10,0.045) 1px, transparent 1px)",
+          "linear-gradient(rgba(10,10,10,0.075) 1px, transparent 1px), linear-gradient(90deg, rgba(10,10,10,0.075) 1px, transparent 1px)",
         backgroundSize: "44px 44px",
         padding: "clamp(40px, 6vw, 60px) 0 clamp(64px, 10vw, 100px)",
         position: "relative",
@@ -575,7 +574,7 @@ function LocationBlock() {
                 fontFamily: "var(--sp-font-sans)",
                 fontSize: "clamp(15px, 1.8vw, 17px)",
                 lineHeight: 1.6,
-                color: "#EBEEF2",
+                color: "#fff",
                 margin: "0 0 18px",
               }}
             >

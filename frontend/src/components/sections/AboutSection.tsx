@@ -3,7 +3,6 @@
 import { motion } from "framer-motion";
 import Container from "@/components/ui/Container";
 import SectionHeading from "@/components/ui/SectionHeading";
-import WavyLine from "@/components/ui/WavyLine";
 
 export default function AboutSection() {
   return (
@@ -13,14 +12,14 @@ export default function AboutSection() {
         background: "#fff",
         // Subtle grid background pattern — visible but not distracting.
         backgroundImage:
-          "linear-gradient(rgba(10,10,10,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(10,10,10,0.045) 1px, transparent 1px)",
+          "linear-gradient(rgba(10,10,10,0.075) 1px, transparent 1px), linear-gradient(90deg, rgba(10,10,10,0.075) 1px, transparent 1px)",
         backgroundSize: "44px 44px",
         paddingTop: "clamp(56px, 7vw, 72px)",
         paddingBottom: "clamp(56px, 7vw, 72px)",
         overflow: "hidden",
       }}
     >
-      {/* Green gradient on right side */}
+      {/* Green curved gradient on right side */}
       <div
         style={{
           position: "absolute",
@@ -29,7 +28,20 @@ export default function AboutSection() {
           width: "45%",
           height: "100%",
           background:
-            "radial-gradient(ellipse at top right, rgba(30,200,140,0.13) 0%, rgba(30,200,140,0.05) 45%, transparent 75%)",
+            "radial-gradient(ellipse at top right, rgba(5,161,113,0.15) 0%, rgba(5,161,113,0.06) 45%, transparent 75%)",
+          pointerEvents: "none",
+        }}
+      />
+      {/* Green curved gradient on left side */}
+      <div
+        style={{
+          position: "absolute",
+          bottom: 0,
+          left: 0,
+          width: "45%",
+          height: "100%",
+          background:
+            "radial-gradient(ellipse at bottom left, rgba(5,161,113,0.15) 0%, rgba(5,161,113,0.06) 45%, transparent 75%)",
           pointerEvents: "none",
         }}
       />
@@ -43,18 +55,25 @@ export default function AboutSection() {
           className="text-center"
           style={{ maxWidth: 1080, margin: "0 auto" }}
         >
-          {/* Dark rounded badge */}
-          <SectionHeading>About Summentor Pro</SectionHeading>
-
-          <WavyLine />
+          {/* Heading sits inside a black rounded badge (no wavy line) */}
+          <div
+            style={{
+              display: "inline-block",
+              background: "var(--sp-navy-900)",
+              borderRadius: "clamp(12px, 1.6vw, 22px)",
+              padding: "clamp(6px, 0.9vw, 12px) clamp(18px, 2.6vw, 34px)",
+            }}
+          >
+            <SectionHeading dark>About Summentor Pro</SectionHeading>
+          </div>
 
           <p
             style={{
               fontFamily: "var(--sp-font-sans)",
-              fontSize: "clamp(20px, 2.5vw, 27px)",
-              lineHeight: 1.7,
-              color: "#1F2937",
-              marginTop: 32,
+              fontSize: "clamp(24px, 3.2vw, 36px)",
+              lineHeight: 1.6,
+              color: "#000",
+              marginTop: 40,
             }}
           >
             Summentor Pro works with MSMEs, enterprises, industry leaders, and institutions to

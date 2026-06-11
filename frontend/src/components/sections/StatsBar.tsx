@@ -4,6 +4,7 @@ import { useRef, useEffect, useState, type ReactNode } from "react";
 import Image from "next/image";
 import { motion, useInView, type Variants } from "framer-motion";
 import Container from "@/components/ui/Container";
+import EdgeGreenGradient from "@/components/ui/EdgeGreenGradient";
 import SectionHeading from "@/components/ui/SectionHeading";
 import WavyLine from "@/components/ui/WavyLine";
 
@@ -37,7 +38,7 @@ function AnimatedStat({ target }: { target: number }) {
         fontWeight: 800,
         color: "var(--sp-green-500)",
         lineHeight: 1,
-        fontSize: "clamp(42px, 5vw, 72px)",
+        fontSize: "clamp(30px, 3.4vw, 48px)",
         letterSpacing: "-0.02em",
         display: "block",
         marginBottom: 6,
@@ -82,11 +83,13 @@ function Photo({ src, alt }: { src: string; alt: string }) {
 const labelStyle: React.CSSProperties = {
   fontFamily: "var(--sp-font-sans)",
   fontWeight: 400,
-  color: "#F2F4F7",
-  fontSize: "clamp(18px, 1.85vw, 25px)",
-  lineHeight: 1.35,
+  color: "#fff",
+  fontSize: "clamp(21px, 2.25vw, 30px)",
+  lineHeight: 1.3,
   margin: 0,
-  maxWidth: 250,
+  // Labels carry explicit <br/> line breaks to match the design exactly;
+  // nowrap stops the browser from introducing any extra wrapping.
+  whiteSpace: "nowrap",
 };
 
 /** A grouped image+content unit (image left, content right). */
@@ -118,7 +121,7 @@ function StatBlock({
   className = "",
 }: {
   target: number;
-  label: string;
+  label: ReactNode;
   className?: string;
 }) {
   return (
@@ -142,12 +145,14 @@ export default function StatsBar() {
         overflow: "hidden",
         background: "var(--sp-navy-1000)",
         backgroundImage:
-          "linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px), var(--sp-dark-grad-b)",
+          "linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px), var(--sp-dark-grad-b)",
         backgroundSize: "44px 44px, 44px 44px, cover",
         paddingTop: "clamp(64px, 9vw, 96px)",
         paddingBottom: "clamp(72px, 10vw, 110px)",
+        // Top slant runs left-up → right-down (top-LEFT at the top edge,
+        // top-RIGHT dropped by the slant). Bottom edge unchanged.
         clipPath:
-          "polygon(0 var(--sp-slant), 100% 0, 100% 100%, 0 calc(100% - var(--sp-slant)))",
+          "polygon(0 0, 100% var(--sp-slant), 100% 100%, 0 calc(100% - var(--sp-slant)))",
       }}
     >
       <style>{`
@@ -163,7 +168,11 @@ export default function StatsBar() {
         }
       `}</style>
 
-      <Container wide>
+      {/* Soft green curved gradients glowing in from both edges */}
+      <EdgeGreenGradient side="left" position="bottom" intensity={0.2} />
+      <EdgeGreenGradient side="right" position="top" intensity={0.2} />
+
+      <Container wide style={{ position: "relative", zIndex: 1 }}>
         {/* Heading + decorative stroke (nudged slightly right of centre) */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
@@ -197,7 +206,13 @@ export default function StatsBar() {
             alt="Business stakeholders at a summit"
           >
             <AnimatedStat target={3000} />
-            <p style={labelStyle}>Business Stakeholders Engaged</p>
+            <p style={labelStyle}>
+              Business
+              <br />
+              Stakeholders
+              <br />
+              Engaged
+            </p>
           </Pair>
 
           <Pair
@@ -205,8 +220,13 @@ export default function StatsBar() {
             alt="Meeting with Union Minister of MSME"
           >
             <p style={labelStyle}>
-              Government &amp; Industry Participation Across Strategic Platforms
-              &amp; Initiatives
+              Government &amp;
+              <br />
+              Industry Participation
+              <br />
+              Across Strategic
+              <br />
+              Platforms &amp; Initiatives
             </p>
           </Pair>
         </motion.div>
@@ -221,7 +241,15 @@ export default function StatsBar() {
         >
           <StatBlock
             target={100}
-            label="Strategic Collaborations Facilitated"
+            label={
+              <>
+                Strategic
+                <br />
+                Collaborations
+                <br />
+                Facilitated
+              </>
+            }
             className="sp-stat-tight"
           />
 
@@ -229,7 +257,15 @@ export default function StatsBar() {
             src="/images/engagements/meeting-deputy-cm-odisha.jpeg"
             alt="Strategic collaboration ceremony"
           >
-            <p style={labelStyle}>Multi-Sector Industry Platforms Executed</p>
+            <p style={labelStyle}>
+              Multi-Sector
+              <br />
+              Industry
+              <br />
+              Platforms
+              <br />
+              Executed
+            </p>
           </Pair>
 
           <Pair
@@ -237,8 +273,13 @@ export default function StatsBar() {
             alt="Ecosystem participation across institutions"
           >
             <p style={labelStyle}>
-              Ecosystem Participation Across MSMEs, Enterprises &amp;
-              Institutions
+              Ecosystem
+              <br />
+              Participation Across
+              <br />
+              MSMEs, Enterprises
+              <br />
+              &amp; Institutions
             </p>
           </Pair>
         </motion.div>

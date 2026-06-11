@@ -163,7 +163,7 @@ export default function BlogsPage() {
                           fontFamily: "var(--sp-font-sans)",
                           fontSize: 18,
                           fontWeight: 500,
-                          color: "var(--sp-navy-900)",
+                          color: "#000",
                           lineHeight: 1.3,
                           margin: 0,
                           flex: 1,

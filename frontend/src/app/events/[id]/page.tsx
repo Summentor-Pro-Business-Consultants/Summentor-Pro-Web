@@ -199,7 +199,7 @@ export default function EventDetailPage() {
                   fontFamily: "var(--sp-font-display)",
                   fontSize: 28,
                   fontWeight: 700,
-                  color: "var(--sp-navy-900)",
+                  color: "#000",
                   marginBottom: 16,
                 }}
               >
@@ -244,7 +244,7 @@ export default function EventDetailPage() {
                   fontFamily: "var(--sp-font-sans)",
                   fontSize: 22,
                   fontWeight: 500,
-                  color: "var(--sp-navy-900)",
+                  color: "#000",
                   margin: "0 0 6px",
                 }}
               >

@@ -70,7 +70,7 @@ export default function BlogPostPage() {
         }}
       >
         <h1
-          style={{ fontFamily: "var(--sp-font-sans)", fontSize: 32, color: "var(--sp-navy-900)" }}
+          style={{ fontFamily: "var(--sp-font-sans)", fontSize: 32, color: "#000" }}
         >
           Post not found
         </h1>
@@ -287,8 +287,8 @@ export default function BlogPostPage() {
 
       <style>{`
         .blog-content { font-family: var(--sp-font-sans); font-size: 16px; line-height: 1.8; color: var(--sp-navy-800, #1a2740); }
-        .blog-content h2 { font-family: var(--sp-font-sans); font-size: 1.6em; font-weight: 500; margin: 1.6em 0 0.5em; color: var(--sp-navy-900); }
-        .blog-content h3 { font-family: var(--sp-font-sans); font-size: 1.25em; font-weight: 500; margin: 1.4em 0 0.4em; color: var(--sp-navy-900); }
+        .blog-content h2 { font-family: var(--sp-font-sans); font-size: 1.6em; font-weight: 500; margin: 1.6em 0 0.5em; color: #000; }
+        .blog-content h3 { font-family: var(--sp-font-sans); font-size: 1.25em; font-weight: 500; margin: 1.4em 0 0.4em; color: #000; }
         .blog-content p { margin: 0 0 1.1em; }
         .blog-content ul { list-style: disc; padding-left: 1.5em; margin: 0.8em 0 1.1em; }
         .blog-content ol { list-style: decimal; padding-left: 1.5em; margin: 0.8em 0 1.1em; }

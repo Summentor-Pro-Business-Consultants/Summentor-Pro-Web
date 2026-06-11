@@ -83,7 +83,7 @@ export default function Header() {
                 style={{
                   fontFamily: "var(--sp-font-sans)",
                   fontSize: 19.5,
-                  color: isActive(link.href) ? "var(--sp-green-700)" : "var(--sp-navy-900)",
+                  color: isActive(link.href) ? "var(--sp-green-700)" : "#000",
                   textDecoration: "none",
                   padding: "28px 13px",
                   borderBottom: isActive(link.href)
@@ -100,7 +100,7 @@ export default function Header() {
                 }}
                 onMouseLeave={(e) => {
                   if (!isActive(link.href))
-                    (e.target as HTMLElement).style.color = "var(--sp-navy-900)";
+                    (e.target as HTMLElement).style.color = "#000";
                 }}
               >
                 {link.label}
@@ -115,7 +115,7 @@ export default function Header() {
           onClick={() => setMenuOpen((v) => !v)}
           aria-label="Toggle menu"
           style={{
-            color: "var(--sp-navy-900)",
+            color: "#000",
             background: "none",
             border: "none",
             cursor: "pointer",
@@ -154,7 +154,7 @@ export default function Header() {
                     style={{
                       fontFamily: "var(--sp-font-sans)",
                       fontSize: 19,
-                      color: isActive(link.href) ? "var(--sp-green-700)" : "var(--sp-navy-900)",
+                      color: isActive(link.href) ? "var(--sp-green-700)" : "#000",
                       textDecoration: "none",
                       padding: "14px 0",
                       borderBottom: "1px solid var(--sp-gray-200)",

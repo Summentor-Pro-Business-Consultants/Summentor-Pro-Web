@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import Container from "@/components/ui/Container";
 import SectionHeading from "@/components/ui/SectionHeading";
+import WavyLine from "@/components/ui/WavyLine";
 
 const services = [
   {
@@ -35,19 +36,56 @@ const services = [
 
 export default function ServicesGrid() {
   const [hovered, setHovered] = useState<number | null>(null);
+  // The last card (ConnectNow) straddles the slant into the dark "Featured
+  // Industry Platforms" section below: its negative bottom margin pulls that
+  // section up so the slant cuts through the card's middle (matches design).
+  const OVERLAP = 150;
 
   return (
     <section
       style={{
+        // Above the dark section so the straddling last card stays on top.
+        position: "relative",
+        zIndex: 2,
         background: "#fff",
-        backgroundImage:
-          "linear-gradient(rgba(10,10,10,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(10,10,10,0.045) 1px, transparent 1px)",
-        backgroundSize: "44px 44px",
         paddingTop: "clamp(56px, 8vw, 80px)",
-        paddingBottom: "clamp(56px, 8vw, 80px)",
+        // No bottom gap — the last card's negative margin defines where the
+        // dark section's slant crosses it.
+        paddingBottom: 0,
       }}
     >
-      <Container>
+      {/* Green curved gradients on the side edges — kept inside the section
+          width (no overflow:hidden, which would clip the straddling card). */}
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "30%",
+          height: "100%",
+          background:
+            "radial-gradient(ellipse at top left, rgba(5,161,113,0.16) 0%, rgba(5,161,113,0.05) 45%, transparent 72%)",
+          pointerEvents: "none",
+          zIndex: 0,
+        }}
+      />
+      <div
+        aria-hidden="true"
+        style={{
+          position: "absolute",
+          top: 0,
+          right: 0,
+          width: "30%",
+          height: "100%",
+          background:
+            "radial-gradient(ellipse at bottom right, rgba(5,161,113,0.16) 0%, rgba(5,161,113,0.05) 45%, transparent 72%)",
+          pointerEvents: "none",
+          zIndex: 0,
+        }}
+      />
+
+      <Container wide style={{ position: "relative", zIndex: 1 }}>
         {/* Section heading */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -57,12 +95,13 @@ export default function ServicesGrid() {
           style={{ marginBottom: 48 }}
         >
           <SectionHeading>WHAT WE DO</SectionHeading>
+          <WavyLine />
           <p
             style={{
               fontFamily: "var(--sp-font-sans)",
-              fontSize: 16,
-              color: "#4B5563",
-              margin: "12px 0 0 0",
+              fontSize: "clamp(26px, 3.1vw, 38px)",
+              color: "#000",
+              margin: "16px 0 0 0",
               textAlign: "center",
             }}
           >
@@ -71,7 +110,7 @@ export default function ServicesGrid() {
         </motion.div>
 
         {/* Service cards */}
-        <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 18, maxWidth: 1280, margin: "0 auto" }}>
           {services.map((svc, i) => {
             const dark = hovered === i;
             return (
@@ -84,14 +123,18 @@ export default function ServicesGrid() {
                 onMouseEnter={() => setHovered(i)}
                 onMouseLeave={() => setHovered(null)}
                 style={{
-                  background: dark ? "#161616" : "#F4F5F7",
+                  background: dark ? "#252525" : "#F4F5F7",
                   border: `1.5px solid ${dark ? "rgba(255,255,255,0.07)" : "transparent"}`,
-                  borderRadius: 16,
+                  borderRadius: 28,
                   overflow: "hidden",
                   display: "flex",
                   alignItems: "stretch",
                   cursor: "default",
                   transition: "background 0.28s ease, border-color 0.28s ease",
+                  // Last card straddles into the dark band below.
+                  ...(i === services.length - 1
+                    ? { marginBottom: -OVERLAP, position: "relative" as const, zIndex: 2 }
+                    : {}),
                 }}
               >
                 {/* Left column: large gray number + green title side by side */}
@@ -99,25 +142,29 @@ export default function ServicesGrid() {
                   style={{
                     width: "46%",
                     flexShrink: 0,
-                    padding: "28px 20px 28px 28px",
+                    padding: "48px 26px 48px 52px",
                     display: "flex",
                     flexDirection: "row",
                     alignItems: "center",
-                    gap: 12,
+                    gap: "clamp(20px, 3vw, 52px)",
                     overflow: "hidden",
                   }}
                 >
-                  {/* Large gray number */}
+                  {/* Large gray number — fixed-width box so every title starts
+                      at the same x regardless of the digit's width. */}
                   <span
                     style={{
                       fontFamily: "var(--sp-font-sans)",
-                      fontSize: "clamp(80px, 10vw, 140px)",
+                      fontSize: "clamp(88px, 10.5vw, 152px)",
                       fontWeight: 800,
                       lineHeight: 1,
                       letterSpacing: "-0.04em",
                       flexShrink: 0,
+                      display: "inline-block",
+                      width: "clamp(104px, 12vw, 150px)",
+                      textAlign: "left",
                       userSelect: "none",
-                      color: dark ? "rgba(255,255,255,0.15)" : "#C4C8CE",
+                      color: dark ? "rgba(255,255,255,0.18)" : "#8a8f96",
                       transition: "color 0.28s ease",
                     }}
                   >
@@ -128,13 +175,13 @@ export default function ServicesGrid() {
                   <h3
                     style={{
                       fontFamily: "var(--sp-font-sans)",
-                      fontSize: "clamp(20px, 2.6vw, 34px)",
+                      fontSize: "clamp(24px, 3.2vw, 41px)",
                       fontWeight: 800,
                       letterSpacing: "0.03em",
                       textTransform: "uppercase",
                       color: dark ? "var(--sp-green-400)" : "var(--sp-green-600)",
                       margin: 0,
-                      lineHeight: 1.3,
+                      lineHeight: 1.18,
                       whiteSpace: "pre-line",
                       transition: "color 0.28s ease",
                     }}
@@ -143,14 +190,14 @@ export default function ServicesGrid() {
                   </h3>
                 </div>
 
-                {/* Vertical divider */}
+                {/* Vertical divider — pitch black on light, short + centred */}
                 <div
                   style={{
-                    width: 1,
+                    width: 2,
                     flexShrink: 0,
-                    alignSelf: "stretch",
-                    margin: "24px 0",
-                    background: dark ? "rgba(255,255,255,0.12)" : "#D1D5DB",
+                    alignSelf: "center",
+                    height: "clamp(70px, 10vw, 130px)",
+                    background: dark ? "rgba(255,255,255,0.22)" : "#000",
                     transition: "background 0.28s ease",
                   }}
                 />
@@ -159,7 +206,7 @@ export default function ServicesGrid() {
                 <div
                   style={{
                     flex: 1,
-                    padding: "28px 32px 28px 28px",
+                    padding: "48px 48px 48px 42px",
                     display: "flex",
                     alignItems: "center",
                   }}
@@ -167,9 +214,10 @@ export default function ServicesGrid() {
                   <p
                     style={{
                       fontFamily: "var(--sp-font-sans)",
-                      fontSize: "clamp(14px, 1.4vw, 18px)",
-                      lineHeight: 1.65,
-                      color: dark ? "#9CA3AF" : "#1F2937",
+                      fontSize: "clamp(19px, 2.3vw, 30px)",
+                      lineHeight: 1.55,
+                      fontWeight: 400,
+                      color: dark ? "#E5E7EB" : "#000",
                       margin: 0,
                       transition: "color 0.28s ease",
                     }}

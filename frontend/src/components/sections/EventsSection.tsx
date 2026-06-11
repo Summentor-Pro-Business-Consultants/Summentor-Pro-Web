@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import Container from "@/components/ui/Container";
+import EdgeGreenGradient from "@/components/ui/EdgeGreenGradient";
 import SectionHeading from "@/components/ui/SectionHeading";
 import WavyLine from "@/components/ui/WavyLine";
 
@@ -34,20 +35,32 @@ export default function EventsSection() {
     <section
       style={{
         position: "relative",
+        // Above the Impact section below (which is pulled up behind this
+        // section's slanted bottom so the cut reveals white, not the body
+        // grid), but below ServicesGrid above (whose last card straddles in).
+        zIndex: 1,
         overflow: "hidden",
         background: "var(--sp-navy-1000)",
         // Grid lines on top, alternating dark gradient (grad-b) underneath.
         backgroundImage:
-          "linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px), var(--sp-dark-grad-b)",
+          "linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px), var(--sp-dark-grad-b)",
         backgroundSize: "44px 44px, 44px 44px, cover",
-        paddingTop: "clamp(72px, 10vw, 110px)",
+        // Extra top padding clears the ~150px straddle of the last "What We Do"
+        // card (ConnectNow), whose lower half overlaps this section's top.
+        paddingTop: "clamp(185px, 17vw, 215px)",
         paddingBottom: "clamp(72px, 10vw, 110px)",
-        // Dark band between two light sections — slant on both edges.
+        // Dark band between two light sections. Bottom edge runs right-up →
+        // left-down (bottom-RIGHT raised by the slant, bottom-LEFT at full
+        // height) so the white "Impact" section below meets it that way.
         clipPath:
-          "polygon(0 var(--sp-slant), 100% 0, 100% 100%, 0 calc(100% - var(--sp-slant)))",
+          "polygon(0 var(--sp-slant), 100% 0, 100% calc(100% - var(--sp-slant)), 0 100%)",
       }}
     >
-      <Container>
+      {/* Soft green curved gradients glowing in from both edges */}
+      <EdgeGreenGradient side="left" position="top" intensity={0.22} />
+      <EdgeGreenGradient side="right" position="bottom" intensity={0.22} />
+
+      <Container style={{ position: "relative", zIndex: 1 }}>
         {/* Heading */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -87,7 +100,7 @@ export default function EventsSection() {
                   <h3
                     style={{
                       fontFamily: "var(--sp-font-sans)",
-                      fontSize: "clamp(22px, 3vw, 34px)",
+                      fontSize: "clamp(26px, 3.5vw, 42px)",
                       fontWeight: 800,
                       letterSpacing: "0.02em",
                       textTransform: "uppercase",
@@ -101,9 +114,10 @@ export default function EventsSection() {
                   <p
                     style={{
                       fontFamily: "var(--sp-font-sans)",
-                      fontSize: "clamp(16px, 1.8vw, 19px)",
-                      lineHeight: 1.75,
-                      color: "#EBEEF2",
+                      fontSize: "clamp(20px, 2.3vw, 28px)",
+                      lineHeight: 1.45,
+                      fontWeight: 400,
+                      color: "#ffffff",
                       margin: 0,
                     }}
                   >

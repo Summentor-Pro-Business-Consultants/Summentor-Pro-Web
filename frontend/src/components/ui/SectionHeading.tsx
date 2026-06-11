@@ -28,11 +28,15 @@ export default function SectionHeading({
       className={className}
       style={{
         fontFamily: "var(--sp-font-sans)",
-        fontSize: "clamp(26px, 4vw, 52px)",
-        fontWeight: 800,
+        // One shared size for EVERY subheading (consistency). Renders in the
+        // Goia display font (forced by the global h2 rule), which ships only
+        // SemiBold (600) and Bold (700) — so 700 is the smallest available
+        // weight step up from SemiBold.
+        fontSize: "clamp(30px, 4.3vw, 54px)",
+        fontWeight: 700,
         letterSpacing: "0.02em",
         textTransform: "uppercase",
-        color: dark ? "#fff" : "var(--sp-navy-900)",
+        color: dark ? "#fff" : "#000",
         lineHeight: 1.15,
         textAlign: "center",
         margin: 0,
