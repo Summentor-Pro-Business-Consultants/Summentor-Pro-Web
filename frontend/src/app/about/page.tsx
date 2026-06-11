@@ -365,7 +365,7 @@ function WhatMakesUsDifferent() {
           <motion.div variants={fadeUp}>
             <SectionHeading>
               WHAT MAKES US{" "}
-              <span style={{ color: "#000", fontWeight: 900 }}>DIFFERENT</span>
+              <span style={{ fontWeight: 900, WebkitTextStroke: "1px currentColor" }}>DIFFERENT</span>
             </SectionHeading>
           </motion.div>
           <WavyLine />
@@ -681,7 +681,7 @@ function Initiatives() {
         <div style={{ textAlign: "center", marginBottom: 16, position: "relative" }}>
           <SectionHeading>
             BEYOND{" "}
-            <span style={{ color: "#000", fontWeight: 900 }}>PLATFORMS &amp; CONSULTING</span>
+            <span style={{ fontWeight: 900, WebkitTextStroke: "1px currentColor" }}>PLATFORMS &amp; CONSULTING</span>
           </SectionHeading>
           <WavyLine />
           <p

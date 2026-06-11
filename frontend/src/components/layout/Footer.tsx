@@ -49,11 +49,12 @@ const CTA_OVERLAP = 124;
 export default function Footer() {
   const pathname = usePathname();
   const isServices = pathname === "/services";
-  // The straddling green CTA band is hidden only on About (it ends with its own
-  // section). Solutions shows the band but with its own "Looking to explore"
-  // copy + logo. About + Solutions get the flat (no-slant) footer top.
-  const hideCta = pathname === "/about";
-  const flatFooter = pathname === "/about" || pathname === "/services";
+  // The straddling green CTA band is hidden on About + Platforms (their last
+  // section already serves as the closer). Solutions shows the band but with
+  // its own "Looking to explore" copy + logo. About + Solutions get the flat
+  // (no-slant) footer top.
+  const hideCta = ["/about", "/events", "/contact"].includes(pathname);
+  const flatFooter = ["/about", "/services", "/events", "/contact"].includes(pathname);
 
   return (
     <>
@@ -205,7 +206,9 @@ export default function Footer() {
           // (Solutions) → clear the straddle, no slant; CTA on a slanted
           // footer (other pages) → clear the straddle + slant.
           paddingTop: hideCta
-            ? `56px`
+            ? flatFooter
+              ? `56px`
+              : `calc(var(--sp-slant) + 48px)`
             : flatFooter
               ? `${CTA_OVERLAP + 40}px`
               : `calc(var(--sp-slant) + ${CTA_OVERLAP + 28}px)`,
