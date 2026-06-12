@@ -194,7 +194,7 @@ function Hero() {
               </span>
               <span
                 style={{
-                  background: "var(--sp-green-500)",
+                  background: "#058961",
                   color: "#000",
                   display: "inline-block",
                   padding: "13px 8px",

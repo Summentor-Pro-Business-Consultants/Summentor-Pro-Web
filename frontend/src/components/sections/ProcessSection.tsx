@@ -177,7 +177,7 @@ export default function ProcessSection() {
                   padding: "9px 12px",
                   borderRadius: 12,
                   border: "none",
-                  background: activeTab === tab.id ? "var(--sp-green-600)" : "transparent",
+                  background: activeTab === tab.id ? "#53c07c" : "transparent",
                   color: activeTab === tab.id ? "#fff" : "rgba(255,255,255,0.92)",
                   fontFamily: "var(--sp-font-sans)",
                   fontSize: "clamp(20px, 2.2vw, 29px)",

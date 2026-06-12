@@ -174,7 +174,7 @@ function Hero() {
               </span>
               <span
                 style={{
-                  background: "var(--sp-green-500)",
+                  background: "#058961",
                   color: "#000",
                   display: "inline-block",
                   // Equal top/bottom padding that the clip-path keeps ONLY on
@@ -301,9 +301,9 @@ function PullQuote() {
         >
           WHERE STRATEGY MEETS
           <br />
-          <span style={{ color: "var(--sp-green-400)" }}>IMPACT, AND INNOVATION</span>
+          <span style={{ color: "#17d99d" }}>IMPACT, AND INNOVATION</span>
           <br />
-          <span style={{ color: "var(--sp-green-400)" }}>DRIVES GROWTH.</span>
+          <span style={{ color: "#17d99d" }}>DRIVES GROWTH.</span>
         </motion.h2>
       </Container>
     </section>

@@ -90,7 +90,7 @@ export default function Footer() {
         <Container style={{ maxWidth: 1320, position: "relative", zIndex: 1 }}>
           <div
             style={{
-              background: "var(--sp-green-700)",
+              background: "#32814f",
               borderRadius: 24,
               padding: "clamp(20px, 4vw, 36px) clamp(28px, 5vw, 56px)",
               display: "flex",
@@ -128,9 +128,13 @@ export default function Footer() {
                 <>
                   LOOKING TO EXPLORE
                   <br />
-                  STRATEGIC GROWTH
-                  <br />
-                  OPPORTUNITIES?
+                  {/* Heavier than the first line — Goia tops out at bold, so a
+                      text stroke is used to push these two lines bolder. */}
+                  <span style={{ WebkitTextStroke: "1px currentColor" }}>
+                    STRATEGIC GROWTH
+                    <br />
+                    OPPORTUNITIES?
+                  </span>
                 </>
               ) : (
                 <>
@@ -150,35 +154,41 @@ export default function Footer() {
               className="hidden sm:block"
               style={{
                 flexShrink: 0,
-                position: "relative",
                 zIndex: 1,
-                marginRight: "clamp(16px, 3.5vw, 64px)",
+                ...(isServices
+                  ? {
+                      // Absolutely anchored past the card's bottom edge so the
+                      // arrow's base is slightly cut off by it (the card's
+                      // overflow:hidden does the clipping). Out of the flex
+                      // flow, so it does NOT stretch the card's height.
+                      position: "absolute" as const,
+                      right: "clamp(16px, 3.5vw, 64px)",
+                      bottom: -16,
+                      top: "clamp(20px, 3.6vw, 40px)",
+                    }
+                  : {
+                      position: "relative" as const,
+                      marginRight: "clamp(16px, 3.5vw, 64px)",
+                    }),
               }}
             >
               {isServices ? (
-                <svg
+                <img
+                  src="/icons/increase.svg"
+                  alt=""
                   aria-hidden="true"
-                  width={185}
-                  height={185}
-                  viewBox="0 0 120 120"
-                  fill="none"
-                  style={{ display: "block" }}
-                >
-                  {/* Bold up-right "explore / growth" arrow */}
-                  <path
-                    d="M26 94 L94 26"
-                    stroke="#fff"
-                    strokeWidth={13}
-                    strokeLinecap="round"
-                  />
-                  <path
-                    d="M48 26 L94 26 L94 72"
-                    stroke="#fff"
-                    strokeWidth={13}
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
+                  style={{
+                    display: "block",
+                    height: "100%",
+                    width: "auto",
+                    // black glyph → pure white on the green band
+                    filter: "brightness(0) invert(1)",
+                    // Slight anticlockwise tilt (matches the design); overflow
+                    // past the card edge is clipped by the card.
+                    transform: "rotate(-6deg)",
+                    transformOrigin: "center",
+                  }}
+                />
               ) : (
                 <img
                   src="/icons/handshake.svg"
