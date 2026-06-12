@@ -179,7 +179,7 @@ export default function ServicesGrid() {
                       fontWeight: 800,
                       letterSpacing: "0.03em",
                       textTransform: "uppercase",
-                      color: dark ? "var(--sp-green-400)" : "var(--sp-green-600)",
+                      color: "#329555",
                       margin: 0,
                       lineHeight: 1.18,
                       whiteSpace: "pre-line",

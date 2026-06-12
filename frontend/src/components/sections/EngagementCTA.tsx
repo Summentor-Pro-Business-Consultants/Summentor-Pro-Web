@@ -255,7 +255,7 @@ function FocusCard({ label, center }: { label: string; center: boolean }) {
           fontSize: "clamp(20px, 2.3vw, 29px)",
           fontWeight: 500,
           lineHeight: 1.3,
-          color: center ? "#fff" : "var(--sp-green-700)",
+          color: center ? "#fff" : "#419d63",
           transition: "color 0.4s ease",
         }}
       >

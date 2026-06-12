@@ -169,7 +169,7 @@ function Hero() {
               </span>
               <span
                 style={{
-                  background: "var(--sp-green-500)",
+                  background: "#058961",
                   color: "#000",
                   display: "inline-block",
                   padding: "13px 8px",
@@ -591,7 +591,7 @@ function LocationBlock() {
             <p
               style={{
                 fontFamily: "var(--sp-font-sans)",
-                fontSize: "clamp(23px, 2.5vw, 32px)",
+                fontSize: "clamp(17px, 2.5vw, 32px)",
                 lineHeight: 1.5,
                 color: "#fff",
                 margin: "0 0 24px",
@@ -626,7 +626,7 @@ function LocationBlock() {
                   color: "#fff",
                   textDecoration: "none",
                   fontFamily: "var(--sp-font-sans)",
-                  fontSize: 26,
+                  fontSize: "clamp(17px, 2.1vw, 26px)",
                 }}
               >
                 <RiPhoneFill size={28} color="var(--sp-green-400)" />
@@ -641,7 +641,7 @@ function LocationBlock() {
                   color: "#fff",
                   textDecoration: "none",
                   fontFamily: "var(--sp-font-sans)",
-                  fontSize: 26,
+                  fontSize: "clamp(17px, 2.1vw, 26px)",
                 }}
               >
                 <RiMailFill size={28} color="var(--sp-green-400)" />
