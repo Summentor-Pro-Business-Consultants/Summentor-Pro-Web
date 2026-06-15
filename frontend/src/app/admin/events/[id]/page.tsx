@@ -37,7 +37,6 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { adminApi } from "@/lib/admin-api";
 import AdminHeader from "@/components/admin/AdminHeader";
-import StatusBadge from "@/components/admin/StatusBadge";
 
 /**
  * Registration — the shape of a registration record for a single event.

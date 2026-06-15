@@ -23,11 +23,26 @@ const stagger: Variants = {
 };
 
 const focusEnablers = [
-  { title: "Meaningful business interactions", desc: "Curated environments that move past transactional networking into genuine dialogue." },
-  { title: "Strategic partnerships", desc: "Long-term collaborations between businesses, institutions, and ecosystem stakeholders." },
-  { title: "Industry dialogue", desc: "Structured conversations across MSMEs, enterprises, and policymakers." },
-  { title: "Government-industry engagement", desc: "Facilitated B2G pathways that turn policy access into real opportunity." },
-  { title: "High-value networking opportunities", desc: "Qualified introductions designed around intent, not volume." },
+  {
+    title: "Meaningful business interactions",
+    desc: "Curated environments that move past transactional networking into genuine dialogue.",
+  },
+  {
+    title: "Strategic partnerships",
+    desc: "Long-term collaborations between businesses, institutions, and ecosystem stakeholders.",
+  },
+  {
+    title: "Industry dialogue",
+    desc: "Structured conversations across MSMEs, enterprises, and policymakers.",
+  },
+  {
+    title: "Government-industry engagement",
+    desc: "Facilitated B2G pathways that turn policy access into real opportunity.",
+  },
+  {
+    title: "High-value networking opportunities",
+    desc: "Qualified introductions designed around intent, not volume.",
+  },
 ];
 
 const initiatives = [
@@ -93,10 +108,6 @@ const leadershipPhotos = [
 export default function AboutPage() {
   return (
     <>
-      {/* Drop the global body grid on this route so it doesn't show through
-          the slanted wedges around the dark sections. Restored automatically
-          when navigating away (this style unmounts with the page). */}
-      <style>{`body { background-image: none !important; }`}</style>
       <Hero />
       <Story />
       <PullQuote />
@@ -120,8 +131,7 @@ function Hero() {
         background: "var(--sp-dark-grad-a)",
         paddingTop: "clamp(56px, 8vw, 80px)",
         paddingBottom: "clamp(72px, 11vw, 120px)",
-        clipPath:
-          "polygon(0 0, 100% 0, 100% calc(100% - var(--sp-slant)), 0 100%)",
+        clipPath: "polygon(0 0, 100% 0, 100% calc(100% - var(--sp-slant)), 0 100%)",
       }}
     >
       <Image
@@ -186,8 +196,7 @@ function Hero() {
                   // side = text height; moving right the block grows taller
                   // BOTH upward and downward (top edge rises, bottom edge
                   // drops) symmetrically. Text itself is NOT slanted.
-                  clipPath:
-                    "polygon(0 13px, 100% 0, 100% 100%, 0 calc(100% - 13px))",
+                  clipPath: "polygon(0 13px, 100% 0, 100% 100%, 0 calc(100% - 13px))",
                 }}
               >
                 THAT DRIVE REAL GROWTH.
@@ -276,8 +285,7 @@ function PullQuote() {
         padding: "clamp(60px, 8vw, 96px) 0",
         position: "relative",
         overflow: "hidden",
-        clipPath:
-          "polygon(0 0, 100% var(--sp-slant), 100% 100%, 0 calc(100% - var(--sp-slant)))",
+        clipPath: "polygon(0 0, 100% var(--sp-slant), 100% 100%, 0 calc(100% - var(--sp-slant)))",
       }}
     >
       <Container>
@@ -365,7 +373,9 @@ function WhatMakesUsDifferent() {
           <motion.div variants={fadeUp}>
             <SectionHeading>
               WHAT MAKES US{" "}
-              <span style={{ fontWeight: 900, WebkitTextStroke: "1px currentColor" }}>DIFFERENT</span>
+              <span style={{ fontWeight: 900, WebkitTextStroke: "1px currentColor" }}>
+                DIFFERENT
+              </span>
             </SectionHeading>
           </motion.div>
           <WavyLine />
@@ -380,8 +390,8 @@ function WhatMakesUsDifferent() {
               lineHeight: 1.45,
             }}
           >
-            Unlike conventional event or consulting companies, our approach is built around
-            creating long-term business ecosystems.
+            Unlike conventional event or consulting companies, our approach is built around creating
+            long-term business ecosystems.
           </motion.p>
         </motion.div>
 
@@ -412,6 +422,7 @@ function WhatMakesUsDifferent() {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: dir >= 0 ? -60 : 60 }}
                 transition={{ duration: 0.4, ease: EASE }}
+                className="sp-trio"
                 style={{
                   display: "grid",
                   gridTemplateColumns: "1fr 1fr 1fr",
@@ -420,11 +431,7 @@ function WhatMakesUsDifferent() {
                 }}
               >
                 {trio.map((idx, pos) => (
-                  <EnablerCard
-                    key={idx}
-                    label={focusEnablers[idx].title}
-                    center={pos === 1}
-                  />
+                  <EnablerCard key={idx} label={focusEnablers[idx].title} center={pos === 1} />
                 ))}
               </motion.div>
             </AnimatePresence>
@@ -473,9 +480,7 @@ function EnablerCard({ label, center }: { label: string; center: boolean }) {
         padding: "20px 22px",
         borderRadius: 0,
         background: center ? "#252525" : "#fff",
-        border: center
-          ? "2px solid var(--sp-green-600)"
-          : "2px solid var(--sp-green-500)",
+        border: center ? "2px solid var(--sp-green-600)" : "2px solid var(--sp-green-500)",
         transform: center ? "scale(1.05)" : "scale(1)",
         boxShadow: center
           ? "0 24px 48px -22px rgba(0,0,0,0.45)"
@@ -508,89 +513,87 @@ function Leadership() {
 
   return (
     <>
-    <section
-      style={{
-        background: "var(--sp-dark-grad-a)",
-        // Extra bottom space hosts the upper half of the straddling photos.
-        padding: "clamp(56px, 8vw, 80px) 0 clamp(160px, 18vw, 230px)",
-        position: "relative",
-        zIndex: 1,
-        overflow: "hidden",
-        // Top slant unchanged; bottom slant now runs right-up → left-down.
-        clipPath:
-          "polygon(0 var(--sp-slant), 100% 0, 100% calc(100% - var(--sp-slant)), 0 100%)",
-      }}
-    >
-      <Container wide>
-        {/* Top row: title + description side by side, vertically centered */}
-        <div
-          className="grid grid-cols-1 md:grid-cols-[0.85fr_1.15fr] gap-10 items-center"
-          style={{ position: "relative" }}
-        >
-          <motion.div
-            className="min-w-0"
-            initial={{ opacity: 0, x: -24 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.7, ease: EASE }}
+      <section
+        style={{
+          background: "var(--sp-dark-grad-a)",
+          // Extra bottom space hosts the upper half of the straddling photos.
+          padding: "clamp(56px, 8vw, 80px) 0 clamp(160px, 18vw, 230px)",
+          position: "relative",
+          zIndex: 1,
+          overflow: "hidden",
+          // Top slant unchanged; bottom slant now runs right-up → left-down.
+          clipPath: "polygon(0 var(--sp-slant), 100% 0, 100% calc(100% - var(--sp-slant)), 0 100%)",
+        }}
+      >
+        <Container wide>
+          {/* Top row: title + description side by side, vertically centered */}
+          <div
+            className="grid grid-cols-1 md:grid-cols-[0.85fr_1.15fr] gap-10 items-center"
+            style={{ position: "relative" }}
           >
-            <h2
-              style={{
-                fontFamily: "var(--sp-font-sans)",
-                fontSize: "clamp(40px, 5.5vw, 66px)",
-                fontWeight: 900,
-                letterSpacing: "0.02em",
-                textTransform: "uppercase",
-                color: "#fff",
-                margin: 0,
-                lineHeight: 1.05,
-              }}
+            <motion.div
+              className="min-w-0"
+              initial={{ opacity: 0, x: -24 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.7, ease: EASE }}
             >
-              LEADERSHIP
-            </h2>
-          </motion.div>
+              <h2
+                style={{
+                  fontFamily: "var(--sp-font-sans)",
+                  fontSize: "clamp(40px, 5.5vw, 66px)",
+                  fontWeight: 900,
+                  letterSpacing: "0.02em",
+                  textTransform: "uppercase",
+                  color: "#fff",
+                  margin: 0,
+                  lineHeight: 1.05,
+                }}
+              >
+                LEADERSHIP
+              </h2>
+            </motion.div>
 
-          <motion.div
-            className="min-w-0"
-            initial={{ opacity: 0, x: 24 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.7, ease: EASE }}
-            style={{
-              background: "transparent",
-              borderLeft: "3px solid var(--sp-green-500)",
-              paddingLeft: "clamp(20px, 3vw, 28px)",
-            }}
-          >
-            <p
+            <motion.div
+              className="min-w-0"
+              initial={{ opacity: 0, x: 24 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.7, ease: EASE }}
               style={{
-                fontFamily: "var(--sp-font-sans)",
-                fontSize: "clamp(20px, 2.1vw, 28px)",
-                lineHeight: 1.4,
-                color: "#fff",
-                margin: "0 0 14px",
+                background: "transparent",
+                borderLeft: "3px solid var(--sp-green-500)",
+                paddingLeft: "clamp(20px, 3vw, 28px)",
               }}
             >
-              Our leadership team brings together experience across business consulting, strategic
-              engagement, ecosystem development, and industry platforms.
-            </p>
-            <p
-              style={{
-                fontFamily: "var(--sp-font-sans)",
-                fontSize: "clamp(20px, 2.1vw, 28px)",
-                lineHeight: 1.4,
-                color: "#fff",
-                margin: 0,
-              }}
-            >
-              With a strong focus on collaboration and growth, we continue to work towards
-              building impactful opportunities for businesses and stakeholders across sectors.
-            </p>
-          </motion.div>
-        </div>
-
-      </Container>
-    </section>
+              <p
+                style={{
+                  fontFamily: "var(--sp-font-sans)",
+                  fontSize: "clamp(20px, 2.1vw, 28px)",
+                  lineHeight: 1.4,
+                  color: "#fff",
+                  margin: "0 0 14px",
+                }}
+              >
+                Our leadership team brings together experience across business consulting, strategic
+                engagement, ecosystem development, and industry platforms.
+              </p>
+              <p
+                style={{
+                  fontFamily: "var(--sp-font-sans)",
+                  fontSize: "clamp(20px, 2.1vw, 28px)",
+                  lineHeight: 1.4,
+                  color: "#fff",
+                  margin: 0,
+                }}
+              >
+                With a strong focus on collaboration and growth, we continue to work towards
+                building impactful opportunities for businesses and stakeholders across sectors.
+              </p>
+            </motion.div>
+          </div>
+        </Container>
+      </section>
 
       {/* Photo strip — rendered outside the clip and pulled up so the dark
           section's slanted bottom edge cuts through the middle of the photos. */}
@@ -681,7 +684,9 @@ function Initiatives() {
         <div style={{ textAlign: "center", marginBottom: 16, position: "relative" }}>
           <SectionHeading>
             BEYOND{" "}
-            <span style={{ fontWeight: 900, WebkitTextStroke: "1px currentColor" }}>PLATFORMS &amp; CONSULTING</span>
+            <span style={{ fontWeight: 900, WebkitTextStroke: "1px currentColor" }}>
+              PLATFORMS &amp; CONSULTING
+            </span>
           </SectionHeading>
           <WavyLine />
           <p
@@ -730,7 +735,14 @@ function Initiatives() {
                     className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-stretch"
                   >
                     {/* Left: title + description */}
-                    <div style={{ minWidth: 0, display: "flex", flexDirection: "column", justifyContent: "center" }}>
+                    <div
+                      style={{
+                        minWidth: 0,
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "center",
+                      }}
+                    >
                       <h3
                         style={{
                           fontFamily: "var(--sp-font-sans)",
@@ -783,7 +795,15 @@ function Initiatives() {
                       >
                         Focus Areas
                       </p>
-                      <ul style={{ margin: 0, padding: 0, listStyle: "none", display: "grid", gap: 7 }}>
+                      <ul
+                        style={{
+                          margin: 0,
+                          padding: 0,
+                          listStyle: "none",
+                          display: "grid",
+                          gap: 7,
+                        }}
+                      >
                         {it.focus.map((f) => (
                           <li
                             key={f}
@@ -820,8 +840,16 @@ function Initiatives() {
             </div>
           </div>
           {/* Arrows straddle the active card's left & right edges. */}
-          <GreenArrow direction="left" x={0} onClick={() => setIndex((i) => (i <= 0 ? last : i - 1))} />
-          <GreenArrow direction="right" x={cardW} onClick={() => setIndex((i) => (i >= last ? 0 : i + 1))} />
+          <GreenArrow
+            direction="left"
+            x={0}
+            onClick={() => setIndex((i) => (i <= 0 ? last : i - 1))}
+          />
+          <GreenArrow
+            direction="right"
+            x={cardW}
+            onClick={() => setIndex((i) => (i >= last ? 0 : i + 1))}
+          />
         </div>
 
         <Dots count={initiatives.length} active={index} onSelect={setIndex} />
@@ -865,8 +893,12 @@ function GreenArrow({
         boxShadow: "0 10px 24px -8px rgba(5,161,113,0.55)",
         transition: "background 0.2s ease",
       }}
-      onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.background = "var(--sp-green-600)")}
-      onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.background = "var(--sp-green-500)")}
+      onMouseEnter={(e) =>
+        ((e.currentTarget as HTMLElement).style.background = "var(--sp-green-600)")
+      }
+      onMouseLeave={(e) =>
+        ((e.currentTarget as HTMLElement).style.background = "var(--sp-green-500)")
+      }
     >
       <Icon size={26} color="#000" strokeWidth={2.25} />
     </button>
@@ -942,4 +974,3 @@ function Dots({
     </div>
   );
 }
-

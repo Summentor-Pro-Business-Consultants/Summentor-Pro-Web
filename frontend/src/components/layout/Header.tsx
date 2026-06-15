@@ -30,8 +30,7 @@ export default function Header() {
     setMenuOpen(false);
   }, [pathname]);
 
-  const isActive = (href: string) =>
-    href === "/" ? pathname === "/" : pathname.startsWith(href);
+  const isActive = (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href));
 
   return (
     <header
@@ -99,8 +98,7 @@ export default function Header() {
                     (e.target as HTMLElement).style.color = "var(--sp-green-700)";
                 }}
                 onMouseLeave={(e) => {
-                  if (!isActive(link.href))
-                    (e.target as HTMLElement).style.color = "#000";
+                  if (!isActive(link.href)) (e.target as HTMLElement).style.color = "#000";
                 }}
               >
                 {link.label}

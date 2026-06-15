@@ -93,15 +93,7 @@ const labelStyle: React.CSSProperties = {
 };
 
 /** A grouped image+content unit (image left, content right). */
-function Pair({
-  src,
-  alt,
-  children,
-}: {
-  src: string;
-  alt: string;
-  children: ReactNode;
-}) {
+function Pair({ src, alt, children }: { src: string; alt: string; children: ReactNode }) {
   return (
     <motion.div
       variants={item}
@@ -157,8 +149,7 @@ export default function StatsBar() {
         paddingBottom: "clamp(72px, 10vw, 110px)",
         // Top slant runs left-up → right-down (top-LEFT at the top edge,
         // top-RIGHT dropped by the slant). Bottom edge unchanged.
-        clipPath:
-          "polygon(0 0, 100% var(--sp-slant), 100% 100%, 0 calc(100% - var(--sp-slant)))",
+        clipPath: "polygon(0 0, 100% var(--sp-slant), 100% 100%, 0 calc(100% - var(--sp-slant)))",
       }}
     >
       <style>{`

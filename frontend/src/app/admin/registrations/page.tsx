@@ -29,7 +29,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { adminApi } from "@/lib/admin-api";
 import AdminHeader from "@/components/admin/AdminHeader";
-import StatusBadge from "@/components/admin/StatusBadge";
 
 /**
  * Registration — shape of a registration returned by the global list endpoint.

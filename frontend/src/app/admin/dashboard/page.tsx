@@ -633,17 +633,13 @@ function EventsTab() {
               <div style={{ display: "flex", gap: 32, marginTop: 10 }}>
                 <div>
                   <p style={{ fontSize: 11, color: "#94A3B8", margin: 0 }}>This Week</p>
-                  <p
-                    style={{ fontSize: 22, fontWeight: 700, color: "#EF4444", margin: "4px 0 0" }}
-                  >
+                  <p style={{ fontSize: 22, fontWeight: 700, color: "#EF4444", margin: "4px 0 0" }}>
                     ₹0.00
                   </p>
                 </div>
                 <div>
                   <p style={{ fontSize: 11, color: "#94A3B8", margin: 0 }}>Previous Week</p>
-                  <p
-                    style={{ fontSize: 22, fontWeight: 500, color: "#64748B", margin: "4px 0 0" }}
-                  >
+                  <p style={{ fontSize: 22, fontWeight: 500, color: "#64748B", margin: "4px 0 0" }}>
                     ₹0.00
                   </p>
                 </div>
@@ -805,17 +801,13 @@ function EventsTab() {
             <div style={{ display: "flex", gap: 28, marginTop: 8 }}>
               <div>
                 <p style={{ fontSize: 11, color: "#94A3B8", margin: 0 }}>This Week</p>
-                <p
-                  style={{ fontSize: 15, fontWeight: 700, color: "#EF4444", margin: "3px 0 0" }}
-                >
+                <p style={{ fontSize: 15, fontWeight: 700, color: "#EF4444", margin: "3px 0 0" }}>
                   {evtOverview["thisWeekRegistrations"] ?? 0} Registrations
                 </p>
               </div>
               <div>
                 <p style={{ fontSize: 11, color: "#94A3B8", margin: 0 }}>Previous Week</p>
-                <p
-                  style={{ fontSize: 15, fontWeight: 500, color: "#64748B", margin: "3px 0 0" }}
-                >
+                <p style={{ fontSize: 15, fontWeight: 500, color: "#64748B", margin: "3px 0 0" }}>
                   {evtOverview["prevWeekRegistrations"] ?? 0} Registrations
                 </p>
               </div>

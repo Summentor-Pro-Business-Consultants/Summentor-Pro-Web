@@ -130,7 +130,6 @@ export default function CredibilityBand() {
             />
           ))}
         </div>
-
       </Container>
     </section>
   );

@@ -85,6 +85,18 @@ export default function ServicesGrid() {
         }}
       />
 
+      {/* Phones: stack each card's number/title block above the description
+          (the side-by-side row crushes the title), and turn the vertical
+          divider horizontal. !important beats the inline styles. */}
+      <style>{`
+        @media (max-width: 767px) {
+          .sp-svc-card { flex-direction: column !important; }
+          .sp-svc-left { width: 100% !important; padding: 22px 22px 0 !important; }
+          .sp-svc-div { width: auto !important; height: 2px !important; align-self: stretch !important; margin: 16px 22px 0 !important; }
+          .sp-svc-right { padding: 14px 22px 22px !important; }
+        }
+      `}</style>
+
       <Container wide style={{ position: "relative", zIndex: 1 }}>
         {/* Section heading */}
         <motion.div
@@ -110,7 +122,15 @@ export default function ServicesGrid() {
         </motion.div>
 
         {/* Service cards */}
-        <div style={{ display: "flex", flexDirection: "column", gap: 18, maxWidth: 1280, margin: "0 auto" }}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 18,
+            maxWidth: 1280,
+            margin: "0 auto",
+          }}
+        >
           {services.map((svc, i) => {
             const dark = hovered === i;
             return (
@@ -122,6 +142,7 @@ export default function ServicesGrid() {
                 transition={{ duration: 0.5, delay: i * 0.08 }}
                 onMouseEnter={() => setHovered(i)}
                 onMouseLeave={() => setHovered(null)}
+                className="sp-svc-card"
                 style={{
                   background: dark ? "#252525" : "#F4F5F7",
                   border: `1.5px solid ${dark ? "rgba(255,255,255,0.07)" : "transparent"}`,
@@ -139,6 +160,7 @@ export default function ServicesGrid() {
               >
                 {/* Left column: large gray number + green title side by side */}
                 <div
+                  className="sp-svc-left"
                   style={{
                     width: "46%",
                     flexShrink: 0,
@@ -192,6 +214,7 @@ export default function ServicesGrid() {
 
                 {/* Vertical divider — pitch black on light, short + centred */}
                 <div
+                  className="sp-svc-div"
                   style={{
                     width: 2,
                     flexShrink: 0,
@@ -204,6 +227,7 @@ export default function ServicesGrid() {
 
                 {/* Right column: description */}
                 <div
+                  className="sp-svc-right"
                   style={{
                     flex: 1,
                     padding: "30px 48px 30px 42px",

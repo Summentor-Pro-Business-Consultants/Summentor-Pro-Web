@@ -22,7 +22,11 @@ export default function EdgeGreenGradient({
   size = "clamp(300px, 42vw, 720px)",
 }: EdgeGreenGradientProps) {
   const verticalAnchor =
-    position === "top" ? { top: "-12%" } : position === "bottom" ? { bottom: "-12%" } : { top: "50%", transform: "translateY(-50%)" };
+    position === "top"
+      ? { top: "-12%" }
+      : position === "bottom"
+        ? { bottom: "-12%" }
+        : { top: "50%", transform: "translateY(-50%)" };
 
   return (
     <div
