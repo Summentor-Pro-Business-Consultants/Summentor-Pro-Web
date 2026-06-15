@@ -32,7 +32,8 @@
 import { NextRequest, NextResponse } from "next/server";
 
 /** Backend base URL — falls back to localhost for local development. */
-const BACKEND = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:9090/api/v1";
+const BACKEND =
+  process.env.API_URL ?? process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:9090/api/v1";
 
 /**
  * GET /api/blogs
