@@ -53,11 +53,9 @@ export default function Hero() {
         // Bottom slant rises to the RIGHT → bottom-RIGHT raised, dark extends
         // further on the LEFT (the dark hero's bottom edge slopes down toward
         // the left).
-        clipPath:
-          "polygon(0 0, 100% 0, 100% calc(100% - var(--sp-slant)), 0 100%)",
+        clipPath: "polygon(0 0, 100% 0, 100% calc(100% - var(--sp-slant)), 0 100%)",
       }}
     >
-
       {/* Background — autoplaying muted video loop for default visitors; a
           still poster for reduced-motion visitors. The poster also shows while
           the video buffers, so there is never a blank frame. */}
@@ -118,7 +116,14 @@ export default function Hero() {
         }}
       />
 
-      <Container style={{ position: "relative", zIndex: 1, paddingTop: "clamp(56px, 8vw, 80px)", paddingBottom: "clamp(56px, 8vw, 80px)" }}>
+      <Container
+        style={{
+          position: "relative",
+          zIndex: 1,
+          paddingTop: "clamp(56px, 8vw, 80px)",
+          paddingBottom: "clamp(56px, 8vw, 80px)",
+        }}
+      >
         <motion.div
           initial={{ opacity: 0, y: 36 }}
           animate={{ opacity: 1, y: 0 }}

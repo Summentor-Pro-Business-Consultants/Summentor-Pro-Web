@@ -31,6 +31,7 @@
 
 import { useState } from "react";
 import { useAuth } from "@/lib/auth-context";
+import { ApiError } from "@/lib/admin-api";
 
 /**
  * AdminLoginPage
@@ -60,9 +61,24 @@ export default function AdminLoginPage() {
       await login(email, password);
       // Full page reload to /admin/dashboard so AuthProvider re-reads the new session token
       window.location.href = "/admin/dashboard";
-    } catch {
-      // Deliberately generic — don't reveal whether the email or password is wrong
-      setError("Invalid email or password");
+    } catch (err) {
+      // Distinguish the failure types so a server/connection problem isn't
+      // misreported as bad credentials. The 401 case stays deliberately vague
+      // (doesn't reveal which field is wrong).
+      if (err instanceof ApiError) {
+        if (err.status === 401 || err.status === 400) {
+          // 401 = wrong credentials; 400 = failed input validation (e.g. bad
+          // email format). Both are the user's input — keep the message vague.
+          setError("Invalid email or password");
+        } else if (err.status === 429) {
+          setError("Too many attempts. Please wait a moment and try again.");
+        } else {
+          setError("Server error — please try again in a moment.");
+        }
+      } else {
+        // fetch() rejected before getting a response → server unreachable.
+        setError("Can't reach the server. Check your connection and try again.");
+      }
     } finally {
       setLoading(false);
     }

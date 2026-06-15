@@ -52,8 +52,7 @@ export default function EventsSection() {
         // Dark band between two light sections. Bottom edge runs right-up →
         // left-down (bottom-RIGHT raised by the slant, bottom-LEFT at full
         // height) so the white "Impact" section below meets it that way.
-        clipPath:
-          "polygon(0 var(--sp-slant), 100% 0, 100% calc(100% - var(--sp-slant)), 0 100%)",
+        clipPath: "polygon(0 var(--sp-slant), 100% 0, 100% calc(100% - var(--sp-slant)), 0 100%)",
       }}
     >
       {/* Soft green curved gradients glowing in from both edges */}
@@ -137,9 +136,7 @@ export default function EventsSection() {
                 // Text cell gets more room than the image cell; the wider
                 // fraction follows whichever side the text is on.
                 className={`grid grid-cols-1 items-center ${
-                  imageLeft
-                    ? "md:grid-cols-[0.8fr_1.2fr]"
-                    : "md:grid-cols-[1.2fr_0.8fr]"
+                  imageLeft ? "md:grid-cols-[0.8fr_1.2fr]" : "md:grid-cols-[1.2fr_0.8fr]"
                 }`}
                 style={{ gap: "clamp(28px, 5vw, 64px)" }}
               >

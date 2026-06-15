@@ -13,12 +13,7 @@ const tabs = [
     label: "Textile\nEmpowerment",
     title: "Textile & Women Empowerment Initiative – Odisha",
     desc: "Supported the establishment of a textile unit in Balasore, Odisha focused on creating employment opportunities for women through skilling, stitching, and livelihood development initiatives.",
-    bullets: [
-      "Women empowerment",
-      "Rural employment",
-      "Skill development",
-      "MSME support",
-    ],
+    bullets: ["Women empowerment", "Rural employment", "Skill development", "MSME support"],
     photo: "/images/engagements/textile-women-empowerment-odisha.jpeg",
     photoAlt: "Textile & Women Empowerment Initiative – Odisha",
   },
@@ -59,12 +54,7 @@ const tabs = [
     label: "Waste-to\nEnergy",
     title: "Biomethanation & Waste-to-Energy Initiative – Assam",
     desc: "Facilitated a biomethanation project in Guwahati, Assam for a Bengaluru-based client focused on sustainable waste management and renewable energy generation.",
-    bullets: [
-      "Sustainability",
-      "Renewable energy",
-      "Industrial facilitation",
-      "Waste management",
-    ],
+    bullets: ["Sustainability", "Renewable energy", "Industrial facilitation", "Waste management"],
     photo: "/images/engagements/csr-farmers-odisha-3.jpeg",
     photoAlt: "Biomethanation & Waste-to-Energy Initiative – Assam",
   },
@@ -150,11 +140,17 @@ export default function ProcessSection() {
             display: "flex",
             alignItems: "stretch",
             marginBottom: 52,
-            overflow: "hidden",
+            // Desktop fits all five tabs; on phones the bar scrolls
+            // horizontally instead of crushing/cutting the labels.
+            overflowX: "auto",
+            overflowY: "hidden",
           }}
         >
           {tabs.map((tab, i) => (
-            <div key={tab.id} style={{ display: "flex", alignItems: "stretch", flex: 1 }}>
+            <div
+              key={tab.id}
+              style={{ display: "flex", alignItems: "stretch", flex: 1, minWidth: 150 }}
+            >
               {/* Divider between tabs */}
               {i > 0 && (
                 <div
@@ -233,7 +229,16 @@ export default function ProcessSection() {
               >
                 {current.desc}
               </p>
-              <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: 14 }}>
+              <ul
+                style={{
+                  listStyle: "none",
+                  margin: 0,
+                  padding: 0,
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 14,
+                }}
+              >
                 {current.bullets.map((bullet) => (
                   <li key={bullet} style={{ display: "flex", alignItems: "flex-start", gap: 14 }}>
                     <img

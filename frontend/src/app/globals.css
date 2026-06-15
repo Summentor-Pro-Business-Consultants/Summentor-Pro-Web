@@ -294,3 +294,17 @@ small {
   }
 }
 
+/* Trio carousels (home focus cards, About enablers, Platforms "designed to"):
+   the inline grid is 3 columns; on phones that crushes each card to ~100px and
+   cuts the text, so show only the centre (active) card full-width instead.
+   !important is required to beat the inline styles. */
+@media (max-width: 767px) {
+  .sp-trio {
+    grid-template-columns: 1fr !important;
+  }
+  .sp-trio > :first-child,
+  .sp-trio > :last-child {
+    display: none !important;
+  }
+}
+

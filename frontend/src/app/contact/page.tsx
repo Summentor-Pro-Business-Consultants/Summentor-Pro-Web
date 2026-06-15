@@ -10,9 +10,6 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <>
-      {/* Drop the global body grid on this route so it doesn't show through
-          the slanted wedge around the dark hero. Restored on navigation away. */}
-      <style>{`body { background-image: none !important; }`}</style>
       <ContactSection />
     </>
   );

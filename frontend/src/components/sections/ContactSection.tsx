@@ -111,8 +111,7 @@ function Hero() {
         background: "var(--sp-dark-grad-a)",
         paddingTop: "clamp(56px, 8vw, 80px)",
         paddingBottom: "clamp(72px, 11vw, 120px)",
-        clipPath:
-          "polygon(0 0, 100% 0, 100% calc(100% - var(--sp-slant)), 0 100%)",
+        clipPath: "polygon(0 0, 100% 0, 100% calc(100% - var(--sp-slant)), 0 100%)",
       }}
     >
       <Image
@@ -164,9 +163,7 @@ function Hero() {
 
           <motion.div variants={fadeUp} style={{ marginTop: 28 }}>
             <PageHeading style={{ fontSize: "clamp(30px, 5.2vw, 64px)" }}>
-              <span style={{ display: "block", fontWeight: 600 }}>
-                START YOUR JOURNEY WITH
-              </span>
+              <span style={{ display: "block", fontWeight: 600 }}>START YOUR JOURNEY WITH</span>
               <span
                 style={{
                   background: "#058961",
@@ -176,8 +173,7 @@ function Hero() {
                   marginTop: -6,
                   // Trapezium: vertical, parallel side edges; taller on the
                   // right (same as the About / Solutions headings).
-                  clipPath:
-                    "polygon(0 13px, 100% 0, 100% 100%, 0 calc(100% - 13px))",
+                  clipPath: "polygon(0 13px, 100% 0, 100% 100%, 0 calc(100% - 13px))",
                 }}
               >
                 SUMMENTOR PRO
@@ -427,7 +423,12 @@ function FormBlock() {
                     value={form.message}
                     onChange={set("message")}
                     placeholder="Tell us briefly what you're looking to explore"
-                    style={{ ...inputStyle, height: "auto", padding: "12px 14px", resize: "vertical" }}
+                    style={{
+                      ...inputStyle,
+                      height: "auto",
+                      padding: "12px 14px",
+                      resize: "vertical",
+                    }}
                   />
                 </Field>
               </div>
@@ -539,7 +540,9 @@ function LocationBlock() {
           <SectionHeading>
             SOLUTIONS DESIGNED FOR
             <br />
-            <span style={{ fontWeight: 900, WebkitTextStroke: "1px currentColor" }}>YOUR BUSINESS NEEDS</span>
+            <span style={{ fontWeight: 900, WebkitTextStroke: "1px currentColor" }}>
+              YOUR BUSINESS NEEDS
+            </span>
           </SectionHeading>
           <WavyLine />
         </div>
@@ -603,7 +606,9 @@ function LocationBlock() {
             </p>
             <div
               style={{
-                width: "clamp(420px, 72%, 780px)",
+                // 420px floor + 780px cap on desktop, but never wider than
+                // the card (the 420px floor used to overflow on phones).
+                width: "min(max(420px, 72%), 780px, 100%)",
                 height: 2,
                 background: "rgba(255,255,255,0.85)",
                 margin: "0 auto 18px",

@@ -167,6 +167,7 @@ export default function EngagementCTA() {
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: dir >= 0 ? -60 : 60 }}
                   transition={{ duration: 0.4, ease: EASE }}
+                  className="sp-trio"
                   style={{
                     display: "grid",
                     gridTemplateColumns: "1fr 1fr 1fr",
@@ -175,11 +176,7 @@ export default function EngagementCTA() {
                   }}
                 >
                   {trio.map((idx, pos) => (
-                    <FocusCard
-                      key={idx}
-                      label={focusItems[idx]}
-                      center={pos === 1}
-                    />
+                    <FocusCard key={idx} label={focusItems[idx]} center={pos === 1} />
                   ))}
                 </motion.div>
               </AnimatePresence>
@@ -239,9 +236,7 @@ function FocusCard({ label, center }: { label: string; center: boolean }) {
         padding: "20px 22px",
         borderRadius: 0,
         background: center ? "#252525" : "#fff",
-        border: center
-          ? "4px solid var(--sp-green-500)"
-          : "3px solid var(--sp-green-500)",
+        border: center ? "4px solid var(--sp-green-500)" : "3px solid var(--sp-green-500)",
         transform: center ? "scale(1.06)" : "scale(1)",
         boxShadow: center
           ? "0 26px 50px -22px rgba(0,0,0,0.45)"

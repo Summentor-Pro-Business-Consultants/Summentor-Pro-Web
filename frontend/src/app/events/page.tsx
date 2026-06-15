@@ -4,12 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence, useReducedMotion, type Variants } from "framer-motion";
-import {
-  ChevronLeft,
-  ChevronRight,
-  ArrowLeft,
-  ArrowRight,
-} from "lucide-react";
+import { ChevronLeft, ChevronRight, ArrowLeft, ArrowRight } from "lucide-react";
 import Container from "@/components/ui/Container";
 import EdgeGreenGradient from "@/components/ui/EdgeGreenGradient";
 import PageHeading from "@/components/ui/PageHeading";
@@ -20,7 +15,6 @@ import WavyLine from "@/components/ui/WavyLine";
 const EASE = [0.22, 1, 0.36, 1] as const;
 const HOVER_CSS_EASE = "cubic-bezier(0.22, 1, 0.36, 1)";
 const CARD_TRANSITION = `background 0.45s ${HOVER_CSS_EASE}, border-color 0.45s ${HOVER_CSS_EASE}, box-shadow 0.45s ${HOVER_CSS_EASE}`;
-const TEXT_TRANSITION = `color 0.45s ${HOVER_CSS_EASE}`;
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 24 },
@@ -34,11 +28,31 @@ const stagger: Variants = {
 
 // ─── Data ───────────────────────────────────────────────────────────────────
 const designedTo = [
-  { icon: "/icons/cooperation.svg", title: "Enable strategic networking", desc: "Curated business introductions across MSMEs, enterprises, and policymakers." },
-  { icon: "/icons/puzzle.svg", title: "Encourage industry dialogue", desc: "Structured conversations that turn into long-term partnerships." },
-  { icon: "/icons/diagram.svg", title: "Facilitate business visibility", desc: "Help businesses position themselves in the right rooms with the right audiences." },
-  { icon: "/icons/increase.svg", title: "Support MSME & startup growth", desc: "Platforms tailored to founders building from the ground up." },
-  { icon: "/icons/team-leader.svg", title: "Create meaningful engagement", desc: "Genuine exchange between businesses, institutions, and ecosystem stakeholders." },
+  {
+    icon: "/icons/cooperation.svg",
+    title: "Enable strategic networking",
+    desc: "Curated business introductions across MSMEs, enterprises, and policymakers.",
+  },
+  {
+    icon: "/icons/puzzle.svg",
+    title: "Encourage industry dialogue",
+    desc: "Structured conversations that turn into long-term partnerships.",
+  },
+  {
+    icon: "/icons/diagram.svg",
+    title: "Facilitate business visibility",
+    desc: "Help businesses position themselves in the right rooms with the right audiences.",
+  },
+  {
+    icon: "/icons/increase.svg",
+    title: "Support MSME & startup growth",
+    desc: "Platforms tailored to founders building from the ground up.",
+  },
+  {
+    icon: "/icons/team-leader.svg",
+    title: "Create meaningful engagement",
+    desc: "Genuine exchange between businesses, institutions, and ecosystem stakeholders.",
+  },
 ];
 
 const featuredPlatforms = [
@@ -118,10 +132,6 @@ const highlightPhotos = [
 export default function PlatformsPage() {
   return (
     <>
-      {/* Drop the global body grid on this route so it doesn't show through
-          the slanted wedges around the dark sections. Restored on navigation
-          away (this style unmounts with the page). */}
-      <style>{`body { background-image: none !important; }`}</style>
       <Hero />
       <WhyOurPlatformsMatter />
       <FeaturedPlatforms />
@@ -145,8 +155,7 @@ function Hero() {
         background: "var(--sp-dark-grad-a)",
         paddingTop: "clamp(56px, 8vw, 80px)",
         paddingBottom: "clamp(72px, 11vw, 120px)",
-        clipPath:
-          "polygon(0 0, 100% 0, 100% calc(100% - var(--sp-slant)), 0 100%)",
+        clipPath: "polygon(0 0, 100% 0, 100% calc(100% - var(--sp-slant)), 0 100%)",
       }}
     >
       <Image
@@ -193,9 +202,7 @@ function Hero() {
 
           <motion.div variants={fadeUp} style={{ margin: "28px 0 22px" }}>
             <PageHeading style={{ fontSize: "clamp(30px, 5.2vw, 64px)" }}>
-              <span style={{ display: "block", fontWeight: 600 }}>
-                BUSINESS PLATFORMS DESIGNED
-              </span>
+              <span style={{ display: "block", fontWeight: 600 }}>BUSINESS PLATFORMS DESIGNED</span>
               <span
                 style={{
                   background: "#058961",
@@ -205,8 +212,7 @@ function Hero() {
                   marginTop: -6,
                   // Trapezium: vertical, parallel side edges; taller on the
                   // right (same as the About / Solutions headings).
-                  clipPath:
-                    "polygon(0 13px, 100% 0, 100% 100%, 0 calc(100% - 13px))",
+                  clipPath: "polygon(0 13px, 100% 0, 100% 100%, 0 calc(100% - 13px))",
                 }}
               >
                 AROUND COLLABORATION, GROWTH &amp;
@@ -228,9 +234,9 @@ function Hero() {
               margin: "0 auto",
             }}
           >
-            Our platforms bring together founders, MSMEs, enterprises, policymakers, investors,
-            and ecosystem stakeholders to encourage meaningful conversations, strategic
-            partnerships, and long-term business opportunities.
+            Our platforms bring together founders, MSMEs, enterprises, policymakers, investors, and
+            ecosystem stakeholders to encourage meaningful conversations, strategic partnerships,
+            and long-term business opportunities.
           </motion.p>
         </motion.div>
       </Container>
@@ -293,7 +299,9 @@ function WhyOurPlatformsMatter() {
           <motion.div variants={fadeUp}>
             <SectionHeading>
               WHY OUR{" "}
-              <span style={{ fontWeight: 900, WebkitTextStroke: "1px currentColor" }}>PLATFORMS MATTER</span>
+              <span style={{ fontWeight: 900, WebkitTextStroke: "1px currentColor" }}>
+                PLATFORMS MATTER
+              </span>
             </SectionHeading>
           </motion.div>
           <WavyLine />
@@ -341,6 +349,7 @@ function WhyOurPlatformsMatter() {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: dir >= 0 ? -60 : 60 }}
                 transition={{ duration: 0.4, ease: EASE }}
+                className="sp-trio"
                 style={{
                   display: "grid",
                   gridTemplateColumns: "1fr 1fr 1fr",
@@ -366,13 +375,7 @@ function WhyOurPlatformsMatter() {
 
 // Single "designed to" card — the centre card is dark with a green icon +
 // text; the side cards are white with a dark icon + text (matches design).
-function PlatformCard({
-  item,
-  center,
-}: {
-  item: (typeof designedTo)[number];
-  center: boolean;
-}) {
+function PlatformCard({ item, center }: { item: (typeof designedTo)[number]; center: boolean }) {
   const [hover, setHover] = useState(false);
   // Green accent applies to the centre card and to any card on hover.
   const accent = center || hover;
@@ -482,7 +485,8 @@ function FeaturedPlatforms() {
       <Container>
         <div style={{ textAlign: "center", marginBottom: 40, position: "relative" }}>
           <SectionHeading>
-            FEATURED <span style={{ fontWeight: 900, WebkitTextStroke: "1px currentColor" }}>PLATFORMS</span>
+            FEATURED{" "}
+            <span style={{ fontWeight: 900, WebkitTextStroke: "1px currentColor" }}>PLATFORMS</span>
           </SectionHeading>
           <WavyLine />
         </div>
@@ -556,7 +560,13 @@ function FeaturedPlatforms() {
                       >
                         {p.desc}
                       </p>
-                      <div style={{ height: 2, background: "rgba(255,255,255,0.85)", margin: "0 0 22px" }} />
+                      <div
+                        style={{
+                          height: 2,
+                          background: "rgba(255,255,255,0.85)",
+                          margin: "0 0 22px",
+                        }}
+                      />
                       <p
                         style={{
                           fontFamily: "var(--sp-font-sans)",
@@ -605,7 +615,8 @@ function FeaturedPlatforms() {
                           fontWeight: 500,
                           letterSpacing: "0.06em",
                           textTransform: "uppercase",
-                          transition: "background 0.2s ease, border-color 0.2s ease, color 0.2s ease",
+                          transition:
+                            "background 0.2s ease, border-color 0.2s ease, color 0.2s ease",
                         }}
                         onMouseEnter={(e) => {
                           (e.currentTarget as HTMLElement).style.background = "var(--sp-green-500)";
@@ -626,8 +637,16 @@ function FeaturedPlatforms() {
           </div>
 
           {/* Green arrows straddle the active card's left & right edges. */}
-          <GreenArrow direction="left" x={0} onClick={() => setIndex((i) => (i <= 0 ? last : i - 1))} />
-          <GreenArrow direction="right" x={cardW} onClick={() => setIndex((i) => (i >= last ? 0 : i + 1))} />
+          <GreenArrow
+            direction="left"
+            x={0}
+            onClick={() => setIndex((i) => (i <= 0 ? last : i - 1))}
+          />
+          <GreenArrow
+            direction="right"
+            x={cardW}
+            onClick={() => setIndex((i) => (i >= last ? 0 : i + 1))}
+          />
         </div>
 
         <Dots count={featuredPlatforms.length} active={index} onSelect={setIndex} />
@@ -653,7 +672,8 @@ function UpcomingPlatforms() {
       <Container>
         <div style={{ textAlign: "center", marginBottom: 40, position: "relative" }}>
           <SectionHeading>
-            UPCOMING <span style={{ fontWeight: 900, WebkitTextStroke: "1px currentColor" }}>PLATFORMS</span>
+            UPCOMING{" "}
+            <span style={{ fontWeight: 900, WebkitTextStroke: "1px currentColor" }}>PLATFORMS</span>
           </SectionHeading>
           <WavyLine />
         </div>
@@ -887,14 +907,16 @@ function PlatformHighlights() {
           zIndex: 1,
           overflow: "hidden",
           // Top slant + bottom slant (right-up → left-down).
-          clipPath:
-            "polygon(0 var(--sp-slant), 100% 0, 100% calc(100% - var(--sp-slant)), 0 100%)",
+          clipPath: "polygon(0 var(--sp-slant), 100% 0, 100% calc(100% - var(--sp-slant)), 0 100%)",
         }}
       >
         <Container>
           <div style={{ textAlign: "center", position: "relative" }}>
             <SectionHeading dark>
-              PLATFORM <span style={{ fontWeight: 900, WebkitTextStroke: "1px currentColor" }}>HIGHLIGHTS</span>
+              PLATFORM{" "}
+              <span style={{ fontWeight: 900, WebkitTextStroke: "1px currentColor" }}>
+                HIGHLIGHTS
+              </span>
             </SectionHeading>
             <WavyLine />
           </div>
@@ -1011,8 +1033,12 @@ function GreenArrow({
         boxShadow: "0 10px 24px -8px rgba(5,161,113,0.55)",
         transition: "background 0.2s ease",
       }}
-      onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.background = "var(--sp-green-600)")}
-      onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.background = "var(--sp-green-500)")}
+      onMouseEnter={(e) =>
+        ((e.currentTarget as HTMLElement).style.background = "var(--sp-green-600)")
+      }
+      onMouseLeave={(e) =>
+        ((e.currentTarget as HTMLElement).style.background = "var(--sp-green-500)")
+      }
     >
       <Icon size={26} color="#fff" strokeWidth={2.4} />
     </button>
@@ -1077,11 +1103,7 @@ function Dots({
             height: 4,
             borderRadius: 2,
             background:
-              i === active
-                ? "var(--sp-green-500)"
-                : dark
-                  ? "rgba(255,255,255,0.25)"
-                  : "#334155",
+              i === active ? "var(--sp-green-500)" : dark ? "rgba(255,255,255,0.25)" : "#334155",
             border: "none",
             cursor: "pointer",
             padding: 0,

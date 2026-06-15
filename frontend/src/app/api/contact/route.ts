@@ -57,8 +57,7 @@ export async function POST(req: NextRequest) {
 
     // Forward to the backend with the shared API key (proxy-only) and the
     // real client IP so the backend's per-IP contact rate limiter is accurate.
-    const clientIp =
-      req.headers.get("x-forwarded-for") ?? req.headers.get("x-real-ip") ?? "";
+    const clientIp = req.headers.get("x-forwarded-for") ?? req.headers.get("x-real-ip") ?? "";
     const res = await fetch(`${BACKEND}/contact`, {
       method: "POST",
       headers: {

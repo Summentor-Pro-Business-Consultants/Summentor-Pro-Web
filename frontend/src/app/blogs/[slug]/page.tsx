@@ -5,6 +5,7 @@ import { useParams } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowLeft, CalendarDays, User, Tag } from "lucide-react";
+import DOMPurify from "dompurify";
 import Container from "@/components/ui/Container";
 
 interface Blog {
@@ -69,9 +70,7 @@ export default function BlogPostPage() {
           gap: 16,
         }}
       >
-        <h1
-          style={{ fontFamily: "var(--sp-font-sans)", fontSize: 32, color: "#000" }}
-        >
+        <h1 style={{ fontFamily: "var(--sp-font-sans)", fontSize: 32, color: "#000" }}>
           Post not found
         </h1>
         <Link
@@ -230,7 +229,9 @@ export default function BlogPostPage() {
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.15 }}
               className="blog-content"
-              dangerouslySetInnerHTML={{ __html: blog.content }}
+              // Sanitised before injection — blog HTML is admin-authored, but
+              // sanitising at render is defence-in-depth against stored XSS.
+              dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(blog.content) }}
             />
 
             {parsedTags.length > 0 && (

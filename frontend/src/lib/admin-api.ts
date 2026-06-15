@@ -41,6 +41,22 @@
 const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:9090/api/v1";
 
 /**
+ * Error thrown for any non-OK HTTP response, carrying the status code so the
+ * UI can react differently to a 401 (bad credentials), 429 (rate limited), or
+ * 5xx (server error). A failed `fetch()` (server unreachable) rejects with a
+ * plain `TypeError` instead — it has no `status`, which the UI treats as a
+ * connectivity problem.
+ */
+export class ApiError extends Error {
+  status: number;
+  constructor(message: string, status: number) {
+    super(message);
+    this.name = "ApiError";
+    this.status = status;
+  }
+}
+
+/**
  * In-memory access token storage.
  * Intentionally module-scoped (not exported) to prevent direct mutation from
  * outside this file — use `setAccessToken` instead.
@@ -119,7 +135,10 @@ async function request<T>(path: string, options: RequestInit = {}, retry = true)
   //   a) The server returned 401 (Unauthorized / token expired).
   //   b) This is the first attempt (`retry === true`), preventing loops.
   //   c) A refresh callback has been registered.
-  if (res.status === 401 && retry && _refreshCallback) {
+  // Skip the refresh-retry for the auth endpoints themselves: a 401 from
+  // /auth/login means wrong credentials (not an expired token), and refreshing
+  // /auth/refresh would recurse. Those paths surface their 401 directly.
+  if (res.status === 401 && retry && _refreshCallback && !path.startsWith("/auth/")) {
     const newToken = await _refreshCallback();
     if (newToken) {
       // Token was refreshed successfully (`setAccessToken` was already called
@@ -135,7 +154,11 @@ async function request<T>(path: string, options: RequestInit = {}, retry = true)
     // Attempt to parse the backend's error envelope; fall back to a generic
     // message if the response body is not valid JSON.
     const body = await res.json().catch(() => ({ message: "Request failed" }));
-    throw new Error((body as { message?: string }).message ?? "Request failed");
+    // Attach the HTTP status so callers can distinguish a 401 (wrong
+    // credentials) from a 5xx (server error) or 429 (rate limited). A network
+    // failure never reaches here — fetch() rejects first with a TypeError that
+    // carries no `status`, which callers treat as a connectivity error.
+    throw new ApiError((body as { message?: string }).message ?? "Request failed", res.status);
   }
 
   // --- 204 No Content — nothing to parse ---

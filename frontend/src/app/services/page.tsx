@@ -118,10 +118,6 @@ const solutions: Solution[] = [
 export default function SolutionsPage() {
   return (
     <>
-      {/* Drop the global body grid on this route so it doesn't show through
-          the slanted wedges around the dark sections. Restored on navigation
-          away (this style unmounts with the page). */}
-      <style>{`body { background-image: none !important; }`}</style>
       <Hero />
       <SolutionTabs />
     </>
@@ -141,8 +137,7 @@ function Hero() {
         background: "var(--sp-dark-grad-a)",
         paddingTop: "clamp(56px, 8vw, 80px)",
         paddingBottom: "clamp(72px, 11vw, 120px)",
-        clipPath:
-          "polygon(0 0, 100% 0, 100% 100%, 0 calc(100% - var(--sp-slant)))",
+        clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 calc(100% - var(--sp-slant)))",
       }}
     >
       <Image
@@ -201,8 +196,7 @@ function Hero() {
                   marginTop: -6,
                   // Trapezium: vertical, parallel side edges; taller on the
                   // right (same as the About page heading).
-                  clipPath:
-                    "polygon(0 13px, 100% 0, 100% 100%, 0 calc(100% - 13px))",
+                  clipPath: "polygon(0 13px, 100% 0, 100% 100%, 0 calc(100% - 13px))",
                 }}
               >
                 GROWTH &amp; BUSINESS ENGAGEMENT
@@ -221,9 +215,9 @@ function Hero() {
               margin: "0 auto",
             }}
           >
-            We help businesses, MSMEs, startups, and institutions strengthen their market
-            presence, build strategic relationships, and explore growth opportunities through
-            consulting, engagement platforms, and ecosystem-driven initiatives.
+            We help businesses, MSMEs, startups, and institutions strengthen their market presence,
+            build strategic relationships, and explore growth opportunities through consulting,
+            engagement platforms, and ecosystem-driven initiatives.
           </motion.p>
         </motion.div>
       </Container>
@@ -285,8 +279,7 @@ function SolutionTabs() {
                     boxShadow: isActive
                       ? "0 8px 22px rgba(22,163,74,0.25)"
                       : "0 1px 2px rgba(0,0,0,0.03)",
-                    transition:
-                      "background 0.25s ease, color 0.25s ease, box-shadow 0.25s ease",
+                    transition: "background 0.25s ease, color 0.25s ease, box-shadow 0.25s ease",
                   }}
                 >
                   {s.pill}
@@ -389,4 +382,3 @@ function SolutionTabs() {
     </section>
   );
 }
-
