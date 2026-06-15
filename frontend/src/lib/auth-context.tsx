@@ -43,7 +43,7 @@
  *   - `proxy.ts` is the server-side gate; this file maintains the cookie it reads.
  */
 
-import React, { createContext, useCallback, useContext, useEffect, useState } from "react";
+import React, { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
 import { adminApi, registerRefreshCallback, setAccessToken } from "./admin-api";
 
 /** Shape of a logged-in admin user. */
@@ -140,18 +140,39 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
    *
    * @returns The new access token string, or `null` if the refresh failed.
    */
-  const tryRefresh = useCallback(async (): Promise<string | null> => {
-    try {
-      const data = await adminApi.refresh();
-      // Only update the token in the fetch wrapper — the admin object is not
-      // returned by the refresh endpoint to keep the payload small.
-      setAccessToken(data.accessToken);
-      return data.accessToken;
-    } catch {
-      // Refresh failed (e.g. refresh token expired) — treat as logged out.
-      clearAuth();
-      return null;
-    }
+  // Single-flight guard for the refresh call. The backend ROTATES the refresh
+  // token on every /auth/refresh (it deletes the presented token and issues a
+  // new one), so two concurrent refreshes would race: the first rotates the
+  // token, the second then presents an already-deleted token, fails, and logs
+  // the user out. This happens easily because a page can fire several API
+  // calls at once while the in-memory access token is missing (right after the
+  // login reload, or once the 15-min token expires) — every one of those 401s
+  // would otherwise trigger its own refresh. Holding a single in-flight promise
+  // means they all await the SAME refresh and share its result.
+  const refreshInFlight = useRef<Promise<string | null> | null>(null);
+
+  const tryRefresh = useCallback((): Promise<string | null> => {
+    // A refresh is already running — reuse it instead of starting another.
+    if (refreshInFlight.current) return refreshInFlight.current;
+
+    const run = (async (): Promise<string | null> => {
+      try {
+        const data = await adminApi.refresh();
+        // Only update the token in the fetch wrapper — the admin object is not
+        // returned by the refresh endpoint to keep the payload small.
+        setAccessToken(data.accessToken);
+        return data.accessToken;
+      } catch {
+        // Refresh failed (e.g. refresh token expired) — treat as logged out.
+        clearAuth();
+        return null;
+      } finally {
+        refreshInFlight.current = null;
+      }
+    })();
+
+    refreshInFlight.current = run;
+    return run;
   }, [clearAuth]);
 
   // ---------------------------------------------------------------------------
