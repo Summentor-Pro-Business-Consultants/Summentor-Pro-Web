@@ -37,8 +37,18 @@
  *   and call its methods directly.
  */
 
-/** Base URL for all backend API calls. Falls back to localhost for local dev. */
-const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:9090/api/v1";
+/**
+ * Base URL for all admin backend calls.
+ *
+ * Points at the SAME-ORIGIN Next.js proxy (`/api/proxy/[...path]`), not the
+ * backend directly. The proxy forwards server-side to the real backend
+ * (`API_URL`). This keeps every admin request first-party, which:
+ *   - eliminates CORS (no cross-origin browser requests), and
+ *   - makes the refresh-token cookie first-party so it survives Chrome's
+ *     third-party-cookie blocking in production.
+ * Being a relative path it works on any deploy domain with no env var.
+ */
+const API_BASE = "/api/proxy";
 
 /**
  * Error thrown for any non-OK HTTP response, carrying the status code so the

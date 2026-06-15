@@ -18,8 +18,6 @@ interface Event {
   status: string;
 }
 
-const API = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:9090/api/v1";
-
 const inputStyle: React.CSSProperties = {
   width: "100%",
   padding: "10px 14px",
@@ -42,7 +40,7 @@ export default function EventDetailPage() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    fetch(`${API}/events/${id}`)
+    fetch(`/api/events/${id}`)
       .then((r) => r.json())
       .then((d) => setEvent(d.data as Event))
       .catch(() => {})
@@ -54,7 +52,7 @@ export default function EventDetailPage() {
     setSubmitting(true);
     setError("");
     try {
-      const res = await fetch(`${API}/events/${id}/register`, {
+      const res = await fetch(`/api/events/${id}/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
