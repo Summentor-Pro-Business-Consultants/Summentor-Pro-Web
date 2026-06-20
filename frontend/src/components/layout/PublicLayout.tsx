@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import { MotionConfig } from "framer-motion";
 import Header from "./Header";
 import Footer from "./Footer";
+import CookieNotice from "./CookieNotice";
 
 export default function PublicLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -20,6 +21,7 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
         <main className="flex-1">{children}</main>
         <Footer />
       </div>
+      <CookieNotice />
     </MotionConfig>
   );
 }
