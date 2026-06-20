@@ -427,7 +427,7 @@ export default function ContactsPage() {
                                   style={{
                                     fontSize: 14,
                                     color: "#1E293B",
-                                    lineHeight: 1.45,
+                                    lineHeight: 1.35,
                                     whiteSpace: "pre-wrap",
                                   }}
                                 >

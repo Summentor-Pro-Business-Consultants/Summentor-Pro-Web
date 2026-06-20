@@ -85,7 +85,7 @@ const labelStyle: React.CSSProperties = {
   fontWeight: 400,
   color: "#fff",
   fontSize: "clamp(21px, 2.25vw, 30px)",
-  lineHeight: 1.3,
+  lineHeight: 1.2,
   margin: 0,
   // Labels carry explicit <br/> line breaks to match the design exactly;
   // nowrap stops the browser from introducing any extra wrapping.

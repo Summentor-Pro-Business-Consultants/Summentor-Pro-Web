@@ -134,7 +134,7 @@ export default function ProcessSection() {
         {/* Single dark pill bar containing all tabs with dividers */}
         <div
           style={{
-            background: "#252525",
+            background: "#141414",
             borderRadius: 16,
             padding: "6px",
             display: "flex",
@@ -178,7 +178,7 @@ export default function ProcessSection() {
                   fontFamily: "var(--sp-font-sans)",
                   fontSize: "clamp(20px, 2.2vw, 29px)",
                   fontWeight: 500,
-                  lineHeight: 1.4,
+                  lineHeight: 1.3,
                   cursor: "pointer",
                   whiteSpace: "pre-line",
                   textAlign: "center",
@@ -212,7 +212,7 @@ export default function ProcessSection() {
                   fontWeight: 800,
                   color: "#000",
                   margin: "0 0 18px 0",
-                  lineHeight: 1.22,
+                  lineHeight: 1.15,
                 }}
               >
                 {current.title}
@@ -222,7 +222,7 @@ export default function ProcessSection() {
                   fontFamily: "var(--sp-font-sans)",
                   fontSize: "clamp(16px, 1.75vw, 21px)",
                   color: "#4b5563",
-                  lineHeight: 1.45,
+                  lineHeight: 1.35,
                   margin: "0 0 30px 0",
                   maxWidth: 560,
                 }}
@@ -253,7 +253,7 @@ export default function ProcessSection() {
                         fontSize: "clamp(17px, 1.8vw, 22px)",
                         fontWeight: 500,
                         color: "#000",
-                        lineHeight: 1.5,
+                        lineHeight: 1.4,
                       }}
                     >
                       {bullet}

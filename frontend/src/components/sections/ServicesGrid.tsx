@@ -144,7 +144,7 @@ export default function ServicesGrid() {
                 onMouseLeave={() => setHovered(null)}
                 className="sp-svc-card"
                 style={{
-                  background: dark ? "#252525" : "#F4F5F7",
+                  background: dark ? "#141414" : "#F4F5F7",
                   border: `1.5px solid ${dark ? "rgba(255,255,255,0.07)" : "transparent"}`,
                   borderRadius: 28,
                   overflow: "hidden",
@@ -203,7 +203,7 @@ export default function ServicesGrid() {
                       textTransform: "uppercase",
                       color: "#329555",
                       margin: 0,
-                      lineHeight: 1.18,
+                      lineHeight: 1.12,
                       whiteSpace: "pre-line",
                       transition: "color 0.28s ease",
                     }}
@@ -239,7 +239,7 @@ export default function ServicesGrid() {
                     style={{
                       fontFamily: "var(--sp-font-sans)",
                       fontSize: "clamp(18px, 2.15vw, 28px)",
-                      lineHeight: 1.45,
+                      lineHeight: 1.35,
                       fontWeight: 400,
                       color: dark ? "#E5E7EB" : "#000",
                       margin: 0,

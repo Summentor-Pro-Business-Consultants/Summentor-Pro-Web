@@ -209,7 +209,7 @@ function Hero() {
             style={{
               fontFamily: "var(--sp-font-sans)",
               fontSize: "clamp(22px, 2.4vw, 31px)",
-              lineHeight: 1.45,
+              lineHeight: 1.35,
               color: "#fff",
               maxWidth: 1040,
               margin: "0 auto",
@@ -242,7 +242,7 @@ function SolutionTabs() {
       <EdgeGreenGradient side="right" />
       <Container>
         <div
-          className="grid grid-cols-1 md:grid-cols-[360px_1fr] gap-10"
+          className="grid grid-cols-1 md:grid-cols-[440px_1fr] gap-10"
           style={{ alignItems: "stretch", position: "relative" }}
         >
           {/* Left: pill buttons */}
@@ -254,7 +254,7 @@ function SolutionTabs() {
             className="flex flex-col gap-4"
             style={{ justifyContent: "center", marginLeft: "clamp(-48px, -3vw, -12px)" }}
           >
-            {solutions.map((s) => {
+            {solutions.map((s, i) => {
               const isActive = s.id === activeId;
               return (
                 <motion.button
@@ -282,6 +282,7 @@ function SolutionTabs() {
                     transition: "background 0.25s ease, color 0.25s ease, box-shadow 0.25s ease",
                   }}
                 >
+                  <span style={{ color: isActive ? "#fff" : "var(--sp-green-600)" }}>{i + 1}.</span>{" "}
                   {s.pill}
                 </motion.button>
               );
@@ -312,7 +313,7 @@ function SolutionTabs() {
                     fontWeight: 700,
                     color: "#fff",
                     margin: "0 0 20px",
-                    lineHeight: 1.25,
+                    lineHeight: 1.18,
                   }}
                 >
                   {active.title}
@@ -324,7 +325,7 @@ function SolutionTabs() {
                     style={{
                       fontFamily: "var(--sp-font-sans)",
                       fontSize: "clamp(18px, 1.9vw, 23px)",
-                      lineHeight: 1.4,
+                      lineHeight: 1.3,
                       color: "#fff",
                       margin: i === active.paragraphs.length - 1 ? "0 0 28px" : "0 0 14px",
                     }}
@@ -356,7 +357,7 @@ function SolutionTabs() {
                         display: "flex",
                         alignItems: "flex-start",
                         gap: 12,
-                        lineHeight: 1.3,
+                        lineHeight: 1.2,
                       }}
                     >
                       <span

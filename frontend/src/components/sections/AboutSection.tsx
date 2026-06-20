@@ -78,7 +78,7 @@ export default function AboutSection() {
             style={{
               fontFamily: "var(--sp-font-sans)",
               fontSize: "clamp(24px, 3.2vw, 36px)",
-              lineHeight: 1.45,
+              lineHeight: 1.35,
               color: "#000",
               marginTop: 40,
             }}

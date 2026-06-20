@@ -104,7 +104,7 @@ export default function EventsSection() {
                       letterSpacing: "0.02em",
                       textTransform: "uppercase",
                       color: "#fff",
-                      lineHeight: 1.18,
+                      lineHeight: 1.12,
                       margin: "0 0 16px 0",
                     }}
                   >
@@ -114,7 +114,7 @@ export default function EventsSection() {
                     style={{
                       fontFamily: "var(--sp-font-sans)",
                       fontSize: "clamp(20px, 2.3vw, 28px)",
-                      lineHeight: 1.45,
+                      lineHeight: 1.35,
                       fontWeight: 400,
                       color: "#ffffff",
                       margin: 0,

@@ -150,7 +150,7 @@ export default function BlogPostPage() {
                 fontSize: "clamp(28px, 4vw, 48px)",
                 fontWeight: 700,
                 color: "#fff",
-                lineHeight: 1.15,
+                lineHeight: 1.1,
                 letterSpacing: "var(--sp-track-h1)",
                 maxWidth: 760,
                 margin: 0,
@@ -167,7 +167,7 @@ export default function BlogPostPage() {
                   color: "var(--sp-navy-300)",
                   marginTop: 16,
                   maxWidth: 680,
-                  lineHeight: 1.45,
+                  lineHeight: 1.35,
                 }}
               >
                 {blog.excerpt}
@@ -287,7 +287,7 @@ export default function BlogPostPage() {
       </div>
 
       <style>{`
-        .blog-content { font-family: var(--sp-font-sans); font-size: 16px; line-height: 1.8; color: var(--sp-navy-800, #1a2740); }
+        .blog-content { font-family: var(--sp-font-sans); font-size: 16px; line-height: 1.65; color: var(--sp-navy-800, #1a2740); }
         .blog-content h2 { font-family: var(--sp-font-sans); font-size: 1.6em; font-weight: 500; margin: 1.6em 0 0.5em; color: #000; }
         .blog-content h3 { font-family: var(--sp-font-sans); font-size: 1.25em; font-weight: 500; margin: 1.4em 0 0.4em; color: #000; }
         .blog-content p { margin: 0 0 1.1em; }

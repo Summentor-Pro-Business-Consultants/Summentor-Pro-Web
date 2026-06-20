@@ -74,7 +74,7 @@ export default function CookieNotice() {
               margin: 0,
               fontFamily: "var(--sp-font-sans)",
               fontSize: "clamp(13px, 1.5vw, 15px)",
-              lineHeight: 1.5,
+              lineHeight: 1.4,
               color: "#3a3a3a",
             }}
           >

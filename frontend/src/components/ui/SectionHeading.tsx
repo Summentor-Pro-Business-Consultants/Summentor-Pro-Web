@@ -37,7 +37,7 @@ export default function SectionHeading({
         letterSpacing: "0.02em",
         textTransform: "uppercase",
         color: dark ? "#fff" : "#000",
-        lineHeight: 1.15,
+        lineHeight: 1.1,
         textAlign: "center",
         margin: 0,
         ...style,
