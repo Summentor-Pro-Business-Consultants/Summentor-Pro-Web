@@ -3,7 +3,6 @@
 import { useState } from "react";
 import Image from "next/image";
 import { motion, type Variants } from "framer-motion";
-import { RiPhoneFill, RiMailFill } from "react-icons/ri";
 import Container from "@/components/ui/Container";
 import EdgeGreenGradient from "@/components/ui/EdgeGreenGradient";
 import PageHeading from "@/components/ui/PageHeading";
@@ -298,7 +297,7 @@ function FormBlock() {
                   fontSize: 15,
                   color: "var(--sp-green-900)",
                   margin: 0,
-                  lineHeight: 1.45,
+                  lineHeight: 1.35,
                 }}
               >
                 Your message has reached the team. We typically respond within 1–2 business days.
@@ -574,86 +573,6 @@ function LocationBlock() {
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
           />
-
-          {/* Dark address card */}
-          <div
-            style={{
-              background: "var(--sp-navy-900)",
-              padding: "clamp(24px, 5vw, 36px) clamp(22px, 5vw, 40px)",
-              textAlign: "center",
-              color: "#fff",
-            }}
-          >
-            <div style={{ display: "flex", justifyContent: "center", marginBottom: 24 }}>
-              <img
-                src="/brand/summentor-pro-logo.png"
-                alt="Summentor Pro"
-                style={{ height: 132, width: "auto", filter: "brightness(0) invert(1)" }}
-              />
-            </div>
-            <p
-              style={{
-                fontFamily: "var(--sp-font-sans)",
-                fontSize: "clamp(17px, 2.5vw, 32px)",
-                lineHeight: 1.5,
-                color: "#fff",
-                margin: "0 0 24px",
-              }}
-            >
-              5th Block, SPD Plaza, #52, 1st Floor, Jyoti Nivas College Road,
-              <br />
-              Koramangala Industrial Layout, Bangalore, Karnataka, 560034.
-            </p>
-            <div
-              style={{
-                // 420px floor + 780px cap on desktop, but never wider than
-                // the card (the 420px floor used to overflow on phones).
-                width: "min(max(420px, 72%), 780px, 100%)",
-                height: 2,
-                background: "rgba(255,255,255,0.85)",
-                margin: "0 auto 18px",
-              }}
-            />
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                gap: "clamp(16px, 4vw, 36px)",
-                flexWrap: "wrap",
-              }}
-            >
-              <a
-                href="tel:08041574773"
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 8,
-                  color: "#fff",
-                  textDecoration: "none",
-                  fontFamily: "var(--sp-font-sans)",
-                  fontSize: "clamp(17px, 2.1vw, 26px)",
-                }}
-              >
-                <RiPhoneFill size={28} color="var(--sp-green-400)" />
-                080-41574773
-              </a>
-              <a
-                href="mailto:info@summentorpro.com"
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 8,
-                  color: "#fff",
-                  textDecoration: "none",
-                  fontFamily: "var(--sp-font-sans)",
-                  fontSize: "clamp(17px, 2.1vw, 26px)",
-                }}
-              >
-                <RiMailFill size={28} color="var(--sp-green-400)" />
-                info@summentorpro.com
-              </a>
-            </div>
-          </div>
         </motion.div>
       </Container>
     </section>

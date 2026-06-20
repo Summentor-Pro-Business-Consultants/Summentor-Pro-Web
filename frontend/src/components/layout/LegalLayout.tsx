@@ -52,7 +52,7 @@ export default function LegalLayout({
               fontSize: "clamp(28px, 4vw, 46px)",
               fontWeight: 700,
               color: "#fff",
-              lineHeight: 1.15,
+              lineHeight: 1.1,
               letterSpacing: "var(--sp-track-h1)",
               margin: 0,
             }}
@@ -84,10 +84,10 @@ export default function LegalLayout({
       </div>
 
       <style>{`
-        .legal-prose { font-family: var(--sp-font-sans); font-size: 1.0625rem; line-height: 1.75; color: var(--sp-navy-800, #1f1f1f); }
-        .legal-prose h2 { font-size: 1.45em; font-weight: 600; margin: 1.9em 0 0.5em; color: #000; line-height: 1.25; letter-spacing: -0.01em; }
+        .legal-prose { font-family: var(--sp-font-sans); font-size: 1.0625rem; line-height: 1.6; color: var(--sp-navy-800, #1f1f1f); }
+        .legal-prose h2 { font-size: 1.45em; font-weight: 600; margin: 1.9em 0 0.5em; color: #000; line-height: 1.18; letter-spacing: -0.01em; }
         .legal-prose h2:first-child { margin-top: 0; }
-        .legal-prose h3 { font-size: 1.12em; font-weight: 600; margin: 1.5em 0 0.35em; color: #000; line-height: 1.3; }
+        .legal-prose h3 { font-size: 1.12em; font-weight: 600; margin: 1.5em 0 0.35em; color: #000; line-height: 1.2; }
         .legal-prose p { font-size: 1em; margin: 0 0 1.05em; }
         .legal-prose p:last-child { margin-bottom: 0; }
         .legal-prose ul { list-style: disc; padding-left: 1.4em; margin: 0.4em 0 1.2em; }

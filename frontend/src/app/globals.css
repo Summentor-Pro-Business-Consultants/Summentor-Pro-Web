@@ -5,11 +5,11 @@
      (no hue) so every dark background / card / border reads as black-to-grey
      rather than dark green. Kept the --sp-navy-* names so all references
      update in place. Lightness preserved per step. */
-  --sp-navy-1000: #070707;
-  --sp-navy-900: #252525;
-  --sp-navy-800: #252525;
-  --sp-navy-700: #232323;
-  --sp-navy-600: #2b2b2b;
+  --sp-navy-1000: #050505;
+  --sp-navy-900: #141414;
+  --sp-navy-800: #141414;
+  --sp-navy-700: #161616;
+  --sp-navy-600: #1d1d1d;
   --sp-navy-500: #3a3a3a;
   --sp-navy-400: #5c5c5c;
   --sp-navy-300: #8a8a8a;
@@ -96,7 +96,7 @@
   /* Dark sections — solid base + two alternating linear gradients. Neutral
      greys only (R = G = B) so the gradient reads as true black → lifted
      charcoal with NO green cast (the brand navy palette is green-tinted, so
-     it is deliberately not used here). Travels #0a0a0a → #242424 — visible
+     it is deliberately not used here). Travels #050505 → #161616 — visible
      depth while staying dark enough that the slant dividers read cleanly.
      Sections alternate direction down each page:
        • grad-a → light on the LEFT, dark on the RIGHT
@@ -105,24 +105,24 @@
   --sp-dark-bg: var(--sp-navy-1000);
   --sp-dark-grad-a: linear-gradient(
     to right,
-    #242424 0%,
-    #141414 55%,
-    #0a0a0a 100%
+    #161616 0%,
+    #0c0c0c 55%,
+    #050505 100%
   );
   --sp-dark-grad-b: linear-gradient(
     to right,
-    #0a0a0a 0%,
-    #141414 45%,
-    #242424 100%
+    #050505 0%,
+    #0c0c0c 45%,
+    #161616 100%
   );
   /* Slant height used for clip-path dividers between light and dark sections.
      Kept gentle so adjacent sections still read as connected. */
   --sp-slant: clamp(28px, 4.5vw, 60px);
 
-  --sp-lh-tight: 1.1;
-  --sp-lh-snug: 1.25;
-  --sp-lh-normal: 1.45;
-  --sp-lh-relaxed: 1.5;
+  --sp-lh-tight: 1.05;
+  --sp-lh-snug: 1.18;
+  --sp-lh-normal: 1.35;
+  --sp-lh-relaxed: 1.4;
 
   --sp-track-display: -0.02em;
   --sp-track-h1: -0.015em;

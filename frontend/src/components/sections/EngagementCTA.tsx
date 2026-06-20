@@ -116,7 +116,7 @@ export default function EngagementCTA() {
             style={{
               fontFamily: "var(--sp-font-sans)",
               fontSize: "clamp(24px, 2.6vw, 33px)",
-              lineHeight: 1.45,
+              lineHeight: 1.35,
               color: "#000",
               margin: "0 auto",
               maxWidth: 1120,
@@ -235,7 +235,7 @@ function FocusCard({ label, center }: { label: string; center: boolean }) {
         textAlign: "center",
         padding: "20px 22px",
         borderRadius: 0,
-        background: center ? "#252525" : "#fff",
+        background: center ? "#141414" : "#fff",
         border: center ? "4px solid var(--sp-green-500)" : "3px solid var(--sp-green-500)",
         transform: center ? "scale(1.06)" : "scale(1)",
         boxShadow: center
@@ -249,7 +249,7 @@ function FocusCard({ label, center }: { label: string; center: boolean }) {
           fontFamily: "var(--sp-font-sans)",
           fontSize: "clamp(20px, 2.3vw, 29px)",
           fontWeight: 500,
-          lineHeight: 1.3,
+          lineHeight: 1.2,
           color: center ? "#fff" : "#419d63",
           transition: "color 0.4s ease",
         }}

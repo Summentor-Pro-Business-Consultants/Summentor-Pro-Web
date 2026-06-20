@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence, useReducedMotion, type Variants } from "framer-motion";
 import { ChevronLeft, ChevronRight, ArrowLeft, ArrowRight } from "lucide-react";
@@ -211,6 +211,18 @@ function Hero() {
 
 // ─── 2. Story body ──────────────────────────────────────────────────────────
 function Story() {
+  // Show a short preview by default; the rest is revealed via "Know More".
+  const [expanded, setExpanded] = useState(false);
+  const PREVIEW_COUNT = 3;
+  const paraStyle: CSSProperties = {
+    fontFamily: "var(--sp-font-sans)",
+    fontSize: "clamp(23px, 2.4vw, 33px)",
+    fontWeight: 400,
+    lineHeight: 1.35,
+    color: "#000",
+    margin: "0 0 28px",
+    textAlign: "center",
+  };
   const paragraphs = [
     "At Summentor Pro, we specialize in strategic consulting, business innovation, government engagement, and ecosystem development.",
     "Founded by Nitika Shahi and Suhaib Ahmed, we have spent over a decade building one of India's emerging platforms focused on meaningful business growth, strategic collaboration, and ecosystem-driven engagement.",
@@ -246,23 +258,60 @@ function Story() {
             textAlign: "center",
           }}
         >
-          {paragraphs.map((p, i) => (
-            <motion.p
-              key={i}
-              variants={fadeUp}
-              style={{
-                fontFamily: "var(--sp-font-sans)",
-                fontSize: "clamp(23px, 2.4vw, 33px)",
-                fontWeight: 400,
-                lineHeight: 1.45,
-                color: "#000",
-                margin: "0 0 28px",
-                textAlign: "center",
-              }}
-            >
+          {paragraphs.slice(0, PREVIEW_COUNT).map((p, i) => (
+            <motion.p key={i} variants={fadeUp} style={paraStyle}>
               {p}
             </motion.p>
           ))}
+
+          {/* Revealed paragraphs animate on their own (the parent's whileInView
+              stagger has already fired once, so newly-mounted children can't
+              rely on inheriting its "show" state). */}
+          {expanded &&
+            paragraphs.slice(PREVIEW_COUNT).map((p, i) => (
+              <motion.p
+                key={PREVIEW_COUNT + i}
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, ease: EASE, delay: i * 0.06 }}
+                style={paraStyle}
+              >
+                {p}
+              </motion.p>
+            ))}
+
+          <motion.div variants={fadeUp} style={{ marginTop: 8 }}>
+            <button
+              type="button"
+              onClick={() => setExpanded((v) => !v)}
+              aria-expanded={expanded}
+              style={{
+                display: "inline-block",
+                padding: "18px 74px",
+                borderRadius: 999,
+                border: "2px solid var(--sp-green-600)",
+                background: "transparent",
+                color: "#000",
+                cursor: "pointer",
+                fontFamily: "var(--sp-font-sans)",
+                fontSize: "clamp(22px, 2.2vw, 30px)",
+                fontWeight: 600,
+                letterSpacing: "0.08em",
+                textTransform: "uppercase",
+                transition: "background 0.2s ease, color 0.2s ease",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = "var(--sp-green-600)";
+                e.currentTarget.style.color = "#fff";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = "transparent";
+                e.currentTarget.style.color = "#000";
+              }}
+            >
+              {expanded ? "Show Less" : "Know More"}
+            </button>
+          </motion.div>
         </motion.div>
       </Container>
     </section>
@@ -301,7 +350,7 @@ function PullQuote() {
             letterSpacing: "0.01em",
             textTransform: "uppercase",
             color: "#fff",
-            lineHeight: 1.15,
+            lineHeight: 1.1,
             textAlign: "center",
             margin: 0,
             position: "relative",
@@ -387,7 +436,7 @@ function WhatMakesUsDifferent() {
               color: "#000",
               maxWidth: 1280,
               margin: "22px auto 0",
-              lineHeight: 1.45,
+              lineHeight: 1.35,
             }}
           >
             Unlike conventional event or consulting companies, our approach is built around creating
@@ -454,7 +503,7 @@ function WhatMakesUsDifferent() {
             textAlign: "center",
             margin: "36px auto 0",
             maxWidth: 1400,
-            lineHeight: 1.45,
+            lineHeight: 1.35,
             position: "relative",
           }}
         >
@@ -479,7 +528,7 @@ function EnablerCard({ label, center }: { label: string; center: boolean }) {
         textAlign: "center",
         padding: "20px 22px",
         borderRadius: 0,
-        background: center ? "#252525" : "#fff",
+        background: center ? "#141414" : "#fff",
         border: center ? "2px solid var(--sp-green-600)" : "2px solid var(--sp-green-500)",
         transform: center ? "scale(1.05)" : "scale(1)",
         boxShadow: center
@@ -493,7 +542,7 @@ function EnablerCard({ label, center }: { label: string; center: boolean }) {
           fontFamily: "var(--sp-font-sans)",
           fontSize: "clamp(24px, 2.7vw, 35px)",
           fontWeight: 500,
-          lineHeight: 1.3,
+          lineHeight: 1.2,
           color: center ? "var(--sp-green-400)" : "#000",
           transition: "color 0.4s ease",
         }}
@@ -547,7 +596,7 @@ function Leadership() {
                   textTransform: "uppercase",
                   color: "#fff",
                   margin: 0,
-                  lineHeight: 1.05,
+                  lineHeight: 1.0,
                 }}
               >
                 LEADERSHIP
@@ -570,7 +619,7 @@ function Leadership() {
                 style={{
                   fontFamily: "var(--sp-font-sans)",
                   fontSize: "clamp(20px, 2.1vw, 28px)",
-                  lineHeight: 1.4,
+                  lineHeight: 1.3,
                   color: "#fff",
                   margin: "0 0 14px",
                 }}
@@ -582,7 +631,7 @@ function Leadership() {
                 style={{
                   fontFamily: "var(--sp-font-sans)",
                   fontSize: "clamp(20px, 2.1vw, 28px)",
-                  lineHeight: 1.4,
+                  lineHeight: 1.3,
                   color: "#fff",
                   margin: 0,
                 }}
@@ -750,7 +799,7 @@ function Initiatives() {
                           fontWeight: 700,
                           color: "var(--sp-green-400)",
                           margin: "0 0 18px",
-                          lineHeight: 1.22,
+                          lineHeight: 1.15,
                         }}
                       >
                         {it.title}
@@ -759,7 +808,7 @@ function Initiatives() {
                         style={{
                           fontFamily: "var(--sp-font-sans)",
                           fontSize: "clamp(16px, 1.75vw, 21px)",
-                          lineHeight: 1.4,
+                          lineHeight: 1.3,
                           color: "#fff",
                           margin: 0,
                         }}
@@ -811,7 +860,7 @@ function Initiatives() {
                               fontFamily: "var(--sp-font-sans)",
                               fontSize: "clamp(16px, 1.75vw, 21px)",
                               fontWeight: 400,
-                              lineHeight: 1.3,
+                              lineHeight: 1.2,
                               color: "#fff",
                               display: "flex",
                               alignItems: "flex-start",

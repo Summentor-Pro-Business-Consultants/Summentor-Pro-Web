@@ -74,7 +74,7 @@ export default function BlogsPage() {
               fontWeight: 700,
               color: "#fff",
               marginTop: 12,
-              lineHeight: 1.1,
+              lineHeight: 1.05,
               letterSpacing: "var(--sp-track-h1)",
             }}
           >
@@ -87,7 +87,7 @@ export default function BlogsPage() {
               color: "var(--sp-navy-300)",
               marginTop: 16,
               maxWidth: 520,
-              lineHeight: 1.45,
+              lineHeight: 1.35,
             }}
           >
             Perspectives on business growth, MSME strategy, government relations, and the Indian
@@ -164,7 +164,7 @@ export default function BlogsPage() {
                           fontSize: 18,
                           fontWeight: 500,
                           color: "#000",
-                          lineHeight: 1.3,
+                          lineHeight: 1.2,
                           margin: 0,
                           flex: 1,
                         }}
@@ -177,7 +177,7 @@ export default function BlogsPage() {
                             fontFamily: "var(--sp-font-sans)",
                             fontSize: 14,
                             color: "var(--sp-gray-600)",
-                            lineHeight: 1.45,
+                            lineHeight: 1.35,
                             marginTop: 10,
                             display: "-webkit-box",
                             WebkitLineClamp: 3,

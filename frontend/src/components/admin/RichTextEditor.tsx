@@ -124,7 +124,7 @@ export default function RichTextEditor({ value, onChange, placeholder }: Props) 
           "outline:none",
           "font-family:var(--sp-font-sans,sans-serif)",
           "font-size:15px",
-          "line-height:1.7",
+          "line-height:1.6",
           "color:#1E293B",
         ].join(";"),
       },

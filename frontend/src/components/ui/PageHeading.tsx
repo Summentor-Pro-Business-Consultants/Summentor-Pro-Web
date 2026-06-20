@@ -26,7 +26,7 @@ export default function PageHeading({ children, style, className }: PageHeadingP
         letterSpacing: "0.005em",
         textTransform: "uppercase",
         color: "#fff",
-        lineHeight: 1.08,
+        lineHeight: 1.02,
         textAlign: "center",
         margin: 0,
         ...style,

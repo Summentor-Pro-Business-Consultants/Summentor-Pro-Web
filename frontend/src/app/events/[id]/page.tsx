@@ -147,7 +147,7 @@ export default function EventDetailPage() {
               fontSize: "clamp(28px, 4vw, 48px)",
               fontWeight: 700,
               color: "#fff",
-              lineHeight: 1.15,
+              lineHeight: 1.1,
               margin: "0 0 24px",
               maxWidth: 700,
             }}
@@ -207,7 +207,7 @@ export default function EventDetailPage() {
                 style={{
                   fontFamily: "var(--sp-font-sans)",
                   fontSize: 16,
-                  lineHeight: 1.45,
+                  lineHeight: 1.35,
                   color: "var(--sp-gray-700)",
                 }}
               >

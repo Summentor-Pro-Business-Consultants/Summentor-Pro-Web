@@ -222,7 +222,7 @@ export default function HighlightsCarousel() {
                       fontWeight: 700,
                       color: "#fff",
                       margin: 0,
-                      lineHeight: 1.25,
+                      lineHeight: 1.18,
                       maxWidth: 360,
                     }}
                   >

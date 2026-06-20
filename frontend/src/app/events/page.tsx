@@ -228,7 +228,7 @@ function Hero() {
             style={{
               fontFamily: "var(--sp-font-sans)",
               fontSize: "clamp(22px, 2.4vw, 31px)",
-              lineHeight: 1.45,
+              lineHeight: 1.35,
               color: "#fff",
               maxWidth: 1040,
               margin: "0 auto",
@@ -313,7 +313,7 @@ function WhyOurPlatformsMatter() {
               color: "#000",
               maxWidth: 860,
               margin: "22px auto 0",
-              lineHeight: 1.45,
+              lineHeight: 1.35,
             }}
           >
             At Summentor Pro, we believe impactful business ecosystems are built through the right
@@ -392,7 +392,7 @@ function PlatformCard({ item, center }: { item: (typeof designedTo)[number]; cen
         gap: 16,
         padding: "clamp(18px, 2.3vw, 28px) 18px",
         borderRadius: 0,
-        background: center ? "#252525" : "#fff",
+        background: center ? "#141414" : "#fff",
         border: center ? "2px solid var(--sp-green-600)" : "1px solid #E5E7EB",
         transform: center ? "scale(1.05)" : "scale(1)",
         boxShadow: center
@@ -426,7 +426,7 @@ function PlatformCard({ item, center }: { item: (typeof designedTo)[number]; cen
           fontFamily: "var(--sp-font-sans)",
           fontSize: "clamp(24px, 2.9vw, 34px)",
           fontWeight: 500,
-          lineHeight: 1.3,
+          lineHeight: 1.2,
           color: accent ? "var(--sp-green-400)" : "#000",
           margin: 0,
           transition: "color 0.4s ease",
@@ -460,7 +460,7 @@ function FeaturedPlatforms() {
   }, []);
 
   const GAP = 24;
-  const cardW = Math.min(vw * 0.78, 1080);
+  const cardW = Math.min(vw * 0.8, 1160);
   const translate = -index * (cardW + GAP);
 
   // Auto-advance paused on hover and disabled for reduced-motion visitors.
@@ -482,7 +482,7 @@ function FeaturedPlatforms() {
       }}
     >
       <EdgeGreenGradient side="right" />
-      <Container>
+      <Container style={{ maxWidth: 1340 }}>
         <div style={{ textAlign: "center", marginBottom: 40, position: "relative" }}>
           <SectionHeading>
             FEATURED{" "}
@@ -534,17 +534,17 @@ function FeaturedPlatforms() {
                     </div>
 
                     {/* Content */}
-                    <div style={{ padding: "clamp(26px, 3.6vw, 44px)" }}>
+                    <div style={{ padding: "clamp(26px, 3.6vw, 44px) clamp(32px, 4.2vw, 54px)" }}>
                       <h3
                         style={{
                           fontFamily: "var(--sp-font-sans)",
-                          fontSize: "clamp(27px, 3.1vw, 41px)",
+                          fontSize: "clamp(28px, 3.3vw, 44px)",
                           fontWeight: 800,
                           textTransform: "uppercase",
                           letterSpacing: "0.01em",
                           color: "#fff",
                           margin: "0 0 14px",
-                          lineHeight: 1.2,
+                          lineHeight: 1.13,
                         }}
                       >
                         {p.title}
@@ -552,8 +552,8 @@ function FeaturedPlatforms() {
                       <p
                         style={{
                           fontFamily: "var(--sp-font-sans)",
-                          fontSize: "clamp(20px, 2.1vw, 27px)",
-                          lineHeight: 1.5,
+                          fontSize: "clamp(21px, 2.2vw, 28px)",
+                          lineHeight: 1.4,
                           color: "#fff",
                           margin: "0 0 24px",
                         }}
@@ -570,7 +570,7 @@ function FeaturedPlatforms() {
                       <p
                         style={{
                           fontFamily: "var(--sp-font-sans)",
-                          fontSize: "clamp(20px, 2.1vw, 27px)",
+                          fontSize: "clamp(21px, 2.2vw, 28px)",
                           fontWeight: 700,
                           color: "#fff",
                           margin: "0 0 16px",
@@ -581,8 +581,8 @@ function FeaturedPlatforms() {
                       <ul
                         style={{
                           margin: "0 0 26px",
-                          paddingLeft: 26,
-                          listStyleType: "disc",
+                          padding: 0,
+                          listStyle: "none",
                           display: "grid",
                           gap: 8,
                         }}
@@ -592,9 +592,9 @@ function FeaturedPlatforms() {
                             key={item}
                             style={{
                               fontFamily: "var(--sp-font-sans)",
-                              fontSize: "clamp(20px, 2.2vw, 27px)",
+                              fontSize: "clamp(21px, 2.3vw, 28px)",
                               color: "#fff",
-                              lineHeight: 1.45,
+                              lineHeight: 1.35,
                             }}
                           >
                             {item}
@@ -605,13 +605,13 @@ function FeaturedPlatforms() {
                         href="/contact"
                         style={{
                           display: "inline-block",
-                          padding: "11px 60px",
+                          padding: "8px 60px",
                           borderRadius: 999,
                           border: "2px solid var(--sp-green-500)",
                           color: "#fff",
                           textDecoration: "none",
                           fontFamily: "var(--sp-font-sans)",
-                          fontSize: 29,
+                          fontSize: 30,
                           fontWeight: 500,
                           letterSpacing: "0.06em",
                           textTransform: "uppercase",
@@ -669,7 +669,7 @@ function UpcomingPlatforms() {
       }}
     >
       <EdgeGreenGradient side="left" />
-      <Container>
+      <Container wide>
         <div style={{ textAlign: "center", marginBottom: 40, position: "relative" }}>
           <SectionHeading>
             UPCOMING{" "}
@@ -686,9 +686,9 @@ function UpcomingPlatforms() {
           style={{
             display: "flex",
             flexDirection: "column",
-            gap: 22,
+            gap: 26,
             position: "relative",
-            maxWidth: 1120,
+            maxWidth: 1240,
             margin: "0 auto",
           }}
         >
@@ -701,11 +701,11 @@ function UpcomingPlatforms() {
                 onMouseEnter={() => setHovered(i)}
                 onMouseLeave={() => setHovered(null)}
                 style={{
-                  // Black by default, green on hover (title + text stay white).
+                  // Black by default, green on hover (title + text turn black).
                   background: hover ? "var(--sp-green-600)" : "var(--sp-navy-900)",
                   color: "#fff",
-                  borderRadius: 12,
-                  padding: "clamp(34px, 5.5vw, 56px) clamp(28px, 5vw, 56px)",
+                  borderRadius: 38,
+                  padding: "clamp(30px, 4.5vw, 52px) clamp(48px, 7.5vw, 104px)",
                   textAlign: "center",
                   border: hover
                     ? "1px solid var(--sp-green-600)"
@@ -713,18 +713,23 @@ function UpcomingPlatforms() {
                   boxShadow: hover
                     ? "0 14px 36px rgba(5,161,113,0.28)"
                     : "0 4px 16px rgba(0,0,0,0.08)",
+                  // The top card stays sharp; the ones below are softly blurred
+                  // (cleared on hover so an interacted card reads clearly).
+                  filter: i > 0 && !hover ? "blur(2.5px)" : "none",
                   cursor: "default",
-                  transition: "background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease",
+                  transition:
+                    "background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease",
                 }}
               >
                 <p
                   style={{
                     fontFamily: "var(--sp-font-sans)",
-                    fontSize: "clamp(28px, 3.2vw, 42px)",
-                    fontWeight: 600,
-                    margin: "0 0 12px",
-                    lineHeight: 1.22,
-                    color: "#fff",
+                    fontSize: "clamp(32px, 3.7vw, 50px)",
+                    fontWeight: 500,
+                    margin: "0 0 14px",
+                    lineHeight: 1.15,
+                    color: hover ? "#000" : "#fff",
+                    transition: "color 0.3s ease",
                   }}
                 >
                   {p.title}
@@ -732,10 +737,11 @@ function UpcomingPlatforms() {
                 <p
                   style={{
                     fontFamily: "var(--sp-font-sans)",
-                    fontSize: "clamp(22px, 2.4vw, 31px)",
+                    fontSize: "clamp(26px, 2.9vw, 38px)",
                     margin: 0,
-                    lineHeight: 1.45,
-                    color: "rgba(255,255,255,0.9)",
+                    lineHeight: 1.35,
+                    color: hover ? "rgba(0,0,0,0.85)" : "rgba(255,255,255,0.9)",
+                    transition: "color 0.3s ease",
                   }}
                 >
                   {p.desc}
@@ -787,7 +793,7 @@ function PartnerCTA() {
               color: "#000",
               maxWidth: 1340,
               margin: "22px auto 40px",
-              lineHeight: 1.5,
+              lineHeight: 1.4,
             }}
           >
             Whether you are looking to strengthen your market presence, engage with industry
@@ -880,7 +886,7 @@ function PlatformHighlights() {
   }, []);
 
   const GAP = 20;
-  const cardW = Math.min(vw * 0.66, 900);
+  const cardW = Math.min(vw * 0.64, 1080);
   const translate = -index * (cardW + GAP);
 
   // Auto-advance disabled for reduced-motion visitors (arrows/dots remain).
@@ -894,7 +900,7 @@ function PlatformHighlights() {
 
   // The photo row is rendered OUTSIDE the dark section and pulled up so the
   // section's slanted bottom cuts through the middle of the (full) photos.
-  const OVERLAP = 235;
+  const OVERLAP = 270;
 
   return (
     <>
@@ -902,7 +908,7 @@ function PlatformHighlights() {
         style={{
           background: "var(--sp-dark-grad-b)",
           // Extra bottom space hosts the upper half of the straddling photos.
-          padding: "clamp(56px, 8vw, 80px) 0 clamp(260px, 24vw, 330px)",
+          padding: "clamp(56px, 8vw, 80px) 0 clamp(270px, 24vw, 345px)",
           position: "relative",
           zIndex: 1,
           overflow: "hidden",
@@ -934,7 +940,7 @@ function PlatformHighlights() {
           paddingBottom: "clamp(56px, 8vw, 100px)",
         }}
       >
-        <Container>
+        <Container style={{ maxWidth: 1340 }}>
           <div ref={viewportRef} style={{ position: "relative" }}>
             <div style={{ overflow: "hidden" }}>
               <div
@@ -953,7 +959,7 @@ function PlatformHighlights() {
                       style={{
                         flexShrink: 0,
                         width: cardW,
-                        aspectRatio: "16 / 10",
+                        aspectRatio: "16 / 10.5",
                         position: "relative",
                         overflow: "hidden",
                         boxShadow: "0 28px 56px -20px rgba(0,0,0,0.6)",
@@ -967,8 +973,9 @@ function PlatformHighlights() {
                         sizes="(max-width: 768px) 90vw, 66vw"
                         style={{
                           objectFit: "cover",
-                          // Active photo in colour, the peeking next one in B&W.
-                          filter: isActive ? "none" : "grayscale(1)",
+                          // Active photo in colour; the peeking next one in B&W
+                          // and slightly blurred.
+                          filter: isActive ? "none" : "grayscale(1) blur(3px)",
                           transition: "filter 0.5s ease",
                         }}
                       />
@@ -1022,8 +1029,8 @@ function GreenArrow({
         top: "50%",
         transform: "translate(-50%, -50%)",
         zIndex: 3,
-        width: "clamp(52px, 5.4vw, 64px)",
-        height: "clamp(52px, 5.4vw, 64px)",
+        width: "clamp(62px, 6.6vw, 82px)",
+        height: "clamp(62px, 6.6vw, 82px)",
         borderRadius: "50%",
         border: "none",
         background: "var(--sp-green-500)",
@@ -1040,7 +1047,7 @@ function GreenArrow({
         ((e.currentTarget as HTMLElement).style.background = "var(--sp-green-500)")
       }
     >
-      <Icon size={26} color="#fff" strokeWidth={2.4} />
+      <Icon size={32} color="#000" strokeWidth={2.4} />
     </button>
   );
 }
