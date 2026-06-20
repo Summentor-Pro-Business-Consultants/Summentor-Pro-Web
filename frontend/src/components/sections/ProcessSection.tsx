@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import Container from "@/components/ui/Container";
 import SectionHeading from "@/components/ui/SectionHeading";
 import WavyLine from "@/components/ui/WavyLine";
@@ -14,7 +14,11 @@ const tabs = [
     title: "Textile & Women Empowerment Initiative – Odisha",
     desc: "Supported the establishment of a textile unit in Balasore, Odisha focused on creating employment opportunities for women through skilling, stitching, and livelihood development initiatives.",
     bullets: ["Women empowerment", "Rural employment", "Skill development", "MSME support"],
-    photo: "/images/engagements/textile-women-empowerment-odisha.jpeg",
+    photos: [
+      "/images/engagements/textile-women-empowerment-odisha.jpeg",
+      "/images/engagements/csr-farmers-odisha-2.jpeg",
+      "/images/engagements/csr-farmers-odisha-1.jpeg",
+    ],
     photoAlt: "Textile & Women Empowerment Initiative – Odisha",
   },
   {
@@ -30,7 +34,11 @@ const tabs = [
       "Project opportunity mapping",
       "Business expansion strategy",
     ],
-    photo: "/images/engagements/msme-consulting-1.jpeg",
+    photos: [
+      "/images/engagements/msme-consulting-1.jpeg",
+      "/images/engagements/msme-consulting-2.jpeg",
+      "/images/engagements/meeting-union-minister-msme.jpeg",
+    ],
     photoAlt: "MSME Consulting & Government-Industry Engagement",
   },
   {
@@ -46,7 +54,11 @@ const tabs = [
       "Strategic networking",
       "Regional development opportunities",
     ],
-    photo: "/images/engagements/meeting-defence-minister.jpeg",
+    photos: [
+      "/images/engagements/meeting-defence-minister.jpeg",
+      "/images/engagements/meeting-deputy-cm-odisha.jpeg",
+      "/images/engagements/meeting-cm-delhi.jpeg",
+    ],
     photoAlt: "Architectural, Eco-Tourism & Infrastructure Project Facilitation – Northeast India",
   },
   {
@@ -55,7 +67,11 @@ const tabs = [
     title: "Biomethanation & Waste-to-Energy Initiative – Assam",
     desc: "Facilitated a biomethanation project in Guwahati, Assam for a Bengaluru-based client focused on sustainable waste management and renewable energy generation.",
     bullets: ["Sustainability", "Renewable energy", "Industrial facilitation", "Waste management"],
-    photo: "/images/engagements/csr-farmers-odisha-3.jpeg",
+    photos: [
+      "/images/engagements/csr-farmers-odisha-3.jpeg",
+      "/images/engagements/meeting-mos-msme.jpeg",
+      "/images/engagements/msme-consulting-2.jpeg",
+    ],
     photoAlt: "Biomethanation & Waste-to-Energy Initiative – Assam",
   },
   {
@@ -71,7 +87,11 @@ const tabs = [
       "Community impact & sustainability",
       "Seed production awareness & support",
     ],
-    photo: "/images/engagements/csr-farmers-odisha-1.jpeg",
+    photos: [
+      "/images/engagements/csr-farmers-odisha-1.jpeg",
+      "/images/engagements/csr-farmers-odisha-2.jpeg",
+      "/images/engagements/csr-farmers-odisha-3.jpeg",
+    ],
     photoAlt: "CSR Initiative for Farmers – Odisha",
   },
 ];
@@ -263,31 +283,63 @@ export default function ProcessSection() {
               </ul>
             </div>
 
-            {/* Right: photo — square, enlarged */}
-            <div
-              style={{
-                position: "relative",
-                borderRadius: 12,
-                overflow: "hidden",
-                aspectRatio: "1 / 1",
-                width: "100%",
-                maxWidth: 480,
-                marginLeft: "auto",
-                boxShadow: "0 8px 32px rgba(0,0,0,0.1)",
-              }}
-            >
-              <Image
-                src={current.photo}
-                alt={current.photoAlt}
-                fill
-                quality={100}
-                sizes="(max-width: 768px) 100vw, 50vw"
-                style={{ objectFit: "cover" }}
-              />
-            </div>
+            {/* Right: auto-sliding 3-photo carousel — square, enlarged */}
+            <TabPhotoCarousel photos={current.photos} alt={current.photoAlt} />
           </motion.div>
         </AnimatePresence>
       </Container>
     </section>
+  );
+}
+
+// Square photo frame that auto-slides through the tab's images. Remounts (and
+// resets to the first image) whenever the active tab changes, since its parent
+// motion.div is keyed by activeTab.
+function TabPhotoCarousel({ photos, alt }: { photos: string[]; alt: string }) {
+  const reduceMotion = useReducedMotion();
+  const [index, setIndex] = useState(0);
+
+  // Auto-advance every 3.5s; paused under reduced-motion.
+  useEffect(() => {
+    if (reduceMotion || photos.length <= 1) return;
+    const t = setInterval(() => {
+      setIndex((i) => (i + 1) % photos.length);
+    }, 3500);
+    return () => clearInterval(t);
+  }, [reduceMotion, photos.length]);
+
+  return (
+    <div
+      style={{
+        position: "relative",
+        borderRadius: 12,
+        overflow: "hidden",
+        aspectRatio: "1 / 1",
+        width: "100%",
+        maxWidth: 480,
+        marginLeft: "auto",
+        boxShadow: "0 8px 32px rgba(0,0,0,0.1)",
+      }}
+    >
+      <AnimatePresence initial={false}>
+        <motion.div
+          key={index}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.7, ease: "easeInOut" }}
+          style={{ position: "absolute", inset: 0 }}
+        >
+          <Image
+            src={photos[index]!}
+            alt={alt}
+            fill
+            quality={100}
+            sizes="(max-width: 768px) 100vw, 50vw"
+            style={{ objectFit: "cover" }}
+          />
+        </motion.div>
+      </AnimatePresence>
+    </div>
   );
 }
