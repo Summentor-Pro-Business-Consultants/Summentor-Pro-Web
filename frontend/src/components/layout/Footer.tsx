@@ -17,11 +17,13 @@ const footerColumns = [
     ],
   },
   {
-    title: "Company",
+    title: "Legal",
     links: [
-      { label: "About Us", href: "/about" },
-      { label: "Platforms", href: "/events" },
-      { label: "Contact", href: "/contact" },
+      { label: "Privacy Policy", href: "/privacy-policy" },
+      { label: "Terms of Service", href: "/terms-of-service" },
+      { label: "Disclaimer", href: "/disclaimer" },
+      { label: "Refund & Cancellation", href: "/refund-policy" },
+      { label: "Cookies Policy", href: "/cookies-policy" },
     ],
   },
   {
@@ -29,9 +31,12 @@ const footerColumns = [
     links: [
       { label: "Partner With Us", href: "/contact" },
       { label: "Explore Platforms", href: "/events" },
-      { label: "LinkedIn", href: "#" },
-      { label: "Twitter / X", href: "#" },
-      { label: "YouTube", href: "#" },
+      {
+        label: "LinkedIn",
+        href: "https://www.linkedin.com/company/summentor-pro-business-consultants",
+      },
+      { label: "Instagram", href: "https://www.instagram.com/summentorpro/" },
+      { label: "Facebook", href: "https://www.facebook.com/summentorpro/" },
     ],
   },
 ];
@@ -53,8 +58,17 @@ export default function Footer() {
   // section already serves as the closer). Solutions shows the band but with
   // its own "Looking to explore" copy + logo. About + Solutions get the flat
   // (no-slant) footer top.
-  const hideCta = ["/about", "/events", "/contact"].includes(pathname);
-  const flatFooter = ["/about", "/services", "/events", "/contact"].includes(pathname);
+  // Legal / policy pages get no CTA band and a flat (un-slanted) footer top so
+  // the dark footer meets the white policy body on a clean horizontal line.
+  const isLegal = [
+    "/privacy-policy",
+    "/terms-of-service",
+    "/disclaimer",
+    "/refund-policy",
+    "/cookies-policy",
+  ].includes(pathname);
+  const hideCta = ["/about", "/events", "/contact"].includes(pathname) || isLegal;
+  const flatFooter = ["/about", "/services", "/events", "/contact"].includes(pathname) || isLegal;
 
   return (
     <>
@@ -303,27 +317,31 @@ export default function Footer() {
                     {col.title}
                   </div>
                   <div className="flex flex-col gap-2.5">
-                    {col.links.map((link) => (
-                      <Link
-                        key={link.label}
-                        href={link.href}
-                        style={{
-                          fontFamily: "var(--sp-font-sans)",
-                          fontSize: 14,
-                          color: "var(--sp-navy-200)",
-                          textDecoration: "none",
-                          transition: "color 0.15s ease",
-                        }}
-                        onMouseEnter={(e) =>
-                          ((e.target as HTMLElement).style.color = "var(--sp-green-400)")
-                        }
-                        onMouseLeave={(e) =>
-                          ((e.target as HTMLElement).style.color = "var(--sp-navy-200)")
-                        }
-                      >
-                        {link.label}
-                      </Link>
-                    ))}
+                    {col.links.map((link) => {
+                      const isExternal = link.href.startsWith("http");
+                      return (
+                        <Link
+                          key={link.label}
+                          href={link.href}
+                          {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                          style={{
+                            fontFamily: "var(--sp-font-sans)",
+                            fontSize: 14,
+                            color: "var(--sp-navy-200)",
+                            textDecoration: "none",
+                            transition: "color 0.15s ease",
+                          }}
+                          onMouseEnter={(e) =>
+                            ((e.target as HTMLElement).style.color = "var(--sp-green-400)")
+                          }
+                          onMouseLeave={(e) =>
+                            ((e.target as HTMLElement).style.color = "var(--sp-navy-200)")
+                          }
+                        >
+                          {link.label}
+                        </Link>
+                      );
+                    })}
                   </div>
                 </div>
               ))}
@@ -388,20 +406,11 @@ export default function Footer() {
                 color: "var(--sp-navy-400)",
               }}
             >
-              <div>
+              <div style={{ fontSize: 13.5, color: "var(--sp-navy-300)" }}>
                 © {new Date().getFullYear()} Summentor Pro Business Consultants. All rights
                 reserved.
               </div>
               <div className="flex gap-6 items-center">
-                {["Privacy Policy", "Terms of Service"].map((item) => (
-                  <a
-                    key={item}
-                    href="#"
-                    style={{ color: "var(--sp-navy-400)", textDecoration: "none" }}
-                  >
-                    {item}
-                  </a>
-                ))}
                 <Link
                   href="/admin/dashboard"
                   style={{
