@@ -359,13 +359,13 @@ function PullQuote() {
           WHERE STRATEGY MEETS
           <br />
           <span
-            style={{ color: "#17d99d", fontWeight: 900, WebkitTextStroke: "1.4px currentColor" }}
+            style={{ color: "#45c69e", fontWeight: 900, WebkitTextStroke: "1.4px currentColor" }}
           >
             IMPACT, AND INNOVATION
           </span>
           <br />
           <span
-            style={{ color: "#17d99d", fontWeight: 900, WebkitTextStroke: "1.4px currentColor" }}
+            style={{ color: "#45c69e", fontWeight: 900, WebkitTextStroke: "1.4px currentColor" }}
           >
             DRIVES GROWTH.
           </span>
