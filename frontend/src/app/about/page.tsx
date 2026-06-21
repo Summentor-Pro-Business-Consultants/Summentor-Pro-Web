@@ -345,8 +345,8 @@ function PullQuote() {
           transition={{ duration: 0.7, ease: EASE }}
           style={{
             fontFamily: "var(--sp-font-sans)",
-            fontSize: "clamp(40px, 6vw, 80px)",
-            fontWeight: 900,
+            fontSize: "clamp(36px, 5.3vw, 72px)",
+            fontWeight: 700,
             letterSpacing: "0.01em",
             textTransform: "uppercase",
             color: "#fff",
@@ -358,9 +358,17 @@ function PullQuote() {
         >
           WHERE STRATEGY MEETS
           <br />
-          <span style={{ color: "#17d99d" }}>IMPACT, AND INNOVATION</span>
+          <span
+            style={{ color: "#17d99d", fontWeight: 900, WebkitTextStroke: "1.4px currentColor" }}
+          >
+            IMPACT, AND INNOVATION
+          </span>
           <br />
-          <span style={{ color: "#17d99d" }}>DRIVES GROWTH.</span>
+          <span
+            style={{ color: "#17d99d", fontWeight: 900, WebkitTextStroke: "1.4px currentColor" }}
+          >
+            DRIVES GROWTH.
+          </span>
         </motion.h2>
       </Container>
     </section>
