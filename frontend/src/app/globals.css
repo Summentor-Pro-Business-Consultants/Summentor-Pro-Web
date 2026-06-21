@@ -117,7 +117,7 @@
   );
   /* Slant height used for clip-path dividers between light and dark sections.
      Kept gentle so adjacent sections still read as connected. */
-  --sp-slant: clamp(28px, 4.5vw, 60px);
+  --sp-slant: clamp(36px, 5.8vw, 78px);
 
   --sp-lh-tight: 1.05;
   --sp-lh-snug: 1.18;
