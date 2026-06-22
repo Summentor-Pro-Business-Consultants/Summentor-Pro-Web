@@ -138,7 +138,7 @@ export default function Hero() {
             <span
               style={{
                 display: "inline-block",
-                background: "#058961",
+                background: "#45c69e",
                 color: "#fff",
                 fontStyle: "italic",
                 fontWeight: 700,
