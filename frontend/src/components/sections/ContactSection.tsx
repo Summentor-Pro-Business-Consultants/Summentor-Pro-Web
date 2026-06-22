@@ -165,7 +165,7 @@ function Hero() {
               <span style={{ display: "block", fontWeight: 600 }}>START YOUR JOURNEY WITH</span>
               <span
                 style={{
-                  background: "#058961",
+                  background: "#45c69e",
                   color: "#000",
                   display: "inline-block",
                   padding: "13px 8px",

@@ -184,7 +184,7 @@ function Hero() {
               </span>
               <span
                 style={{
-                  background: "#058961",
+                  background: "#45c69e",
                   color: "#000",
                   display: "inline-block",
                   // Equal top/bottom padding that the clip-path keeps ONLY on
@@ -803,7 +803,7 @@ function Initiatives() {
                       <h3
                         style={{
                           fontFamily: "var(--sp-font-sans)",
-                          fontSize: "clamp(26px, 3vw, 38px)",
+                          fontSize: "clamp(29px, 3.4vw, 43px)",
                           fontWeight: 700,
                           color: "var(--sp-green-400)",
                           margin: "0 0 18px",
