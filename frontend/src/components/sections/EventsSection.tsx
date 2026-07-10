@@ -1,7 +1,8 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import Container from "@/components/ui/Container";
 import EdgeGreenGradient from "@/components/ui/EdgeGreenGradient";
 import SectionHeading from "@/components/ui/SectionHeading";
@@ -13,19 +14,31 @@ const platforms = [
   {
     title: "MSME & STARTUP INNOVATION SUMMIT",
     desc: "A platform bringing together founders, industry leaders, policymakers, and ecosystem enablers to drive conversations around innovation, growth, and collaboration.",
-    photo: "/images/engagements/msme-consulting-2.jpeg",
+    photos: [
+      "/images/engagements/msme-consulting-2.jpeg",
+      "/images/engagements/msme-consulting-1.jpeg",
+      "/images/engagements/meeting-union-minister-msme.jpeg",
+    ],
     photoAlt: "MSME & Startup Innovation Summit",
   },
   {
     title: "WOMEN EMPOWERMENT & LEADERSHIP INITIATIVES",
     desc: "Focused dialogues and initiatives designed to encourage leadership, inclusion, and business growth for women entrepreneurs and business professionals.",
-    photo: "/images/engagements/textile-women-empowerment-odisha.jpeg",
+    photos: [
+      "/images/engagements/textile-women-empowerment-odisha.jpeg",
+      "/images/engagements/csr-farmers-odisha-1.jpeg",
+      "/images/engagements/csr-farmers-odisha-2.jpeg",
+    ],
     photoAlt: "Women Empowerment & Leadership Initiatives",
   },
   {
     title: "STRATEGIC INDUSTRY DIALOGUES",
     desc: "Curated forums enabling businesses and stakeholders to exchange insights, explore opportunities, and build meaningful collaborations.",
-    photo: "/images/engagements/meeting-union-minister-msme.jpeg",
+    photos: [
+      "/images/engagements/meeting-union-minister-msme.jpeg",
+      "/images/engagements/meeting-cm-delhi.jpeg",
+      "/images/engagements/meeting-defence-minister.jpeg",
+    ],
     photoAlt: "Strategic Industry Dialogues",
   },
 ];
@@ -78,7 +91,7 @@ export default function EventsSection() {
             const imageLeft = i % 2 === 1;
             const image = (
               <PlatformImage
-                src={platform.photo}
+                photos={platform.photos}
                 alt={platform.photoAlt}
                 accent={imageLeft ? "left" : "right"}
               />
@@ -90,7 +103,7 @@ export default function EventsSection() {
                   style={{
                     width: 4,
                     alignSelf: "stretch",
-                    background: "var(--sp-green-500)",
+                    background: "#05a171",
                     borderRadius: 2,
                     flexShrink: 0,
                   }}
@@ -99,7 +112,7 @@ export default function EventsSection() {
                   <h3
                     style={{
                       fontFamily: "var(--sp-font-sans)",
-                      fontSize: "clamp(26px, 3.5vw, 42px)",
+                      fontSize: "clamp(24px, 3.22vw, 39px)",
                       fontWeight: 800,
                       letterSpacing: "0.02em",
                       textTransform: "uppercase",
@@ -113,7 +126,7 @@ export default function EventsSection() {
                   <p
                     style={{
                       fontFamily: "var(--sp-font-sans)",
-                      fontSize: "clamp(20px, 2.3vw, 28px)",
+                      fontSize: "clamp(18px, 2.12vw, 26px)",
                       lineHeight: 1.35,
                       fontWeight: 400,
                       color: "#ffffff",
@@ -161,15 +174,28 @@ export default function EventsSection() {
 }
 
 // ─── Tilted photo with a green geometric accent peeking behind it ───────────
+// The photos auto-crossfade one after another within the tilted frame.
 function PlatformImage({
-  src,
+  photos,
   alt,
   accent,
 }: {
-  src: string;
+  photos: string[];
   alt: string;
   accent: "left" | "right";
 }) {
+  const reduceMotion = useReducedMotion();
+  const [index, setIndex] = useState(0);
+
+  // Advance every 2.6s; paused under reduced-motion.
+  useEffect(() => {
+    if (reduceMotion || photos.length <= 1) return;
+    const t = setInterval(() => {
+      setIndex((i) => (i + 1) % photos.length);
+    }, 2600);
+    return () => clearInterval(t);
+  }, [reduceMotion, photos.length]);
+
   // Image + green accent share the same tilt; the accent is offset toward
   // the outer top corner so it pokes out behind the photo. Sharp corners on
   // both (no border-radius) to match the design.
@@ -184,12 +210,12 @@ function PlatformImage({
         style={{
           position: "absolute",
           inset: 26,
-          background: "var(--sp-green-500)",
+          background: "#05a171",
           transform: `rotate(${tilt}deg) translate(${accentShift}, -24px)`,
           zIndex: 0,
         }}
       />
-      {/* Photo — sharp corners */}
+      {/* Photo — sharp corners; crossfades between the group of images */}
       <div
         style={{
           position: "relative",
@@ -200,14 +226,25 @@ function PlatformImage({
           boxShadow: "0 28px 56px -18px rgba(0,0,0,0.7)",
         }}
       >
-        <Image
-          src={src}
-          alt={alt}
-          fill
-          quality={100}
-          sizes="(max-width: 768px) 100vw, 45vw"
-          style={{ objectFit: "cover", objectPosition: "center" }}
-        />
+        <AnimatePresence initial={false}>
+          <motion.div
+            key={index}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.7, ease: "easeInOut" }}
+            style={{ position: "absolute", inset: 0 }}
+          >
+            <Image
+              src={photos[index]!}
+              alt={alt}
+              fill
+              quality={100}
+              sizes="(max-width: 768px) 100vw, 45vw"
+              style={{ objectFit: "cover", objectPosition: "center" }}
+            />
+          </motion.div>
+        </AnimatePresence>
       </div>
     </div>
   );

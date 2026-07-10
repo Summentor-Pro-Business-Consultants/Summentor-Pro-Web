@@ -161,8 +161,9 @@ body {
   /* Body copy is Poppins Regular (400) — lighter than the old Medium so
      paragraphs read softer; labels/buttons set their own heavier weight. */
   font-weight: 400;
-  /* 17px base = 1.0625rem. All headings + body sizes scale from this. */
-  font-size: 1.0625rem;
+  /* ~15.6px base = 0.9775rem. All rem/em headings + body sizes scale from
+     this (kept ~8% smaller than the former 17px base). */
+  font-size: 0.9775rem;
   line-height: var(--sp-lh-normal);
   color: var(--sp-fg);
   background: var(--sp-bg);

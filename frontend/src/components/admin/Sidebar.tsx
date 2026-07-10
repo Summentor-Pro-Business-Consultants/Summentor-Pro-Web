@@ -94,11 +94,11 @@ export default function Sidebar() {
           borderBottom: "1px solid rgba(255,255,255,0.08)",
         }}
       >
-        <div style={{ color: "#fff", fontWeight: 700, fontSize: 18, letterSpacing: "-0.01em" }}>
+        <div style={{ color: "#fff", fontWeight: 700, fontSize: 16.6, letterSpacing: "-0.01em" }}>
           Summentor Pro
         </div>
         {/* Subtle label below the product name to signal this is the admin area */}
-        <div style={{ color: "#64748B", fontSize: 11, marginTop: 2, letterSpacing: "0.05em" }}>
+        <div style={{ color: "#64748B", fontSize: 10.1, marginTop: 2, letterSpacing: "0.05em" }}>
           ADMIN PANEL
         </div>
       </div>
@@ -126,7 +126,7 @@ export default function Sidebar() {
                 color: active ? "#fff" : "#A0AEC0",
                 background: active ? "#3C50E0" : "transparent",
                 textDecoration: "none",
-                fontSize: 14,
+                fontSize: 12.9,
                 fontWeight: active ? 600 : 400,
                 transition: "background 0.15s, color 0.15s",
               }}
@@ -144,10 +144,10 @@ export default function Sidebar() {
         {/* Display the logged-in admin's name and email from the auth context.
             Falls back to "Admin" if name is not populated. */}
         <div style={{ padding: "8px 12px", marginBottom: 4 }}>
-          <div style={{ color: "#fff", fontSize: 13, fontWeight: 500 }}>
+          <div style={{ color: "#fff", fontSize: 12, fontWeight: 500 }}>
             {admin?.name ?? "Admin"}
           </div>
-          <div style={{ color: "#64748B", fontSize: 11, marginTop: 1 }}>{admin?.email}</div>
+          <div style={{ color: "#64748B", fontSize: 10.1, marginTop: 1 }}>{admin?.email}</div>
         </div>
 
         {/* View Website — opens the public-facing site in a new tab */}
@@ -162,7 +162,7 @@ export default function Sidebar() {
             borderRadius: 6,
             color: "#A0AEC0",
             textDecoration: "none",
-            fontSize: 14,
+            fontSize: 12.9,
             marginBottom: 2,
           }}
         >
@@ -183,7 +183,7 @@ export default function Sidebar() {
             background: "transparent",
             border: "none",
             color: "#EF4444", // Red to signal a destructive / exit action
-            fontSize: 14,
+            fontSize: 12.9,
             cursor: "pointer",
             textAlign: "left",
           }}

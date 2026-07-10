@@ -23,7 +23,7 @@ const inputStyle: React.CSSProperties = {
   padding: "10px 14px",
   border: "1px solid var(--sp-gray-300)",
   borderRadius: 6,
-  fontSize: 14,
+  fontSize: 12.9,
   color: "var(--sp-gray-900)",
   fontFamily: "var(--sp-font-sans)",
   boxSizing: "border-box",
@@ -132,7 +132,7 @@ export default function EventDetailPage() {
               color: "var(--sp-gold-400)",
               padding: "4px 12px",
               borderRadius: 999,
-              fontSize: 11,
+              fontSize: 10.1,
               fontWeight: 700,
               letterSpacing: "0.06em",
               fontFamily: "var(--sp-font-sans)",
@@ -144,7 +144,7 @@ export default function EventDetailPage() {
           <h1
             style={{
               fontFamily: "var(--sp-font-display)",
-              fontSize: "clamp(28px, 4vw, 48px)",
+              fontSize: "clamp(26px, 3.68vw, 44px)",
               fontWeight: 700,
               color: "#fff",
               lineHeight: 1.1,
@@ -175,7 +175,7 @@ export default function EventDetailPage() {
                   gap: 8,
                   color: "var(--sp-navy-300)",
                   fontFamily: "var(--sp-font-sans)",
-                  fontSize: 14,
+                  fontSize: 12.9,
                 }}
               >
                 <Icon size={15} strokeWidth={1.5} color="var(--sp-gold-400)" />
@@ -195,7 +195,7 @@ export default function EventDetailPage() {
               <h2
                 style={{
                   fontFamily: "var(--sp-font-display)",
-                  fontSize: 28,
+                  fontSize: 25.8,
                   fontWeight: 700,
                   color: "#000",
                   marginBottom: 16,
@@ -206,7 +206,7 @@ export default function EventDetailPage() {
               <p
                 style={{
                   fontFamily: "var(--sp-font-sans)",
-                  fontSize: 16,
+                  fontSize: 14.7,
                   lineHeight: 1.35,
                   color: "var(--sp-gray-700)",
                 }}
@@ -218,7 +218,7 @@ export default function EventDetailPage() {
                   style={{
                     marginTop: 20,
                     fontFamily: "var(--sp-font-sans)",
-                    fontSize: 14,
+                    fontSize: 12.9,
                     color: "var(--sp-gray-600)",
                   }}
                 >
@@ -240,7 +240,7 @@ export default function EventDetailPage() {
               <h3
                 style={{
                   fontFamily: "var(--sp-font-sans)",
-                  fontSize: 22,
+                  fontSize: 20.2,
                   fontWeight: 500,
                   color: "#000",
                   margin: "0 0 6px",
@@ -251,7 +251,7 @@ export default function EventDetailPage() {
               <p
                 style={{
                   fontFamily: "var(--sp-font-sans)",
-                  fontSize: 14,
+                  fontSize: 12.9,
                   color: "var(--sp-gray-600)",
                   margin: "0 0 20px",
                 }}
@@ -271,7 +271,7 @@ export default function EventDetailPage() {
                   <p
                     style={{
                       fontFamily: "var(--sp-font-sans)",
-                      fontSize: 15,
+                      fontSize: 13.8,
                       color: "var(--sp-gold-900)",
                       margin: 0,
                     }}
@@ -289,7 +289,7 @@ export default function EventDetailPage() {
                     <div>
                       <label
                         style={{
-                          fontSize: 12,
+                          fontSize: 11,
                           fontWeight: 600,
                           color: "var(--sp-gray-700)",
                           display: "block",
@@ -309,7 +309,7 @@ export default function EventDetailPage() {
                     <div>
                       <label
                         style={{
-                          fontSize: 12,
+                          fontSize: 11,
                           fontWeight: 600,
                           color: "var(--sp-gray-700)",
                           display: "block",
@@ -332,7 +332,7 @@ export default function EventDetailPage() {
                     <div>
                       <label
                         style={{
-                          fontSize: 12,
+                          fontSize: 11,
                           fontWeight: 600,
                           color: "var(--sp-gray-700)",
                           display: "block",
@@ -351,7 +351,7 @@ export default function EventDetailPage() {
                     <div>
                       <label
                         style={{
-                          fontSize: 12,
+                          fontSize: 11,
                           fontWeight: 600,
                           color: "var(--sp-gray-700)",
                           display: "block",
@@ -371,7 +371,7 @@ export default function EventDetailPage() {
                   <div>
                     <label
                       style={{
-                        fontSize: 12,
+                        fontSize: 11,
                         fontWeight: 600,
                         color: "var(--sp-gray-700)",
                         display: "block",
@@ -393,7 +393,7 @@ export default function EventDetailPage() {
                     />
                   </div>
                   {error && (
-                    <p style={{ fontSize: 13, color: "var(--sp-danger-500)", margin: 0 }}>
+                    <p style={{ fontSize: 12, color: "var(--sp-danger-500)", margin: 0 }}>
                       {error}
                     </p>
                   )}
@@ -411,7 +411,7 @@ export default function EventDetailPage() {
                       border: "none",
                       borderRadius: 6,
                       fontFamily: "var(--sp-font-sans)",
-                      fontSize: 15,
+                      fontSize: 13.8,
                       fontWeight: 600,
                       cursor: submitting ? "wait" : "pointer",
                       marginTop: 4,

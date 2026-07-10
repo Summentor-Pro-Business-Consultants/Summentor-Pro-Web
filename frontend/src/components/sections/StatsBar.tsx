@@ -36,9 +36,9 @@ function AnimatedStat({ target }: { target: number }) {
       style={{
         fontFamily: "var(--sp-font-sans)",
         fontWeight: 800,
-        color: "var(--sp-green-500)",
+        color: "#17d99d",
         lineHeight: 1,
-        fontSize: "clamp(30px, 3.4vw, 48px)",
+        fontSize: "clamp(28px, 3.13vw, 44px)",
         letterSpacing: "-0.02em",
         display: "block",
         marginBottom: 6,
@@ -50,8 +50,8 @@ function AnimatedStat({ target }: { target: number }) {
 }
 
 const item: Variants = {
-  hidden: { opacity: 0, y: 26 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASE } },
+  hidden: { opacity: 0, y: 24 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.65, ease: EASE } },
 };
 
 // ─── Building blocks ────────────────────────────────────────────────────────
@@ -84,7 +84,7 @@ const labelStyle: React.CSSProperties = {
   fontFamily: "var(--sp-font-sans)",
   fontWeight: 400,
   color: "#fff",
-  fontSize: "clamp(21px, 2.25vw, 30px)",
+  fontSize: "clamp(19px, 2.07vw, 28px)",
   lineHeight: 1.2,
   margin: 0,
   // Labels carry explicit <br/> line breaks to match the design exactly;

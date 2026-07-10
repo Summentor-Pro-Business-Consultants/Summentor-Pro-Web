@@ -56,7 +56,7 @@ interface Blog {
 const th: React.CSSProperties = {
   padding: "10px 16px",
   textAlign: "left",
-  fontSize: 12,
+  fontSize: 11,
   fontWeight: 600,
   color: "#64748B",
   letterSpacing: "0.04em",
@@ -67,7 +67,7 @@ const th: React.CSSProperties = {
 };
 const td: React.CSSProperties = {
   padding: "12px 16px",
-  fontSize: 14,
+  fontSize: 12.9,
   color: "#1E293B",
   borderBottom: "1px solid #F1F5F9",
   verticalAlign: "middle",
@@ -153,7 +153,7 @@ export default function BlogsPage() {
               borderRadius: 7,
               background: "#3C50E0",
               color: "#fff",
-              fontSize: 14,
+              fontSize: 12.9,
               fontWeight: 600,
               textDecoration: "none",
             }}
@@ -178,7 +178,7 @@ export default function BlogsPage() {
             padding: "8px 12px",
             borderRadius: 7,
             border: "1px solid #E2E8F0",
-            fontSize: 14,
+            fontSize: 12.9,
             width: 240,
           }}
         />
@@ -193,7 +193,7 @@ export default function BlogsPage() {
             padding: "8px 12px",
             borderRadius: 7,
             border: "1px solid #E2E8F0",
-            fontSize: 14,
+            fontSize: 12.9,
           }}
         >
           <option value="">All statuses</option>
@@ -267,12 +267,12 @@ export default function BlogsPage() {
                       {/* Title capped at 300px wide to prevent layout stretching */}
                       <div style={{ fontWeight: 500, maxWidth: 300 }}>{b.title}</div>
                       {/* Slug shown as the public URL path for quick reference */}
-                      <div style={{ fontSize: 12, color: "#94A3B8", marginTop: 2 }}>
+                      <div style={{ fontSize: 11, color: "#94A3B8", marginTop: 2 }}>
                         /blogs/{b.slug}
                       </div>
                     </td>
                     <td style={td}>{b.author}</td>
-                    <td style={{ ...td, color: "#64748B", fontSize: 13 }}>
+                    <td style={{ ...td, color: "#64748B", fontSize: 12 }}>
                       {/*
                       Tags: split the comma-separated string, trim whitespace,
                       filter out any empty strings (from trailing commas),
@@ -293,7 +293,7 @@ export default function BlogsPage() {
                                   padding: "1px 7px",
                                   marginRight: 4,
                                   marginBottom: 2,
-                                  fontSize: 11,
+                                  fontSize: 10.1,
                                 }}
                               >
                                 {t}
@@ -308,7 +308,7 @@ export default function BlogsPage() {
                           display: "inline-block",
                           padding: "3px 10px",
                           borderRadius: 20,
-                          fontSize: 12,
+                          fontSize: 11,
                           fontWeight: 600,
                           ...(STATUS_COLORS[b.status] ?? {}),
                         }}
@@ -316,7 +316,7 @@ export default function BlogsPage() {
                         {b.status}
                       </span>
                     </td>
-                    <td style={{ ...td, color: "#94A3B8", fontSize: 12, whiteSpace: "nowrap" }}>
+                    <td style={{ ...td, color: "#94A3B8", fontSize: 11, whiteSpace: "nowrap" }}>
                       {/*
                       Show publishedAt if available (meaningful "went live" date),
                       otherwise fall back to createdAt (draft creation date).
@@ -380,7 +380,7 @@ export default function BlogsPage() {
               borderTop: "1px solid #F1F5F9",
             }}
           >
-            <span style={{ fontSize: 13, color: "#64748B" }}>
+            <span style={{ fontSize: 12, color: "#64748B" }}>
               Page {page} of {Math.ceil(total / 12)}
             </span>
             <div style={{ display: "flex", gap: 8 }}>
@@ -393,7 +393,7 @@ export default function BlogsPage() {
                   border: "1px solid #E2E8F0",
                   background: page === 1 ? "#F8FAFC" : "#fff",
                   cursor: page === 1 ? "default" : "pointer",
-                  fontSize: 13,
+                  fontSize: 12,
                 }}
               >
                 Prev
@@ -407,7 +407,7 @@ export default function BlogsPage() {
                   border: "1px solid #E2E8F0",
                   background: "#fff",
                   cursor: "pointer",
-                  fontSize: 13,
+                  fontSize: 12,
                 }}
               >
                 Next

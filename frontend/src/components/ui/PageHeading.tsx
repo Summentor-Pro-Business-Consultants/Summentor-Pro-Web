@@ -21,7 +21,7 @@ export default function PageHeading({ children, style, className }: PageHeadingP
       className={className}
       style={{
         fontFamily: "var(--sp-font-sans)",
-        fontSize: "clamp(40px, 7vw, 88px)",
+        fontSize: "clamp(37px, 6.44vw, 81px)",
         fontWeight: 900,
         letterSpacing: "0.005em",
         textTransform: "uppercase",

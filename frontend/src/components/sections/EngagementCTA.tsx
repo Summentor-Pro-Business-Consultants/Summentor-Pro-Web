@@ -44,7 +44,7 @@ export default function EngagementCTA() {
     const id = setInterval(() => {
       setDir(1);
       setActive((a) => (a + 1) % n);
-    }, 5000);
+    }, 3200);
     return () => clearInterval(id);
   }, [reduceMotion, paused, n]);
 
@@ -101,7 +101,7 @@ export default function EngagementCTA() {
           <p
             style={{
               fontFamily: "var(--sp-font-sans)",
-              fontSize: "clamp(26px, 2.9vw, 36px)",
+              fontSize: "clamp(24px, 2.67vw, 33px)",
               fontWeight: 500,
               color: "#000",
               margin: "18px auto 28px",
@@ -115,7 +115,7 @@ export default function EngagementCTA() {
           <p
             style={{
               fontFamily: "var(--sp-font-sans)",
-              fontSize: "clamp(24px, 2.6vw, 33px)",
+              fontSize: "clamp(22px, 2.39vw, 30px)",
               lineHeight: 1.35,
               color: "#000",
               margin: "0 auto",
@@ -166,7 +166,7 @@ export default function EngagementCTA() {
                   initial={{ opacity: 0, x: dir >= 0 ? 60 : -60 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: dir >= 0 ? -60 : 60 }}
-                  transition={{ duration: 0.4, ease: EASE }}
+                  transition={{ duration: 0.22, ease: EASE }}
                   className="sp-trio"
                   style={{
                     display: "grid",
@@ -207,7 +207,7 @@ export default function EngagementCTA() {
                     width: isActive ? 30 : 24,
                     height: 3,
                     borderRadius: 2,
-                    background: isActive ? "var(--sp-green-500)" : "#334155",
+                    background: isActive ? "#05a171" : "#334155",
                     border: "none",
                     padding: 0,
                     cursor: "pointer",
@@ -236,7 +236,7 @@ function FocusCard({ label, center }: { label: string; center: boolean }) {
         padding: "20px 22px",
         borderRadius: 0,
         background: center ? "#141414" : "#fff",
-        border: center ? "4px solid var(--sp-green-500)" : "3px solid var(--sp-green-500)",
+        border: center ? "4px solid #05a171" : "3px solid #05a171",
         transform: center ? "scale(1.06)" : "scale(1)",
         boxShadow: center
           ? "0 26px 50px -22px rgba(0,0,0,0.45)"
@@ -247,7 +247,7 @@ function FocusCard({ label, center }: { label: string; center: boolean }) {
       <span
         style={{
           fontFamily: "var(--sp-font-sans)",
-          fontSize: "clamp(20px, 2.3vw, 29px)",
+          fontSize: "clamp(18px, 2.12vw, 27px)",
           fontWeight: 500,
           lineHeight: 1.2,
           color: center ? "#fff" : "#419d63",
@@ -275,7 +275,7 @@ function ArrowButton({ dir, onClick }: { dir: "prev" | "next"; onClick: () => vo
         height: "clamp(38px, 4vw, 46px)",
         borderRadius: "50%",
         background: "#fff",
-        border: `1.5px solid ${hover ? "var(--sp-green-500)" : "#000"}`,
+        border: `1.5px solid ${hover ? "#05a171" : "#000"}`,
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -286,7 +286,7 @@ function ArrowButton({ dir, onClick }: { dir: "prev" | "next"; onClick: () => vo
       <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
         <path
           d={dir === "prev" ? "M15 5 L8 12 L15 19" : "M9 5 L16 12 L9 19"}
-          stroke={hover ? "var(--sp-green-600)" : "#000"}
+          stroke={hover ? "#05a171" : "#000"}
           strokeWidth="2.6"
           strokeLinecap="round"
           strokeLinejoin="round"

@@ -77,7 +77,7 @@ const inputStyle: React.CSSProperties = {
   padding: "8px 12px",
   border: "1px solid #E2E8F0",
   borderRadius: 6,
-  fontSize: 14,
+  fontSize: 12.9,
   color: "#1E293B",
   background: "#fff",
   outline: "none",
@@ -198,7 +198,7 @@ export default function EventFormModal({ event, onClose, onSaved }: Props) {
             marginBottom: 20,
           }}
         >
-          <h2 style={{ margin: 0, fontSize: 18, fontWeight: 700, color: "#1E293B" }}>
+          <h2 style={{ margin: 0, fontSize: 16.6, fontWeight: 700, color: "#1E293B" }}>
             {/* Dynamic title: "Edit Event" when updating, "Create Event" when creating */}
             {isEdit ? "Edit Event" : "Create Event"}
           </h2>
@@ -216,7 +216,7 @@ export default function EventFormModal({ event, onClose, onSaved }: Props) {
           <div>
             <label
               style={{
-                fontSize: 13,
+                fontSize: 12,
                 fontWeight: 500,
                 color: "#374151",
                 display: "block",
@@ -237,7 +237,7 @@ export default function EventFormModal({ event, onClose, onSaved }: Props) {
           <div>
             <label
               style={{
-                fontSize: 13,
+                fontSize: 12,
                 fontWeight: 500,
                 color: "#374151",
                 display: "block",
@@ -259,7 +259,7 @@ export default function EventFormModal({ event, onClose, onSaved }: Props) {
             <div>
               <label
                 style={{
-                  fontSize: 13,
+                  fontSize: 12,
                   fontWeight: 500,
                   color: "#374151",
                   display: "block",
@@ -279,7 +279,7 @@ export default function EventFormModal({ event, onClose, onSaved }: Props) {
               {/* Venue is optional — no asterisk */}
               <label
                 style={{
-                  fontSize: 13,
+                  fontSize: 12,
                   fontWeight: 500,
                   color: "#374151",
                   display: "block",
@@ -301,7 +301,7 @@ export default function EventFormModal({ event, onClose, onSaved }: Props) {
             <div>
               <label
                 style={{
-                  fontSize: 13,
+                  fontSize: 12,
                   fontWeight: 500,
                   color: "#374151",
                   display: "block",
@@ -323,7 +323,7 @@ export default function EventFormModal({ event, onClose, onSaved }: Props) {
               {/* Capacity is optional — if left blank it is omitted from the payload */}
               <label
                 style={{
-                  fontSize: 13,
+                  fontSize: 12,
                   fontWeight: 500,
                   color: "#374151",
                   display: "block",
@@ -347,7 +347,7 @@ export default function EventFormModal({ event, onClose, onSaved }: Props) {
             <div>
               <label
                 style={{
-                  fontSize: 13,
+                  fontSize: 12,
                   fontWeight: 500,
                   color: "#374151",
                   display: "block",
@@ -369,7 +369,7 @@ export default function EventFormModal({ event, onClose, onSaved }: Props) {
             <div>
               <label
                 style={{
-                  fontSize: 13,
+                  fontSize: 12,
                   fontWeight: 500,
                   color: "#374151",
                   display: "block",
@@ -391,7 +391,7 @@ export default function EventFormModal({ event, onClose, onSaved }: Props) {
           </div>
 
           {/* Error message — only rendered when the API call fails */}
-          {error && <p style={{ color: "#EF4444", fontSize: 13 }}>{error}</p>}
+          {error && <p style={{ color: "#EF4444", fontSize: 12 }}>{error}</p>}
 
           {/* ── Form footer actions ─────────────────────────────────────────── */}
           <div style={{ display: "flex", gap: 10, justifyContent: "flex-end", marginTop: 4 }}>
@@ -405,7 +405,7 @@ export default function EventFormModal({ event, onClose, onSaved }: Props) {
                 border: "1px solid #E2E8F0",
                 background: "#fff",
                 color: "#64748B",
-                fontSize: 14,
+                fontSize: 12.9,
                 cursor: "pointer",
               }}
             >
@@ -422,7 +422,7 @@ export default function EventFormModal({ event, onClose, onSaved }: Props) {
                 border: "none",
                 background: "#3C50E0",
                 color: "#fff",
-                fontSize: 14,
+                fontSize: 12.9,
                 fontWeight: 600,
                 cursor: saving ? "wait" : "pointer",
               }}

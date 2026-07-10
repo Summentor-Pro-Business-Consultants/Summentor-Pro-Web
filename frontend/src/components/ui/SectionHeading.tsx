@@ -32,7 +32,7 @@ export default function SectionHeading({
         // Goia display font (forced by the global h2 rule), which ships only
         // SemiBold (600) and Bold (700) — so 700 is the smallest available
         // weight step up from SemiBold.
-        fontSize: "clamp(30px, 4.3vw, 54px)",
+        fontSize: "clamp(28px, 3.96vw, 50px)",
         fontWeight: 700,
         letterSpacing: "0.02em",
         textTransform: "uppercase",

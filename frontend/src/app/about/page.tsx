@@ -12,6 +12,10 @@ import WavyLine from "@/components/ui/WavyLine";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
+// Same landing video as the home hero (compressed 720p loop in /public/videos).
+const HERO_VIDEO = "/videos/spro-website.mp4";
+const HERO_POSTER = "/images/engagements/msme-consulting-2.jpeg";
+
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 24 },
   show: { opacity: 1, y: 0, transition: { duration: 0.65, ease: EASE } },
@@ -99,10 +103,23 @@ const initiatives = [
   },
 ];
 
-const leadershipPhotos = [
-  "/images/engagements/meeting-mos-msme.jpeg",
-  "/images/engagements/meeting-defence-minister.jpeg",
-  "/images/engagements/meeting-cm-delhi.jpeg",
+// One group per photo slot; each slot crossfades through its own images.
+const leadershipGroups = [
+  [
+    "/images/engagements/meeting-mos-msme.jpeg",
+    "/images/engagements/meeting-union-minister-msme.jpeg",
+    "/images/engagements/msme-consulting-1.jpeg",
+  ],
+  [
+    "/images/engagements/meeting-defence-minister.jpeg",
+    "/images/engagements/meeting-deputy-cm-odisha.jpeg",
+    "/images/engagements/msme-consulting-2.jpeg",
+  ],
+  [
+    "/images/engagements/meeting-cm-delhi.jpeg",
+    "/images/engagements/textile-women-empowerment-odisha.jpeg",
+    "/images/engagements/csr-farmers-odisha-1.jpeg",
+  ],
 ];
 
 export default function AboutPage() {
@@ -120,11 +137,28 @@ export default function AboutPage() {
 
 // ─── 1. Hero ────────────────────────────────────────────────────────────────
 function Hero() {
+  // Autoplaying muted background video (same as the home hero) with a still
+  // poster fallback for reduced-motion visitors.
+  const reduceMotion = useReducedMotion();
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  const showStill = mounted && reduceMotion;
+
+  const videoRef = useRef<HTMLVideoElement>(null);
+  useEffect(() => {
+    const v = videoRef.current;
+    if (!v || showStill) return;
+    v.muted = true;
+    v.defaultMuted = true;
+    const p = v.play();
+    if (p) p.catch(() => {});
+  }, [showStill]);
+
   return (
     <section
       style={{
         position: "relative",
-        minHeight: "70vh",
+        minHeight: "90vh",
         display: "flex",
         alignItems: "center",
         overflow: "hidden",
@@ -134,16 +168,40 @@ function Hero() {
         clipPath: "polygon(0 0, 100% 0, 100% calc(100% - var(--sp-slant)), 0 100%)",
       }}
     >
-      <Image
-        src="/images/engagements/msme-consulting-2.jpeg"
-        alt=""
-        aria-hidden="true"
-        fill
-        quality={100}
-        priority
-        sizes="100vw"
-        style={{ objectFit: "cover", objectPosition: "center top", opacity: 0.28 }}
-      />
+      {showStill ? (
+        <Image
+          src={HERO_POSTER}
+          alt=""
+          aria-hidden="true"
+          fill
+          quality={100}
+          priority
+          sizes="100vw"
+          style={{ objectFit: "cover", objectPosition: "center top", opacity: 0.5 }}
+        />
+      ) : (
+        <video
+          ref={videoRef}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          poster={HERO_POSTER}
+          aria-hidden="true"
+          style={{
+            position: "absolute",
+            inset: 0,
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            objectPosition: "center",
+            opacity: 0.55,
+          }}
+        >
+          <source src={HERO_VIDEO} type="video/mp4" />
+        </video>
+      )}
       <div
         aria-hidden="true"
         style={{
@@ -165,7 +223,7 @@ function Hero() {
               dark
               style={{
                 display: "inline-block",
-                fontSize: "clamp(25px, 3.6vw, 44px)",
+                fontSize: "clamp(23px, 3.31vw, 40px)",
                 fontWeight: 600,
                 borderBottom: "3px solid #fff",
                 paddingBottom: 10,
@@ -177,14 +235,14 @@ function Hero() {
           <motion.div variants={fadeUp} style={{ marginTop: 28 }}>
             <PageHeading
               className="whitespace-normal md:whitespace-nowrap"
-              style={{ fontSize: "clamp(30px, 5.2vw, 64px)" }}
+              style={{ fontSize: "clamp(28px, 4.78vw, 59px)" }}
             >
               <span style={{ display: "block", fontWeight: 600 }}>
                 BUILDING BUSINESS ECOSYSTEMS
               </span>
               <span
                 style={{
-                  background: "#45c69e",
+                  background: "#05a171",
                   color: "#000",
                   display: "inline-block",
                   // Equal top/bottom padding that the clip-path keeps ONLY on
@@ -216,7 +274,7 @@ function Story() {
   const PREVIEW_COUNT = 3;
   const paraStyle: CSSProperties = {
     fontFamily: "var(--sp-font-sans)",
-    fontSize: "clamp(23px, 2.4vw, 33px)",
+    fontSize: "clamp(21px, 2.21vw, 30px)",
     fontWeight: 400,
     lineHeight: 1.35,
     color: "#000",
@@ -289,19 +347,19 @@ function Story() {
                 display: "inline-block",
                 padding: "18px 74px",
                 borderRadius: 999,
-                border: "2px solid var(--sp-green-600)",
+                border: "2px solid #05a171",
                 background: "transparent",
                 color: "#000",
                 cursor: "pointer",
                 fontFamily: "var(--sp-font-sans)",
-                fontSize: "clamp(22px, 2.2vw, 30px)",
+                fontSize: "clamp(20px, 2.02vw, 28px)",
                 fontWeight: 600,
                 letterSpacing: "0.08em",
                 textTransform: "uppercase",
                 transition: "background 0.2s ease, color 0.2s ease",
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.background = "var(--sp-green-600)";
+                e.currentTarget.style.background = "#05a171";
                 e.currentTarget.style.color = "#fff";
               }}
               onMouseLeave={(e) => {
@@ -345,7 +403,7 @@ function PullQuote() {
           transition={{ duration: 0.7, ease: EASE }}
           style={{
             fontFamily: "var(--sp-font-sans)",
-            fontSize: "clamp(36px, 5.3vw, 72px)",
+            fontSize: "clamp(33px, 4.88vw, 66px)",
             fontWeight: 700,
             letterSpacing: "0.01em",
             textTransform: "uppercase",
@@ -359,13 +417,13 @@ function PullQuote() {
           WHERE STRATEGY MEETS
           <br />
           <span
-            style={{ color: "#45c69e", fontWeight: 900, WebkitTextStroke: "1.4px currentColor" }}
+            style={{ color: "#17d99d", fontWeight: 900, WebkitTextStroke: "1.4px currentColor" }}
           >
             IMPACT, AND INNOVATION
           </span>
           <br />
           <span
-            style={{ color: "#45c69e", fontWeight: 900, WebkitTextStroke: "1.4px currentColor" }}
+            style={{ color: "#17d99d", fontWeight: 900, WebkitTextStroke: "1.4px currentColor" }}
           >
             DRIVES GROWTH.
           </span>
@@ -396,13 +454,13 @@ function WhatMakesUsDifferent() {
     setActive(((i % n) + n) % n);
   };
 
-  // Auto-advance every 5s; paused on hover, disabled under reduced-motion.
+  // Auto-advance every 3.2s; paused on hover, disabled under reduced-motion.
   useEffect(() => {
     if (reduceMotion || paused) return;
     const t = setInterval(() => {
       setDir(1);
       setActive((a) => (a + 1) % n);
-    }, 5000);
+    }, 3200);
     return () => clearInterval(t);
   }, [reduceMotion, paused, n]);
 
@@ -440,7 +498,7 @@ function WhatMakesUsDifferent() {
             variants={fadeUp}
             style={{
               fontFamily: "var(--sp-font-sans)",
-              fontSize: "clamp(24px, 2.9vw, 38px)",
+              fontSize: "clamp(22px, 2.67vw, 35px)",
               color: "#000",
               maxWidth: 1280,
               margin: "22px auto 0",
@@ -455,7 +513,7 @@ function WhatMakesUsDifferent() {
         {/* WE FOCUS ON ENABLING — subheading */}
         <SectionHeading
           style={{
-            fontSize: "clamp(28px, 3.3vw, 44px)",
+            fontSize: "clamp(26px, 3.04vw, 40px)",
             marginBottom: "clamp(28px, 4vw, 44px)",
           }}
         >
@@ -478,7 +536,7 @@ function WhatMakesUsDifferent() {
                 initial={{ opacity: 0, x: dir >= 0 ? 60 : -60 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: dir >= 0 ? -60 : 60 }}
-                transition={{ duration: 0.4, ease: EASE }}
+                transition={{ duration: 0.22, ease: EASE }}
                 className="sp-trio"
                 style={{
                   display: "grid",
@@ -506,7 +564,7 @@ function WhatMakesUsDifferent() {
         <p
           style={{
             fontFamily: "var(--sp-font-sans)",
-            fontSize: "clamp(23px, 2.5vw, 33px)",
+            fontSize: "clamp(21px, 2.3vw, 30px)",
             color: "#000",
             textAlign: "center",
             margin: "36px auto 0",
@@ -526,8 +584,11 @@ function WhatMakesUsDifferent() {
 // Single enabler card — the centre card is dark with green text; the two
 // side cards are white with a green outline and black text (matches design).
 function EnablerCard({ label, center }: { label: string; center: boolean }) {
+  const [hover, setHover] = useState(false);
   return (
     <div
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
       style={{
         aspectRatio: "1.5 / 1",
         display: "flex",
@@ -537,7 +598,7 @@ function EnablerCard({ label, center }: { label: string; center: boolean }) {
         padding: "20px 22px",
         borderRadius: 0,
         background: center ? "#141414" : "#fff",
-        border: center ? "2px solid var(--sp-green-600)" : "2px solid var(--sp-green-500)",
+        border: "2px solid #05a171",
         transform: center ? "scale(1.05)" : "scale(1)",
         boxShadow: center
           ? "0 24px 48px -22px rgba(0,0,0,0.45)"
@@ -548,10 +609,12 @@ function EnablerCard({ label, center }: { label: string; center: boolean }) {
       <span
         style={{
           fontFamily: "var(--sp-font-sans)",
-          fontSize: "clamp(24px, 2.7vw, 35px)",
+          fontSize: "clamp(22px, 2.48vw, 32px)",
           fontWeight: 500,
           lineHeight: 1.2,
-          color: center ? "var(--sp-green-400)" : "#000",
+          // Bright green on the dark centre card; the darker green on a hovered
+          // white side card so it stays legible (matches PlatformCard).
+          color: center ? "#17d99d" : hover ? "#05a171" : "#000",
           transition: "color 0.4s ease",
         }}
       >
@@ -598,7 +661,7 @@ function Leadership() {
               <h2
                 style={{
                   fontFamily: "var(--sp-font-sans)",
-                  fontSize: "clamp(40px, 5.5vw, 66px)",
+                  fontSize: "clamp(37px, 5.06vw, 61px)",
                   fontWeight: 900,
                   letterSpacing: "0.02em",
                   textTransform: "uppercase",
@@ -619,14 +682,14 @@ function Leadership() {
               transition={{ duration: 0.7, ease: EASE }}
               style={{
                 background: "transparent",
-                borderLeft: "3px solid var(--sp-green-500)",
+                borderLeft: "3px solid #05a171",
                 paddingLeft: "clamp(20px, 3vw, 28px)",
               }}
             >
               <p
                 style={{
                   fontFamily: "var(--sp-font-sans)",
-                  fontSize: "clamp(20px, 2.1vw, 28px)",
+                  fontSize: "clamp(18px, 1.93vw, 26px)",
                   lineHeight: 1.3,
                   color: "#fff",
                   margin: "0 0 14px",
@@ -638,7 +701,7 @@ function Leadership() {
               <p
                 style={{
                   fontFamily: "var(--sp-font-sans)",
-                  fontSize: "clamp(20px, 2.1vw, 28px)",
+                  fontSize: "clamp(18px, 1.93vw, 26px)",
                   lineHeight: 1.3,
                   color: "#fff",
                   margin: 0,
@@ -663,9 +726,9 @@ function Leadership() {
       >
         <Container wide>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            {leadershipPhotos.map((src) => (
+            {leadershipGroups.map((photos, i) => (
               <motion.div
-                key={src}
+                key={i}
                 variants={fadeUp}
                 style={{
                   position: "relative",
@@ -675,20 +738,52 @@ function Leadership() {
                   boxShadow: "0 24px 48px -18px rgba(0,0,0,0.55)",
                 }}
               >
-                <Image
-                  src={src}
-                  alt=""
-                  fill
-                  quality={100}
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 33vw, 460px"
-                  style={{ objectFit: "cover" }}
-                />
+                {/* Slightly different intervals so the three slots don't all
+                    crossfade at the same instant. */}
+                <LeadershipPhoto photos={photos} interval={2600 + i * 500} />
               </motion.div>
             ))}
           </div>
         </Container>
       </motion.div>
     </>
+  );
+}
+
+// A single Leadership photo slot that auto-crossfades through its group of
+// images. Fills its (relatively positioned) parent.
+function LeadershipPhoto({ photos, interval }: { photos: string[]; interval: number }) {
+  const reduceMotion = useReducedMotion();
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    if (reduceMotion || photos.length <= 1) return;
+    const id = setInterval(() => {
+      setIndex((i) => (i + 1) % photos.length);
+    }, interval);
+    return () => clearInterval(id);
+  }, [reduceMotion, photos.length, interval]);
+
+  return (
+    <AnimatePresence initial={false}>
+      <motion.div
+        key={index}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.8, ease: "easeInOut" }}
+        style={{ position: "absolute", inset: 0 }}
+      >
+        <Image
+          src={photos[index]!}
+          alt=""
+          fill
+          quality={100}
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 33vw, 460px"
+          style={{ objectFit: "cover" }}
+        />
+      </motion.div>
+    </AnimatePresence>
   );
 }
 
@@ -723,7 +818,7 @@ function Initiatives() {
     if (paused || reduceMotion) return;
     const t = setTimeout(() => {
       setIndex((i) => (i >= last ? 0 : i + 1));
-    }, 6000);
+    }, 3800);
     return () => clearTimeout(t);
   }, [index, paused, last, reduceMotion]);
 
@@ -749,7 +844,7 @@ function Initiatives() {
           <p
             style={{
               fontFamily: "var(--sp-font-sans)",
-              fontSize: "clamp(24px, 2.7vw, 34px)",
+              fontSize: "clamp(22px, 2.48vw, 31px)",
               color: "#000",
               margin: "18px 0 40px",
             }}
@@ -766,7 +861,7 @@ function Initiatives() {
                 gap: GAP,
                 alignItems: "stretch",
                 transform: `translateX(${translate}px)`,
-                transition: "transform 0.55s cubic-bezier(0.22, 1, 0.36, 1)",
+                transition: "transform 0.28s cubic-bezier(0.22, 1, 0.36, 1)",
               }}
             >
               {initiatives.map((it, i) => {
@@ -803,9 +898,9 @@ function Initiatives() {
                       <h3
                         style={{
                           fontFamily: "var(--sp-font-sans)",
-                          fontSize: "clamp(29px, 3.4vw, 43px)",
+                          fontSize: "clamp(27px, 3.13vw, 40px)",
                           fontWeight: 700,
-                          color: "var(--sp-green-400)",
+                          color: "#17d99d",
                           margin: "0 0 18px",
                           lineHeight: 1.15,
                         }}
@@ -815,7 +910,7 @@ function Initiatives() {
                       <p
                         style={{
                           fontFamily: "var(--sp-font-sans)",
-                          fontSize: "clamp(16px, 1.75vw, 21px)",
+                          fontSize: "clamp(15px, 1.61vw, 19px)",
                           lineHeight: 1.3,
                           color: "#fff",
                           margin: 0,
@@ -843,7 +938,7 @@ function Initiatives() {
                       <p
                         style={{
                           fontFamily: "var(--sp-font-sans)",
-                          fontSize: "clamp(20px, 2.1vw, 27px)",
+                          fontSize: "clamp(18px, 1.93vw, 25px)",
                           fontWeight: 500,
                           color: "#fff",
                           margin: "0 0 14px",
@@ -866,7 +961,7 @@ function Initiatives() {
                             key={f}
                             style={{
                               fontFamily: "var(--sp-font-sans)",
-                              fontSize: "clamp(16px, 1.75vw, 21px)",
+                              fontSize: "clamp(15px, 1.61vw, 19px)",
                               fontWeight: 400,
                               lineHeight: 1.2,
                               color: "#fff",
@@ -881,7 +976,7 @@ function Initiatives() {
                                 width: 7,
                                 height: 7,
                                 borderRadius: "50%",
-                                background: "var(--sp-green-400)",
+                                background: "#05a171",
                                 flexShrink: 0,
                                 marginTop: "0.6em",
                               }}
@@ -922,10 +1017,14 @@ function GreenArrow({
   direction,
   onClick,
   x,
+  size = "clamp(62px, 6.6vw, 82px)",
+  iconSize = 32,
 }: {
   direction: "left" | "right";
   onClick: () => void;
   x: number | string;
+  size?: string;
+  iconSize?: number;
 }) {
   const Icon = direction === "left" ? ArrowLeft : ArrowRight;
   return (
@@ -939,25 +1038,19 @@ function GreenArrow({
         top: "50%",
         transform: "translate(-50%, -50%)",
         zIndex: 3,
-        width: "clamp(54px, 5.6vw, 68px)",
-        height: "clamp(54px, 5.6vw, 68px)",
+        width: size,
+        height: size,
         borderRadius: "50%",
         border: "none",
-        background: "var(--sp-green-500)",
+        background: "#05a171",
         alignItems: "center",
         justifyContent: "center",
         cursor: "pointer",
         boxShadow: "0 10px 24px -8px rgba(5,161,113,0.55)",
         transition: "background 0.2s ease",
       }}
-      onMouseEnter={(e) =>
-        ((e.currentTarget as HTMLElement).style.background = "var(--sp-green-600)")
-      }
-      onMouseLeave={(e) =>
-        ((e.currentTarget as HTMLElement).style.background = "var(--sp-green-500)")
-      }
     >
-      <Icon size={26} color="#000" strokeWidth={2.25} />
+      <Icon size={iconSize} color="#000" strokeWidth={2.4} />
     </button>
   );
 }
@@ -1020,7 +1113,7 @@ function Dots({
             width: i === active ? 30 : 24,
             height: 4,
             borderRadius: 2,
-            background: i === active ? "var(--sp-green-500)" : "#334155",
+            background: i === active ? "#05a171" : "#334155",
             border: "none",
             cursor: "pointer",
             padding: 0,

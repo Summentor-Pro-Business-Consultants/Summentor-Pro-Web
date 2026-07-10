@@ -172,7 +172,7 @@ function Hero() {
               dark
               style={{
                 display: "inline-block",
-                fontSize: "clamp(25px, 3.6vw, 44px)",
+                fontSize: "clamp(23px, 3.31vw, 40px)",
                 fontWeight: 600,
                 borderBottom: "3px solid #fff",
                 paddingBottom: 10,
@@ -183,13 +183,13 @@ function Hero() {
           </motion.div>
 
           <motion.div variants={fadeUp} style={{ margin: "28px 0 22px" }}>
-            <PageHeading style={{ fontSize: "clamp(30px, 5.2vw, 64px)" }}>
+            <PageHeading style={{ fontSize: "clamp(28px, 4.78vw, 59px)" }}>
               <span style={{ display: "block", fontWeight: 600 }}>
                 STRATEGIC SOLUTIONS DESIGNED FOR
               </span>
               <span
                 style={{
-                  background: "#45c69e",
+                  background: "#05a171",
                   color: "#000",
                   display: "inline-block",
                   padding: "13px 8px",
@@ -208,7 +208,7 @@ function Hero() {
             variants={fadeUp}
             style={{
               fontFamily: "var(--sp-font-sans)",
-              fontSize: "clamp(22px, 2.4vw, 31px)",
+              fontSize: "clamp(20px, 2.21vw, 29px)",
               lineHeight: 1.35,
               color: "#fff",
               maxWidth: 1040,
@@ -269,12 +269,12 @@ function SolutionTabs() {
                     textAlign: "left",
                     padding: "18px 26px",
                     borderRadius: 999,
-                    border: "1.5px solid var(--sp-green-600)",
-                    background: isActive ? "var(--sp-green-600)" : "transparent",
+                    border: "1.5px solid #05a171",
+                    background: isActive ? "#05a171" : "transparent",
                     color: isActive ? "#fff" : "#000",
                     cursor: "pointer",
                     fontFamily: "var(--sp-font-sans)",
-                    fontSize: "clamp(19px, 1.9vw, 25px)",
+                    fontSize: "clamp(17px, 1.75vw, 23px)",
                     fontWeight: 600,
                     boxShadow: isActive
                       ? "0 8px 22px rgba(22,163,74,0.25)"
@@ -282,8 +282,7 @@ function SolutionTabs() {
                     transition: "background 0.25s ease, color 0.25s ease, box-shadow 0.25s ease",
                   }}
                 >
-                  <span style={{ color: isActive ? "#fff" : "var(--sp-green-600)" }}>{i + 1}.</span>{" "}
-                  {s.pill}
+                  <span style={{ color: isActive ? "#fff" : "#05a171" }}>{i + 1}.</span> {s.pill}
                 </motion.button>
               );
             })}
@@ -309,7 +308,7 @@ function SolutionTabs() {
                 <h2
                   style={{
                     fontFamily: "var(--sp-font-sans)",
-                    fontSize: "clamp(26px, 2.9vw, 36px)",
+                    fontSize: "clamp(24px, 2.67vw, 33px)",
                     fontWeight: 700,
                     color: "#fff",
                     margin: "0 0 20px",
@@ -324,7 +323,7 @@ function SolutionTabs() {
                     key={i}
                     style={{
                       fontFamily: "var(--sp-font-sans)",
-                      fontSize: "clamp(18px, 1.9vw, 23px)",
+                      fontSize: "clamp(17px, 1.75vw, 21px)",
                       lineHeight: 1.3,
                       color: "#fff",
                       margin: i === active.paragraphs.length - 1 ? "0 0 28px" : "0 0 14px",
@@ -337,7 +336,7 @@ function SolutionTabs() {
                 <p
                   style={{
                     fontFamily: "var(--sp-font-sans)",
-                    fontSize: "clamp(18px, 1.9vw, 23px)",
+                    fontSize: "clamp(17px, 1.75vw, 21px)",
                     fontWeight: 600,
                     color: "#fff",
                     letterSpacing: "0.01em",
@@ -352,7 +351,7 @@ function SolutionTabs() {
                       key={item}
                       style={{
                         fontFamily: "var(--sp-font-sans)",
-                        fontSize: "clamp(17px, 1.8vw, 22px)",
+                        fontSize: "clamp(16px, 1.66vw, 20px)",
                         color: "#fff",
                         display: "flex",
                         alignItems: "flex-start",
@@ -366,7 +365,7 @@ function SolutionTabs() {
                           width: 8,
                           height: 8,
                           borderRadius: "50%",
-                          background: "var(--sp-green-400)",
+                          background: "#05a171",
                           flexShrink: 0,
                           marginTop: "0.55em",
                         }}

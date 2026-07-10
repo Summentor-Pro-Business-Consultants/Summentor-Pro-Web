@@ -45,10 +45,10 @@ export default function TrafficSourceChart({ data }: Props) {
           ))}
         </Pie>
         <Tooltip
-          contentStyle={{ borderRadius: 8, border: "1px solid #E2E8F0", fontSize: 13 }}
+          contentStyle={{ borderRadius: 8, border: "1px solid #E2E8F0", fontSize: 12 }}
           formatter={(value, name) => [value, name]}
         />
-        <Legend iconType="circle" iconSize={8} wrapperStyle={{ fontSize: 12, color: "#64748B" }} />
+        <Legend iconType="circle" iconSize={8} wrapperStyle={{ fontSize: 11, color: "#64748B" }} />
       </PieChart>
     </ResponsiveContainer>
   );

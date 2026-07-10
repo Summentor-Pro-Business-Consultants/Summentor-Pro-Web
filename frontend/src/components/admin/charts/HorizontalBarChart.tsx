@@ -48,7 +48,7 @@ export default function HorizontalBarChart({
         <CartesianGrid strokeDasharray="3 3" stroke="#F1F5F9" horizontal={false} />
         <XAxis
           type="number"
-          tick={{ fontSize: 11, fill: "#94A3B8" }}
+          tick={{ fontSize: 10.1, fill: "#94A3B8" }}
           tickLine={false}
           axisLine={false}
           allowDecimals={false}
@@ -56,12 +56,12 @@ export default function HorizontalBarChart({
         <YAxis
           type="category"
           dataKey={labelKey}
-          tick={{ fontSize: 11, fill: "#64748B" }}
+          tick={{ fontSize: 10.1, fill: "#64748B" }}
           tickLine={false}
           axisLine={false}
           width={90}
         />
-        <Tooltip contentStyle={{ borderRadius: 8, border: "1px solid #E2E8F0", fontSize: 13 }} />
+        <Tooltip contentStyle={{ borderRadius: 8, border: "1px solid #E2E8F0", fontSize: 12 }} />
         <Bar dataKey={valueKey} radius={[0, 4, 4, 0]} name={tooltipName ?? valueKey}>
           {data.map((_, i) => (
             <Cell key={i} fill={i === 0 ? color : colorAlt} />

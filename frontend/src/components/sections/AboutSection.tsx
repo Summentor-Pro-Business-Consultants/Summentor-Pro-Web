@@ -77,7 +77,7 @@ export default function AboutSection() {
           <p
             style={{
               fontFamily: "var(--sp-font-sans)",
-              fontSize: "clamp(24px, 3.2vw, 36px)",
+              fontSize: "clamp(22px, 2.94vw, 33px)",
               lineHeight: 1.35,
               color: "#000",
               marginTop: 40,
