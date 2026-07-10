@@ -10,7 +10,7 @@ import WavyLine from "@/components/ui/WavyLine";
 const tabs = [
   {
     id: "textile",
-    label: "Textile\nEmpowerment",
+    label: "Women\nEmpowerment",
     title: "Textile & Women Empowerment Initiative – Odisha",
     desc: "Supported the establishment of a textile unit in Balasore, Odisha focused on creating employment opportunities for women through skilling, stitching, and livelihood development initiatives.",
     bullets: ["Women empowerment", "Rural employment", "Skill development", "MSME support"],
@@ -193,10 +193,10 @@ export default function ProcessSection() {
                   padding: "9px 12px",
                   borderRadius: 12,
                   border: "none",
-                  background: activeTab === tab.id ? "#53c07c" : "transparent",
+                  background: activeTab === tab.id ? "#05a171" : "transparent",
                   color: activeTab === tab.id ? "#fff" : "rgba(255,255,255,0.92)",
                   fontFamily: "var(--sp-font-sans)",
-                  fontSize: "clamp(20px, 2.2vw, 29px)",
+                  fontSize: "clamp(18px, 2.02vw, 27px)",
                   fontWeight: 500,
                   lineHeight: 1.3,
                   cursor: "pointer",
@@ -228,7 +228,7 @@ export default function ProcessSection() {
               <h3
                 style={{
                   fontFamily: "var(--sp-font-sans)",
-                  fontSize: "clamp(23px, 2.7vw, 34px)",
+                  fontSize: "clamp(21px, 2.48vw, 31px)",
                   fontWeight: 800,
                   color: "#000",
                   margin: "0 0 18px 0",
@@ -240,7 +240,7 @@ export default function ProcessSection() {
               <p
                 style={{
                   fontFamily: "var(--sp-font-sans)",
-                  fontSize: "clamp(16px, 1.75vw, 21px)",
+                  fontSize: "clamp(15px, 1.61vw, 19px)",
                   color: "#4b5563",
                   lineHeight: 1.35,
                   margin: "0 0 30px 0",
@@ -261,16 +261,21 @@ export default function ProcessSection() {
               >
                 {current.bullets.map((bullet) => (
                   <li key={bullet} style={{ display: "flex", alignItems: "flex-start", gap: 14 }}>
-                    <img
-                      src="/icons/check.svg"
-                      alt=""
+                    <span
                       aria-hidden="true"
-                      style={{ width: 25, height: 25, flexShrink: 0, marginTop: 2 }}
+                      style={{
+                        width: 10,
+                        height: 10,
+                        borderRadius: "50%",
+                        background: "#05a171",
+                        flexShrink: 0,
+                        marginTop: "0.5em",
+                      }}
                     />
                     <span
                       style={{
                         fontFamily: "var(--sp-font-sans)",
-                        fontSize: "clamp(17px, 1.8vw, 22px)",
+                        fontSize: "clamp(16px, 1.66vw, 20px)",
                         fontWeight: 500,
                         color: "#000",
                         lineHeight: 1.4,
@@ -299,12 +304,12 @@ function TabPhotoCarousel({ photos, alt }: { photos: string[]; alt: string }) {
   const reduceMotion = useReducedMotion();
   const [index, setIndex] = useState(0);
 
-  // Auto-advance every 3.5s; paused under reduced-motion.
+  // Auto-advance every 2.6s; paused under reduced-motion.
   useEffect(() => {
     if (reduceMotion || photos.length <= 1) return;
     const t = setInterval(() => {
       setIndex((i) => (i + 1) % photos.length);
-    }, 3500);
+    }, 2600);
     return () => clearInterval(t);
   }, [reduceMotion, photos.length]);
 

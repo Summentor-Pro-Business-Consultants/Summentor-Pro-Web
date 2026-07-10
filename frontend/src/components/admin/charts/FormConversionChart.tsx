@@ -45,24 +45,24 @@ export default function FormConversionChart({ data }: Props) {
         <CartesianGrid strokeDasharray="3 3" stroke="#F1F5F9" vertical={false} />
         <XAxis
           dataKey="channel"
-          tick={{ fontSize: 12, fill: "#64748B" }}
+          tick={{ fontSize: 11, fill: "#64748B" }}
           tickLine={false}
           axisLine={false}
         />
         <YAxis
-          tick={{ fontSize: 11, fill: "#94A3B8" }}
+          tick={{ fontSize: 10.1, fill: "#94A3B8" }}
           tickLine={false}
           axisLine={false}
           allowDecimals={false}
         />
         <Tooltip
-          contentStyle={{ borderRadius: 8, border: "1px solid #E2E8F0", fontSize: 13 }}
+          contentStyle={{ borderRadius: 8, border: "1px solid #E2E8F0", fontSize: 12 }}
           cursor={{ fill: "#F8FAFC" }}
         />
         <Legend
           iconType="circle"
           iconSize={8}
-          wrapperStyle={{ fontSize: 12, color: "#64748B", paddingTop: 8 }}
+          wrapperStyle={{ fontSize: 11, color: "#64748B", paddingTop: 8 }}
         />
         {/* Page Views bar — shows how many visitors reached the form page */}
         <Bar dataKey="views" name="Page Views" fill="#3C50E0" radius={[4, 4, 0, 0]} />

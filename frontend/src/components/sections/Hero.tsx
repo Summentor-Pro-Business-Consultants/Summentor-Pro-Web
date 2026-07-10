@@ -138,8 +138,8 @@ export default function Hero() {
             <span
               style={{
                 display: "inline-block",
-                background: "#45c69e",
-                color: "#fff",
+                background: "#05a171",
+                color: "#000",
                 fontStyle: "italic",
                 fontWeight: 700,
                 padding: "4px 20px 4px 16px",
@@ -167,11 +167,11 @@ export default function Hero() {
               <button
                 style={{
                   fontFamily: "var(--sp-font-sans)",
-                  fontSize: 28,
+                  fontSize: 25.8,
                   fontWeight: 400,
                   color: "#fff",
                   background: "transparent",
-                  border: "2px solid var(--sp-green-500)",
+                  border: "2px solid #05a171",
                   borderRadius: 999,
                   padding: "12px 44px",
                   cursor: "pointer",
@@ -180,7 +180,7 @@ export default function Hero() {
                 }}
                 onMouseEnter={(e) => {
                   const el = e.currentTarget;
-                  el.style.background = "var(--sp-green-500)";
+                  el.style.background = "#05a171";
                   el.style.color = "#000";
                 }}
                 onMouseLeave={(e) => {
@@ -198,7 +198,7 @@ export default function Hero() {
               <button
                 style={{
                   fontFamily: "var(--sp-font-sans)",
-                  fontSize: 28,
+                  fontSize: 25.8,
                   fontWeight: 400,
                   color: "#000",
                   background: "#fff",
@@ -211,8 +211,8 @@ export default function Hero() {
                 }}
                 onMouseEnter={(e) => {
                   const el = e.currentTarget;
-                  el.style.background = "var(--sp-green-500)";
-                  el.style.borderColor = "var(--sp-green-500)";
+                  el.style.background = "#05a171";
+                  el.style.borderColor = "#05a171";
                 }}
                 onMouseLeave={(e) => {
                   const el = e.currentTarget;

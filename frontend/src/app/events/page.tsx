@@ -110,14 +110,6 @@ const upcomingPlatforms = [
     title: "MSME Textile Investor Meet – Women-Led Cluster Launch, New Delhi",
     desc: "Enabling Textile Growth & Women-Led Employment Opportunities",
   },
-  {
-    title: "MSME Textile Investor Meet – Women-Led Cluster Launch, New Delhi",
-    desc: "Enabling Textile Growth & Women-Led Employment Opportunities",
-  },
-  {
-    title: "MSME Textile Investor Meet – Women-Led Cluster Launch, New Delhi",
-    desc: "Enabling Textile Growth & Women-Led Employment Opportunities",
-  },
 ];
 
 const highlightPhotos = [
@@ -190,7 +182,7 @@ function Hero() {
               dark
               style={{
                 display: "inline-block",
-                fontSize: "clamp(25px, 3.6vw, 44px)",
+                fontSize: "clamp(23px, 3.31vw, 40px)",
                 fontWeight: 600,
                 borderBottom: "3px solid #fff",
                 paddingBottom: 10,
@@ -201,11 +193,11 @@ function Hero() {
           </motion.div>
 
           <motion.div variants={fadeUp} style={{ margin: "28px 0 22px" }}>
-            <PageHeading style={{ fontSize: "clamp(30px, 5.2vw, 64px)" }}>
+            <PageHeading style={{ fontSize: "clamp(28px, 4.78vw, 59px)" }}>
               <span style={{ display: "block", fontWeight: 600 }}>BUSINESS PLATFORMS DESIGNED</span>
               <span
                 style={{
-                  background: "#45c69e",
+                  background: "#05a171",
                   color: "#000",
                   display: "inline-block",
                   padding: "13px 8px",
@@ -227,7 +219,7 @@ function Hero() {
             variants={fadeUp}
             style={{
               fontFamily: "var(--sp-font-sans)",
-              fontSize: "clamp(22px, 2.4vw, 31px)",
+              fontSize: "clamp(20px, 2.21vw, 29px)",
               lineHeight: 1.35,
               color: "#fff",
               maxWidth: 1040,
@@ -265,13 +257,13 @@ function WhyOurPlatformsMatter() {
     setActive(((i % n) + n) % n);
   };
 
-  // Auto-advance every 5s; paused on hover, off under reduced-motion.
+  // Auto-advance every 3.2s; paused on hover, off under reduced-motion.
   useEffect(() => {
     if (reduceMotion || paused) return;
     const t = setInterval(() => {
       setDir(1);
       setActive((a) => (a + 1) % n);
-    }, 5000);
+    }, 3200);
     return () => clearInterval(t);
   }, [reduceMotion, paused, n]);
 
@@ -309,7 +301,7 @@ function WhyOurPlatformsMatter() {
             variants={fadeUp}
             style={{
               fontFamily: "var(--sp-font-sans)",
-              fontSize: "clamp(18px, 2vw, 24px)",
+              fontSize: "clamp(17px, 1.84vw, 22px)",
               color: "#000",
               maxWidth: 860,
               margin: "22px auto 0",
@@ -324,7 +316,7 @@ function WhyOurPlatformsMatter() {
         {/* Subheading — sentence case (override the heading's uppercase) */}
         <SectionHeading
           style={{
-            fontSize: "clamp(24px, 2.9vw, 38px)",
+            fontSize: "clamp(22px, 2.67vw, 35px)",
             textTransform: "none",
             marginBottom: "clamp(28px, 4vw, 44px)",
           }}
@@ -348,7 +340,7 @@ function WhyOurPlatformsMatter() {
                 initial={{ opacity: 0, x: dir >= 0 ? 60 : -60 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: dir >= 0 ? -60 : 60 }}
-                transition={{ duration: 0.4, ease: EASE }}
+                transition={{ duration: 0.22, ease: EASE }}
                 className="sp-trio"
                 style={{
                   display: "grid",
@@ -377,7 +369,9 @@ function WhyOurPlatformsMatter() {
 // text; the side cards are white with a dark icon + text (matches design).
 function PlatformCard({ item, center }: { item: (typeof designedTo)[number]; center: boolean }) {
   const [hover, setHover] = useState(false);
-  // Green accent applies to the centre card and to any card on hover.
+  // Green accent (icon + title) applies to the centre card and to any card on
+  // hover. Uses the darker brand green (#05a171) so it stays legible on the
+  // white side cards too.
   const accent = center || hover;
   return (
     <div
@@ -393,7 +387,7 @@ function PlatformCard({ item, center }: { item: (typeof designedTo)[number]; cen
         padding: "clamp(18px, 2.3vw, 28px) 18px",
         borderRadius: 0,
         background: center ? "#141414" : "#fff",
-        border: center ? "2px solid var(--sp-green-600)" : "1px solid #E5E7EB",
+        border: center ? "2px solid #05a171" : "1px solid #E5E7EB",
         transform: center ? "scale(1.05)" : "scale(1)",
         boxShadow: center
           ? "0 24px 48px -22px rgba(0,0,0,0.45)"
@@ -409,7 +403,7 @@ function PlatformCard({ item, center }: { item: (typeof designedTo)[number]; cen
           width: 72,
           height: 72,
           flexShrink: 0,
-          backgroundColor: accent ? "var(--sp-green-400)" : "#1a1a1a",
+          backgroundColor: accent ? "#05a171" : "#1a1a1a",
           WebkitMaskImage: `url(${item.icon})`,
           maskImage: `url(${item.icon})`,
           WebkitMaskRepeat: "no-repeat",
@@ -424,10 +418,12 @@ function PlatformCard({ item, center }: { item: (typeof designedTo)[number]; cen
       <h3
         style={{
           fontFamily: "var(--sp-font-sans)",
-          fontSize: "clamp(24px, 2.9vw, 34px)",
+          fontSize: "clamp(22px, 2.67vw, 31px)",
           fontWeight: 500,
           lineHeight: 1.2,
-          color: accent ? "var(--sp-green-400)" : "#000",
+          // Bright green on the dark centre card; the darker green on a hovered
+          // white side card so it stays legible on white.
+          color: center ? "#17d99d" : hover ? "#05a171" : "#000",
           margin: 0,
           transition: "color 0.4s ease",
         }}
@@ -468,7 +464,7 @@ function FeaturedPlatforms() {
     if (paused || reduceMotion) return;
     const t = setTimeout(() => {
       setIndex((i) => (i >= last ? 0 : i + 1));
-    }, 6000);
+    }, 3800);
     return () => clearTimeout(t);
   }, [index, paused, last, reduceMotion]);
 
@@ -499,7 +495,7 @@ function FeaturedPlatforms() {
                 gap: GAP,
                 alignItems: "stretch",
                 transform: `translateX(${translate}px)`,
-                transition: "transform 0.55s cubic-bezier(0.22, 1, 0.36, 1)",
+                transition: "transform 0.28s cubic-bezier(0.22, 1, 0.36, 1)",
               }}
             >
               {featuredPlatforms.map((p, i) => {
@@ -538,7 +534,7 @@ function FeaturedPlatforms() {
                       <h3
                         style={{
                           fontFamily: "var(--sp-font-sans)",
-                          fontSize: "clamp(28px, 3.3vw, 44px)",
+                          fontSize: "clamp(26px, 3.04vw, 40px)",
                           fontWeight: 800,
                           textTransform: "uppercase",
                           letterSpacing: "0.01em",
@@ -552,7 +548,7 @@ function FeaturedPlatforms() {
                       <p
                         style={{
                           fontFamily: "var(--sp-font-sans)",
-                          fontSize: "clamp(21px, 2.2vw, 28px)",
+                          fontSize: "clamp(19px, 2.02vw, 26px)",
                           lineHeight: 1.4,
                           color: "#fff",
                           margin: "0 0 24px",
@@ -570,7 +566,7 @@ function FeaturedPlatforms() {
                       <p
                         style={{
                           fontFamily: "var(--sp-font-sans)",
-                          fontSize: "clamp(21px, 2.2vw, 28px)",
+                          fontSize: "clamp(19px, 2.02vw, 26px)",
                           fontWeight: 700,
                           color: "#fff",
                           margin: "0 0 16px",
@@ -592,7 +588,7 @@ function FeaturedPlatforms() {
                             key={item}
                             style={{
                               fontFamily: "var(--sp-font-sans)",
-                              fontSize: "clamp(21px, 2.3vw, 28px)",
+                              fontSize: "clamp(19px, 2.12vw, 26px)",
                               color: "#fff",
                               lineHeight: 1.35,
                             }}
@@ -607,11 +603,11 @@ function FeaturedPlatforms() {
                           display: "inline-block",
                           padding: "8px 60px",
                           borderRadius: 999,
-                          border: "2px solid var(--sp-green-500)",
+                          border: "2px solid #05a171",
                           color: "#fff",
                           textDecoration: "none",
                           fontFamily: "var(--sp-font-sans)",
-                          fontSize: 30,
+                          fontSize: 27.6,
                           fontWeight: 500,
                           letterSpacing: "0.06em",
                           textTransform: "uppercase",
@@ -619,7 +615,7 @@ function FeaturedPlatforms() {
                             "background 0.2s ease, border-color 0.2s ease, color 0.2s ease",
                         }}
                         onMouseEnter={(e) => {
-                          (e.currentTarget as HTMLElement).style.background = "var(--sp-green-500)";
+                          (e.currentTarget as HTMLElement).style.background = "#05a171";
                           (e.currentTarget as HTMLElement).style.color = "#000";
                         }}
                         onMouseLeave={(e) => {
@@ -702,14 +698,12 @@ function UpcomingPlatforms() {
                 onMouseLeave={() => setHovered(null)}
                 style={{
                   // Black by default, green on hover (title + text turn black).
-                  background: hover ? "var(--sp-green-600)" : "var(--sp-navy-900)",
+                  background: hover ? "#05a171" : "var(--sp-navy-900)",
                   color: "#fff",
                   borderRadius: 38,
                   padding: "clamp(30px, 4.5vw, 52px) clamp(48px, 7.5vw, 104px)",
                   textAlign: "center",
-                  border: hover
-                    ? "1px solid var(--sp-green-600)"
-                    : "1px solid rgba(255,255,255,0.06)",
+                  border: hover ? "1px solid #05a171" : "1px solid rgba(255,255,255,0.06)",
                   boxShadow: hover
                     ? "0 14px 36px rgba(5,161,113,0.28)"
                     : "0 4px 16px rgba(0,0,0,0.08)",
@@ -724,7 +718,7 @@ function UpcomingPlatforms() {
                 <p
                   style={{
                     fontFamily: "var(--sp-font-sans)",
-                    fontSize: "clamp(32px, 3.7vw, 50px)",
+                    fontSize: "clamp(29px, 3.4vw, 46px)",
                     fontWeight: 500,
                     margin: "0 0 14px",
                     lineHeight: 1.15,
@@ -737,7 +731,7 @@ function UpcomingPlatforms() {
                 <p
                   style={{
                     fontFamily: "var(--sp-font-sans)",
-                    fontSize: "clamp(26px, 2.9vw, 38px)",
+                    fontSize: "clamp(24px, 2.67vw, 35px)",
                     margin: 0,
                     lineHeight: 1.35,
                     color: hover ? "rgba(0,0,0,0.85)" : "rgba(255,255,255,0.9)",
@@ -789,7 +783,7 @@ function PartnerCTA() {
             variants={fadeUp}
             style={{
               fontFamily: "var(--sp-font-sans)",
-              fontSize: "clamp(25px, 2.6vw, 34px)",
+              fontSize: "clamp(23px, 2.39vw, 31px)",
               color: "#000",
               maxWidth: 1340,
               margin: "22px auto 40px",
@@ -813,8 +807,6 @@ function PartnerCTA() {
             <PartnerPill href="/contact" filled>
               Become a Partner
             </PartnerPill>
-            <PartnerPill href="/contact">Attend a Platform</PartnerPill>
-            <PartnerPill href="/contact">Explore Collaborations</PartnerPill>
           </motion.div>
         </motion.div>
       </Container>
@@ -838,26 +830,26 @@ function PartnerPill({
         display: "inline-block",
         padding: "15px 38px",
         borderRadius: 999,
-        border: filled ? "2px solid var(--sp-green-600)" : "1.5px solid #1f2937",
-        background: filled ? "var(--sp-green-600)" : "transparent",
+        border: filled ? "2px solid #05a171" : "1.5px solid #1f2937",
+        background: filled ? "#05a171" : "transparent",
         color: filled ? "#fff" : "#000",
         textDecoration: "none",
         fontFamily: "var(--sp-font-sans)",
-        fontSize: 28,
+        fontSize: 25.8,
         fontWeight: 600,
         transition: CARD_TRANSITION,
       }}
       onMouseEnter={(e) => {
         const el = e.currentTarget as HTMLElement;
-        el.style.background = "var(--sp-green-600)";
+        el.style.background = "#05a171";
         el.style.color = "#fff";
-        el.style.borderColor = "var(--sp-green-600)";
+        el.style.borderColor = "#05a171";
       }}
       onMouseLeave={(e) => {
         const el = e.currentTarget as HTMLElement;
-        el.style.background = filled ? "var(--sp-green-600)" : "transparent";
+        el.style.background = filled ? "#05a171" : "transparent";
         el.style.color = filled ? "#fff" : "#000";
-        el.style.borderColor = filled ? "var(--sp-green-600)" : "#1f2937";
+        el.style.borderColor = filled ? "#05a171" : "#1f2937";
       }}
     >
       {children}
@@ -886,7 +878,7 @@ function PlatformHighlights() {
   }, []);
 
   const GAP = 20;
-  const cardW = Math.min(vw * 0.64, 1080);
+  const cardW = Math.min(vw * 0.56, 900);
   const translate = -index * (cardW + GAP);
 
   // Auto-advance disabled for reduced-motion visitors (arrows/dots remain).
@@ -894,13 +886,13 @@ function PlatformHighlights() {
     if (reduceMotion) return;
     const t = setTimeout(() => {
       setIndex((i) => (i >= last ? 0 : i + 1));
-    }, 5500);
+    }, 3600);
     return () => clearTimeout(t);
   }, [index, last, reduceMotion]);
 
   // The photo row is rendered OUTSIDE the dark section and pulled up so the
   // section's slanted bottom cuts through the middle of the (full) photos.
-  const OVERLAP = 270;
+  const OVERLAP = 235;
 
   return (
     <>
@@ -908,7 +900,7 @@ function PlatformHighlights() {
         style={{
           background: "var(--sp-dark-grad-b)",
           // Extra bottom space hosts the upper half of the straddling photos.
-          padding: "clamp(56px, 8vw, 80px) 0 clamp(270px, 24vw, 345px)",
+          padding: "clamp(56px, 8vw, 80px) 0 clamp(238px, 22vw, 305px)",
           position: "relative",
           zIndex: 1,
           overflow: "hidden",
@@ -948,7 +940,7 @@ function PlatformHighlights() {
                   display: "flex",
                   gap: GAP,
                   transform: `translateX(${translate}px)`,
-                  transition: "transform 0.55s cubic-bezier(0.22, 1, 0.36, 1)",
+                  transition: "transform 0.28s cubic-bezier(0.22, 1, 0.36, 1)",
                 }}
               >
                 {highlightPhotos.map((src, i) => {
@@ -989,11 +981,15 @@ function PlatformHighlights() {
             <GreenArrow
               direction="left"
               x={0}
+              size="clamp(46px, 4.8vw, 60px)"
+              iconSize={24}
               onClick={() => setIndex((i) => (i <= 0 ? last : i - 1))}
             />
             <GreenArrow
               direction="right"
               x="100%"
+              size="clamp(46px, 4.8vw, 60px)"
+              iconSize={24}
               onClick={() => setIndex((i) => (i >= last ? 0 : i + 1))}
             />
           </div>
@@ -1012,10 +1008,14 @@ function GreenArrow({
   direction,
   onClick,
   x,
+  size = "clamp(62px, 6.6vw, 82px)",
+  iconSize = 32,
 }: {
   direction: "left" | "right";
   onClick: () => void;
   x: number | string;
+  size?: string;
+  iconSize?: number;
 }) {
   const Icon = direction === "left" ? ArrowLeft : ArrowRight;
   return (
@@ -1029,25 +1029,19 @@ function GreenArrow({
         top: "50%",
         transform: "translate(-50%, -50%)",
         zIndex: 3,
-        width: "clamp(62px, 6.6vw, 82px)",
-        height: "clamp(62px, 6.6vw, 82px)",
+        width: size,
+        height: size,
         borderRadius: "50%",
         border: "none",
-        background: "var(--sp-green-500)",
+        background: "#05a171",
         alignItems: "center",
         justifyContent: "center",
         cursor: "pointer",
         boxShadow: "0 10px 24px -8px rgba(5,161,113,0.55)",
         transition: "background 0.2s ease",
       }}
-      onMouseEnter={(e) =>
-        ((e.currentTarget as HTMLElement).style.background = "var(--sp-green-600)")
-      }
-      onMouseLeave={(e) =>
-        ((e.currentTarget as HTMLElement).style.background = "var(--sp-green-500)")
-      }
     >
-      <Icon size={32} color="#000" strokeWidth={2.4} />
+      <Icon size={iconSize} color="#000" strokeWidth={2.4} />
     </button>
   );
 }
@@ -1109,8 +1103,7 @@ function Dots({
             width: i === active ? 30 : 24,
             height: 4,
             borderRadius: 2,
-            background:
-              i === active ? "var(--sp-green-500)" : dark ? "rgba(255,255,255,0.25)" : "#334155",
+            background: i === active ? "#05a171" : dark ? "rgba(255,255,255,0.25)" : "#334155",
             border: "none",
             cursor: "pointer",
             padding: 0,

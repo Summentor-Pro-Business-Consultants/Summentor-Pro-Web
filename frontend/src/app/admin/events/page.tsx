@@ -59,7 +59,7 @@ interface Event {
 const th: React.CSSProperties = {
   padding: "10px 16px",
   textAlign: "left",
-  fontSize: 12,
+  fontSize: 11,
   fontWeight: 600,
   color: "#64748B",
   letterSpacing: "0.04em",
@@ -69,7 +69,7 @@ const th: React.CSSProperties = {
 };
 const td: React.CSSProperties = {
   padding: "12px 16px",
-  fontSize: 14,
+  fontSize: 12.9,
   color: "#1E293B",
   borderBottom: "1px solid #F1F5F9",
 };
@@ -146,7 +146,7 @@ export default function EventsAdminPage() {
               border: "none",
               background: "#3C50E0",
               color: "#fff",
-              fontSize: 14,
+              fontSize: 12.9,
               fontWeight: 600,
               cursor: "pointer",
             }}
@@ -169,7 +169,7 @@ export default function EventsAdminPage() {
             padding: "8px 12px",
             borderRadius: 7,
             border: "1px solid #E2E8F0",
-            fontSize: 14,
+            fontSize: 12.9,
           }}
         >
           <option value="">All statuses</option>
@@ -236,14 +236,14 @@ export default function EventsAdminPage() {
                     </td>
                     <td style={td}>{ev.city}</td>
                     {/* whiteSpace:nowrap prevents the date from wrapping in narrow viewports */}
-                    <td style={{ ...td, color: "#64748B", fontSize: 13, whiteSpace: "nowrap" }}>
+                    <td style={{ ...td, color: "#64748B", fontSize: 12, whiteSpace: "nowrap" }}>
                       {new Date(ev.eventDate).toLocaleDateString("en-IN")}
                     </td>
                     <td style={td}>
                       {/* Tag rendered in brand gold to visually separate it from status */}
                       <span
                         style={{
-                          fontSize: 11,
+                          fontSize: 10.1,
                           fontWeight: 600,
                           color: "#C9A14A",
                           letterSpacing: "0.04em",
@@ -304,7 +304,7 @@ export default function EventsAdminPage() {
               borderTop: "1px solid #F1F5F9",
             }}
           >
-            <span style={{ fontSize: 13, color: "#64748B" }}>
+            <span style={{ fontSize: 12, color: "#64748B" }}>
               Page {page} of {Math.ceil(total / 15)}
             </span>
             <div style={{ display: "flex", gap: 8 }}>
@@ -317,7 +317,7 @@ export default function EventsAdminPage() {
                   border: "1px solid #E2E8F0",
                   background: page === 1 ? "#F8FAFC" : "#fff",
                   cursor: page === 1 ? "default" : "pointer",
-                  fontSize: 13,
+                  fontSize: 12,
                 }}
               >
                 Prev
@@ -331,7 +331,7 @@ export default function EventsAdminPage() {
                   border: "1px solid #E2E8F0",
                   background: "#fff",
                   cursor: "pointer",
-                  fontSize: 13,
+                  fontSize: 12,
                 }}
               >
                 Next

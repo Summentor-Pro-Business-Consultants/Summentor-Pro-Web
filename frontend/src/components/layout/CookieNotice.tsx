@@ -73,7 +73,7 @@ export default function CookieNotice() {
               flex: "1 1 320px",
               margin: 0,
               fontFamily: "var(--sp-font-sans)",
-              fontSize: "clamp(13px, 1.5vw, 15px)",
+              fontSize: "clamp(12px, 1.38vw, 14px)",
               lineHeight: 1.4,
               color: "#3a3a3a",
             }}
@@ -84,7 +84,7 @@ export default function CookieNotice() {
             <Link
               href="/cookies-policy"
               style={{
-                color: "var(--sp-green-600)",
+                color: "#05a171",
                 textDecoration: "underline",
                 textUnderlineOffset: 3,
               }}
@@ -98,14 +98,14 @@ export default function CookieNotice() {
             type="button"
             onClick={accept}
             onMouseEnter={(e) => (e.currentTarget.style.background = "#047a54")}
-            onMouseLeave={(e) => (e.currentTarget.style.background = "var(--sp-green-600)")}
+            onMouseLeave={(e) => (e.currentTarget.style.background = "#05a171")}
             style={{
               flexShrink: 0,
               fontFamily: "var(--sp-font-sans)",
-              fontSize: 15,
+              fontSize: 13.8,
               fontWeight: 500,
               color: "#fff",
-              background: "var(--sp-green-600)",
+              background: "#05a171",
               border: "none",
               borderRadius: 999,
               padding: "11px 36px",

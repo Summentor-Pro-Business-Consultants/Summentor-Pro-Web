@@ -65,7 +65,7 @@ function ColumnHeading({ children }: { children: React.ReactNode }) {
     <div
       style={{
         fontFamily: "var(--sp-font-sans)",
-        fontSize: 16,
+        fontSize: 14.7,
         fontWeight: 600,
         color: "#fff",
         marginBottom: 20,
@@ -87,13 +87,13 @@ function FooterLink({ href, label, badge }: { href: string; label: string; badge
         alignItems: "center",
         gap: 8,
         fontFamily: "var(--sp-font-sans)",
-        fontSize: 14,
+        fontSize: 12.9,
         color: "var(--sp-navy-300)",
         textDecoration: "none",
         transition: "color 0.15s ease",
         width: "fit-content",
       }}
-      onMouseEnter={(e) => (e.currentTarget.style.color = "var(--sp-green-400)")}
+      onMouseEnter={(e) => (e.currentTarget.style.color = "#17d99d")}
       onMouseLeave={(e) => (e.currentTarget.style.color = "var(--sp-navy-300)")}
     >
       {label}
@@ -101,11 +101,11 @@ function FooterLink({ href, label, badge }: { href: string; label: string; badge
         <span
           style={{
             fontFamily: "var(--sp-font-sans)",
-            fontSize: 8.5,
+            fontSize: 7.8,
             fontWeight: 700,
             letterSpacing: "0.06em",
             color: "#fff",
-            background: "var(--sp-green-600)",
+            background: "#05a171",
             borderRadius: 4,
             padding: "1px 5px",
             lineHeight: 1.3,
@@ -136,8 +136,8 @@ function SocialIcon({ label, href, path }: { label: string; href: string; path: 
         transition: "color 0.15s ease, border-color 0.15s ease",
       }}
       onMouseEnter={(e) => {
-        e.currentTarget.style.color = "var(--sp-green-400)";
-        e.currentTarget.style.borderColor = "var(--sp-green-400)";
+        e.currentTarget.style.color = "#17d99d";
+        e.currentTarget.style.borderColor = "#05a171";
       }}
       onMouseLeave={(e) => {
         e.currentTarget.style.color = "var(--sp-navy-200)";
@@ -265,7 +265,7 @@ export default function Footer() {
               <h2
                 style={{
                   fontFamily: "var(--sp-font-sans)",
-                  fontSize: "clamp(28px, 4vw, 56px)",
+                  fontSize: "clamp(26px, 3.68vw, 52px)",
                   fontWeight: 900,
                   textTransform: "uppercase",
                   letterSpacing: "0.01em",
@@ -416,7 +416,7 @@ export default function Footer() {
                 outline: "none",
                 color: "#fff",
                 fontFamily: "var(--sp-font-sans)",
-                fontSize: 15,
+                fontSize: 13.8,
               }}
             />
 
@@ -433,7 +433,7 @@ export default function Footer() {
                 borderRadius: 999,
                 padding: "10px 12px 10px 24px",
                 fontFamily: "var(--sp-font-sans)",
-                fontSize: 15,
+                fontSize: 13.8,
                 fontWeight: 500,
                 cursor: "pointer",
                 transition: "background 0.2s ease",
@@ -481,7 +481,7 @@ export default function Footer() {
               <p
                 style={{
                   fontFamily: "var(--sp-font-sans)",
-                  fontSize: 14,
+                  fontSize: 12.9,
                   lineHeight: 1.45,
                   color: "var(--sp-navy-300)",
                   marginTop: 20,
@@ -540,7 +540,7 @@ export default function Footer() {
                   alignItems: "center",
                   gap: 9,
                   fontFamily: "var(--sp-font-sans)",
-                  fontSize: 14,
+                  fontSize: 12.9,
                   color: "var(--sp-navy-300)",
                 }}
               >
@@ -559,7 +559,7 @@ export default function Footer() {
               <p
                 style={{
                   fontFamily: "var(--sp-font-sans)",
-                  fontSize: 12.5,
+                  fontSize: 11.5,
                   color: "var(--sp-navy-400)",
                   marginTop: 16,
                   lineHeight: 1.45,
@@ -598,7 +598,7 @@ export default function Footer() {
               aria-hidden="true"
               style={{
                 fontFamily: "var(--sp-font-display)",
-                fontSize: "clamp(46px, 9vw, 128px)",
+                fontSize: "clamp(42px, 8.28vw, 118px)",
                 fontWeight: 700,
                 lineHeight: 1,
                 letterSpacing: "0.01em",
@@ -624,7 +624,7 @@ export default function Footer() {
               aria-hidden="true"
               style={{
                 fontFamily: "var(--sp-font-display)",
-                fontSize: "clamp(46px, 9vw, 128px)",
+                fontSize: "clamp(42px, 8.28vw, 118px)",
                 fontWeight: 700,
                 lineHeight: 1,
                 letterSpacing: "0.01em",
@@ -671,7 +671,7 @@ export default function Footer() {
               className="lg:absolute lg:left-0 lg:top-1/2 lg:-translate-y-1/2"
               style={{
                 fontFamily: "var(--sp-font-sans)",
-                fontSize: 13,
+                fontSize: 12,
                 color: "var(--sp-navy-400)",
                 textAlign: "center",
               }}
@@ -682,12 +682,12 @@ export default function Footer() {
             {/* Legal + admin — pinned right on desktop */}
             <div
               className="flex flex-wrap justify-center items-center gap-x-6 gap-y-2 lg:absolute lg:right-0 lg:top-1/2 lg:-translate-y-1/2"
-              style={{ fontFamily: "var(--sp-font-sans)", fontSize: 13 }}
+              style={{ fontFamily: "var(--sp-font-sans)", fontSize: 12 }}
             >
               <Link
                 href="/privacy-policy"
                 style={{ color: "var(--sp-navy-300)", textDecoration: "none" }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = "var(--sp-green-400)")}
+                onMouseEnter={(e) => (e.currentTarget.style.color = "#17d99d")}
                 onMouseLeave={(e) => (e.currentTarget.style.color = "var(--sp-navy-300)")}
               >
                 Privacy Policy
@@ -695,7 +695,7 @@ export default function Footer() {
               <Link
                 href="/terms-of-service"
                 style={{ color: "var(--sp-navy-300)", textDecoration: "none" }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = "var(--sp-green-400)")}
+                onMouseEnter={(e) => (e.currentTarget.style.color = "#17d99d")}
                 onMouseLeave={(e) => (e.currentTarget.style.color = "var(--sp-navy-300)")}
               >
                 Terms &amp; Condition
@@ -705,12 +705,12 @@ export default function Footer() {
                 style={{
                   color: "var(--sp-navy-600)",
                   textDecoration: "none",
-                  fontSize: 11,
+                  fontSize: 10.1,
                   letterSpacing: "0.08em",
                   textTransform: "uppercase",
                   fontWeight: 600,
                 }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = "var(--sp-green-400)")}
+                onMouseEnter={(e) => (e.currentTarget.style.color = "#17d99d")}
                 onMouseLeave={(e) => (e.currentTarget.style.color = "var(--sp-navy-600)")}
               >
                 Admin

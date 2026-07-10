@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, Fragment } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
@@ -63,47 +63,29 @@ export default function Header() {
 
         {/* Desktop nav */}
         <nav className="hidden md:flex flex-1 items-center justify-end gap-0 ml-auto">
-          {navLinks.map((link, idx) => (
-            <Fragment key={link.href}>
-              {idx > 0 && (
-                <span
-                  style={{
-                    color: "var(--sp-gray-300)",
-                    fontSize: 19.5,
-                    margin: "0 9px",
-                    userSelect: "none",
-                  }}
-                >
-                  /
-                </span>
-              )}
-              <Link
-                href={link.href}
-                style={{
-                  fontFamily: "var(--sp-font-sans)",
-                  fontSize: 19.5,
-                  color: isActive(link.href) ? "var(--sp-green-700)" : "#000",
-                  textDecoration: "none",
-                  padding: "28px 13px",
-                  borderBottom: isActive(link.href)
-                    ? "2px solid var(--sp-green-600)"
-                    : "2px solid transparent",
-                  marginBottom: -2,
-                  transition: "color 0.15s ease, border-color 0.15s ease",
-                  fontWeight: isActive(link.href) ? 600 : 500,
-                  whiteSpace: "nowrap",
-                }}
-                onMouseEnter={(e) => {
-                  if (!isActive(link.href))
-                    (e.target as HTMLElement).style.color = "var(--sp-green-700)";
-                }}
-                onMouseLeave={(e) => {
-                  if (!isActive(link.href)) (e.target as HTMLElement).style.color = "#000";
-                }}
-              >
-                {link.label}
-              </Link>
-            </Fragment>
+          {navLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              style={{
+                fontFamily: "var(--sp-font-sans)",
+                fontSize: 17.9,
+                color: isActive(link.href) ? "#05a171" : "#000",
+                textDecoration: "none",
+                padding: "28px 38px",
+                transition: "color 0.15s ease",
+                fontWeight: isActive(link.href) ? 600 : 500,
+                whiteSpace: "nowrap",
+              }}
+              onMouseEnter={(e) => {
+                if (!isActive(link.href)) (e.target as HTMLElement).style.color = "#05a171";
+              }}
+              onMouseLeave={(e) => {
+                if (!isActive(link.href)) (e.target as HTMLElement).style.color = "#000";
+              }}
+            >
+              {link.label}
+            </Link>
           ))}
         </nav>
 
@@ -151,8 +133,8 @@ export default function Header() {
                     href={link.href}
                     style={{
                       fontFamily: "var(--sp-font-sans)",
-                      fontSize: 19,
-                      color: isActive(link.href) ? "var(--sp-green-700)" : "#000",
+                      fontSize: 17.5,
+                      color: isActive(link.href) ? "#05a171" : "#000",
                       textDecoration: "none",
                       padding: "14px 0",
                       borderBottom: "1px solid var(--sp-gray-200)",

@@ -36,11 +36,11 @@ export default function LegalLayout({
           <div
             style={{
               fontFamily: "var(--sp-font-sans)",
-              fontSize: 12,
+              fontSize: 11,
               fontWeight: 700,
               letterSpacing: "0.1em",
               textTransform: "uppercase",
-              color: "var(--sp-green-400)",
+              color: "#17d99d",
               marginBottom: 14,
             }}
           >
@@ -49,7 +49,7 @@ export default function LegalLayout({
           <h1
             style={{
               fontFamily: "var(--sp-font-display)",
-              fontSize: "clamp(28px, 4vw, 46px)",
+              fontSize: "clamp(26px, 3.68vw, 42px)",
               fontWeight: 700,
               color: "#fff",
               lineHeight: 1.1,
@@ -63,7 +63,7 @@ export default function LegalLayout({
             <p
               style={{
                 fontFamily: "var(--sp-font-sans)",
-                fontSize: 13,
+                fontSize: 12,
                 color: "var(--sp-navy-300)",
                 marginTop: 16,
               }}
@@ -92,8 +92,8 @@ export default function LegalLayout({
         .legal-prose p:last-child { margin-bottom: 0; }
         .legal-prose ul { list-style: disc; padding-left: 1.4em; margin: 0.4em 0 1.2em; }
         .legal-prose li { margin-bottom: 0.45em; }
-        .legal-prose li::marker { color: var(--sp-green-600); }
-        .legal-prose a { color: var(--sp-green-600); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--sp-green-600); }
+        .legal-prose li::marker { color: #05a171; }
+        .legal-prose a { color: #05a171; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: #05a171; }
         .legal-prose a:hover { color: #047a54; }
         .legal-prose strong { font-weight: 700; color: #000; }
       `}</style>

@@ -82,7 +82,7 @@ const card: React.CSSProperties = {
  */
 function SectionTitle({ label }: { label: string }) {
   return (
-    <p style={{ margin: "0 0 16px", fontSize: 14, fontWeight: 600, color: "#1E293B" }}>{label}</p>
+    <p style={{ margin: "0 0 16px", fontSize: 12.9, fontWeight: 600, color: "#1E293B" }}>{label}</p>
   );
 }
 
@@ -165,7 +165,7 @@ const REG_STATUS_COLORS: Record<string, { bg: string; color: string }> = {
 function RegStatusBadge({ status }: { status: string }) {
   const s = REG_STATUS_COLORS[status] ?? { bg: "#F1F5F9", color: "#64748B" };
   return (
-    <span style={{ ...s, padding: "2px 9px", borderRadius: 20, fontSize: 11, fontWeight: 700 }}>
+    <span style={{ ...s, padding: "2px 9px", borderRadius: 20, fontSize: 10.1, fontWeight: 700 }}>
       {status}
     </span>
   );
@@ -252,7 +252,7 @@ function WebsiteTab() {
 
   const noData = (
     <p
-      style={{ color: "#94A3B8", fontSize: 13, textAlign: "center", padding: "40px 0", margin: 0 }}
+      style={{ color: "#94A3B8", fontSize: 12, textAlign: "center", padding: "40px 0", margin: 0 }}
     >
       No data yet — data appears once visitors start browsing the site.
     </p>
@@ -393,10 +393,10 @@ function WebsiteTab() {
           }}
         >
           <div>
-            <p style={{ margin: 0, fontSize: 14, fontWeight: 600, color: "#1E293B" }}>
+            <p style={{ margin: 0, fontSize: 12.9, fontWeight: 600, color: "#1E293B" }}>
               New Submissions
             </p>
-            <p style={{ margin: "2px 0 0", fontSize: 12, color: "#64748B" }}>
+            <p style={{ margin: "2px 0 0", fontSize: 11, color: "#64748B" }}>
               Contacts + registrations in selected period
             </p>
           </div>
@@ -409,8 +409,8 @@ function WebsiteTab() {
             { label: "Total", value: newSubs["total"] ?? 0, color: "#8B5CF6" },
           ].map(({ label, value, color }) => (
             <div key={label} style={{ textAlign: "center", padding: "12px 0" }}>
-              <p style={{ fontSize: 36, fontWeight: 700, color, margin: 0 }}>{value}</p>
-              <p style={{ fontSize: 13, color: "#64748B", marginTop: 4 }}>{label}</p>
+              <p style={{ fontSize: 33.1, fontWeight: 700, color, margin: 0 }}>{value}</p>
+              <p style={{ fontSize: 12, color: "#64748B", marginTop: 4 }}>{label}</p>
             </div>
           ))}
         </div>
@@ -572,7 +572,7 @@ function EventsTab() {
         }}
       >
         <Activity size={16} color="#3C50E0" />
-        <span style={{ fontSize: 15, fontWeight: 700, color: "#1E293B" }}>Overall Events</span>
+        <span style={{ fontSize: 13.8, fontWeight: 700, color: "#1E293B" }}>Overall Events</span>
       </div>
 
       {/* KPI row */}
@@ -601,7 +601,9 @@ function EventsTab() {
         }}
       >
         <DollarSign size={16} color="#3C50E0" />
-        <span style={{ fontSize: 15, fontWeight: 700, color: "#1E293B" }}>Sales &amp; Revenue</span>
+        <span style={{ fontSize: 13.8, fontWeight: 700, color: "#1E293B" }}>
+          Sales &amp; Revenue
+        </span>
       </div>
 
       {/* Row A: Net Revenue · Tickets gauge · Upcoming Events */}
@@ -621,7 +623,7 @@ function EventsTab() {
             <div>
               <p
                 style={{
-                  fontSize: 11,
+                  fontSize: 10.1,
                   fontWeight: 700,
                   color: "#64748B",
                   letterSpacing: "0.06em",
@@ -632,14 +634,18 @@ function EventsTab() {
               </p>
               <div style={{ display: "flex", gap: 32, marginTop: 10 }}>
                 <div>
-                  <p style={{ fontSize: 11, color: "#94A3B8", margin: 0 }}>This Week</p>
-                  <p style={{ fontSize: 22, fontWeight: 700, color: "#EF4444", margin: "4px 0 0" }}>
+                  <p style={{ fontSize: 10.1, color: "#94A3B8", margin: 0 }}>This Week</p>
+                  <p
+                    style={{ fontSize: 20.2, fontWeight: 700, color: "#EF4444", margin: "4px 0 0" }}
+                  >
                     ₹0.00
                   </p>
                 </div>
                 <div>
-                  <p style={{ fontSize: 11, color: "#94A3B8", margin: 0 }}>Previous Week</p>
-                  <p style={{ fontSize: 22, fontWeight: 500, color: "#64748B", margin: "4px 0 0" }}>
+                  <p style={{ fontSize: 10.1, color: "#94A3B8", margin: 0 }}>Previous Week</p>
+                  <p
+                    style={{ fontSize: 20.2, fontWeight: 500, color: "#64748B", margin: "4px 0 0" }}
+                  >
                     ₹0.00
                   </p>
                 </div>
@@ -647,7 +653,7 @@ function EventsTab() {
             </div>
             <span
               style={{
-                fontSize: 11,
+                fontSize: 10.1,
                 color: "#64748B",
                 background: "#F8FAFC",
                 border: "1px solid #E2E8F0",
@@ -661,7 +667,7 @@ function EventsTab() {
           <SparklineChart data={flatRevenue} />
           <p
             style={{
-              fontSize: 11,
+              fontSize: 10.1,
               color: "#94A3B8",
               textAlign: "center",
               marginTop: 10,
@@ -676,7 +682,7 @@ function EventsTab() {
         <div style={card}>
           <p
             style={{
-              fontSize: 11,
+              fontSize: 10.1,
               fontWeight: 700,
               color: "#64748B",
               letterSpacing: "0.06em",
@@ -693,14 +699,14 @@ function EventsTab() {
           />
           <div style={{ display: "flex", justifyContent: "space-between", marginTop: 10 }}>
             <div>
-              <p style={{ fontSize: 11, color: "#94A3B8", margin: 0 }}>Online</p>
-              <p style={{ fontSize: 14, fontWeight: 700, color: "#EF4444", margin: "3px 0 0" }}>
+              <p style={{ fontSize: 10.1, color: "#94A3B8", margin: 0 }}>Online</p>
+              <p style={{ fontSize: 12.9, fontWeight: 700, color: "#EF4444", margin: "3px 0 0" }}>
                 ₹0.00
               </p>
             </div>
             <div style={{ textAlign: "right" }}>
-              <p style={{ fontSize: 11, color: "#94A3B8", margin: 0 }}>Total Seats</p>
-              <p style={{ fontSize: 14, fontWeight: 700, color: "#64748B", margin: "3px 0 0" }}>
+              <p style={{ fontSize: 10.1, color: "#94A3B8", margin: 0 }}>Total Seats</p>
+              <p style={{ fontSize: 12.9, fontWeight: 700, color: "#64748B", margin: "3px 0 0" }}>
                 {totalCapacity || "—"}
               </p>
             </div>
@@ -711,7 +717,7 @@ function EventsTab() {
         <div style={card}>
           <p
             style={{
-              fontSize: 11,
+              fontSize: 10.1,
               fontWeight: 700,
               color: "#64748B",
               letterSpacing: "0.06em",
@@ -721,7 +727,7 @@ function EventsTab() {
             UPCOMING EVENTS
           </p>
           {upcomingEvents.length === 0 ? (
-            <p style={{ color: "#94A3B8", fontSize: 13, textAlign: "center", padding: "24px 0" }}>
+            <p style={{ color: "#94A3B8", fontSize: 12, textAlign: "center", padding: "24px 0" }}>
               No upcoming events
             </p>
           ) : (
@@ -738,7 +744,7 @@ function EventsTab() {
                       alignItems: "center",
                       justifyContent: "center",
                       color: "#fff",
-                      fontSize: 14,
+                      fontSize: 12.9,
                       fontWeight: 700,
                       flexShrink: 0,
                     }}
@@ -749,7 +755,7 @@ function EventsTab() {
                     <p
                       style={{
                         margin: 0,
-                        fontSize: 12,
+                        fontSize: 11,
                         fontWeight: 600,
                         color: "#1E293B",
                         overflow: "hidden",
@@ -762,7 +768,7 @@ function EventsTab() {
                     <p
                       style={{
                         margin: "2px 0 0",
-                        fontSize: 11,
+                        fontSize: 10.1,
                         color: "#94A3B8",
                         display: "flex",
                         alignItems: "center",
@@ -789,7 +795,7 @@ function EventsTab() {
           <div style={{ marginBottom: 14 }}>
             <p
               style={{
-                fontSize: 11,
+                fontSize: 10.1,
                 fontWeight: 700,
                 color: "#64748B",
                 letterSpacing: "0.06em",
@@ -800,21 +806,21 @@ function EventsTab() {
             </p>
             <div style={{ display: "flex", gap: 28, marginTop: 8 }}>
               <div>
-                <p style={{ fontSize: 11, color: "#94A3B8", margin: 0 }}>This Week</p>
-                <p style={{ fontSize: 15, fontWeight: 700, color: "#EF4444", margin: "3px 0 0" }}>
+                <p style={{ fontSize: 10.1, color: "#94A3B8", margin: 0 }}>This Week</p>
+                <p style={{ fontSize: 13.8, fontWeight: 700, color: "#EF4444", margin: "3px 0 0" }}>
                   {evtOverview["thisWeekRegistrations"] ?? 0} Registrations
                 </p>
               </div>
               <div>
-                <p style={{ fontSize: 11, color: "#94A3B8", margin: 0 }}>Previous Week</p>
-                <p style={{ fontSize: 15, fontWeight: 500, color: "#64748B", margin: "3px 0 0" }}>
+                <p style={{ fontSize: 10.1, color: "#94A3B8", margin: 0 }}>Previous Week</p>
+                <p style={{ fontSize: 13.8, fontWeight: 500, color: "#64748B", margin: "3px 0 0" }}>
                   {evtOverview["prevWeekRegistrations"] ?? 0} Registrations
                 </p>
               </div>
             </div>
           </div>
           {recentRegs.length === 0 ? (
-            <p style={{ color: "#94A3B8", fontSize: 13, textAlign: "center", padding: "24px 0" }}>
+            <p style={{ color: "#94A3B8", fontSize: 12, textAlign: "center", padding: "24px 0" }}>
               No registrations yet
             </p>
           ) : (
@@ -842,7 +848,7 @@ function EventsTab() {
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
-                        fontSize: 12,
+                        fontSize: 11,
                         fontWeight: 700,
                         color: hi ? "#fff" : "#64748B",
                         flexShrink: 0,
@@ -854,7 +860,7 @@ function EventsTab() {
                       <p
                         style={{
                           margin: 0,
-                          fontSize: 12,
+                          fontSize: 11,
                           fontWeight: 600,
                           color: hi ? "#fff" : "#1E293B",
                           overflow: "hidden",
@@ -867,7 +873,7 @@ function EventsTab() {
                       <p
                         style={{
                           margin: "1px 0 0",
-                          fontSize: 11,
+                          fontSize: 10.1,
                           color: hi ? "rgba(255,255,255,0.7)" : "#94A3B8",
                           overflow: "hidden",
                           textOverflow: "ellipsis",
@@ -879,12 +885,12 @@ function EventsTab() {
                     </div>
                     <div style={{ display: "flex", alignItems: "center", gap: 12, flexShrink: 0 }}>
                       <span
-                        style={{ fontSize: 11, color: hi ? "rgba(255,255,255,0.75)" : "#94A3B8" }}
+                        style={{ fontSize: 10.1, color: hi ? "rgba(255,255,255,0.75)" : "#94A3B8" }}
                       >
                         x1
                       </span>
                       <span
-                        style={{ fontSize: 12, fontWeight: 600, color: hi ? "#fff" : "#1E293B" }}
+                        style={{ fontSize: 11, fontWeight: 600, color: hi ? "#fff" : "#1E293B" }}
                       >
                         ₹0
                       </span>
@@ -901,7 +907,7 @@ function EventsTab() {
         <div style={card}>
           <p
             style={{
-              fontSize: 11,
+              fontSize: 10.1,
               fontWeight: 700,
               color: "#64748B",
               letterSpacing: "0.06em",
@@ -918,11 +924,11 @@ function EventsTab() {
             size={160}
           />
           <div style={{ marginTop: 10, display: "flex", flexDirection: "column", gap: 7 }}>
-            <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12 }}>
+            <div style={{ display: "flex", justifyContent: "space-between", fontSize: 11 }}>
               <span style={{ color: "#94A3B8" }}>Total Seats</span>
               <span style={{ fontWeight: 600, color: "#1E293B" }}>{totalCapacity}</span>
             </div>
-            <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12 }}>
+            <div style={{ display: "flex", justifyContent: "space-between", fontSize: 11 }}>
               <span style={{ color: "#94A3B8" }}>Confirmed</span>
               <span style={{ fontWeight: 700, color: "#EF4444" }}>{confirmed}</span>
             </div>
@@ -939,7 +945,7 @@ function EventsTab() {
                   }}
                 />
               </div>
-              <p style={{ fontSize: 10, color: "#94A3B8", margin: "3px 0 0" }}>
+              <p style={{ fontSize: 9.2, color: "#94A3B8", margin: "3px 0 0" }}>
                 {confirmed} of {totalCapacity} sold
               </p>
             </div>
@@ -950,7 +956,7 @@ function EventsTab() {
         <div style={card}>
           <p
             style={{
-              fontSize: 11,
+              fontSize: 10.1,
               fontWeight: 700,
               color: "#64748B",
               letterSpacing: "0.06em",
@@ -959,14 +965,14 @@ function EventsTab() {
           >
             ONLINE REVENUE
           </p>
-          <p style={{ fontSize: 11, color: "#94A3B8", margin: "0 0 4px" }}>Total Revenue</p>
-          <p style={{ fontSize: 24, fontWeight: 700, color: "#EF4444", margin: "0 0 16px" }}>
+          <p style={{ fontSize: 10.1, color: "#94A3B8", margin: "0 0 4px" }}>Total Revenue</p>
+          <p style={{ fontSize: 22.1, fontWeight: 700, color: "#EF4444", margin: "0 0 16px" }}>
             ₹0.00
           </p>
           <SparklineChart data={flatRevenue} height={72} />
           <p
             style={{
-              fontSize: 10,
+              fontSize: 9.2,
               color: "#94A3B8",
               textAlign: "center",
               marginTop: 8,
@@ -983,7 +989,7 @@ function EventsTab() {
       <div style={{ ...card, marginBottom: 24 }}>
         <SectionTitle label="Registrations per Event" />
         {regTrend.length === 0 ? (
-          <p style={{ color: "#94A3B8", fontSize: 14, textAlign: "center", padding: "40px 0" }}>
+          <p style={{ color: "#94A3B8", fontSize: 12.9, textAlign: "center", padding: "40px 0" }}>
             No events yet
           </p>
         ) : (
@@ -995,7 +1001,7 @@ function EventsTab() {
       <div style={{ ...card, marginBottom: 36 }}>
         <SectionTitle label="Top Cities by Registrations" />
         {cities.length === 0 ? (
-          <p style={{ color: "#94A3B8", fontSize: 14, textAlign: "center", padding: "40px 0" }}>
+          <p style={{ color: "#94A3B8", fontSize: 12.9, textAlign: "center", padding: "40px 0" }}>
             No registration data yet
           </p>
         ) : (
@@ -1022,7 +1028,7 @@ function EventsTab() {
         }}
       >
         <BarChart2 size={16} color="#3C50E0" />
-        <span style={{ fontSize: 15, fontWeight: 700, color: "#1E293B" }}>Event Deep Dive</span>
+        <span style={{ fontSize: 13.8, fontWeight: 700, color: "#1E293B" }}>Event Deep Dive</span>
       </div>
 
       {/* Event selector dropdown */}
@@ -1030,7 +1036,7 @@ function EventsTab() {
         <label
           style={{
             display: "block",
-            fontSize: 12,
+            fontSize: 11,
             fontWeight: 600,
             color: "#64748B",
             letterSpacing: "0.04em",
@@ -1047,7 +1053,7 @@ function EventsTab() {
             maxWidth: 560,
             height: 42,
             padding: "0 12px",
-            fontSize: 14,
+            fontSize: 12.9,
             color: "#1E293B",
             border: "1px solid #E2E8F0",
             borderRadius: 7,
@@ -1089,7 +1095,13 @@ function EventsTab() {
       {/* Prompt shown before any event is selected */}
       {!selectedId && (
         <div
-          style={{ ...card, color: "#94A3B8", fontSize: 14, textAlign: "center", padding: "48px" }}
+          style={{
+            ...card,
+            color: "#94A3B8",
+            fontSize: 12.9,
+            textAlign: "center",
+            padding: "48px",
+          }}
         >
           Select an event above to view its registration analytics.
         </div>
@@ -1149,11 +1161,11 @@ function EventDetailPanel({ data }: { data: EventAnalytics }) {
           style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}
         >
           <div>
-            <p style={{ margin: 0, fontSize: 18, fontWeight: 700, color: "#1E293B" }}>
+            <p style={{ margin: 0, fontSize: 16.6, fontWeight: 700, color: "#1E293B" }}>
               {event.title}
             </p>
             {/* Date · City · Venue (venue only shown when present) */}
-            <p style={{ margin: "4px 0 0", fontSize: 13, color: "#64748B" }}>
+            <p style={{ margin: "4px 0 0", fontSize: 12, color: "#64748B" }}>
               {new Date(event.eventDate).toLocaleDateString("en-IN", {
                 weekday: "short",
                 day: "numeric",
@@ -1172,7 +1184,7 @@ function EventDetailPanel({ data }: { data: EventAnalytics }) {
                 ...eventStatusStyle,
                 padding: "4px 12px",
                 borderRadius: 20,
-                fontSize: 12,
+                fontSize: 11,
                 fontWeight: 700,
               }}
             >
@@ -1184,7 +1196,7 @@ function EventDetailPanel({ data }: { data: EventAnalytics }) {
                 color: "#2563EB",
                 padding: "4px 12px",
                 borderRadius: 20,
-                fontSize: 12,
+                fontSize: 11,
                 fontWeight: 700,
               }}
             >
@@ -1204,17 +1216,17 @@ function EventDetailPanel({ data }: { data: EventAnalytics }) {
       >
         {/* Total registrations tile */}
         <div style={{ ...card, textAlign: "center" }}>
-          <p style={{ fontSize: 32, fontWeight: 700, color: "#3C50E0", margin: 0 }}>
+          <p style={{ fontSize: 29.4, fontWeight: 700, color: "#3C50E0", margin: 0 }}>
             {totalRegistrations}
           </p>
-          <p style={{ fontSize: 12, color: "#64748B", marginTop: 4 }}>Total Registrations</p>
+          <p style={{ fontSize: 11, color: "#64748B", marginTop: 4 }}>Total Registrations</p>
         </div>
 
         {/* Per-status count tiles */}
         {statusKpi.map(({ label, key, color }) => (
           <div key={key} style={{ ...card, textAlign: "center" }}>
-            <p style={{ fontSize: 32, fontWeight: 700, color, margin: 0 }}>{countOf(key)}</p>
-            <p style={{ fontSize: 12, color: "#64748B", marginTop: 4 }}>{label}</p>
+            <p style={{ fontSize: 29.4, fontWeight: 700, color, margin: 0 }}>{countOf(key)}</p>
+            <p style={{ fontSize: 11, color: "#64748B", marginTop: 4 }}>{label}</p>
           </div>
         ))}
 
@@ -1224,7 +1236,7 @@ function EventDetailPanel({ data }: { data: EventAnalytics }) {
             {/* Colour flips to red when >= 90% full to signal urgency */}
             <p
               style={{
-                fontSize: 32,
+                fontSize: 29.4,
                 fontWeight: 700,
                 color: (capacityUsedPct ?? 0) >= 90 ? "#EF4444" : "#10B981",
                 margin: 0,
@@ -1232,7 +1244,7 @@ function EventDetailPanel({ data }: { data: EventAnalytics }) {
             >
               {capacityUsedPct ?? 0}%
             </p>
-            <p style={{ fontSize: 12, color: "#64748B", marginTop: 4 }}>
+            <p style={{ fontSize: 11, color: "#64748B", marginTop: 4 }}>
               Capacity ({event.capacity})
             </p>
             {/* Mini progress bar showing capacity fill level */}
@@ -1270,7 +1282,7 @@ function EventDetailPanel({ data }: { data: EventAnalytics }) {
         <div style={card}>
           <SectionTitle label="Recent Registrations" />
           {recentRegistrations.length === 0 ? (
-            <p style={{ color: "#94A3B8", fontSize: 14, textAlign: "center", padding: "20px 0" }}>
+            <p style={{ color: "#94A3B8", fontSize: 12.9, textAlign: "center", padding: "20px 0" }}>
               No registrations yet
             </p>
           ) : (
@@ -1287,11 +1299,11 @@ function EventDetailPanel({ data }: { data: EventAnalytics }) {
                   }}
                 >
                   <div>
-                    <p style={{ margin: 0, fontSize: 13, fontWeight: 500, color: "#1E293B" }}>
+                    <p style={{ margin: 0, fontSize: 12, fontWeight: 500, color: "#1E293B" }}>
                       {r.name}
                     </p>
                     {/* Show company if available, otherwise fall back to email */}
-                    <p style={{ margin: "2px 0 0", fontSize: 11, color: "#94A3B8" }}>
+                    <p style={{ margin: "2px 0 0", fontSize: 10.1, color: "#94A3B8" }}>
                       {r.company ?? r.email}
                     </p>
                   </div>
@@ -1305,7 +1317,7 @@ function EventDetailPanel({ data }: { data: EventAnalytics }) {
                   >
                     <RegStatusBadge status={r.status} />
                     {/* Registration date in compact day-month format */}
-                    <span style={{ fontSize: 10, color: "#CBD5E1" }}>
+                    <span style={{ fontSize: 9.2, color: "#CBD5E1" }}>
                       {new Date(r.createdAt).toLocaleDateString("en-IN", {
                         day: "numeric",
                         month: "short",
@@ -1377,7 +1389,7 @@ export default function DashboardPage() {
                 borderRadius: 7,
                 border: "none",
                 cursor: "pointer",
-                fontSize: 14,
+                fontSize: 12.9,
                 fontWeight: active ? 700 : 500,
                 background: active ? "#fff" : "transparent",
                 color: active ? "#1E293B" : "#64748B",

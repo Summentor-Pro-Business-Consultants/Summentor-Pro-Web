@@ -57,7 +57,7 @@ export default function AdminHeader({ title, subtitle, action }: AdminHeaderProp
       <div>
         <h1
           style={{
-            fontSize: 24,
+            fontSize: 22.1,
             fontWeight: 700,
             color: "#1E293B",
             fontFamily: "var(--sp-font-sans)", // Uses the design-system CSS variable
@@ -68,7 +68,7 @@ export default function AdminHeader({ title, subtitle, action }: AdminHeaderProp
         </h1>
 
         {/* Subtitle is optional — only renders when a value is provided */}
-        {subtitle && <p style={{ color: "#64748B", fontSize: 14, marginTop: 4 }}>{subtitle}</p>}
+        {subtitle && <p style={{ color: "#64748B", fontSize: 12.9, marginTop: 4 }}>{subtitle}</p>}
       </div>
 
       {/* Right: action slot — only renders when an action element is provided */}

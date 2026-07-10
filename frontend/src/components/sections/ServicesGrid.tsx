@@ -111,7 +111,7 @@ export default function ServicesGrid() {
           <p
             style={{
               fontFamily: "var(--sp-font-sans)",
-              fontSize: "clamp(26px, 3.1vw, 38px)",
+              fontSize: "clamp(24px, 2.85vw, 35px)",
               color: "#000",
               margin: "16px 0 0 0",
               textAlign: "center",
@@ -177,7 +177,7 @@ export default function ServicesGrid() {
                   <span
                     style={{
                       fontFamily: "var(--sp-font-sans)",
-                      fontSize: "clamp(88px, 10.5vw, 152px)",
+                      fontSize: "clamp(81px, 9.66vw, 140px)",
                       fontWeight: 800,
                       lineHeight: 1,
                       letterSpacing: "-0.04em",
@@ -197,7 +197,7 @@ export default function ServicesGrid() {
                   <h3
                     style={{
                       fontFamily: "var(--sp-font-sans)",
-                      fontSize: "clamp(24px, 3.2vw, 41px)",
+                      fontSize: "clamp(22px, 2.94vw, 38px)",
                       fontWeight: 800,
                       letterSpacing: "0.03em",
                       textTransform: "uppercase",
@@ -238,7 +238,7 @@ export default function ServicesGrid() {
                   <p
                     style={{
                       fontFamily: "var(--sp-font-sans)",
-                      fontSize: "clamp(18px, 2.15vw, 28px)",
+                      fontSize: "clamp(17px, 1.98vw, 26px)",
                       lineHeight: 1.35,
                       fontWeight: 400,
                       color: dark ? "#E5E7EB" : "#000",

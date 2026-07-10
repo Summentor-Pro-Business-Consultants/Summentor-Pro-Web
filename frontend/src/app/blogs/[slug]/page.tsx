@@ -70,7 +70,7 @@ export default function BlogPostPage() {
           gap: 16,
         }}
       >
-        <h1 style={{ fontFamily: "var(--sp-font-sans)", fontSize: 32, color: "#000" }}>
+        <h1 style={{ fontFamily: "var(--sp-font-sans)", fontSize: 29.4, color: "#000" }}>
           Post not found
         </h1>
         <Link
@@ -115,7 +115,7 @@ export default function BlogPostPage() {
                 gap: 6,
                 color: "var(--sp-navy-400)",
                 fontFamily: "var(--sp-font-sans)",
-                fontSize: 13,
+                fontSize: 12,
                 textDecoration: "none",
                 marginBottom: 24,
               }}
@@ -131,7 +131,7 @@ export default function BlogPostPage() {
                     style={{
                       padding: "2px 10px",
                       borderRadius: 20,
-                      fontSize: 11,
+                      fontSize: 10.1,
                       fontWeight: 700,
                       letterSpacing: "0.06em",
                       background: "rgba(var(--sp-gold-rgb,195,149,60),0.15)",
@@ -147,7 +147,7 @@ export default function BlogPostPage() {
             <h1
               style={{
                 fontFamily: "var(--sp-font-display)",
-                fontSize: "clamp(28px, 4vw, 48px)",
+                fontSize: "clamp(26px, 3.68vw, 44px)",
                 fontWeight: 700,
                 color: "#fff",
                 lineHeight: 1.1,
@@ -163,7 +163,7 @@ export default function BlogPostPage() {
               <p
                 style={{
                   fontFamily: "var(--sp-font-sans)",
-                  fontSize: 17,
+                  fontSize: 15.6,
                   color: "var(--sp-navy-300)",
                   marginTop: 16,
                   maxWidth: 680,
@@ -179,7 +179,7 @@ export default function BlogPostPage() {
                 display: "flex",
                 gap: 20,
                 marginTop: 24,
-                fontSize: 13,
+                fontSize: 12,
                 color: "var(--sp-navy-400)",
                 fontFamily: "var(--sp-font-sans)",
                 flexWrap: "wrap",
@@ -253,7 +253,7 @@ export default function BlogPostPage() {
                     style={{
                       padding: "3px 12px",
                       borderRadius: 20,
-                      fontSize: 12,
+                      fontSize: 11,
                       fontWeight: 600,
                       background: "var(--sp-gray-100)",
                       color: "var(--sp-gray-600)",
@@ -273,7 +273,7 @@ export default function BlogPostPage() {
                   alignItems: "center",
                   gap: 6,
                   fontFamily: "var(--sp-font-sans)",
-                  fontSize: 14,
+                  fontSize: 12.9,
                   fontWeight: 600,
                   color: "var(--sp-gold-600)",
                   textDecoration: "none",
@@ -287,7 +287,7 @@ export default function BlogPostPage() {
       </div>
 
       <style>{`
-        .blog-content { font-family: var(--sp-font-sans); font-size: 16px; line-height: 1.65; color: var(--sp-navy-800, #1a2740); }
+        .blog-content { font-family: var(--sp-font-sans); font-size: 15px; line-height: 1.65; color: var(--sp-navy-800, #1a2740); }
         .blog-content h2 { font-family: var(--sp-font-sans); font-size: 1.6em; font-weight: 500; margin: 1.6em 0 0.5em; color: #000; }
         .blog-content h3 { font-family: var(--sp-font-sans); font-size: 1.25em; font-weight: 500; margin: 1.4em 0 0.4em; color: #000; }
         .blog-content p { margin: 0 0 1.1em; }

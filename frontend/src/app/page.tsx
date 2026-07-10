@@ -5,7 +5,6 @@ import CredibilityBand from "@/components/sections/CredibilityBand";
 import ServicesGrid from "@/components/sections/ServicesGrid";
 import ProcessSection from "@/components/sections/ProcessSection";
 import EventsSection from "@/components/sections/EventsSection";
-import HighlightsCarousel from "@/components/sections/HighlightsCarousel";
 import EngagementCTA from "@/components/sections/EngagementCTA";
 
 export default function HomePage() {
@@ -18,7 +17,6 @@ export default function HomePage() {
       <ServicesGrid />
       <EventsSection />
       <ProcessSection />
-      <HighlightsCarousel />
       <EngagementCTA />
     </>
   );

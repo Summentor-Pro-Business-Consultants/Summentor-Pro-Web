@@ -51,14 +51,6 @@ const REFERRAL_OPTIONS = [
   "Other",
 ];
 
-const EVENT_OPTIONS = [
-  "MSME & Startup Innovation Summit",
-  "Women Empowerment & Leadership Initiatives",
-  "Global Smart Build Summit",
-  "Rural & Urban Development Excellence Awards",
-  "MSME Textile Investor Meet",
-];
-
 interface FormState {
   fullName: string;
   designation: string;
@@ -66,10 +58,12 @@ interface FormState {
   email: string;
   phone: string;
   industrySector: string;
+  industrySectorOther: string;
   service: string;
   referralSource: string;
-  event: string;
-  country: string;
+  referralOther: string;
+  city: string;
+  state: string;
   message: string;
 }
 
@@ -80,10 +74,12 @@ const EMPTY_FORM: FormState = {
   email: "",
   phone: "",
   industrySector: "",
+  industrySectorOther: "",
   service: "",
   referralSource: "",
-  event: "",
-  country: "",
+  referralOther: "",
+  city: "",
+  state: "",
   message: "",
 };
 
@@ -150,7 +146,7 @@ function Hero() {
               dark
               style={{
                 display: "inline-block",
-                fontSize: "clamp(25px, 3.6vw, 44px)",
+                fontSize: "clamp(23px, 3.31vw, 40px)",
                 fontWeight: 600,
                 borderBottom: "3px solid #fff",
                 paddingBottom: 10,
@@ -161,11 +157,11 @@ function Hero() {
           </motion.div>
 
           <motion.div variants={fadeUp} style={{ marginTop: 28 }}>
-            <PageHeading style={{ fontSize: "clamp(30px, 5.2vw, 64px)" }}>
+            <PageHeading style={{ fontSize: "clamp(28px, 4.78vw, 59px)" }}>
               <span style={{ display: "block", fontWeight: 600 }}>START YOUR JOURNEY WITH</span>
               <span
                 style={{
-                  background: "#45c69e",
+                  background: "#05a171",
                   color: "#000",
                   display: "inline-block",
                   padding: "13px 8px",
@@ -207,6 +203,26 @@ function FormBlock() {
       const firstName = parts[0] ?? "";
       const lastName = parts.length > 1 ? parts.slice(1).join(" ") : "—";
 
+      // City + State combine into the free-text `location` field.
+      const location = [form.city, form.state]
+        .map((s) => s.trim())
+        .filter(Boolean)
+        .join(", ");
+
+      // referralSource is a free string on the backend, so a custom "Other"
+      // value can be sent directly.
+      const referralSource =
+        form.referralSource === "Other"
+          ? form.referralOther.trim() || "Other"
+          : form.referralSource;
+
+      // industrySector is a strict enum on the backend, so a custom "Others"
+      // category is folded into the message instead of replacing the enum.
+      const categoryDetail =
+        form.industrySector === "Others" && form.industrySectorOther.trim()
+          ? `[Category: ${form.industrySectorOther.trim()}] `
+          : "";
+
       const payload: Record<string, string> = {
         firstName,
         lastName,
@@ -215,14 +231,10 @@ function FormBlock() {
         industrySector: form.industrySector,
         designation: form.designation,
         phone: form.phone,
-        location: form.country,
-        referralSource: form.referralSource,
+        location,
+        referralSource,
         budget: form.service,
-        // Selected event is folded into the message so no backend field change
-        // is needed.
-        message: form.event
-          ? `[Event of interest: ${form.event}] ${form.message}`.trim()
-          : form.message,
+        message: `${categoryDetail}${form.message}`.trim(),
       };
       Object.keys(payload).forEach((k) => {
         if (payload[k] === "") delete payload[k];
@@ -274,7 +286,7 @@ function FormBlock() {
               variants={fadeUp}
               style={{
                 background: "var(--sp-green-100)",
-                border: "1px solid var(--sp-green-500)",
+                border: "1px solid #05a171",
                 borderRadius: 12,
                 padding: "32px 28px",
                 textAlign: "center",
@@ -283,9 +295,9 @@ function FormBlock() {
               <h3
                 style={{
                   fontFamily: "var(--sp-font-sans)",
-                  fontSize: 22,
+                  fontSize: 20.2,
                   fontWeight: 700,
-                  color: "var(--sp-green-800)",
+                  color: "#05a171",
                   margin: "0 0 8px",
                 }}
               >
@@ -294,8 +306,8 @@ function FormBlock() {
               <p
                 style={{
                   fontFamily: "var(--sp-font-sans)",
-                  fontSize: 15,
-                  color: "var(--sp-green-900)",
+                  fontSize: 13.8,
+                  color: "#05a171",
                   margin: 0,
                   lineHeight: 1.35,
                 }}
@@ -316,9 +328,10 @@ function FormBlock() {
                     style={inputStyle}
                   />
                 </Field>
-                <Field label="Designation">
+                <Field label="Designation" required>
                   <input
                     type="text"
+                    required
                     value={form.designation}
                     onChange={set("designation")}
                     placeholder="Designation"
@@ -369,9 +382,27 @@ function FormBlock() {
                       </option>
                     ))}
                   </select>
+                  {/* Nested inside the same grid cell so revealing it grows the
+                      cell in place instead of reshuffling the grid columns. */}
+                  {form.industrySector === "Others" && (
+                    <input
+                      type="text"
+                      required
+                      maxLength={100}
+                      value={form.industrySectorOther}
+                      onChange={set("industrySectorOther")}
+                      placeholder="Please specify your category"
+                      style={{ ...inputStyle, marginTop: 10 }}
+                    />
+                  )}
                 </Field>
-                <Field label="Which service would you like to avail?">
-                  <select value={form.service} onChange={set("service")} style={inputStyle}>
+                <Field label="Which service would you like to avail?" required>
+                  <select
+                    required
+                    value={form.service}
+                    onChange={set("service")}
+                    style={inputStyle}
+                  >
                     <option value="">— Select —</option>
                     {SERVICE_OPTIONS.map((s) => (
                       <option key={s} value={s}>
@@ -380,8 +411,9 @@ function FormBlock() {
                     ))}
                   </select>
                 </Field>
-                <Field label="How did you hear about us?">
+                <Field label="How did you hear about us?" required>
                   <select
+                    required
                     value={form.referralSource}
                     onChange={set("referralSource")}
                     style={inputStyle}
@@ -393,32 +425,47 @@ function FormBlock() {
                       </option>
                     ))}
                   </select>
+                  {/* Nested inside the same grid cell so revealing it grows the
+                      cell in place instead of reshuffling the grid columns. */}
+                  {form.referralSource === "Other" && (
+                    <input
+                      type="text"
+                      required
+                      maxLength={100}
+                      value={form.referralOther}
+                      onChange={set("referralOther")}
+                      placeholder="Please specify"
+                      style={{ ...inputStyle, marginTop: 10 }}
+                    />
+                  )}
                 </Field>
-                <Field label="Select Event">
-                  <select value={form.event} onChange={set("event")} style={inputStyle}>
-                    <option value="">— Select —</option>
-                    {EVENT_OPTIONS.map((s) => (
-                      <option key={s} value={s}>
-                        {s}
-                      </option>
-                    ))}
-                  </select>
-                </Field>
-                <Field label="Country">
+                <Field label="City" required>
                   <input
                     type="text"
-                    value={form.country}
-                    onChange={set("country")}
-                    placeholder="Country"
+                    required
+                    value={form.city}
+                    onChange={set("city")}
+                    placeholder="City"
+                    style={inputStyle}
+                  />
+                </Field>
+                <Field label="State" required>
+                  <input
+                    type="text"
+                    required
+                    value={form.state}
+                    onChange={set("state")}
+                    placeholder="State"
                     style={inputStyle}
                   />
                 </Field>
               </div>
 
               <div style={{ marginTop: 20 }}>
-                <Field label="Message">
+                <Field label="Message" required>
                   <textarea
                     rows={4}
+                    required
                     value={form.message}
                     onChange={set("message")}
                     placeholder="Tell us briefly what you're looking to explore"
@@ -437,7 +484,7 @@ function FormBlock() {
                   style={{
                     color: "#B91C1C",
                     fontFamily: "var(--sp-font-sans)",
-                    fontSize: 14,
+                    fontSize: 12.9,
                     margin: "16px 0 0",
                     textAlign: "center",
                   }}
@@ -454,11 +501,11 @@ function FormBlock() {
                     display: "inline-block",
                     padding: "11px 46px",
                     borderRadius: 999,
-                    border: "1.5px solid var(--sp-green-600)",
-                    background: "var(--sp-green-600)",
+                    border: "1.5px solid #05a171",
+                    background: "#05a171",
                     color: "#000",
                     fontFamily: "var(--sp-font-sans)",
-                    fontSize: 27,
+                    fontSize: 24.8,
                     fontWeight: 600,
                     cursor: submitting ? "wait" : "pointer",
                     opacity: submitting ? 0.7 : 1,
@@ -481,7 +528,7 @@ const inputStyle: React.CSSProperties = {
   height: 44,
   padding: "0 14px",
   fontFamily: "var(--sp-font-sans)",
-  fontSize: 15,
+  fontSize: 13.8,
   color: "#000",
   background: "#F4F5F7",
   border: "1px solid transparent",
@@ -509,13 +556,13 @@ function Field({
           display: "block",
           marginBottom: 6,
           fontFamily: "var(--sp-font-sans)",
-          fontSize: 13,
+          fontSize: 12,
           fontWeight: 600,
           color: "#000",
         }}
       >
         {label}
-        {required && <span style={{ color: "var(--sp-green-600)", marginLeft: 4 }}>*</span>}
+        {required && <span style={{ color: "#05a171", marginLeft: 4 }}>*</span>}
       </label>
       {children}
     </motion.div>

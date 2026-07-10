@@ -27,7 +27,7 @@ function TagPill({ label }: { label: string }) {
         display: "inline-block",
         padding: "2px 10px",
         borderRadius: 20,
-        fontSize: 11,
+        fontSize: 10.1,
         fontWeight: 600,
         letterSpacing: "0.04em",
         background: "var(--sp-gold-100, #fef9ec)",
@@ -70,7 +70,7 @@ export default function BlogsPage() {
           <h1
             style={{
               fontFamily: "var(--sp-font-display)",
-              fontSize: "clamp(32px, 4vw, 52px)",
+              fontSize: "clamp(29px, 3.68vw, 48px)",
               fontWeight: 700,
               color: "#fff",
               marginTop: 12,
@@ -83,7 +83,7 @@ export default function BlogsPage() {
           <p
             style={{
               fontFamily: "var(--sp-font-sans)",
-              fontSize: 16,
+              fontSize: 14.7,
               color: "var(--sp-navy-300)",
               marginTop: 16,
               maxWidth: 520,
@@ -161,7 +161,7 @@ export default function BlogsPage() {
                       <h2
                         style={{
                           fontFamily: "var(--sp-font-sans)",
-                          fontSize: 18,
+                          fontSize: 16.6,
                           fontWeight: 500,
                           color: "#000",
                           lineHeight: 1.2,
@@ -175,7 +175,7 @@ export default function BlogsPage() {
                         <p
                           style={{
                             fontFamily: "var(--sp-font-sans)",
-                            fontSize: 14,
+                            fontSize: 12.9,
                             color: "var(--sp-gray-600)",
                             lineHeight: 1.35,
                             marginTop: 10,
@@ -202,7 +202,7 @@ export default function BlogsPage() {
                           style={{
                             display: "flex",
                             gap: 12,
-                            fontSize: 12,
+                            fontSize: 11,
                             color: "var(--sp-gray-500)",
                           }}
                         >
@@ -224,7 +224,7 @@ export default function BlogsPage() {
                             display: "inline-flex",
                             alignItems: "center",
                             gap: 4,
-                            fontSize: 13,
+                            fontSize: 12,
                             fontWeight: 600,
                             color: "var(--sp-gold-600)",
                             textDecoration: "none",

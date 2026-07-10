@@ -2,12 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
-import { motion, useReducedMotion } from "framer-motion";
-import Container from "@/components/ui/Container";
-import SectionHeading from "@/components/ui/SectionHeading";
-import WavyLine from "@/components/ui/WavyLine";
-
-const EASE = [0.22, 1, 0.36, 1] as const;
+import { useReducedMotion } from "framer-motion";
 
 const slides = [
   {
@@ -95,24 +90,6 @@ export default function HighlightsCarousel() {
             "radial-gradient(ellipse 28% 60% at 100% 55%, rgba(5,161,113,0.18) 0%, transparent 70%)",
         }}
       />
-
-      {/* Heading */}
-      <Container style={{ position: "relative", zIndex: 1 }}>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.4 }}
-          transition={{ duration: 0.6, ease: EASE }}
-          style={{ textAlign: "center", marginBottom: "clamp(36px, 5vw, 56px)" }}
-        >
-          <SectionHeading>
-            BREAKING BOUNDARIES,
-            <br />
-            BUILDING DREAMS.
-          </SectionHeading>
-          <WavyLine />
-        </motion.div>
-      </Container>
 
       {/* Carousel viewport — full width so the side cards bleed to the edges */}
       <div
@@ -204,7 +181,7 @@ export default function HighlightsCarousel() {
                   <span
                     style={{
                       fontFamily: "var(--sp-font-sans)",
-                      fontSize: 13,
+                      fontSize: 12,
                       fontWeight: 500,
                       color: "#fff",
                       letterSpacing: "0.02em",
@@ -218,7 +195,7 @@ export default function HighlightsCarousel() {
                   <h3
                     style={{
                       fontFamily: "var(--sp-font-sans)",
-                      fontSize: "clamp(20px, 2.1vw, 27px)",
+                      fontSize: "clamp(18px, 1.93vw, 25px)",
                       fontWeight: 700,
                       color: "#fff",
                       margin: 0,
@@ -276,7 +253,7 @@ export default function HighlightsCarousel() {
                 width: isActive ? 34 : 9,
                 height: isActive ? 6 : 9,
                 borderRadius: isActive ? 3 : "50%",
-                background: isActive ? "var(--sp-green-500)" : "#cbd5e1",
+                background: isActive ? "#05a171" : "#cbd5e1",
                 border: "none",
                 padding: 0,
                 cursor: "pointer",
