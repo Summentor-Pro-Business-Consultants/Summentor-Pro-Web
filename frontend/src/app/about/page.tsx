@@ -436,36 +436,77 @@ function PullQuote() {
 // ─── 4. What Makes Us Different ─────────────────────────────────────────────
 function WhatMakesUsDifferent() {
   const reduceMotion = useReducedMotion();
-  const [active, setActive] = useState(1);
-  const [dir, setDir] = useState(1);
   const [paused, setPaused] = useState(false);
 
   const n = focusEnablers.length;
+
+  // Measure the viewport so the active card centres with neighbours peeking in.
+  const viewportRef = useRef<HTMLDivElement>(null);
+  const [vw, setVw] = useState(1100);
+  useEffect(() => {
+    const el = viewportRef.current;
+    if (!el) return;
+    const update = () => setVw(el.offsetWidth);
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
+  // Three concatenated copies with `pos` in the middle copy → always content on
+  // both sides. Silently snap back a copy-length (transition off) when it drifts
+  // into a clone, for a seamless infinite loop.
+  const [pos, setPos] = useState(n);
+  const [animate, setAnimate] = useState(true);
+
   const prev = () => {
-    setDir(-1);
-    setActive((a) => (a - 1 + n) % n);
+    setAnimate(true);
+    setPos((p) => p - 1);
   };
   const next = () => {
-    setDir(1);
-    setActive((a) => (a + 1) % n);
+    setAnimate(true);
+    setPos((p) => p + 1);
   };
   const goTo = (i: number) => {
-    setDir(i >= active ? 1 : -1);
-    setActive(((i % n) + n) % n);
+    setAnimate(true);
+    setPos(n + (((i % n) + n) % n));
   };
 
-  // Auto-advance every 3.2s; paused on hover, disabled under reduced-motion.
   useEffect(() => {
     if (reduceMotion || paused) return;
     const t = setInterval(() => {
-      setDir(1);
-      setActive((a) => (a + 1) % n);
+      setAnimate(true);
+      setPos((p) => p + 1);
     }, 3200);
     return () => clearInterval(t);
-  }, [reduceMotion, paused, n]);
+  }, [reduceMotion, paused]);
 
-  // Three cards on screen: previous, active (centre), next.
-  const trio = [(active - 1 + n) % n, active, (active + 1) % n];
+  useEffect(() => {
+    if (pos >= n && pos < 2 * n) return;
+    const t = setTimeout(() => {
+      setAnimate(false);
+      setPos((p) => (p >= 2 * n ? p - n : p + n));
+    }, 560);
+    return () => clearTimeout(t);
+  }, [pos, n]);
+
+  useEffect(() => {
+    if (animate) return;
+    let raf2 = 0;
+    const raf1 = requestAnimationFrame(() => {
+      raf2 = requestAnimationFrame(() => setAnimate(true));
+    });
+    return () => {
+      cancelAnimationFrame(raf1);
+      cancelAnimationFrame(raf2);
+    };
+  }, [animate]);
+
+  const GAP = 24;
+  const cardW = Math.min(vw * 0.4, 440);
+  const step = cardW + GAP;
+  const translate = vw / 2 - pos * step - cardW / 2;
+  const items = [...focusEnablers, ...focusEnablers, ...focusEnablers];
 
   return (
     <section
@@ -528,34 +569,29 @@ function WhatMakesUsDifferent() {
         >
           <ArrowButton direction="left" disabled={false} onClick={prev} />
 
-          <div style={{ flex: 1, overflow: "hidden" }}>
-            <AnimatePresence mode="wait" custom={dir} initial={false}>
-              <motion.div
-                key={active}
-                custom={dir}
-                initial={{ opacity: 0, x: dir >= 0 ? 60 : -60 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: dir >= 0 ? -60 : 60 }}
-                transition={{ duration: 0.22, ease: EASE }}
-                className="sp-trio"
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "1fr 1fr 1fr",
-                  gap: "clamp(14px, 2vw, 28px)",
-                  alignItems: "center",
-                }}
-              >
-                {trio.map((idx, pos) => (
-                  <EnablerCard key={idx} label={focusEnablers[idx].title} center={pos === 1} />
-                ))}
-              </motion.div>
-            </AnimatePresence>
+          <div ref={viewportRef} style={{ flex: 1, overflow: "hidden" }}>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: GAP,
+                transform: `translateX(${translate}px)`,
+                transition: animate ? "transform 0.5s cubic-bezier(0.22, 1, 0.36, 1)" : "none",
+                willChange: "transform",
+              }}
+            >
+              {items.map((it, i) => (
+                <div key={i} style={{ flexShrink: 0, width: cardW }}>
+                  <EnablerCard label={it.title} center={i === pos} instant={!animate} />
+                </div>
+              ))}
+            </div>
           </div>
 
           <ArrowButton direction="right" disabled={false} onClick={next} />
         </div>
 
-        <Dots count={n} active={active} onSelect={goTo} />
+        <Dots count={n} active={((pos % n) + n) % n} onSelect={goTo} />
       </Container>
 
       {/* Closing line — its own wide container so it can span wider than the
@@ -583,7 +619,15 @@ function WhatMakesUsDifferent() {
 
 // Single enabler card — the centre card is dark with green text; the two
 // side cards are white with a green outline and black text (matches design).
-function EnablerCard({ label, center }: { label: string; center: boolean }) {
+function EnablerCard({
+  label,
+  center,
+  instant,
+}: {
+  label: string;
+  center: boolean;
+  instant?: boolean;
+}) {
   const [hover, setHover] = useState(false);
   return (
     <div
@@ -603,7 +647,9 @@ function EnablerCard({ label, center }: { label: string; center: boolean }) {
         boxShadow: center
           ? "0 24px 48px -22px rgba(0,0,0,0.45)"
           : "0 6px 18px -10px rgba(0,0,0,0.12)",
-        transition: "background 0.4s ease, transform 0.4s ease, box-shadow 0.4s ease",
+        transition: instant
+          ? "none"
+          : "background 0.4s ease, transform 0.4s ease, box-shadow 0.4s ease",
       }}
     >
       <span
@@ -615,7 +661,7 @@ function EnablerCard({ label, center }: { label: string; center: boolean }) {
           // Bright green on the dark centre card; the darker green on a hovered
           // white side card so it stays legible (matches PlatformCard).
           color: center ? "#17d99d" : hover ? "#05a171" : "#000",
-          transition: "color 0.4s ease",
+          transition: instant ? "none" : "color 0.4s ease",
         }}
       >
         {label}
