@@ -836,9 +836,8 @@ function LeadershipPhoto({ photos, interval }: { photos: string[]; interval: num
 // ─── 6. Initiatives (Beyond Platforms & Consulting) ─────────────────────────
 function Initiatives() {
   const reduceMotion = useReducedMotion();
-  const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
-  const last = initiatives.length - 1;
+  const n = initiatives.length;
 
   // Measure the carousel viewport so the active card sits at the left edge
   // while the next card peeks in (blurred) on the right.
@@ -854,19 +853,59 @@ function Initiatives() {
     return () => ro.disconnect();
   }, []);
 
-  const GAP = 24;
-  const cardW = Math.min(vw * 0.75, 1080);
-  const translate = -index * (cardW + GAP);
+  // Three concatenated copies with `pos` in the middle copy → always a card to
+  // peek on the right. Silently snap back a copy-length (transition off) when it
+  // drifts into a clone, for a seamless infinite loop.
+  const [pos, setPos] = useState(n);
+  const [animate, setAnimate] = useState(true);
 
-  // Auto-advance every 6s; pause while the card is hovered, and off entirely
-  // for reduced-motion visitors (manual arrows/dots remain).
+  const prev = () => {
+    setAnimate(true);
+    setPos((p) => p - 1);
+  };
+  const next = () => {
+    setAnimate(true);
+    setPos((p) => p + 1);
+  };
+  const goTo = (i: number) => {
+    setAnimate(true);
+    setPos(n + (((i % n) + n) % n));
+  };
+
   useEffect(() => {
     if (paused || reduceMotion) return;
-    const t = setTimeout(() => {
-      setIndex((i) => (i >= last ? 0 : i + 1));
+    const t = setInterval(() => {
+      setAnimate(true);
+      setPos((p) => p + 1);
     }, 3800);
+    return () => clearInterval(t);
+  }, [paused, reduceMotion]);
+
+  useEffect(() => {
+    if (pos >= n && pos < 2 * n) return;
+    const t = setTimeout(() => {
+      setAnimate(false);
+      setPos((p) => (p >= 2 * n ? p - n : p + n));
+    }, 580);
     return () => clearTimeout(t);
-  }, [index, paused, last, reduceMotion]);
+  }, [pos, n]);
+
+  useEffect(() => {
+    if (animate) return;
+    let raf2 = 0;
+    const raf1 = requestAnimationFrame(() => {
+      raf2 = requestAnimationFrame(() => setAnimate(true));
+    });
+    return () => {
+      cancelAnimationFrame(raf1);
+      cancelAnimationFrame(raf2);
+    };
+  }, [animate]);
+
+  const GAP = 24;
+  const cardW = Math.min(vw * 0.75, 1080);
+  const translate = -pos * (cardW + GAP);
+  const cards = [...initiatives, ...initiatives, ...initiatives];
 
   return (
     <section
@@ -907,14 +946,14 @@ function Initiatives() {
                 gap: GAP,
                 alignItems: "stretch",
                 transform: `translateX(${translate}px)`,
-                transition: "transform 0.28s cubic-bezier(0.22, 1, 0.36, 1)",
+                transition: animate ? "transform 0.28s cubic-bezier(0.22, 1, 0.36, 1)" : "none",
               }}
             >
-              {initiatives.map((it, i) => {
-                const isActive = i === index;
+              {cards.map((it, i) => {
+                const isActive = i === pos;
                 return (
                   <div
-                    key={it.title}
+                    key={i}
                     onMouseEnter={() => setPaused(true)}
                     onMouseLeave={() => setPaused(false)}
                     aria-hidden={!isActive}
@@ -928,7 +967,7 @@ function Initiatives() {
                       // the right) render blurred and dimmed.
                       filter: isActive ? "none" : "blur(5px)",
                       opacity: isActive ? 1 : 0.5,
-                      transition: "filter 0.45s ease, opacity 0.45s ease",
+                      transition: animate ? "filter 0.45s ease, opacity 0.45s ease" : "none",
                     }}
                     className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-stretch"
                   >
@@ -1038,19 +1077,11 @@ function Initiatives() {
             </div>
           </div>
           {/* Arrows straddle the active card's left & right edges. */}
-          <GreenArrow
-            direction="left"
-            x={0}
-            onClick={() => setIndex((i) => (i <= 0 ? last : i - 1))}
-          />
-          <GreenArrow
-            direction="right"
-            x={cardW}
-            onClick={() => setIndex((i) => (i >= last ? 0 : i + 1))}
-          />
+          <GreenArrow direction="left" x={0} onClick={prev} />
+          <GreenArrow direction="right" x={cardW} onClick={next} />
         </div>
 
-        <Dots count={initiatives.length} active={index} onSelect={setIndex} />
+        <Dots count={n} active={((pos % n) + n) % n} onSelect={goTo} />
       </Container>
     </section>
   );
