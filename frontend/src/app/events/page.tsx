@@ -550,7 +550,7 @@ function FeaturedPlatforms() {
   }, [animate]);
 
   const GAP = 24;
-  const cardW = Math.min(vw * 0.8, 1160);
+  const cardW = Math.min(vw * 0.66, 960);
   const translate = -pos * (cardW + GAP);
   const cards = [...featuredPlatforms, ...featuredPlatforms, ...featuredPlatforms];
 
@@ -616,16 +616,16 @@ function FeaturedPlatforms() {
                     </div>
 
                     {/* Content */}
-                    <div style={{ padding: "clamp(26px, 3.6vw, 44px) clamp(32px, 4.2vw, 54px)" }}>
+                    <div style={{ padding: "clamp(16px, 2.2vw, 28px) clamp(30px, 4vw, 50px)" }}>
                       <h3
                         style={{
                           fontFamily: "var(--sp-font-sans)",
-                          fontSize: "clamp(26px, 3.04vw, 40px)",
+                          fontSize: "clamp(21px, 2.5vw, 32px)",
                           fontWeight: 800,
                           textTransform: "uppercase",
                           letterSpacing: "0.01em",
                           color: "#fff",
-                          margin: "0 0 14px",
+                          margin: "0 0 8px",
                           lineHeight: 1.13,
                         }}
                       >
@@ -634,10 +634,10 @@ function FeaturedPlatforms() {
                       <p
                         style={{
                           fontFamily: "var(--sp-font-sans)",
-                          fontSize: "clamp(19px, 2.02vw, 26px)",
-                          lineHeight: 1.4,
+                          fontSize: "clamp(15px, 1.6vw, 20px)",
+                          lineHeight: 1.35,
                           color: "#fff",
-                          margin: "0 0 24px",
+                          margin: "0 0 14px",
                         }}
                       >
                         {p.desc}
@@ -646,27 +646,27 @@ function FeaturedPlatforms() {
                         style={{
                           height: 2,
                           background: "rgba(255,255,255,0.85)",
-                          margin: "0 0 22px",
+                          margin: "0 0 12px",
                         }}
                       />
                       <p
                         style={{
                           fontFamily: "var(--sp-font-sans)",
-                          fontSize: "clamp(19px, 2.02vw, 26px)",
+                          fontSize: "clamp(15px, 1.6vw, 20px)",
                           fontWeight: 700,
                           color: "#fff",
-                          margin: "0 0 16px",
+                          margin: "0 0 8px",
                         }}
                       >
                         The platform brings together:
                       </p>
                       <ul
                         style={{
-                          margin: "0 0 26px",
+                          margin: "0 0 16px",
                           padding: 0,
                           listStyle: "none",
                           display: "grid",
-                          gap: 8,
+                          gap: 5,
                         }}
                       >
                         {p.bringsTogether.map((item) => (
@@ -674,9 +674,9 @@ function FeaturedPlatforms() {
                             key={item}
                             style={{
                               fontFamily: "var(--sp-font-sans)",
-                              fontSize: "clamp(19px, 2.12vw, 26px)",
+                              fontSize: "clamp(15px, 1.6vw, 20px)",
                               color: "#fff",
-                              lineHeight: 1.35,
+                              lineHeight: 1.3,
                             }}
                           >
                             {item}
@@ -687,13 +687,13 @@ function FeaturedPlatforms() {
                         href="/contact"
                         style={{
                           display: "inline-block",
-                          padding: "8px 60px",
+                          padding: "8px 44px",
                           borderRadius: 999,
                           border: "2px solid #05a171",
                           color: "#fff",
                           textDecoration: "none",
                           fontFamily: "var(--sp-font-sans)",
-                          fontSize: 27.6,
+                          fontSize: 20,
                           fontWeight: 500,
                           letterSpacing: "0.06em",
                           textTransform: "uppercase",
