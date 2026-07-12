@@ -483,9 +483,8 @@ function PlatformCard({
 // ─── 3. Featured Platforms ──────────────────────────────────────────────────
 function FeaturedPlatforms() {
   const reduceMotion = useReducedMotion();
-  const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
-  const last = featuredPlatforms.length - 1;
+  const n = featuredPlatforms.length;
 
   // Measure the viewport so the active card sits at the left edge while the
   // next card peeks in (blurred) on the right.
@@ -501,18 +500,59 @@ function FeaturedPlatforms() {
     return () => ro.disconnect();
   }, []);
 
-  const GAP = 24;
-  const cardW = Math.min(vw * 0.8, 1160);
-  const translate = -index * (cardW + GAP);
+  // Three concatenated copies with `pos` in the middle copy → always a card to
+  // peek on the right. Silently snap back a copy-length (transition off) when it
+  // drifts into a clone, for a seamless infinite loop.
+  const [pos, setPos] = useState(n);
+  const [animate, setAnimate] = useState(true);
 
-  // Auto-advance paused on hover and disabled for reduced-motion visitors.
+  const prev = () => {
+    setAnimate(true);
+    setPos((p) => p - 1);
+  };
+  const next = () => {
+    setAnimate(true);
+    setPos((p) => p + 1);
+  };
+  const goTo = (i: number) => {
+    setAnimate(true);
+    setPos(n + (((i % n) + n) % n));
+  };
+
   useEffect(() => {
     if (paused || reduceMotion) return;
-    const t = setTimeout(() => {
-      setIndex((i) => (i >= last ? 0 : i + 1));
+    const t = setInterval(() => {
+      setAnimate(true);
+      setPos((p) => p + 1);
     }, 3800);
+    return () => clearInterval(t);
+  }, [paused, reduceMotion]);
+
+  useEffect(() => {
+    if (pos >= n && pos < 2 * n) return;
+    const t = setTimeout(() => {
+      setAnimate(false);
+      setPos((p) => (p >= 2 * n ? p - n : p + n));
+    }, 580);
     return () => clearTimeout(t);
-  }, [index, paused, last, reduceMotion]);
+  }, [pos, n]);
+
+  useEffect(() => {
+    if (animate) return;
+    let raf2 = 0;
+    const raf1 = requestAnimationFrame(() => {
+      raf2 = requestAnimationFrame(() => setAnimate(true));
+    });
+    return () => {
+      cancelAnimationFrame(raf1);
+      cancelAnimationFrame(raf2);
+    };
+  }, [animate]);
+
+  const GAP = 24;
+  const cardW = Math.min(vw * 0.8, 1160);
+  const translate = -pos * (cardW + GAP);
+  const cards = [...featuredPlatforms, ...featuredPlatforms, ...featuredPlatforms];
 
   return (
     <section
@@ -541,14 +581,14 @@ function FeaturedPlatforms() {
                 gap: GAP,
                 alignItems: "stretch",
                 transform: `translateX(${translate}px)`,
-                transition: "transform 0.28s cubic-bezier(0.22, 1, 0.36, 1)",
+                transition: animate ? "transform 0.28s cubic-bezier(0.22, 1, 0.36, 1)" : "none",
               }}
             >
-              {featuredPlatforms.map((p, i) => {
-                const isActive = i === index;
+              {cards.map((p, i) => {
+                const isActive = i === pos;
                 return (
                   <div
-                    key={p.title}
+                    key={i}
                     onMouseEnter={() => setPaused(true)}
                     onMouseLeave={() => setPaused(false)}
                     aria-hidden={!isActive}
@@ -560,11 +600,11 @@ function FeaturedPlatforms() {
                       // The next card peeking in on the right renders blurred.
                       filter: isActive ? "none" : "blur(5px)",
                       opacity: isActive ? 1 : 0.5,
-                      transition: "filter 0.45s ease, opacity 0.45s ease",
+                      transition: animate ? "filter 0.45s ease, opacity 0.45s ease" : "none",
                     }}
                   >
                     {/* Image */}
-                    <div style={{ position: "relative", width: "100%", aspectRatio: "16 / 8" }}>
+                    <div style={{ position: "relative", width: "100%", aspectRatio: "16 / 6" }}>
                       <Image
                         src={p.photo}
                         alt={p.title}
@@ -679,19 +719,11 @@ function FeaturedPlatforms() {
           </div>
 
           {/* Green arrows straddle the active card's left & right edges. */}
-          <GreenArrow
-            direction="left"
-            x={0}
-            onClick={() => setIndex((i) => (i <= 0 ? last : i - 1))}
-          />
-          <GreenArrow
-            direction="right"
-            x={cardW}
-            onClick={() => setIndex((i) => (i >= last ? 0 : i + 1))}
-          />
+          <GreenArrow direction="left" x={0} onClick={prev} />
+          <GreenArrow direction="right" x={cardW} onClick={next} />
         </div>
 
-        <Dots count={featuredPlatforms.length} active={index} onSelect={setIndex} />
+        <Dots count={n} active={((pos % n) + n) % n} onSelect={goTo} />
       </Container>
     </section>
   );
@@ -906,8 +938,7 @@ function PartnerPill({
 // ─── 6. Platform Highlights (B&W photo carousel) ────────────────────────────
 function PlatformHighlights() {
   const reduceMotion = useReducedMotion();
-  const [index, setIndex] = useState(0);
-  const last = highlightPhotos.length - 1;
+  const n = highlightPhotos.length;
 
   // Measure the viewport so the active photo sits at the left while the next
   // photo peeks (in B&W) on the right.
@@ -923,18 +954,59 @@ function PlatformHighlights() {
     return () => ro.disconnect();
   }, []);
 
-  const GAP = 20;
-  const cardW = Math.min(vw * 0.56, 900);
-  const translate = -index * (cardW + GAP);
+  // Three concatenated copies with `pos` in the middle copy → always a photo to
+  // peek on the right. Silently snap back a copy-length (transition off) when it
+  // drifts into a clone, for a seamless infinite loop.
+  const [pos, setPos] = useState(n);
+  const [animate, setAnimate] = useState(true);
 
-  // Auto-advance disabled for reduced-motion visitors (arrows/dots remain).
+  const prev = () => {
+    setAnimate(true);
+    setPos((p) => p - 1);
+  };
+  const next = () => {
+    setAnimate(true);
+    setPos((p) => p + 1);
+  };
+  const goTo = (i: number) => {
+    setAnimate(true);
+    setPos(n + (((i % n) + n) % n));
+  };
+
   useEffect(() => {
     if (reduceMotion) return;
-    const t = setTimeout(() => {
-      setIndex((i) => (i >= last ? 0 : i + 1));
+    const t = setInterval(() => {
+      setAnimate(true);
+      setPos((p) => p + 1);
     }, 3600);
+    return () => clearInterval(t);
+  }, [reduceMotion]);
+
+  useEffect(() => {
+    if (pos >= n && pos < 2 * n) return;
+    const t = setTimeout(() => {
+      setAnimate(false);
+      setPos((p) => (p >= 2 * n ? p - n : p + n));
+    }, 340);
     return () => clearTimeout(t);
-  }, [index, last, reduceMotion]);
+  }, [pos, n]);
+
+  useEffect(() => {
+    if (animate) return;
+    let raf2 = 0;
+    const raf1 = requestAnimationFrame(() => {
+      raf2 = requestAnimationFrame(() => setAnimate(true));
+    });
+    return () => {
+      cancelAnimationFrame(raf1);
+      cancelAnimationFrame(raf2);
+    };
+  }, [animate]);
+
+  const GAP = 20;
+  const cardW = Math.min(vw * 0.56, 900);
+  const translate = -pos * (cardW + GAP);
+  const photos = [...highlightPhotos, ...highlightPhotos, ...highlightPhotos];
 
   // The photo row is rendered OUTSIDE the dark section and pulled up so the
   // section's slanted bottom cuts through the middle of the (full) photos.
@@ -986,14 +1058,14 @@ function PlatformHighlights() {
                   display: "flex",
                   gap: GAP,
                   transform: `translateX(${translate}px)`,
-                  transition: "transform 0.28s cubic-bezier(0.22, 1, 0.36, 1)",
+                  transition: animate ? "transform 0.28s cubic-bezier(0.22, 1, 0.36, 1)" : "none",
                 }}
               >
-                {highlightPhotos.map((src, i) => {
-                  const isActive = i === index;
+                {photos.map((src, i) => {
+                  const isActive = i === pos;
                   return (
                     <div
-                      key={src}
+                      key={i}
                       style={{
                         flexShrink: 0,
                         width: cardW,
@@ -1014,7 +1086,7 @@ function PlatformHighlights() {
                           // Active photo in colour; the peeking next one in B&W
                           // and slightly blurred.
                           filter: isActive ? "none" : "grayscale(1) blur(3px)",
-                          transition: "filter 0.5s ease",
+                          transition: animate ? "filter 0.5s ease" : "none",
                         }}
                       />
                     </div>
@@ -1029,18 +1101,18 @@ function PlatformHighlights() {
               x={0}
               size="clamp(46px, 4.8vw, 60px)"
               iconSize={24}
-              onClick={() => setIndex((i) => (i <= 0 ? last : i - 1))}
+              onClick={prev}
             />
             <GreenArrow
               direction="right"
               x="100%"
               size="clamp(46px, 4.8vw, 60px)"
               iconSize={24}
-              onClick={() => setIndex((i) => (i >= last ? 0 : i + 1))}
+              onClick={next}
             />
           </div>
 
-          <Dots count={highlightPhotos.length} active={index} onSelect={setIndex} />
+          <Dots count={n} active={((pos % n) + n) % n} onSelect={goTo} />
         </Container>
       </div>
     </>
