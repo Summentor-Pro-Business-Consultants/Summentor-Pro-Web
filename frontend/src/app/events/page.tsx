@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion, AnimatePresence, useReducedMotion, type Variants } from "framer-motion";
+import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { ChevronLeft, ChevronRight, ArrowLeft, ArrowRight } from "lucide-react";
 import Container from "@/components/ui/Container";
 import EdgeGreenGradient from "@/components/ui/EdgeGreenGradient";
@@ -239,36 +239,77 @@ function Hero() {
 // ─── 2. Why Our Platforms Matter ────────────────────────────────────────────
 function WhyOurPlatformsMatter() {
   const reduceMotion = useReducedMotion();
-  const [active, setActive] = useState(1);
-  const [dir, setDir] = useState(1);
   const [paused, setPaused] = useState(false);
 
   const n = designedTo.length;
+
+  // Measure the viewport so the active card centres with neighbours peeking in.
+  const viewportRef = useRef<HTMLDivElement>(null);
+  const [vw, setVw] = useState(1100);
+  useEffect(() => {
+    const el = viewportRef.current;
+    if (!el) return;
+    const update = () => setVw(el.offsetWidth);
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
+  // Three concatenated copies with `pos` in the middle copy → always content on
+  // both sides. Silently snap back a copy-length (transition off) when it drifts
+  // into a clone, for a seamless infinite loop.
+  const [pos, setPos] = useState(n);
+  const [animate, setAnimate] = useState(true);
+
   const prev = () => {
-    setDir(-1);
-    setActive((a) => (a - 1 + n) % n);
+    setAnimate(true);
+    setPos((p) => p - 1);
   };
   const next = () => {
-    setDir(1);
-    setActive((a) => (a + 1) % n);
+    setAnimate(true);
+    setPos((p) => p + 1);
   };
   const goTo = (i: number) => {
-    setDir(i >= active ? 1 : -1);
-    setActive(((i % n) + n) % n);
+    setAnimate(true);
+    setPos(n + (((i % n) + n) % n));
   };
 
-  // Auto-advance every 3.2s; paused on hover, off under reduced-motion.
   useEffect(() => {
     if (reduceMotion || paused) return;
     const t = setInterval(() => {
-      setDir(1);
-      setActive((a) => (a + 1) % n);
+      setAnimate(true);
+      setPos((p) => p + 1);
     }, 3200);
     return () => clearInterval(t);
-  }, [reduceMotion, paused, n]);
+  }, [reduceMotion, paused]);
 
-  // Three cards on screen: previous, active (centre), next.
-  const trio = [(active - 1 + n) % n, active, (active + 1) % n];
+  useEffect(() => {
+    if (pos >= n && pos < 2 * n) return;
+    const t = setTimeout(() => {
+      setAnimate(false);
+      setPos((p) => (p >= 2 * n ? p - n : p + n));
+    }, 560);
+    return () => clearTimeout(t);
+  }, [pos, n]);
+
+  useEffect(() => {
+    if (animate) return;
+    let raf2 = 0;
+    const raf1 = requestAnimationFrame(() => {
+      raf2 = requestAnimationFrame(() => setAnimate(true));
+    });
+    return () => {
+      cancelAnimationFrame(raf1);
+      cancelAnimationFrame(raf2);
+    };
+  }, [animate]);
+
+  const GAP = 24;
+  const cardW = Math.min(vw * 0.4, 440);
+  const step = cardW + GAP;
+  const translate = vw / 2 - pos * step - cardW / 2;
+  const items = [...designedTo, ...designedTo, ...designedTo];
 
   return (
     <section
@@ -332,34 +373,29 @@ function WhyOurPlatformsMatter() {
         >
           <ArrowButton direction="left" onClick={prev} />
 
-          <div style={{ flex: 1, overflow: "hidden" }}>
-            <AnimatePresence mode="wait" custom={dir} initial={false}>
-              <motion.div
-                key={active}
-                custom={dir}
-                initial={{ opacity: 0, x: dir >= 0 ? 60 : -60 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: dir >= 0 ? -60 : 60 }}
-                transition={{ duration: 0.22, ease: EASE }}
-                className="sp-trio"
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "1fr 1fr 1fr",
-                  gap: "clamp(14px, 2vw, 28px)",
-                  alignItems: "stretch",
-                }}
-              >
-                {trio.map((idx, pos) => (
-                  <PlatformCard key={idx} item={designedTo[idx]!} center={pos === 1} />
-                ))}
-              </motion.div>
-            </AnimatePresence>
+          <div ref={viewportRef} style={{ flex: 1, overflow: "hidden" }}>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: GAP,
+                transform: `translateX(${translate}px)`,
+                transition: animate ? "transform 0.5s cubic-bezier(0.22, 1, 0.36, 1)" : "none",
+                willChange: "transform",
+              }}
+            >
+              {items.map((it, i) => (
+                <div key={i} style={{ flexShrink: 0, width: cardW }}>
+                  <PlatformCard item={it} center={i === pos} instant={!animate} />
+                </div>
+              ))}
+            </div>
           </div>
 
           <ArrowButton direction="right" onClick={next} />
         </div>
 
-        <Dots count={n} active={active} onSelect={goTo} />
+        <Dots count={n} active={((pos % n) + n) % n} onSelect={goTo} />
       </Container>
     </section>
   );
@@ -367,7 +403,15 @@ function WhyOurPlatformsMatter() {
 
 // Single "designed to" card — the centre card is dark with a green icon +
 // text; the side cards are white with a dark icon + text (matches design).
-function PlatformCard({ item, center }: { item: (typeof designedTo)[number]; center: boolean }) {
+function PlatformCard({
+  item,
+  center,
+  instant,
+}: {
+  item: (typeof designedTo)[number];
+  center: boolean;
+  instant?: boolean;
+}) {
   const [hover, setHover] = useState(false);
   // Green accent (icon + title) applies to the centre card and to any card on
   // hover. Uses the darker brand green (#05a171) so it stays legible on the
@@ -392,7 +436,9 @@ function PlatformCard({ item, center }: { item: (typeof designedTo)[number]; cen
         boxShadow: center
           ? "0 24px 48px -22px rgba(0,0,0,0.45)"
           : "0 6px 18px -10px rgba(0,0,0,0.10)",
-        transition: "background 0.4s ease, transform 0.4s ease, box-shadow 0.4s ease",
+        transition: instant
+          ? "none"
+          : "background 0.4s ease, transform 0.4s ease, box-shadow 0.4s ease",
       }}
     >
       {/* The SVG is used as a CSS mask so its silhouette takes the card's
@@ -412,7 +458,7 @@ function PlatformCard({ item, center }: { item: (typeof designedTo)[number]; cen
           maskPosition: "center",
           WebkitMaskSize: "contain",
           maskSize: "contain",
-          transition: "background-color 0.4s ease",
+          transition: instant ? "none" : "background-color 0.4s ease",
         }}
       />
       <h3
@@ -425,7 +471,7 @@ function PlatformCard({ item, center }: { item: (typeof designedTo)[number]; cen
           // white side card so it stays legible on white.
           color: center ? "#17d99d" : hover ? "#05a171" : "#000",
           margin: 0,
-          transition: "color 0.4s ease",
+          transition: instant ? "none" : "color 0.4s ease",
         }}
       >
         {item.title}

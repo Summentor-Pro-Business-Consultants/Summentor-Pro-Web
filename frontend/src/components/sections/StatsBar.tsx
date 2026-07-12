@@ -1,8 +1,9 @@
 "use client";
 
-import { useRef, useEffect, useState, type ReactNode } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import { motion, useInView, type Variants } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import Container from "@/components/ui/Container";
 import EdgeGreenGradient from "@/components/ui/EdgeGreenGradient";
 import SectionHeading from "@/components/ui/SectionHeading";
@@ -10,126 +11,108 @@ import WavyLine from "@/components/ui/WavyLine";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-// ─── Count-up number ────────────────────────────────────────────────────────
-function AnimatedStat({ target }: { target: number }) {
-  const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true });
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    if (!inView) return;
-    const duration = 1800;
-    const start = performance.now();
-    function tick(now: number) {
-      const progress = Math.min((now - start) / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      setCount(Math.floor(eased * target));
-      if (progress < 1) requestAnimationFrame(tick);
-      else setCount(target);
-    }
-    requestAnimationFrame(tick);
-  }, [inView, target]);
-
-  return (
-    <span
-      ref={ref}
-      style={{
-        fontFamily: "var(--sp-font-sans)",
-        fontWeight: 800,
-        color: "#17d99d",
-        lineHeight: 1,
-        fontSize: "clamp(28px, 3.13vw, 44px)",
-        letterSpacing: "-0.02em",
-        display: "block",
-        marginBottom: 6,
-      }}
-    >
-      {count.toLocaleString()}+
-    </span>
-  );
-}
-
-const item: Variants = {
-  hidden: { opacity: 0, y: 24 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.65, ease: EASE } },
-};
-
-// ─── Building blocks ────────────────────────────────────────────────────────
-/** Landscape rectangle photo — sharp corners, faint static ring. */
-function Photo({ src, alt }: { src: string; alt: string }) {
-  return (
-    <div
-      style={{
-        position: "relative",
-        flexShrink: 0,
-        width: "clamp(180px, 18vw, 250px)",
-        aspectRatio: "3 / 2",
-        overflow: "hidden",
-        border: "1px solid rgba(255,255,255,0.12)",
-      }}
-    >
-      <Image
-        src={src}
-        alt={alt}
-        fill
-        quality={100}
-        sizes="(max-width: 768px) 70vw, 250px"
-        style={{ objectFit: "cover", objectPosition: "center" }}
-      />
-    </div>
-  );
-}
-
-const labelStyle: React.CSSProperties = {
-  fontFamily: "var(--sp-font-sans)",
-  fontWeight: 400,
-  color: "#fff",
-  fontSize: "clamp(19px, 2.07vw, 28px)",
-  lineHeight: 1.2,
-  margin: 0,
-  // Labels carry explicit <br/> line breaks to match the design exactly;
-  // nowrap stops the browser from introducing any extra wrapping.
-  whiteSpace: "nowrap",
-};
-
-/** A grouped image+content unit (image left, content right). */
-function Pair({ src, alt, children }: { src: string; alt: string; children: ReactNode }) {
-  return (
-    <motion.div
-      variants={item}
-      className="flex flex-col items-center text-center sm:flex-row sm:items-center sm:text-left"
-      style={{ gap: "clamp(14px, 1.4vw, 22px)" }}
-    >
-      <Photo src={src} alt={alt} />
-      <div>{children}</div>
-    </motion.div>
-  );
-}
-
-/** A standalone statistic block (number above label). */
-function StatBlock({
-  target,
-  label,
-  className = "",
-}: {
-  target: number;
-  label: ReactNode;
-  className?: string;
-}) {
-  return (
-    <motion.div variants={item} className={`text-center sm:text-left ${className}`}>
-      <AnimatedStat target={target} />
-      <p style={labelStyle}>{label}</p>
-    </motion.div>
-  );
-}
-
-const rowContainer: Variants = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.13, delayChildren: 0.05 } },
-};
+// Engagement highlights shown in the carousel. `num` (when present) is the
+// emphasised metric that renders in bold white before the label.
+const engagements: { img: string; num?: string; label: string }[] = [
+  {
+    img: "/images/engagements/msme-consulting-2.jpeg",
+    num: "3,000+",
+    label: "Business Stakeholders Engaged",
+  },
+  {
+    img: "/images/engagements/meeting-union-minister-msme.jpeg",
+    label: "Government & Industry Participation Across Strategic Platforms & Initiatives",
+  },
+  {
+    img: "/images/engagements/msme-consulting-1.jpeg",
+    label: "Ecosystem Participation Across MSMEs, Enterprises & Institutions",
+  },
+  {
+    img: "/images/engagements/meeting-deputy-cm-odisha.jpeg",
+    num: "100+",
+    label: "Strategic Collaborations Facilitated",
+  },
+  {
+    img: "/images/engagements/meeting-cm-delhi.jpeg",
+    label: "Multi-Sector Industry Platforms Executed",
+  },
+];
 
 export default function StatsBar() {
+  const reduceMotion = useReducedMotion();
+  const n = engagements.length;
+  const [paused, setPaused] = useState(false);
+
+  // Measure the viewport so the active card can be centred with its neighbours
+  // peeking in from each side.
+  const viewportRef = useRef<HTMLDivElement>(null);
+  const [vw, setVw] = useState(1100);
+  useEffect(() => {
+    const el = viewportRef.current;
+    if (!el) return;
+    const update = () => setVw(el.offsetWidth);
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
+  // We render THREE concatenated copies of the list and keep `pos` in the middle
+  // copy, so there is always content peeking on both sides. When `pos` drifts
+  // into a clone copy we snap it back by one copy-length with the transition
+  // momentarily off — an invisible reset that yields a seamless infinite loop.
+  const [pos, setPos] = useState(n);
+  const [animate, setAnimate] = useState(true);
+
+  const prev = () => {
+    setAnimate(true);
+    setPos((p) => p - 1);
+  };
+  const next = () => {
+    setAnimate(true);
+    setPos((p) => p + 1);
+  };
+
+  // Auto-advance every 3.6s; paused on hover, disabled under reduced-motion.
+  useEffect(() => {
+    if (reduceMotion || paused) return;
+    const t = setInterval(() => {
+      setAnimate(true);
+      setPos((p) => p + 1);
+    }, 3600);
+    return () => clearInterval(t);
+  }, [reduceMotion, paused]);
+
+  // Once a slide into a clone copy has finished, snap back by one copy-length.
+  useEffect(() => {
+    if (pos >= n && pos < 2 * n) return;
+    const t = setTimeout(() => {
+      setAnimate(false);
+      setPos((p) => (p >= 2 * n ? p - n : p + n));
+    }, 600);
+    return () => clearTimeout(t);
+  }, [pos, n]);
+
+  // Re-enable the transition on the frame after a silent snap has painted.
+  useEffect(() => {
+    if (animate) return;
+    let raf2 = 0;
+    const raf1 = requestAnimationFrame(() => {
+      raf2 = requestAnimationFrame(() => setAnimate(true));
+    });
+    return () => {
+      cancelAnimationFrame(raf1);
+      cancelAnimationFrame(raf2);
+    };
+  }, [animate]);
+
+  const GAP = 28;
+  const cardW = Math.min(vw * 0.3, 380);
+  const step = cardW + GAP;
+  const translate = vw / 2 - pos * step - cardW / 2;
+  // Three copies so both sides always have content to loop into.
+  const items = [...engagements, ...engagements, ...engagements];
+
   return (
     <section
       style={{
@@ -152,25 +135,12 @@ export default function StatsBar() {
         clipPath: "polygon(0 0, 100% var(--sp-slant), 100% 100%, 0 calc(100% - var(--sp-slant)))",
       }}
     >
-      <style>{`
-        /* Gap between blocks in a stats row. Set here (not via a Tailwind
-           arbitrary class) so the clamp() value is reliably applied. */
-        .sp-statrow { gap: 3rem; }
-        @media (min-width: 1024px) {
-          .sp-statrow { gap: clamp(16px, 1.8vw, 36px); }
-          /* Tighten ONLY the gap after the standalone stat block (100+) so it
-             sits closer to its neighbouring image, without touching the other
-             gaps in the row. */
-          .sp-stat-tight { margin-right: clamp(-24px, -1.2vw, -8px); }
-        }
-      `}</style>
-
       {/* Soft green curved gradients glowing in from both edges */}
       <EdgeGreenGradient side="left" position="bottom" intensity={0.2} />
       <EdgeGreenGradient side="right" position="top" intensity={0.2} />
 
       <Container wide style={{ position: "relative", zIndex: 1 }}>
-        {/* Heading + decorative stroke (nudged slightly right of centre) */}
+        {/* Heading + decorative stroke */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -187,98 +157,144 @@ export default function StatsBar() {
           <WavyLine />
         </motion.div>
 
-        {/* Row 1 — two image-text pairs packed together, centred (no dead gap) */}
-        <motion.div
-          variants={rowContainer}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.2 }}
-          className="sp-statrow flex flex-col items-center lg:flex-row lg:flex-nowrap lg:justify-center lg:items-center"
-          style={{ marginBottom: "clamp(56px, 8vw, 110px)" }}
+        {/* Filmstrip carousel: prev arrow · sliding track · next arrow */}
+        <div
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
+          style={{ display: "flex", alignItems: "center", gap: "clamp(8px, 2vw, 28px)" }}
         >
-          <Pair
-            src="/images/engagements/msme-consulting-2.jpeg"
-            alt="Business stakeholders at a summit"
-          >
-            <AnimatedStat target={3000} />
-            <p style={labelStyle}>
-              Business
-              <br />
-              Stakeholders
-              <br />
-              Engaged
-            </p>
-          </Pair>
+          <NavArrow direction="left" onClick={prev} />
 
-          <Pair
-            src="/images/engagements/meeting-union-minister-msme.jpeg"
-            alt="Meeting with Union Minister of MSME"
-          >
-            <p style={labelStyle}>
-              Government &amp;
-              <br />
-              Industry Participation
-              <br />
-              Across Strategic
-              <br />
-              Platforms &amp; Initiatives
-            </p>
-          </Pair>
-        </motion.div>
+          <div ref={viewportRef} style={{ flex: 1, overflow: "hidden" }}>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "flex-end",
+                gap: GAP,
+                transform: `translateX(${translate}px)`,
+                transition: animate ? "transform 0.55s cubic-bezier(0.22, 1, 0.36, 1)" : "none",
+                willChange: "transform",
+              }}
+            >
+              {items.map((item, i) => (
+                <EngagementCard
+                  key={i}
+                  item={item}
+                  center={i === pos}
+                  width={cardW}
+                  instant={!animate}
+                />
+              ))}
+            </div>
+          </div>
 
-        {/* Row 2 — three blocks packed together, centred (no dead gap) */}
-        <motion.div
-          variants={rowContainer}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.2 }}
-          className="sp-statrow flex flex-col items-center lg:flex-row lg:flex-nowrap lg:justify-center lg:items-center"
-        >
-          <StatBlock
-            target={100}
-            label={
-              <>
-                Strategic
-                <br />
-                Collaborations
-                <br />
-                Facilitated
-              </>
-            }
-            className="sp-stat-tight"
-          />
-
-          <Pair
-            src="/images/engagements/meeting-deputy-cm-odisha.jpeg"
-            alt="Strategic collaboration ceremony"
-          >
-            <p style={labelStyle}>
-              Multi-Sector
-              <br />
-              Industry
-              <br />
-              Platforms
-              <br />
-              Executed
-            </p>
-          </Pair>
-
-          <Pair
-            src="/images/engagements/msme-consulting-1.jpeg"
-            alt="Ecosystem participation across institutions"
-          >
-            <p style={labelStyle}>
-              Ecosystem
-              <br />
-              Participation Across
-              <br />
-              MSMEs, Enterprises
-              <br />
-              &amp; Institutions
-            </p>
-          </Pair>
-        </motion.div>
+          <NavArrow direction="right" onClick={next} />
+        </div>
       </Container>
     </section>
+  );
+}
+
+// One engagement photo + caption. The active (centre) card is larger, in colour
+// and sharp; the others are greyscale, blurred and slightly smaller. Scaling
+// from the bottom keeps every image's bottom edge on the same baseline.
+function EngagementCard({
+  item,
+  center,
+  width,
+  instant,
+}: {
+  item: (typeof engagements)[number];
+  center: boolean;
+  width: number;
+  instant: boolean;
+}) {
+  return (
+    <div
+      style={{
+        flexShrink: 0,
+        width,
+        textAlign: "center",
+        transformOrigin: "bottom center",
+        transform: center ? "scale(1.08)" : "scale(0.9)",
+        opacity: center ? 1 : 0.6,
+        filter: center ? "none" : "grayscale(1) blur(3px)",
+        // Transitions are switched off during the invisible loop-reset snap.
+        transition: instant
+          ? "none"
+          : "transform 0.55s ease, opacity 0.55s ease, filter 0.55s ease",
+        position: "relative",
+        zIndex: center ? 2 : 1,
+      }}
+    >
+      <div
+        style={{
+          position: "relative",
+          width: "100%",
+          aspectRatio: "4 / 3",
+          overflow: "hidden",
+          boxShadow: center
+            ? "0 28px 56px -20px rgba(0,0,0,0.6)"
+            : "0 14px 32px -18px rgba(0,0,0,0.5)",
+        }}
+      >
+        <Image
+          src={item.img}
+          alt=""
+          fill
+          quality={100}
+          sizes="(max-width: 768px) 90vw, 33vw"
+          style={{ objectFit: "cover", objectPosition: "center" }}
+        />
+      </div>
+      <p
+        style={{
+          fontFamily: "var(--sp-font-sans)",
+          fontSize: "clamp(16px, 1.6vw, 22px)",
+          lineHeight: 1.25,
+          margin: "clamp(12px, 1.4vw, 18px) 0 0",
+          // Reserve ~3 lines so every image bottom lands on the same baseline.
+          minHeight: "3.75em",
+        }}
+      >
+        {item.num && <span style={{ color: "#fff", fontWeight: 800 }}>{item.num} </span>}
+        <span style={{ color: "#fff", fontWeight: 500 }}>{item.label}</span>
+      </p>
+    </div>
+  );
+}
+
+// Thin circular chevron arrow (white outline on the dark section).
+function NavArrow({ direction, onClick }: { direction: "left" | "right"; onClick: () => void }) {
+  const Icon = direction === "left" ? ChevronLeft : ChevronRight;
+  return (
+    <button
+      onClick={onClick}
+      aria-label={direction === "left" ? "Previous" : "Next"}
+      className="hidden sm:flex"
+      style={{
+        flexShrink: 0,
+        width: "clamp(40px, 3.4vw, 48px)",
+        height: "clamp(40px, 3.4vw, 48px)",
+        borderRadius: "50%",
+        border: "1px solid rgba(255,255,255,0.35)",
+        background: "transparent",
+        color: "#fff",
+        alignItems: "center",
+        justifyContent: "center",
+        cursor: "pointer",
+        transition: "border-color 0.2s ease, background 0.2s ease",
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.borderColor = "#fff";
+        e.currentTarget.style.background = "rgba(255,255,255,0.08)";
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.borderColor = "rgba(255,255,255,0.35)";
+        e.currentTarget.style.background = "transparent";
+      }}
+    >
+      <Icon size={22} strokeWidth={2} />
+    </button>
   );
 }
