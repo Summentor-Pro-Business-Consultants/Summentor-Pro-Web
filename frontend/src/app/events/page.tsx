@@ -861,7 +861,7 @@ function PartnerCTA() {
             variants={fadeUp}
             style={{
               fontFamily: "var(--sp-font-sans)",
-              fontSize: "clamp(21px, 2.22vw, 29px)",
+              fontSize: "clamp(17px, 1.85vw, 24px)",
               color: "#000",
               maxWidth: 1340,
               margin: "22px auto 40px",

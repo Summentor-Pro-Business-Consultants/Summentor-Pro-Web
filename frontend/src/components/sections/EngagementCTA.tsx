@@ -272,7 +272,7 @@ function FocusCard({
   return (
     <div
       style={{
-        aspectRatio: "1.55 / 1",
+        aspectRatio: "1.9 / 1",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",

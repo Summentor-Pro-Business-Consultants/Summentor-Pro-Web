@@ -126,7 +126,7 @@ export default function EventsSection() {
                   <p
                     style={{
                       fontFamily: "var(--sp-font-sans)",
-                      fontSize: "clamp(17px, 1.97vw, 24px)",
+                      fontSize: "clamp(15px, 1.7vw, 20px)",
                       lineHeight: 1.35,
                       fontWeight: 400,
                       color: "#ffffff",

@@ -77,10 +77,13 @@ export default function AboutSection() {
           <p
             style={{
               fontFamily: "var(--sp-font-sans)",
-              fontSize: "clamp(20px, 2.73vw, 31px)",
+              fontSize: "clamp(17px, 2.3vw, 26px)",
               lineHeight: 1.35,
               color: "#000",
               marginTop: 40,
+              // Breathing room so the copy doesn't crowd the section's slanted
+              // bottom edge.
+              marginBottom: "clamp(40px, 6vw, 88px)",
             }}
           >
             Summentor Pro works with MSMEs, enterprises, industry leaders, and institutions to

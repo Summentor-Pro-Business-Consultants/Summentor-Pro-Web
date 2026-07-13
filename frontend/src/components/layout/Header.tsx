@@ -69,7 +69,7 @@ export default function Header() {
               href={link.href}
               style={{
                 fontFamily: "var(--sp-font-sans)",
-                fontSize: 16.6,
+                fontSize: 20,
                 color: isActive(link.href) ? "var(--sp-green)" : "#000",
                 textDecoration: "none",
                 padding: "28px 38px",
@@ -133,7 +133,7 @@ export default function Header() {
                     href={link.href}
                     style={{
                       fontFamily: "var(--sp-font-sans)",
-                      fontSize: 16.3,
+                      fontSize: 19.5,
                       color: isActive(link.href) ? "var(--sp-green)" : "#000",
                       textDecoration: "none",
                       padding: "14px 0",
