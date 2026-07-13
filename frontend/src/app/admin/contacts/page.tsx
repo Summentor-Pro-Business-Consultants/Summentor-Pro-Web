@@ -69,7 +69,7 @@ interface Contact {
 const th: React.CSSProperties = {
   padding: "10px 16px",
   textAlign: "left",
-  fontSize: 11,
+  fontSize: 10.2,
   fontWeight: 600,
   color: "#64748B",
   letterSpacing: "0.04em",
@@ -80,7 +80,7 @@ const th: React.CSSProperties = {
 };
 const td: React.CSSProperties = {
   padding: "12px 16px",
-  fontSize: 12.9,
+  fontSize: 12,
   color: "#1E293B",
   borderBottom: "1px solid #F1F5F9",
 };
@@ -191,7 +191,7 @@ export default function ContactsPage() {
             padding: "8px 12px",
             borderRadius: 7,
             border: "1px solid #E2E8F0",
-            fontSize: 12.9,
+            fontSize: 12,
             width: 240,
           }}
         />
@@ -206,7 +206,7 @@ export default function ContactsPage() {
             padding: "8px 12px",
             borderRadius: 7,
             border: "1px solid #E2E8F0",
-            fontSize: 12.9,
+            fontSize: 12,
           }}
         >
           <option value="">All statuses</option>
@@ -289,7 +289,7 @@ export default function ContactsPage() {
                         </div>
                         {/* Designation shown as a sub-line when present */}
                         {c.designation && (
-                          <div style={{ fontSize: 11, color: "#94A3B8" }}>{c.designation}</div>
+                          <div style={{ fontSize: 10.2, color: "#94A3B8" }}>{c.designation}</div>
                         )}
                       </td>
                       <td style={td}>{c.organisation}</td>
@@ -316,7 +316,7 @@ export default function ContactsPage() {
                             border: "none",
                             borderRadius: 6,
                             padding: "3px 8px",
-                            fontSize: 11,
+                            fontSize: 10.2,
                             fontWeight: 600,
                             cursor: "pointer",
                             // Spread the colour pair so the select looks like a badge
@@ -328,7 +328,7 @@ export default function ContactsPage() {
                           ))}
                         </select>
                       </td>
-                      <td style={{ ...td, color: "#94A3B8", fontSize: 11, whiteSpace: "nowrap" }}>
+                      <td style={{ ...td, color: "#94A3B8", fontSize: 10.2, whiteSpace: "nowrap" }}>
                         {new Date(c.createdAt).toLocaleDateString("en-IN")}
                       </td>
                       {/* Delete cell — stopPropagation prevents row expand on click */}
@@ -375,7 +375,7 @@ export default function ContactsPage() {
                               <div>
                                 <div
                                   style={{
-                                    fontSize: 10.1,
+                                    fontSize: 9.4,
                                     fontWeight: 600,
                                     color: "#94A3B8",
                                     letterSpacing: "0.06em",
@@ -385,14 +385,14 @@ export default function ContactsPage() {
                                 >
                                   Phone
                                 </div>
-                                <div style={{ fontSize: 12.9, color: "#1E293B" }}>{c.phone}</div>
+                                <div style={{ fontSize: 12, color: "#1E293B" }}>{c.phone}</div>
                               </div>
                             )}
                             {c.referralSource && (
                               <div>
                                 <div
                                   style={{
-                                    fontSize: 10.1,
+                                    fontSize: 9.4,
                                     fontWeight: 600,
                                     color: "#94A3B8",
                                     letterSpacing: "0.06em",
@@ -402,7 +402,7 @@ export default function ContactsPage() {
                                 >
                                   Referral Source
                                 </div>
-                                <div style={{ fontSize: 12.9, color: "#1E293B" }}>
+                                <div style={{ fontSize: 12, color: "#1E293B" }}>
                                   {c.referralSource}
                                 </div>
                               </div>
@@ -412,7 +412,7 @@ export default function ContactsPage() {
                               <div style={{ gridColumn: "1 / -1" }}>
                                 <div
                                   style={{
-                                    fontSize: 10.1,
+                                    fontSize: 9.4,
                                     fontWeight: 600,
                                     color: "#94A3B8",
                                     letterSpacing: "0.06em",
@@ -425,7 +425,7 @@ export default function ContactsPage() {
                                 {/* whiteSpace:pre-wrap preserves line breaks the user typed */}
                                 <div
                                   style={{
-                                    fontSize: 12.9,
+                                    fontSize: 12,
                                     color: "#1E293B",
                                     lineHeight: 1.35,
                                     whiteSpace: "pre-wrap",
@@ -437,7 +437,7 @@ export default function ContactsPage() {
                             )}
                             {/* Fallback when no extra fields are populated */}
                             {!c.phone && !c.referralSource && !c.message && (
-                              <div style={{ fontSize: 12, color: "#94A3B8" }}>
+                              <div style={{ fontSize: 11.2, color: "#94A3B8" }}>
                                 No additional details provided.
                               </div>
                             )}
@@ -464,7 +464,7 @@ export default function ContactsPage() {
               borderTop: "1px solid #F1F5F9",
             }}
           >
-            <span style={{ fontSize: 12, color: "#64748B" }}>
+            <span style={{ fontSize: 11.2, color: "#64748B" }}>
               Page {page} of {Math.ceil(total / 15)}
             </span>
             <div style={{ display: "flex", gap: 8 }}>
@@ -477,7 +477,7 @@ export default function ContactsPage() {
                   border: "1px solid #E2E8F0",
                   background: page === 1 ? "#F8FAFC" : "#fff",
                   cursor: page === 1 ? "default" : "pointer",
-                  fontSize: 12,
+                  fontSize: 11.2,
                 }}
               >
                 Prev
@@ -491,7 +491,7 @@ export default function ContactsPage() {
                   border: "1px solid #E2E8F0",
                   background: "#fff",
                   cursor: "pointer",
-                  fontSize: 12,
+                  fontSize: 11.2,
                 }}
               >
                 Next

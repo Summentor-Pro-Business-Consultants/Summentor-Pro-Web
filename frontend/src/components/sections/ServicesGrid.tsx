@@ -111,7 +111,7 @@ export default function ServicesGrid() {
           <p
             style={{
               fontFamily: "var(--sp-font-sans)",
-              fontSize: "clamp(24px, 2.85vw, 35px)",
+              fontSize: "clamp(22px, 2.65vw, 33px)",
               color: "#000",
               margin: "16px 0 0 0",
               textAlign: "center",
@@ -144,7 +144,7 @@ export default function ServicesGrid() {
                 onMouseLeave={() => setHovered(null)}
                 className="sp-svc-card"
                 style={{
-                  background: dark ? "#141414" : "#F4F5F7",
+                  background: dark ? "var(--sp-surface-dark)" : "#F4F5F7",
                   border: `1.5px solid ${dark ? "rgba(255,255,255,0.07)" : "transparent"}`,
                   borderRadius: 28,
                   overflow: "hidden",
@@ -177,7 +177,7 @@ export default function ServicesGrid() {
                   <span
                     style={{
                       fontFamily: "var(--sp-font-sans)",
-                      fontSize: "clamp(81px, 9.66vw, 140px)",
+                      fontSize: "clamp(75px, 8.98vw, 130px)",
                       fontWeight: 800,
                       lineHeight: 1,
                       letterSpacing: "-0.04em",
@@ -197,7 +197,7 @@ export default function ServicesGrid() {
                   <h3
                     style={{
                       fontFamily: "var(--sp-font-sans)",
-                      fontSize: "clamp(22px, 2.94vw, 38px)",
+                      fontSize: "clamp(20px, 2.73vw, 35px)",
                       fontWeight: 800,
                       letterSpacing: "0.03em",
                       textTransform: "uppercase",
@@ -238,7 +238,7 @@ export default function ServicesGrid() {
                   <p
                     style={{
                       fontFamily: "var(--sp-font-sans)",
-                      fontSize: "clamp(17px, 1.98vw, 26px)",
+                      fontSize: "clamp(16px, 1.84vw, 24px)",
                       lineHeight: 1.35,
                       fontWeight: 400,
                       color: dark ? "#E5E7EB" : "#000",

@@ -250,7 +250,7 @@ function EngagementCard({
       <p
         style={{
           fontFamily: "var(--sp-font-sans)",
-          fontSize: "clamp(16px, 1.6vw, 22px)",
+          fontSize: "clamp(15px, 1.49vw, 20px)",
           lineHeight: 1.25,
           margin: "clamp(12px, 1.4vw, 18px) 0 0",
           // Reserve ~3 lines so every image bottom lands on the same baseline.

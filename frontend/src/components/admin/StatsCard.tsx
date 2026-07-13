@@ -81,12 +81,12 @@ export default function StatsCard({
       {/* ── Left: metric text ──────────────────────────────────────────────── */}
       <div>
         {/* Small muted label above the number */}
-        <p style={{ fontSize: 12, color: "#64748B", fontWeight: 500, margin: 0 }}>{label}</p>
+        <p style={{ fontSize: 11.2, color: "#64748B", fontWeight: 500, margin: 0 }}>{label}</p>
 
         {/* Large value — lineHeight:1 prevents extra space below the number */}
         <p
           style={{
-            fontSize: 29.4,
+            fontSize: 27.3,
             fontWeight: 700,
             color: "#1E293B",
             margin: "6px 0 0",
@@ -97,7 +97,7 @@ export default function StatsCard({
         </p>
 
         {/* Optional sub-label (e.g. "contacts + registrations") */}
-        {sub && <p style={{ fontSize: 11, color: "#94A3B8", marginTop: 6 }}>{sub}</p>}
+        {sub && <p style={{ fontSize: 10.2, color: "#94A3B8", marginTop: 6 }}>{sub}</p>}
       </div>
 
       {/* ── Right: icon badge ──────────────────────────────────────────────── */}

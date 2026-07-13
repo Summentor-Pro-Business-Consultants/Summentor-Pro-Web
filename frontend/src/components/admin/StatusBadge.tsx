@@ -73,7 +73,7 @@ export default function StatusBadge({ status }: { status: string }) {
         color: colors.text,
         padding: "3px 10px",
         borderRadius: 999, // Fully rounded pill shape
-        fontSize: 11,
+        fontSize: 10.2,
         fontWeight: 600,
         letterSpacing: "0.02em",
         textTransform: "capitalize", // "confirmed" → "Confirmed"

@@ -75,7 +75,7 @@ function toSlug(title: string) {
 // ─── Shared inline styles (same as NewBlogPage) ───────────────────────────────
 const label: React.CSSProperties = {
   display: "block",
-  fontSize: 11,
+  fontSize: 10.2,
   fontWeight: 600,
   color: "#64748B",
   letterSpacing: "0.04em",
@@ -85,7 +85,7 @@ const input: React.CSSProperties = {
   width: "100%",
   height: 40,
   padding: "0 12px",
-  fontSize: 12.9,
+  fontSize: 12,
   color: "#1E293B",
   border: "1px solid #E2E8F0",
   borderRadius: 7,
@@ -212,13 +212,13 @@ export default function EditBlogPage() {
             alignItems: "center",
             color: "#64748B",
             textDecoration: "none",
-            fontSize: 12.9,
+            fontSize: 12,
           }}
         >
           <ArrowLeft size={16} style={{ marginRight: 4 }} />
           Back
         </Link>
-        <h1 style={{ fontSize: 20.2, fontWeight: 700, color: "#1E293B", margin: 0 }}>
+        <h1 style={{ fontSize: 18.8, fontWeight: 700, color: "#1E293B", margin: 0 }}>
           Edit Blog Post
         </h1>
         {/* Status badge next to the title so the admin always knows the post's state */}
@@ -226,7 +226,7 @@ export default function EditBlogPage() {
           style={{
             padding: "3px 10px",
             borderRadius: 20,
-            fontSize: 10.1,
+            fontSize: 9.4,
             fontWeight: 700,
             background: currentStatus === "published" ? "#F0FDF4" : "#F1F5F9",
             color: currentStatus === "published" ? "#16A34A" : "#64748B",
@@ -252,7 +252,7 @@ export default function EditBlogPage() {
                 value={title}
                 onChange={(e) => handleTitleChange(e.target.value)}
                 placeholder="Enter post title…"
-                style={{ ...input, fontSize: 16.6, fontWeight: 600, height: 48 }}
+                style={{ ...input, fontSize: 15.4, fontWeight: 600, height: 48 }}
               />
             </div>
             <div>
@@ -265,9 +265,9 @@ export default function EditBlogPage() {
                   setSlugEdited(true);
                 }}
                 placeholder="url-slug"
-                style={{ ...input, fontFamily: "monospace", fontSize: 12, color: "#64748B" }}
+                style={{ ...input, fontFamily: "monospace", fontSize: 11.2, color: "#64748B" }}
               />
-              <p style={{ fontSize: 10.1, color: "#94A3B8", marginTop: 4 }}>
+              <p style={{ fontSize: 9.4, color: "#94A3B8", marginTop: 4 }}>
                 Public URL: /blogs/{slug || "…"}
               </p>
             </div>
@@ -298,10 +298,10 @@ export default function EditBlogPage() {
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           {/* Save card — button labels adapt to the current post status */}
           <div style={card}>
-            <h3 style={{ fontSize: 12, fontWeight: 700, color: "#1E293B", margin: "0 0 16px" }}>
+            <h3 style={{ fontSize: 11.2, fontWeight: 700, color: "#1E293B", margin: "0 0 16px" }}>
               Save
             </h3>
-            {error && <p style={{ fontSize: 12, color: "#EF4444", marginBottom: 12 }}>{error}</p>}
+            {error && <p style={{ fontSize: 11.2, color: "#EF4444", marginBottom: 12 }}>{error}</p>}
 
             {/* Primary action: update if published, publish if draft */}
             <button
@@ -314,7 +314,7 @@ export default function EditBlogPage() {
                 border: "none",
                 background: "#3C50E0",
                 color: "#fff",
-                fontSize: 12.9,
+                fontSize: 12,
                 fontWeight: 600,
                 cursor: saving ? "wait" : "pointer",
                 marginBottom: 8,
@@ -341,7 +341,7 @@ export default function EditBlogPage() {
                   border: "1px solid #E2E8F0",
                   background: "#fff",
                   color: "#64748B",
-                  fontSize: 12.9,
+                  fontSize: 12,
                   fontWeight: 600,
                   cursor: saving ? "wait" : "pointer",
                   marginBottom: 8,
@@ -363,7 +363,7 @@ export default function EditBlogPage() {
                   border: "1px solid #E2E8F0",
                   background: "#fff",
                   color: "#64748B",
-                  fontSize: 12.9,
+                  fontSize: 12,
                   fontWeight: 600,
                   cursor: saving ? "wait" : "pointer",
                 }}
@@ -375,7 +375,7 @@ export default function EditBlogPage() {
 
           {/* Details card — metadata fields */}
           <div style={card}>
-            <h3 style={{ fontSize: 12, fontWeight: 700, color: "#1E293B", margin: "0 0 16px" }}>
+            <h3 style={{ fontSize: 11.2, fontWeight: 700, color: "#1E293B", margin: "0 0 16px" }}>
               Details
             </h3>
             <div style={{ marginBottom: 12 }}>

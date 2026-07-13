@@ -77,7 +77,7 @@ export default function RadialGaugeChart({
         >
           {value}
         </div>
-        <div style={{ fontSize: 10.1, color: "#64748B", marginTop: 4, whiteSpace: "nowrap" }}>
+        <div style={{ fontSize: 9.4, color: "#64748B", marginTop: 4, whiteSpace: "nowrap" }}>
           {centerLabel}
         </div>
       </div>

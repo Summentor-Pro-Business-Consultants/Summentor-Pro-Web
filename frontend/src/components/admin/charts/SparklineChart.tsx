@@ -30,7 +30,7 @@ export default function SparklineChart({
         />
         <Tooltip
           contentStyle={{
-            fontSize: 10.1,
+            fontSize: 9.4,
             padding: "4px 8px",
             borderRadius: 6,
             border: "1px solid #E2E8F0",

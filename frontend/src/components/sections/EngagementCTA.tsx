@@ -142,7 +142,7 @@ export default function EngagementCTA() {
           <p
             style={{
               fontFamily: "var(--sp-font-sans)",
-              fontSize: "clamp(24px, 2.67vw, 33px)",
+              fontSize: "clamp(22px, 2.48vw, 31px)",
               fontWeight: 500,
               color: "#000",
               margin: "18px auto 28px",
@@ -156,7 +156,7 @@ export default function EngagementCTA() {
           <p
             style={{
               fontFamily: "var(--sp-font-sans)",
-              fontSize: "clamp(22px, 2.39vw, 30px)",
+              fontSize: "clamp(20px, 2.22vw, 28px)",
               lineHeight: 1.35,
               color: "#000",
               margin: "0 auto",
@@ -243,7 +243,7 @@ export default function EngagementCTA() {
                     width: isActive ? 30 : 24,
                     height: 3,
                     borderRadius: 2,
-                    background: isActive ? "#05a171" : "#334155",
+                    background: isActive ? "var(--sp-green)" : "#334155",
                     border: "none",
                     padding: 0,
                     cursor: "pointer",
@@ -279,8 +279,8 @@ function FocusCard({
         textAlign: "center",
         padding: "20px 22px",
         borderRadius: 0,
-        background: center ? "#141414" : "#fff",
-        border: center ? "4px solid #05a171" : "3px solid #05a171",
+        background: center ? "var(--sp-surface-dark)" : "#fff",
+        border: center ? "4px solid var(--sp-green)" : "3px solid var(--sp-green)",
         transform: center ? "scale(1.06)" : "scale(1)",
         boxShadow: center
           ? "0 26px 50px -22px rgba(0,0,0,0.45)"
@@ -293,10 +293,10 @@ function FocusCard({
       <span
         style={{
           fontFamily: "var(--sp-font-sans)",
-          fontSize: "clamp(18px, 2.12vw, 27px)",
+          fontSize: "clamp(17px, 1.97vw, 25px)",
           fontWeight: 500,
           lineHeight: 1.2,
-          color: center ? "#fff" : "#05a171",
+          color: center ? "#fff" : "var(--sp-green)",
           transition: instant ? "none" : "color 0.4s ease",
         }}
       >
@@ -321,7 +321,7 @@ function ArrowButton({ dir, onClick }: { dir: "prev" | "next"; onClick: () => vo
         height: "clamp(38px, 4vw, 46px)",
         borderRadius: "50%",
         background: "#fff",
-        border: `1.5px solid ${hover ? "#05a171" : "#000"}`,
+        border: `1.5px solid ${hover ? "var(--sp-green)" : "#000"}`,
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -332,7 +332,7 @@ function ArrowButton({ dir, onClick }: { dir: "prev" | "next"; onClick: () => vo
       <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
         <path
           d={dir === "prev" ? "M15 5 L8 12 L15 19" : "M9 5 L16 12 L9 19"}
-          stroke={hover ? "#05a171" : "#000"}
+          stroke={hover ? "var(--sp-green)" : "#000"}
           strokeWidth="2.6"
           strokeLinecap="round"
           strokeLinejoin="round"

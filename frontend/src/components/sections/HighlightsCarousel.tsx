@@ -181,7 +181,7 @@ export default function HighlightsCarousel() {
                   <span
                     style={{
                       fontFamily: "var(--sp-font-sans)",
-                      fontSize: 12,
+                      fontSize: 11.2,
                       fontWeight: 500,
                       color: "#fff",
                       letterSpacing: "0.02em",
@@ -195,7 +195,7 @@ export default function HighlightsCarousel() {
                   <h3
                     style={{
                       fontFamily: "var(--sp-font-sans)",
-                      fontSize: "clamp(18px, 1.93vw, 25px)",
+                      fontSize: "clamp(17px, 1.79vw, 23px)",
                       fontWeight: 700,
                       color: "#fff",
                       margin: 0,
@@ -253,7 +253,7 @@ export default function HighlightsCarousel() {
                 width: isActive ? 34 : 9,
                 height: isActive ? 6 : 9,
                 borderRadius: isActive ? 3 : "50%",
-                background: isActive ? "#05a171" : "#cbd5e1",
+                background: isActive ? "var(--sp-green)" : "#cbd5e1",
                 border: "none",
                 padding: 0,
                 cursor: "pointer",

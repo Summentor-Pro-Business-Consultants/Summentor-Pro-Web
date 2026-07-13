@@ -154,7 +154,7 @@ export default function ProcessSection() {
         {/* Single dark pill bar containing all tabs with dividers */}
         <div
           style={{
-            background: "#141414",
+            background: "var(--sp-surface-dark)",
             borderRadius: 16,
             padding: "6px",
             display: "flex",
@@ -193,10 +193,10 @@ export default function ProcessSection() {
                   padding: "9px 12px",
                   borderRadius: 12,
                   border: "none",
-                  background: activeTab === tab.id ? "#05a171" : "transparent",
+                  background: activeTab === tab.id ? "var(--sp-green)" : "transparent",
                   color: activeTab === tab.id ? "#fff" : "rgba(255,255,255,0.92)",
                   fontFamily: "var(--sp-font-sans)",
-                  fontSize: "clamp(18px, 2.02vw, 27px)",
+                  fontSize: "clamp(17px, 1.88vw, 25px)",
                   fontWeight: 500,
                   lineHeight: 1.3,
                   cursor: "pointer",
@@ -228,7 +228,7 @@ export default function ProcessSection() {
               <h3
                 style={{
                   fontFamily: "var(--sp-font-sans)",
-                  fontSize: "clamp(21px, 2.48vw, 31px)",
+                  fontSize: "clamp(20px, 2.31vw, 29px)",
                   fontWeight: 800,
                   color: "#000",
                   margin: "0 0 18px 0",
@@ -240,7 +240,7 @@ export default function ProcessSection() {
               <p
                 style={{
                   fontFamily: "var(--sp-font-sans)",
-                  fontSize: "clamp(15px, 1.61vw, 19px)",
+                  fontSize: "clamp(14px, 1.5vw, 18px)",
                   color: "#4b5563",
                   lineHeight: 1.35,
                   margin: "0 0 30px 0",
@@ -267,7 +267,7 @@ export default function ProcessSection() {
                         width: 10,
                         height: 10,
                         borderRadius: "50%",
-                        background: "#05a171",
+                        background: "var(--sp-green)",
                         flexShrink: 0,
                         marginTop: "0.5em",
                       }}
@@ -275,7 +275,7 @@ export default function ProcessSection() {
                     <span
                       style={{
                         fontFamily: "var(--sp-font-sans)",
-                        fontSize: "clamp(16px, 1.66vw, 20px)",
+                        fontSize: "clamp(15px, 1.54vw, 19px)",
                         fontWeight: 500,
                         color: "#000",
                         lineHeight: 1.4,

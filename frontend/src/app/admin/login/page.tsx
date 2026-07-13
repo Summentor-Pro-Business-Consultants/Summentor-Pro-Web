@@ -94,7 +94,7 @@ export default function AdminLoginPage() {
     padding: "10px 14px",
     border: "1px solid #E2E8F0",
     borderRadius: 8,
-    fontSize: 12.9,
+    fontSize: 12,
     color: "#1E293B",
     outline: "none",
     boxSizing: "border-box",
@@ -151,10 +151,10 @@ export default function AdminLoginPage() {
               <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
             </svg>
           </div>
-          <h1 style={{ fontSize: 20.2, fontWeight: 700, color: "#1E293B", margin: 0 }}>
+          <h1 style={{ fontSize: 18.8, fontWeight: 700, color: "#1E293B", margin: 0 }}>
             Summentor Pro
           </h1>
-          <p style={{ color: "#64748B", fontSize: 12.9, marginTop: 4 }}>Admin dashboard sign in</p>
+          <p style={{ color: "#64748B", fontSize: 12, marginTop: 4 }}>Admin dashboard sign in</p>
         </div>
 
         {/* ── Login form ────────────────────────────────────────────────── */}
@@ -163,7 +163,7 @@ export default function AdminLoginPage() {
           <div>
             <label
               style={{
-                fontSize: 12,
+                fontSize: 11.2,
                 fontWeight: 500,
                 color: "#374151",
                 display: "block",
@@ -186,7 +186,7 @@ export default function AdminLoginPage() {
           <div>
             <label
               style={{
-                fontSize: 12,
+                fontSize: 11.2,
                 fontWeight: 500,
                 color: "#374151",
                 display: "block",
@@ -214,7 +214,7 @@ export default function AdminLoginPage() {
                 borderRadius: 6,
                 padding: "8px 12px",
                 color: "#DC2626",
-                fontSize: 12,
+                fontSize: 11.2,
               }}
             >
               {error}
@@ -234,7 +234,7 @@ export default function AdminLoginPage() {
               border: "none",
               background: "#3C50E0",
               color: "#fff",
-              fontSize: 13.8,
+              fontSize: 12.8,
               fontWeight: 600,
               cursor: loading ? "wait" : "pointer",
               marginTop: 4,

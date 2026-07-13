@@ -71,7 +71,7 @@ export default function TimeRangeFilter({ value, onChange }: TimeRangeFilterProp
             borderColor: value === p.value ? "#3C50E0" : "#E2E8F0",
             background: value === p.value ? "#3C50E0" : "#fff",
             color: value === p.value ? "#fff" : "#64748B",
-            fontSize: 11,
+            fontSize: 10.2,
             fontWeight: 500,
             cursor: "pointer",
             transition: "all 0.15s",

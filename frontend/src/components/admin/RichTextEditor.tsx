@@ -123,7 +123,7 @@ export default function RichTextEditor({ value, onChange, placeholder }: Props) 
           "padding:16px",
           "outline:none",
           "font-family:var(--sp-font-sans,sans-serif)",
-          "font-size: 14px",
+          "font-size: 13px",
           "line-height:1.6",
           "color:#1E293B",
         ].join(";"),

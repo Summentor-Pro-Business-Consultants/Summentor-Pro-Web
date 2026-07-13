@@ -27,6 +27,17 @@
   --sp-green-400: #17d99d;
   --sp-green-100: #d2faee;
 
+  /* Semantic brand colours — the single source of truth for the two-green
+     system. Rebranding is a one-line change here.
+       • --sp-green-bright → green TEXT on dark backgrounds
+       • --sp-green        → green fills, borders, bullets, and green TEXT on
+                             light backgrounds (the brighter green fails
+                             contrast on white)
+       • --sp-surface-dark → the dark card / panel surface */
+  --sp-green-bright: var(--sp-green-400);
+  --sp-green: var(--sp-green-600);
+  --sp-surface-dark: var(--sp-navy-900);
+
   /* Brand — Gold */
   --sp-gold-900: #6a4e10;
   --sp-gold-700: #9a7418;
@@ -161,9 +172,9 @@ body {
   /* Body copy is Poppins Regular (400) — lighter than the old Medium so
      paragraphs read softer; labels/buttons set their own heavier weight. */
   font-weight: 400;
-  /* ~15.6px base = 0.9775rem. All rem/em headings + body sizes scale from
-     this (kept ~8% smaller than the former 17px base). */
-  font-size: 0.9775rem;
+  /* ~14.5px base = 0.909rem. All rem/em headings + body sizes scale from this
+     (a further ~7% down from the 0.9775rem base). */
+  font-size: 0.909rem;
   line-height: var(--sp-lh-normal);
   color: var(--sp-fg);
   background: var(--sp-bg);

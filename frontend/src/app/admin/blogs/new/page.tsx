@@ -74,7 +74,7 @@ function toSlug(title: string) {
 /** label — style applied to every field label in the form */
 const label: React.CSSProperties = {
   display: "block",
-  fontSize: 11,
+  fontSize: 10.2,
   fontWeight: 600,
   color: "#64748B",
   letterSpacing: "0.04em",
@@ -86,7 +86,7 @@ const input: React.CSSProperties = {
   width: "100%",
   height: 40,
   padding: "0 12px",
-  fontSize: 12.9,
+  fontSize: 12,
   color: "#1E293B",
   border: "1px solid #E2E8F0",
   borderRadius: 7,
@@ -183,13 +183,13 @@ export default function NewBlogPage() {
             alignItems: "center",
             color: "#64748B",
             textDecoration: "none",
-            fontSize: 12.9,
+            fontSize: 12,
           }}
         >
           <ArrowLeft size={16} style={{ marginRight: 4 }} />
           Back
         </Link>
-        <h1 style={{ fontSize: 20.2, fontWeight: 700, color: "#1E293B", margin: 0 }}>
+        <h1 style={{ fontSize: 18.8, fontWeight: 700, color: "#1E293B", margin: 0 }}>
           New Blog Post
         </h1>
       </div>
@@ -216,7 +216,7 @@ export default function NewBlogPage() {
                 value={title}
                 onChange={(e) => handleTitleChange(e.target.value)}
                 placeholder="Enter post title…"
-                style={{ ...input, fontSize: 16.6, fontWeight: 600, height: 48 }}
+                style={{ ...input, fontSize: 15.4, fontWeight: 600, height: 48 }}
               />
             </div>
             <div>
@@ -229,10 +229,10 @@ export default function NewBlogPage() {
                   setSlugEdited(true);
                 }}
                 placeholder="auto-generated-from-title"
-                style={{ ...input, fontFamily: "monospace", fontSize: 12, color: "#64748B" }}
+                style={{ ...input, fontFamily: "monospace", fontSize: 11.2, color: "#64748B" }}
               />
               {/* Live preview of the public URL this post will be accessible at */}
-              <p style={{ fontSize: 10.1, color: "#94A3B8", marginTop: 4 }}>
+              <p style={{ fontSize: 9.4, color: "#94A3B8", marginTop: 4 }}>
                 Public URL: /blogs/{slug || "…"}
               </p>
             </div>
@@ -264,11 +264,11 @@ export default function NewBlogPage() {
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           {/* Publish card — primary save actions */}
           <div style={card}>
-            <h3 style={{ fontSize: 12, fontWeight: 700, color: "#1E293B", margin: "0 0 16px" }}>
+            <h3 style={{ fontSize: 11.2, fontWeight: 700, color: "#1E293B", margin: "0 0 16px" }}>
               Publish
             </h3>
             {/* Error message rendered above the buttons so it's visible without scrolling */}
-            {error && <p style={{ fontSize: 12, color: "#EF4444", marginBottom: 12 }}>{error}</p>}
+            {error && <p style={{ fontSize: 11.2, color: "#EF4444", marginBottom: 12 }}>{error}</p>}
             {/* Publish Now — immediately sets status to "published" */}
             <button
               disabled={saving}
@@ -280,7 +280,7 @@ export default function NewBlogPage() {
                 border: "none",
                 background: "#3C50E0",
                 color: "#fff",
-                fontSize: 12.9,
+                fontSize: 12,
                 fontWeight: 600,
                 cursor: saving ? "wait" : "pointer",
                 marginBottom: 8,
@@ -299,7 +299,7 @@ export default function NewBlogPage() {
                 border: "1px solid #E2E8F0",
                 background: "#fff",
                 color: "#64748B",
-                fontSize: 12.9,
+                fontSize: 12,
                 fontWeight: 600,
                 cursor: saving ? "wait" : "pointer",
               }}
@@ -310,7 +310,7 @@ export default function NewBlogPage() {
 
           {/* Details card — metadata fields that appear alongside the post */}
           <div style={card}>
-            <h3 style={{ fontSize: 12, fontWeight: 700, color: "#1E293B", margin: "0 0 16px" }}>
+            <h3 style={{ fontSize: 11.2, fontWeight: 700, color: "#1E293B", margin: "0 0 16px" }}>
               Details
             </h3>
             <div style={{ marginBottom: 12 }}>

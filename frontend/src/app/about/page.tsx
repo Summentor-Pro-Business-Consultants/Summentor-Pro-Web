@@ -223,7 +223,7 @@ function Hero() {
               dark
               style={{
                 display: "inline-block",
-                fontSize: "clamp(23px, 3.31vw, 40px)",
+                fontSize: "clamp(21px, 3.08vw, 37px)",
                 fontWeight: 600,
                 borderBottom: "3px solid #fff",
                 paddingBottom: 10,
@@ -235,14 +235,14 @@ function Hero() {
           <motion.div variants={fadeUp} style={{ marginTop: 28 }}>
             <PageHeading
               className="whitespace-normal md:whitespace-nowrap"
-              style={{ fontSize: "clamp(28px, 4.78vw, 59px)" }}
+              style={{ fontSize: "clamp(26px, 4.45vw, 55px)" }}
             >
               <span style={{ display: "block", fontWeight: 600 }}>
                 BUILDING BUSINESS ECOSYSTEMS
               </span>
               <span
                 style={{
-                  background: "#05a171",
+                  background: "var(--sp-green)",
                   color: "#000",
                   display: "inline-block",
                   // Equal top/bottom padding that the clip-path keeps ONLY on
@@ -274,7 +274,7 @@ function Story() {
   const PREVIEW_COUNT = 3;
   const paraStyle: CSSProperties = {
     fontFamily: "var(--sp-font-sans)",
-    fontSize: "clamp(21px, 2.21vw, 30px)",
+    fontSize: "clamp(20px, 2.06vw, 28px)",
     fontWeight: 400,
     lineHeight: 1.35,
     color: "#000",
@@ -347,19 +347,19 @@ function Story() {
                 display: "inline-block",
                 padding: "18px 74px",
                 borderRadius: 999,
-                border: "2px solid #05a171",
+                border: "2px solid var(--sp-green)",
                 background: "transparent",
                 color: "#000",
                 cursor: "pointer",
                 fontFamily: "var(--sp-font-sans)",
-                fontSize: "clamp(20px, 2.02vw, 28px)",
+                fontSize: "clamp(19px, 1.88vw, 26px)",
                 fontWeight: 600,
                 letterSpacing: "0.08em",
                 textTransform: "uppercase",
                 transition: "background 0.2s ease, color 0.2s ease",
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.background = "#05a171";
+                e.currentTarget.style.background = "var(--sp-green)";
                 e.currentTarget.style.color = "#fff";
               }}
               onMouseLeave={(e) => {
@@ -403,7 +403,7 @@ function PullQuote() {
           transition={{ duration: 0.7, ease: EASE }}
           style={{
             fontFamily: "var(--sp-font-sans)",
-            fontSize: "clamp(33px, 4.88vw, 66px)",
+            fontSize: "clamp(31px, 4.54vw, 61px)",
             fontWeight: 700,
             letterSpacing: "0.01em",
             textTransform: "uppercase",
@@ -417,13 +417,21 @@ function PullQuote() {
           WHERE STRATEGY MEETS
           <br />
           <span
-            style={{ color: "#17d99d", fontWeight: 900, WebkitTextStroke: "1.4px currentColor" }}
+            style={{
+              color: "var(--sp-green-bright)",
+              fontWeight: 900,
+              WebkitTextStroke: "1.4px currentColor",
+            }}
           >
             IMPACT, AND INNOVATION
           </span>
           <br />
           <span
-            style={{ color: "#17d99d", fontWeight: 900, WebkitTextStroke: "1.4px currentColor" }}
+            style={{
+              color: "var(--sp-green-bright)",
+              fontWeight: 900,
+              WebkitTextStroke: "1.4px currentColor",
+            }}
           >
             DRIVES GROWTH.
           </span>
@@ -539,7 +547,7 @@ function WhatMakesUsDifferent() {
             variants={fadeUp}
             style={{
               fontFamily: "var(--sp-font-sans)",
-              fontSize: "clamp(22px, 2.67vw, 35px)",
+              fontSize: "clamp(20px, 2.48vw, 33px)",
               color: "#000",
               maxWidth: 1280,
               margin: "22px auto 0",
@@ -554,7 +562,7 @@ function WhatMakesUsDifferent() {
         {/* WE FOCUS ON ENABLING — subheading */}
         <SectionHeading
           style={{
-            fontSize: "clamp(26px, 3.04vw, 40px)",
+            fontSize: "clamp(24px, 2.83vw, 37px)",
             marginBottom: "clamp(28px, 4vw, 44px)",
           }}
         >
@@ -600,7 +608,7 @@ function WhatMakesUsDifferent() {
         <p
           style={{
             fontFamily: "var(--sp-font-sans)",
-            fontSize: "clamp(21px, 2.3vw, 30px)",
+            fontSize: "clamp(20px, 2.14vw, 28px)",
             color: "#000",
             textAlign: "center",
             margin: "36px auto 0",
@@ -641,8 +649,8 @@ function EnablerCard({
         textAlign: "center",
         padding: "20px 22px",
         borderRadius: 0,
-        background: center ? "#141414" : "#fff",
-        border: "2px solid #05a171",
+        background: center ? "var(--sp-surface-dark)" : "#fff",
+        border: "2px solid var(--sp-green)",
         transform: center ? "scale(1.05)" : "scale(1)",
         boxShadow: center
           ? "0 24px 48px -22px rgba(0,0,0,0.45)"
@@ -655,12 +663,12 @@ function EnablerCard({
       <span
         style={{
           fontFamily: "var(--sp-font-sans)",
-          fontSize: "clamp(22px, 2.48vw, 32px)",
+          fontSize: "clamp(20px, 2.31vw, 30px)",
           fontWeight: 500,
           lineHeight: 1.2,
           // Bright green on the dark centre card; the darker green on a hovered
           // white side card so it stays legible (matches PlatformCard).
-          color: center ? "#17d99d" : hover ? "#05a171" : "#000",
+          color: center ? "var(--sp-green-bright)" : hover ? "var(--sp-green)" : "#000",
           transition: instant ? "none" : "color 0.4s ease",
         }}
       >
@@ -707,7 +715,7 @@ function Leadership() {
               <h2
                 style={{
                   fontFamily: "var(--sp-font-sans)",
-                  fontSize: "clamp(37px, 5.06vw, 61px)",
+                  fontSize: "clamp(34px, 4.71vw, 57px)",
                   fontWeight: 900,
                   letterSpacing: "0.02em",
                   textTransform: "uppercase",
@@ -728,14 +736,14 @@ function Leadership() {
               transition={{ duration: 0.7, ease: EASE }}
               style={{
                 background: "transparent",
-                borderLeft: "3px solid #05a171",
+                borderLeft: "3px solid var(--sp-green)",
                 paddingLeft: "clamp(20px, 3vw, 28px)",
               }}
             >
               <p
                 style={{
                   fontFamily: "var(--sp-font-sans)",
-                  fontSize: "clamp(18px, 1.93vw, 26px)",
+                  fontSize: "clamp(17px, 1.79vw, 24px)",
                   lineHeight: 1.3,
                   color: "#fff",
                   margin: "0 0 14px",
@@ -747,7 +755,7 @@ function Leadership() {
               <p
                 style={{
                   fontFamily: "var(--sp-font-sans)",
-                  fontSize: "clamp(18px, 1.93vw, 26px)",
+                  fontSize: "clamp(17px, 1.79vw, 24px)",
                   lineHeight: 1.3,
                   color: "#fff",
                   margin: 0,
@@ -929,7 +937,7 @@ function Initiatives() {
           <p
             style={{
               fontFamily: "var(--sp-font-sans)",
-              fontSize: "clamp(22px, 2.48vw, 31px)",
+              fontSize: "clamp(20px, 2.31vw, 29px)",
               color: "#000",
               margin: "18px 0 40px",
             }}
@@ -983,9 +991,9 @@ function Initiatives() {
                       <h3
                         style={{
                           fontFamily: "var(--sp-font-sans)",
-                          fontSize: "clamp(27px, 3.13vw, 40px)",
+                          fontSize: "clamp(25px, 2.91vw, 37px)",
                           fontWeight: 700,
-                          color: "#17d99d",
+                          color: "var(--sp-green-bright)",
                           margin: "0 0 18px",
                           lineHeight: 1.15,
                         }}
@@ -995,7 +1003,7 @@ function Initiatives() {
                       <p
                         style={{
                           fontFamily: "var(--sp-font-sans)",
-                          fontSize: "clamp(15px, 1.61vw, 19px)",
+                          fontSize: "clamp(14px, 1.5vw, 18px)",
                           lineHeight: 1.3,
                           color: "#fff",
                           margin: 0,
@@ -1023,7 +1031,7 @@ function Initiatives() {
                       <p
                         style={{
                           fontFamily: "var(--sp-font-sans)",
-                          fontSize: "clamp(18px, 1.93vw, 25px)",
+                          fontSize: "clamp(17px, 1.79vw, 23px)",
                           fontWeight: 500,
                           color: "#fff",
                           margin: "0 0 14px",
@@ -1046,7 +1054,7 @@ function Initiatives() {
                             key={f}
                             style={{
                               fontFamily: "var(--sp-font-sans)",
-                              fontSize: "clamp(15px, 1.61vw, 19px)",
+                              fontSize: "clamp(14px, 1.5vw, 18px)",
                               fontWeight: 400,
                               lineHeight: 1.2,
                               color: "#fff",
@@ -1061,7 +1069,7 @@ function Initiatives() {
                                 width: 7,
                                 height: 7,
                                 borderRadius: "50%",
-                                background: "#05a171",
+                                background: "var(--sp-green)",
                                 flexShrink: 0,
                                 marginTop: "0.6em",
                               }}
@@ -1119,7 +1127,7 @@ function GreenArrow({
         height: size,
         borderRadius: "50%",
         border: "none",
-        background: "#05a171",
+        background: "var(--sp-green)",
         alignItems: "center",
         justifyContent: "center",
         cursor: "pointer",
@@ -1190,7 +1198,7 @@ function Dots({
             width: i === active ? 30 : 24,
             height: 4,
             borderRadius: 2,
-            background: i === active ? "#05a171" : "#334155",
+            background: i === active ? "var(--sp-green)" : "#334155",
             border: "none",
             cursor: "pointer",
             padding: 0,
