@@ -69,8 +69,8 @@ export default function Header() {
               href={link.href}
               style={{
                 fontFamily: "var(--sp-font-sans)",
-                fontSize: 17.9,
-                color: isActive(link.href) ? "#05a171" : "#000",
+                fontSize: 16.6,
+                color: isActive(link.href) ? "var(--sp-green)" : "#000",
                 textDecoration: "none",
                 padding: "28px 38px",
                 transition: "color 0.15s ease",
@@ -78,7 +78,7 @@ export default function Header() {
                 whiteSpace: "nowrap",
               }}
               onMouseEnter={(e) => {
-                if (!isActive(link.href)) (e.target as HTMLElement).style.color = "#05a171";
+                if (!isActive(link.href)) (e.target as HTMLElement).style.color = "var(--sp-green)";
               }}
               onMouseLeave={(e) => {
                 if (!isActive(link.href)) (e.target as HTMLElement).style.color = "#000";
@@ -133,8 +133,8 @@ export default function Header() {
                     href={link.href}
                     style={{
                       fontFamily: "var(--sp-font-sans)",
-                      fontSize: 17.5,
-                      color: isActive(link.href) ? "#05a171" : "#000",
+                      fontSize: 16.3,
+                      color: isActive(link.href) ? "var(--sp-green)" : "#000",
                       textDecoration: "none",
                       padding: "14px 0",
                       borderBottom: "1px solid var(--sp-gray-200)",

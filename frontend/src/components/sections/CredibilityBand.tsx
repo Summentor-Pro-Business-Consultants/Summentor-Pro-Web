@@ -113,7 +113,7 @@ export default function CredibilityBand() {
           gap: 5px;
           color: #fff;
           font-family: var(--sp-font-sans);
-          font-size: clamp(16px, 1.43vw, 20px);
+          font-size: clamp(15px, 1.33vw, 19px);
           font-weight: 600;
           line-height: 1.22;
         }
@@ -121,17 +121,17 @@ export default function CredibilityBand() {
           display: inline-flex;
           align-items: center;
           gap: 8px;
-          font-size: clamp(9px, 0.78vw, 11px);
+          font-size: clamp(8px, 0.73vw, 10px);
           font-weight: 700;
           letter-spacing: 0.16em;
           text-transform: uppercase;
-          color: #17d99d;
+          color: var(--sp-green-bright);
         }
         .sp-credibility-eyebrow::before {
           content: "";
           width: 22px;
           height: 2px;
-          background: #05a171;
+          background: var(--sp-green);
         }
       `}</style>
       <div

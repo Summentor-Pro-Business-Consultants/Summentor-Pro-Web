@@ -146,7 +146,7 @@ function Hero() {
               dark
               style={{
                 display: "inline-block",
-                fontSize: "clamp(23px, 3.31vw, 40px)",
+                fontSize: "clamp(21px, 3.08vw, 37px)",
                 fontWeight: 600,
                 borderBottom: "3px solid #fff",
                 paddingBottom: 10,
@@ -157,11 +157,11 @@ function Hero() {
           </motion.div>
 
           <motion.div variants={fadeUp} style={{ marginTop: 28 }}>
-            <PageHeading style={{ fontSize: "clamp(28px, 4.78vw, 59px)" }}>
+            <PageHeading style={{ fontSize: "clamp(26px, 4.45vw, 55px)" }}>
               <span style={{ display: "block", fontWeight: 600 }}>START YOUR JOURNEY WITH</span>
               <span
                 style={{
-                  background: "#05a171",
+                  background: "var(--sp-green)",
                   color: "#000",
                   display: "inline-block",
                   padding: "13px 8px",
@@ -286,7 +286,7 @@ function FormBlock() {
               variants={fadeUp}
               style={{
                 background: "var(--sp-green-100)",
-                border: "1px solid #05a171",
+                border: "1px solid var(--sp-green)",
                 borderRadius: 12,
                 padding: "32px 28px",
                 textAlign: "center",
@@ -295,9 +295,9 @@ function FormBlock() {
               <h3
                 style={{
                   fontFamily: "var(--sp-font-sans)",
-                  fontSize: 20.2,
+                  fontSize: 18.8,
                   fontWeight: 700,
-                  color: "#05a171",
+                  color: "var(--sp-green)",
                   margin: "0 0 8px",
                 }}
               >
@@ -306,8 +306,8 @@ function FormBlock() {
               <p
                 style={{
                   fontFamily: "var(--sp-font-sans)",
-                  fontSize: 13.8,
-                  color: "#05a171",
+                  fontSize: 12.8,
+                  color: "var(--sp-green)",
                   margin: 0,
                   lineHeight: 1.35,
                 }}
@@ -484,7 +484,7 @@ function FormBlock() {
                   style={{
                     color: "#B91C1C",
                     fontFamily: "var(--sp-font-sans)",
-                    fontSize: 12.9,
+                    fontSize: 12,
                     margin: "16px 0 0",
                     textAlign: "center",
                   }}
@@ -501,11 +501,11 @@ function FormBlock() {
                     display: "inline-block",
                     padding: "11px 46px",
                     borderRadius: 999,
-                    border: "1.5px solid #05a171",
-                    background: "#05a171",
+                    border: "1.5px solid var(--sp-green)",
+                    background: "var(--sp-green)",
                     color: "#000",
                     fontFamily: "var(--sp-font-sans)",
-                    fontSize: 24.8,
+                    fontSize: 23.1,
                     fontWeight: 600,
                     cursor: submitting ? "wait" : "pointer",
                     opacity: submitting ? 0.7 : 1,
@@ -528,7 +528,7 @@ const inputStyle: React.CSSProperties = {
   height: 44,
   padding: "0 14px",
   fontFamily: "var(--sp-font-sans)",
-  fontSize: 13.8,
+  fontSize: 12.8,
   color: "#000",
   background: "#F4F5F7",
   border: "1px solid transparent",
@@ -556,13 +556,13 @@ function Field({
           display: "block",
           marginBottom: 6,
           fontFamily: "var(--sp-font-sans)",
-          fontSize: 12,
+          fontSize: 11.2,
           fontWeight: 600,
           color: "#000",
         }}
       >
         {label}
-        {required && <span style={{ color: "#05a171", marginLeft: 4 }}>*</span>}
+        {required && <span style={{ color: "var(--sp-green)", marginLeft: 4 }}>*</span>}
       </label>
       {children}
     </motion.div>

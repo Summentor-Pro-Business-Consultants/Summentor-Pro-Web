@@ -56,7 +56,7 @@ interface Registration {
 const th: React.CSSProperties = {
   padding: "10px 16px",
   textAlign: "left",
-  fontSize: 11,
+  fontSize: 10.2,
   fontWeight: 600,
   color: "#64748B",
   letterSpacing: "0.04em",
@@ -66,7 +66,7 @@ const th: React.CSSProperties = {
 };
 const td: React.CSSProperties = {
   padding: "12px 16px",
-  fontSize: 12.9,
+  fontSize: 12,
   color: "#1E293B",
   borderBottom: "1px solid #F1F5F9",
 };
@@ -135,7 +135,7 @@ export default function EventDetailPage() {
           gap: 6,
           color: "#64748B",
           textDecoration: "none",
-          fontSize: 12,
+          fontSize: 11.2,
           marginBottom: 20,
         }}
       >
@@ -157,7 +157,7 @@ export default function EventDetailPage() {
             padding: "8px 12px",
             borderRadius: 7,
             border: "1px solid #E2E8F0",
-            fontSize: 12.9,
+            fontSize: 12,
           }}
         >
           <option value="">All statuses</option>
@@ -228,7 +228,7 @@ export default function EventDetailPage() {
                         style={{
                           border: "none",
                           background: "none",
-                          fontSize: 12,
+                          fontSize: 11.2,
                           cursor: "pointer",
                         }}
                       >
@@ -237,7 +237,7 @@ export default function EventDetailPage() {
                         ))}
                       </select>
                     </td>
-                    <td style={{ ...td, color: "#94A3B8", fontSize: 11 }}>
+                    <td style={{ ...td, color: "#94A3B8", fontSize: 10.2 }}>
                       {new Date(r.createdAt).toLocaleDateString("en-IN")}
                     </td>
                   </tr>
@@ -258,7 +258,7 @@ export default function EventDetailPage() {
               borderTop: "1px solid #F1F5F9",
             }}
           >
-            <span style={{ fontSize: 12, color: "#64748B" }}>
+            <span style={{ fontSize: 11.2, color: "#64748B" }}>
               Page {page} of {Math.ceil(total / 15)}
             </span>
             <div style={{ display: "flex", gap: 8 }}>
@@ -271,7 +271,7 @@ export default function EventDetailPage() {
                   border: "1px solid #E2E8F0",
                   background: page === 1 ? "#F8FAFC" : "#fff",
                   cursor: page === 1 ? "default" : "pointer",
-                  fontSize: 12,
+                  fontSize: 11.2,
                 }}
               >
                 Prev
@@ -285,7 +285,7 @@ export default function EventDetailPage() {
                   border: "1px solid #E2E8F0",
                   background: "#fff",
                   cursor: "pointer",
-                  fontSize: 12,
+                  fontSize: 11.2,
                 }}
               >
                 Next

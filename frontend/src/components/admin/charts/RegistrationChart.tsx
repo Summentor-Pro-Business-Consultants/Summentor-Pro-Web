@@ -84,7 +84,7 @@ export default function RegistrationChart({ data }: Props) {
         {/* X axis — numeric registration counts, integers only */}
         <XAxis
           type="number"
-          tick={{ fontSize: 10.1, fill: "#94A3B8" }}
+          tick={{ fontSize: 9.4, fill: "#94A3B8" }}
           tickLine={false}
           axisLine={false}
           allowDecimals={false}
@@ -97,13 +97,13 @@ export default function RegistrationChart({ data }: Props) {
         <YAxis
           type="category"
           dataKey="label"
-          tick={{ fontSize: 10.1, fill: "#64748B" }}
+          tick={{ fontSize: 9.4, fill: "#64748B" }}
           tickLine={false}
           axisLine={false}
           width={100}
         />
 
-        <Tooltip contentStyle={{ borderRadius: 8, border: "1px solid #E2E8F0", fontSize: 12 }} />
+        <Tooltip contentStyle={{ borderRadius: 8, border: "1px solid #E2E8F0", fontSize: 11.2 }} />
 
         {/*
           Bar with rounded right corners: radius=[top-left, top-right, bottom-right, bottom-left]

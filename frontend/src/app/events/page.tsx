@@ -182,7 +182,7 @@ function Hero() {
               dark
               style={{
                 display: "inline-block",
-                fontSize: "clamp(23px, 3.31vw, 40px)",
+                fontSize: "clamp(21px, 3.08vw, 37px)",
                 fontWeight: 600,
                 borderBottom: "3px solid #fff",
                 paddingBottom: 10,
@@ -193,11 +193,11 @@ function Hero() {
           </motion.div>
 
           <motion.div variants={fadeUp} style={{ margin: "28px 0 22px" }}>
-            <PageHeading style={{ fontSize: "clamp(28px, 4.78vw, 59px)" }}>
+            <PageHeading style={{ fontSize: "clamp(26px, 4.45vw, 55px)" }}>
               <span style={{ display: "block", fontWeight: 600 }}>BUSINESS PLATFORMS DESIGNED</span>
               <span
                 style={{
-                  background: "#05a171",
+                  background: "var(--sp-green)",
                   color: "#000",
                   display: "inline-block",
                   padding: "13px 8px",
@@ -219,7 +219,7 @@ function Hero() {
             variants={fadeUp}
             style={{
               fontFamily: "var(--sp-font-sans)",
-              fontSize: "clamp(20px, 2.21vw, 29px)",
+              fontSize: "clamp(19px, 2.06vw, 27px)",
               lineHeight: 1.35,
               color: "#fff",
               maxWidth: 1040,
@@ -342,7 +342,7 @@ function WhyOurPlatformsMatter() {
             variants={fadeUp}
             style={{
               fontFamily: "var(--sp-font-sans)",
-              fontSize: "clamp(17px, 1.84vw, 22px)",
+              fontSize: "clamp(16px, 1.71vw, 20px)",
               color: "#000",
               maxWidth: 860,
               margin: "22px auto 0",
@@ -357,7 +357,7 @@ function WhyOurPlatformsMatter() {
         {/* Subheading — sentence case (override the heading's uppercase) */}
         <SectionHeading
           style={{
-            fontSize: "clamp(22px, 2.67vw, 35px)",
+            fontSize: "clamp(20px, 2.48vw, 33px)",
             textTransform: "none",
             marginBottom: "clamp(28px, 4vw, 44px)",
           }}
@@ -414,7 +414,7 @@ function PlatformCard({
 }) {
   const [hover, setHover] = useState(false);
   // Green accent (icon + title) applies to the centre card and to any card on
-  // hover. Uses the darker brand green (#05a171) so it stays legible on the
+  // hover. Uses the darker brand green (var(--sp-green)) so it stays legible on the
   // white side cards too.
   const accent = center || hover;
   return (
@@ -430,8 +430,8 @@ function PlatformCard({
         gap: 16,
         padding: "clamp(18px, 2.3vw, 28px) 18px",
         borderRadius: 0,
-        background: center ? "#141414" : "#fff",
-        border: center ? "2px solid #05a171" : "1px solid #E5E7EB",
+        background: center ? "var(--sp-surface-dark)" : "#fff",
+        border: center ? "2px solid var(--sp-green)" : "1px solid #E5E7EB",
         transform: center ? "scale(1.05)" : "scale(1)",
         boxShadow: center
           ? "0 24px 48px -22px rgba(0,0,0,0.45)"
@@ -449,7 +449,7 @@ function PlatformCard({
           width: 72,
           height: 72,
           flexShrink: 0,
-          backgroundColor: accent ? "#05a171" : "#1a1a1a",
+          backgroundColor: accent ? "var(--sp-green)" : "#1a1a1a",
           WebkitMaskImage: `url(${item.icon})`,
           maskImage: `url(${item.icon})`,
           WebkitMaskRepeat: "no-repeat",
@@ -464,12 +464,12 @@ function PlatformCard({
       <h3
         style={{
           fontFamily: "var(--sp-font-sans)",
-          fontSize: "clamp(22px, 2.67vw, 31px)",
+          fontSize: "clamp(20px, 2.48vw, 29px)",
           fontWeight: 500,
           lineHeight: 1.2,
           // Bright green on the dark centre card; the darker green on a hovered
           // white side card so it stays legible on white.
-          color: center ? "#17d99d" : hover ? "#05a171" : "#000",
+          color: center ? "var(--sp-green-bright)" : hover ? "var(--sp-green)" : "#000",
           margin: 0,
           transition: instant ? "none" : "color 0.4s ease",
         }}
@@ -620,7 +620,7 @@ function FeaturedPlatforms() {
                       <h3
                         style={{
                           fontFamily: "var(--sp-font-sans)",
-                          fontSize: "clamp(21px, 2.5vw, 32px)",
+                          fontSize: "clamp(20px, 2.33vw, 30px)",
                           fontWeight: 800,
                           textTransform: "uppercase",
                           letterSpacing: "0.01em",
@@ -634,7 +634,7 @@ function FeaturedPlatforms() {
                       <p
                         style={{
                           fontFamily: "var(--sp-font-sans)",
-                          fontSize: "clamp(15px, 1.6vw, 20px)",
+                          fontSize: "clamp(14px, 1.49vw, 19px)",
                           lineHeight: 1.35,
                           color: "#fff",
                           margin: "0 0 14px",
@@ -652,7 +652,7 @@ function FeaturedPlatforms() {
                       <p
                         style={{
                           fontFamily: "var(--sp-font-sans)",
-                          fontSize: "clamp(15px, 1.6vw, 20px)",
+                          fontSize: "clamp(14px, 1.49vw, 19px)",
                           fontWeight: 700,
                           color: "#fff",
                           margin: "0 0 8px",
@@ -674,7 +674,7 @@ function FeaturedPlatforms() {
                             key={item}
                             style={{
                               fontFamily: "var(--sp-font-sans)",
-                              fontSize: "clamp(15px, 1.6vw, 20px)",
+                              fontSize: "clamp(14px, 1.49vw, 19px)",
                               color: "#fff",
                               lineHeight: 1.3,
                             }}
@@ -689,11 +689,11 @@ function FeaturedPlatforms() {
                           display: "inline-block",
                           padding: "8px 44px",
                           borderRadius: 999,
-                          border: "2px solid #05a171",
+                          border: "2px solid var(--sp-green)",
                           color: "#fff",
                           textDecoration: "none",
                           fontFamily: "var(--sp-font-sans)",
-                          fontSize: 20,
+                          fontSize: 18.6,
                           fontWeight: 500,
                           letterSpacing: "0.06em",
                           textTransform: "uppercase",
@@ -701,7 +701,7 @@ function FeaturedPlatforms() {
                             "background 0.2s ease, border-color 0.2s ease, color 0.2s ease",
                         }}
                         onMouseEnter={(e) => {
-                          (e.currentTarget as HTMLElement).style.background = "#05a171";
+                          (e.currentTarget as HTMLElement).style.background = "var(--sp-green)";
                           (e.currentTarget as HTMLElement).style.color = "#000";
                         }}
                         onMouseLeave={(e) => {
@@ -776,12 +776,12 @@ function UpcomingPlatforms() {
                 onMouseLeave={() => setHovered(null)}
                 style={{
                   // Black by default, green on hover (title + text turn black).
-                  background: hover ? "#05a171" : "var(--sp-navy-900)",
+                  background: hover ? "var(--sp-green)" : "var(--sp-navy-900)",
                   color: "#fff",
                   borderRadius: 38,
                   padding: "clamp(30px, 4.5vw, 52px) clamp(48px, 7.5vw, 104px)",
                   textAlign: "center",
-                  border: hover ? "1px solid #05a171" : "1px solid rgba(255,255,255,0.06)",
+                  border: hover ? "1px solid var(--sp-green)" : "1px solid rgba(255,255,255,0.06)",
                   boxShadow: hover
                     ? "0 14px 36px rgba(5,161,113,0.28)"
                     : "0 4px 16px rgba(0,0,0,0.08)",
@@ -796,7 +796,7 @@ function UpcomingPlatforms() {
                 <p
                   style={{
                     fontFamily: "var(--sp-font-sans)",
-                    fontSize: "clamp(29px, 3.4vw, 46px)",
+                    fontSize: "clamp(27px, 3.16vw, 43px)",
                     fontWeight: 500,
                     margin: "0 0 14px",
                     lineHeight: 1.15,
@@ -809,7 +809,7 @@ function UpcomingPlatforms() {
                 <p
                   style={{
                     fontFamily: "var(--sp-font-sans)",
-                    fontSize: "clamp(24px, 2.67vw, 35px)",
+                    fontSize: "clamp(22px, 2.48vw, 33px)",
                     margin: 0,
                     lineHeight: 1.35,
                     color: hover ? "rgba(0,0,0,0.85)" : "rgba(255,255,255,0.9)",
@@ -861,7 +861,7 @@ function PartnerCTA() {
             variants={fadeUp}
             style={{
               fontFamily: "var(--sp-font-sans)",
-              fontSize: "clamp(23px, 2.39vw, 31px)",
+              fontSize: "clamp(21px, 2.22vw, 29px)",
               color: "#000",
               maxWidth: 1340,
               margin: "22px auto 40px",
@@ -908,26 +908,26 @@ function PartnerPill({
         display: "inline-block",
         padding: "15px 38px",
         borderRadius: 999,
-        border: filled ? "2px solid #05a171" : "1.5px solid #1f2937",
-        background: filled ? "#05a171" : "transparent",
+        border: filled ? "2px solid var(--sp-green)" : "1.5px solid #1f2937",
+        background: filled ? "var(--sp-green)" : "transparent",
         color: filled ? "#fff" : "#000",
         textDecoration: "none",
         fontFamily: "var(--sp-font-sans)",
-        fontSize: 25.8,
+        fontSize: 24,
         fontWeight: 600,
         transition: CARD_TRANSITION,
       }}
       onMouseEnter={(e) => {
         const el = e.currentTarget as HTMLElement;
-        el.style.background = "#05a171";
+        el.style.background = "var(--sp-green)";
         el.style.color = "#fff";
-        el.style.borderColor = "#05a171";
+        el.style.borderColor = "var(--sp-green)";
       }}
       onMouseLeave={(e) => {
         const el = e.currentTarget as HTMLElement;
-        el.style.background = filled ? "#05a171" : "transparent";
+        el.style.background = filled ? "var(--sp-green)" : "transparent";
         el.style.color = filled ? "#fff" : "#000";
-        el.style.borderColor = filled ? "#05a171" : "#1f2937";
+        el.style.borderColor = filled ? "var(--sp-green)" : "#1f2937";
       }}
     >
       {children}
@@ -1151,7 +1151,7 @@ function GreenArrow({
         height: size,
         borderRadius: "50%",
         border: "none",
-        background: "#05a171",
+        background: "var(--sp-green)",
         alignItems: "center",
         justifyContent: "center",
         cursor: "pointer",
@@ -1221,7 +1221,8 @@ function Dots({
             width: i === active ? 30 : 24,
             height: 4,
             borderRadius: 2,
-            background: i === active ? "#05a171" : dark ? "rgba(255,255,255,0.25)" : "#334155",
+            background:
+              i === active ? "var(--sp-green)" : dark ? "rgba(255,255,255,0.25)" : "#334155",
             border: "none",
             cursor: "pointer",
             padding: 0,

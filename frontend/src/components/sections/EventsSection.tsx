@@ -103,7 +103,7 @@ export default function EventsSection() {
                   style={{
                     width: 4,
                     alignSelf: "stretch",
-                    background: "#05a171",
+                    background: "var(--sp-green)",
                     borderRadius: 2,
                     flexShrink: 0,
                   }}
@@ -112,7 +112,7 @@ export default function EventsSection() {
                   <h3
                     style={{
                       fontFamily: "var(--sp-font-sans)",
-                      fontSize: "clamp(24px, 3.22vw, 39px)",
+                      fontSize: "clamp(22px, 2.99vw, 36px)",
                       fontWeight: 800,
                       letterSpacing: "0.02em",
                       textTransform: "uppercase",
@@ -126,7 +126,7 @@ export default function EventsSection() {
                   <p
                     style={{
                       fontFamily: "var(--sp-font-sans)",
-                      fontSize: "clamp(18px, 2.12vw, 26px)",
+                      fontSize: "clamp(17px, 1.97vw, 24px)",
                       lineHeight: 1.35,
                       fontWeight: 400,
                       color: "#ffffff",
@@ -210,7 +210,7 @@ function PlatformImage({
         style={{
           position: "absolute",
           inset: 26,
-          background: "#05a171",
+          background: "var(--sp-green)",
           transform: `rotate(${tilt}deg) translate(${accentShift}, -24px)`,
           zIndex: 0,
         }}

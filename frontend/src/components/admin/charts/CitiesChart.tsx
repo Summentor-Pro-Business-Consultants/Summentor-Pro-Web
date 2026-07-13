@@ -65,7 +65,7 @@ export default function CitiesChart({ data }: Props) {
         {/* X axis — integer registration counts */}
         <XAxis
           type="number"
-          tick={{ fontSize: 10.1, fill: "#94A3B8" }}
+          tick={{ fontSize: 9.4, fill: "#94A3B8" }}
           tickLine={false}
           axisLine={false}
           allowDecimals={false}
@@ -78,13 +78,13 @@ export default function CitiesChart({ data }: Props) {
         <YAxis
           type="category"
           dataKey="city"
-          tick={{ fontSize: 10.1, fill: "#64748B" }}
+          tick={{ fontSize: 9.4, fill: "#64748B" }}
           tickLine={false}
           axisLine={false}
           width={90}
         />
 
-        <Tooltip contentStyle={{ borderRadius: 8, border: "1px solid #E2E8F0", fontSize: 12 }} />
+        <Tooltip contentStyle={{ borderRadius: 8, border: "1px solid #E2E8F0", fontSize: 11.2 }} />
 
         {/*
           Bars with rounded right corners matching the RegistrationChart style.

@@ -79,7 +79,7 @@ export default function SubmissionTrendChart({ data, seriesName = "Contacts" }: 
         */}
         <XAxis
           dataKey="label"
-          tick={{ fontSize: 10.1, fill: "#94A3B8" }}
+          tick={{ fontSize: 9.4, fill: "#94A3B8" }}
           tickLine={false}
           axisLine={false}
           interval={6} // Show roughly one label per week
@@ -90,7 +90,7 @@ export default function SubmissionTrendChart({ data, seriesName = "Contacts" }: 
           are always integers. Axis lines/ticks hidden for visual cleanliness.
         */}
         <YAxis
-          tick={{ fontSize: 10.1, fill: "#94A3B8" }}
+          tick={{ fontSize: 9.4, fill: "#94A3B8" }}
           tickLine={false}
           axisLine={false}
           allowDecimals={false}
@@ -98,7 +98,7 @@ export default function SubmissionTrendChart({ data, seriesName = "Contacts" }: 
 
         {/* Tooltip shown on hover — lightly styled to match the card design */}
         <Tooltip
-          contentStyle={{ borderRadius: 8, border: "1px solid #E2E8F0", fontSize: 12 }}
+          contentStyle={{ borderRadius: 8, border: "1px solid #E2E8F0", fontSize: 11.2 }}
           labelStyle={{ color: "#1E293B", fontWeight: 600 }}
         />
 
