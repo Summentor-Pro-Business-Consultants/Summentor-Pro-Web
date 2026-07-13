@@ -547,7 +547,7 @@ function WhatMakesUsDifferent() {
             variants={fadeUp}
             style={{
               fontFamily: "var(--sp-font-sans)",
-              fontSize: "clamp(20px, 2.48vw, 33px)",
+              fontSize: "clamp(17px, 2.05vw, 27px)",
               color: "#000",
               maxWidth: 1280,
               margin: "22px auto 0",
@@ -642,7 +642,7 @@ function EnablerCard({
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
       style={{
-        aspectRatio: "1.5 / 1",
+        aspectRatio: "1.85 / 1",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -970,7 +970,7 @@ function Initiatives() {
                       width: cardW,
                       background: "var(--sp-navy-900)",
                       borderRadius: 0,
-                      padding: "clamp(20px, 2.8vw, 32px) clamp(28px, 4vw, 48px)",
+                      padding: "clamp(12px, 1.8vw, 22px) clamp(26px, 3.6vw, 44px)",
                       // The non-active cards (e.g. the next one peeking in on
                       // the right) render blurred and dimmed.
                       filter: isActive ? "none" : "blur(5px)",
@@ -994,7 +994,7 @@ function Initiatives() {
                           fontSize: "clamp(25px, 2.91vw, 37px)",
                           fontWeight: 700,
                           color: "var(--sp-green-bright)",
-                          margin: "0 0 18px",
+                          margin: "0 0 12px",
                           lineHeight: 1.15,
                         }}
                       >
@@ -1022,8 +1022,8 @@ function Initiatives() {
                         justifyContent: "center",
                         // Equal top/bottom margins trim the divider a little
                         // (same amount on every card) while keeping it centred.
-                        marginTop: "clamp(12px, 2.5vw, 32px)",
-                        marginBottom: "clamp(12px, 2.5vw, 32px)",
+                        marginTop: "clamp(8px, 1.6vw, 20px)",
+                        marginBottom: "clamp(8px, 1.6vw, 20px)",
                         borderLeft: "3px solid rgba(255,255,255,0.85)",
                         paddingLeft: "clamp(20px, 3vw, 44px)",
                       }}

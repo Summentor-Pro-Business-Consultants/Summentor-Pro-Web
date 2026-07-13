@@ -54,7 +54,7 @@ const SOCIALS = [
 
 // Half the CTA card's tallest rendered height — used as the negative
 // margin so the card straddles the footer's slant boundary 50/50.
-const CTA_OVERLAP = 124;
+const CTA_OVERLAP = 96;
 
 // ---------------------------------------------------------------------------
 // Small building blocks
@@ -238,8 +238,8 @@ export default function Footer() {
             <div
               style={{
                 background: "#32814f",
-                borderRadius: 24,
-                padding: "clamp(20px, 4vw, 36px) clamp(28px, 5vw, 56px)",
+                borderRadius: 20,
+                padding: "clamp(14px, 2.8vw, 26px) clamp(22px, 4vw, 44px)",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "space-between",
@@ -265,7 +265,7 @@ export default function Footer() {
               <h2
                 style={{
                   fontFamily: "var(--sp-font-sans)",
-                  fontSize: "clamp(24px, 3.42vw, 48px)",
+                  fontSize: "clamp(23px, 3.3vw, 46px)",
                   fontWeight: 900,
                   textTransform: "uppercase",
                   letterSpacing: "0.01em",
@@ -346,8 +346,8 @@ export default function Footer() {
                     src="/icons/handshake.svg"
                     alt=""
                     aria-hidden="true"
-                    width={216}
-                    height={216}
+                    width={160}
+                    height={160}
                     style={{
                       // brightness(0) invert(1) → pure white; the stacked white
                       // drop-shadows thicken the (fill-based) icon so it reads
