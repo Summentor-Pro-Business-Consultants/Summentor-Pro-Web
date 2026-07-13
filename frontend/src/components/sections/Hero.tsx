@@ -193,15 +193,15 @@ export default function Hero() {
               </button>
             </Link>
 
-            {/* Partner With Us — solid white pill, dark text */}
+            {/* Partner With Us — white outlined pill, transparent fill */}
             <Link href="/contact" style={{ textDecoration: "none" }}>
               <button
                 style={{
                   fontFamily: "var(--sp-font-sans)",
                   fontSize: 24,
                   fontWeight: 400,
-                  color: "#000",
-                  background: "#fff",
+                  color: "#fff",
+                  background: "transparent",
                   border: "2px solid #fff",
                   borderRadius: 999,
                   padding: "12px 44px",
@@ -213,11 +213,13 @@ export default function Hero() {
                   const el = e.currentTarget;
                   el.style.background = "var(--sp-green)";
                   el.style.borderColor = "var(--sp-green)";
+                  el.style.color = "#000";
                 }}
                 onMouseLeave={(e) => {
                   const el = e.currentTarget;
-                  el.style.background = "#fff";
+                  el.style.background = "transparent";
                   el.style.borderColor = "#fff";
+                  el.style.color = "#fff";
                 }}
               >
                 Partner With Us
