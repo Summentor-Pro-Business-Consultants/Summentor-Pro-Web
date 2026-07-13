@@ -193,7 +193,7 @@ export default function Hero() {
               </button>
             </Link>
 
-            {/* Partner With Us — white outlined pill, transparent fill */}
+            {/* Partner With Us — green outlined pill, transparent fill */}
             <Link href="/contact" style={{ textDecoration: "none" }}>
               <button
                 style={{
@@ -202,7 +202,7 @@ export default function Hero() {
                   fontWeight: 400,
                   color: "#fff",
                   background: "transparent",
-                  border: "2px solid #fff",
+                  border: "2px solid var(--sp-green)",
                   borderRadius: 999,
                   padding: "12px 44px",
                   cursor: "pointer",
@@ -212,13 +212,11 @@ export default function Hero() {
                 onMouseEnter={(e) => {
                   const el = e.currentTarget;
                   el.style.background = "var(--sp-green)";
-                  el.style.borderColor = "var(--sp-green)";
                   el.style.color = "#000";
                 }}
                 onMouseLeave={(e) => {
                   const el = e.currentTarget;
                   el.style.background = "transparent";
-                  el.style.borderColor = "#fff";
                   el.style.color = "#fff";
                 }}
               >
