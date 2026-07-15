@@ -227,8 +227,8 @@ export default function EngagementCTA() {
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              gap: 10,
-              marginTop: "clamp(24px, 3.5vw, 38px)",
+              gap: 8,
+              marginTop: 28,
             }}
           >
             {focusItems.map((item, i) => {
@@ -241,7 +241,7 @@ export default function EngagementCTA() {
                   aria-current={isActive}
                   style={{
                     width: isActive ? 30 : 24,
-                    height: 3,
+                    height: 4,
                     borderRadius: 2,
                     background: isActive ? "var(--sp-green)" : "#334155",
                     border: "none",
@@ -272,7 +272,7 @@ function FocusCard({
   return (
     <div
       style={{
-        aspectRatio: "1.9 / 1",
+        aspectRatio: "1.85 / 1",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -280,10 +280,10 @@ function FocusCard({
         padding: "20px 22px",
         borderRadius: 0,
         background: center ? "var(--sp-surface-dark)" : "#fff",
-        border: center ? "4px solid var(--sp-green)" : "3px solid var(--sp-green)",
-        transform: center ? "scale(1.06)" : "scale(1)",
+        border: "2px solid var(--sp-green)",
+        transform: center ? "scale(1.05)" : "scale(1)",
         boxShadow: center
-          ? "0 26px 50px -22px rgba(0,0,0,0.45)"
+          ? "0 24px 48px -22px rgba(0,0,0,0.45)"
           : "0 6px 18px -10px rgba(0,0,0,0.12)",
         transition: instant
           ? "none"
@@ -293,7 +293,7 @@ function FocusCard({
       <span
         style={{
           fontFamily: "var(--sp-font-sans)",
-          fontSize: "clamp(17px, 1.97vw, 25px)",
+          fontSize: "clamp(20px, 2.31vw, 30px)",
           fontWeight: 500,
           lineHeight: 1.2,
           color: center ? "#fff" : "var(--sp-green)",
@@ -317,8 +317,8 @@ function ArrowButton({ dir, onClick }: { dir: "prev" | "next"; onClick: () => vo
       aria-label={dir === "prev" ? "Previous" : "Next"}
       style={{
         flexShrink: 0,
-        width: "clamp(38px, 4vw, 46px)",
-        height: "clamp(38px, 4vw, 46px)",
+        width: 40,
+        height: 40,
         borderRadius: "50%",
         background: "#fff",
         border: `1.5px solid ${hover ? "var(--sp-green)" : "#000"}`,

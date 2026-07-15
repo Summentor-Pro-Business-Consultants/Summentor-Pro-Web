@@ -1003,7 +1003,7 @@ function Initiatives() {
                       <p
                         style={{
                           fontFamily: "var(--sp-font-sans)",
-                          fontSize: "clamp(14px, 1.5vw, 18px)",
+                          fontSize: "clamp(14px, 1.5vw, 19px)",
                           lineHeight: 1.3,
                           color: "#fff",
                           margin: 0,
@@ -1054,7 +1054,7 @@ function Initiatives() {
                             key={f}
                             style={{
                               fontFamily: "var(--sp-font-sans)",
-                              fontSize: "clamp(14px, 1.5vw, 18px)",
+                              fontSize: "clamp(14px, 1.5vw, 19px)",
                               fontWeight: 400,
                               lineHeight: 1.2,
                               color: "#fff",
