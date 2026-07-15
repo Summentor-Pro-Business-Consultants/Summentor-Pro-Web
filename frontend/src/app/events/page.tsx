@@ -634,7 +634,7 @@ function FeaturedPlatforms() {
                       <p
                         style={{
                           fontFamily: "var(--sp-font-sans)",
-                          fontSize: "clamp(14px, 1.49vw, 19px)",
+                          fontSize: "clamp(14px, 1.5vw, 19px)",
                           lineHeight: 1.35,
                           color: "#fff",
                           margin: "0 0 14px",
@@ -652,7 +652,7 @@ function FeaturedPlatforms() {
                       <p
                         style={{
                           fontFamily: "var(--sp-font-sans)",
-                          fontSize: "clamp(14px, 1.49vw, 19px)",
+                          fontSize: "clamp(14px, 1.5vw, 19px)",
                           fontWeight: 700,
                           color: "#fff",
                           margin: "0 0 8px",
@@ -674,7 +674,7 @@ function FeaturedPlatforms() {
                             key={item}
                             style={{
                               fontFamily: "var(--sp-font-sans)",
-                              fontSize: "clamp(14px, 1.49vw, 19px)",
+                              fontSize: "clamp(14px, 1.5vw, 19px)",
                               color: "#fff",
                               lineHeight: 1.3,
                             }}
