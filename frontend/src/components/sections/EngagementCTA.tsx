@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { useState } from "react";
+import { motion, type Variants } from "framer-motion";
 import Container from "@/components/ui/Container";
 import EdgeGreenGradient from "@/components/ui/EdgeGreenGradient";
 import SectionHeading from "@/components/ui/SectionHeading";
@@ -9,88 +9,36 @@ import WavyLine from "@/components/ui/WavyLine";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-// The five focus areas from the content file ("We focus on:").
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 24 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.55, ease: EASE } },
+};
+
+const stagger: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.08, delayChildren: 0.05 } },
+};
+
+// The five focus areas from the content file ("We focus on:"). Laid out three
+// over two, so the order here is the visual order and index 1 — the middle of
+// the top row — carries the green highlight.
 const focusItems = [
-  "Strategic business engagement",
-  "Industry & government collaboration",
-  "Curated networking opportunities",
-  "High-intent business interactions",
-  "Long-term ecosystem development",
+  { icon: "/icons/diagram.svg", title: "Curated networking opportunities" },
+  { icon: "/icons/cooperation.svg", title: "Strategic business engagement" },
+  { icon: "/icons/handshake.svg", title: "Industry & government collaboration" },
+  { icon: "/icons/team-leader.svg", title: "High-intent business interactions" },
+  { icon: "/icons/increase.svg", title: "Long-term ecosystem development" },
 ];
 
+const HIGHLIGHT = 1;
+const GAP = 8;
+// Bottom row spans exactly two of the top row's three columns (plus one gap),
+// so every card is the same width and the pair centres under the trio.
+const BOTTOM_W = `calc((100% - ${GAP * 2}px) / 3 * 2 + ${GAP}px)`;
+
 export default function EngagementCTA() {
-  const reduceMotion = useReducedMotion();
-  const [paused, setPaused] = useState(false);
-
-  const n = focusItems.length;
-
-  // Measure the viewport so the active card centres with neighbours peeking in.
-  const viewportRef = useRef<HTMLDivElement>(null);
-  const [vw, setVw] = useState(1100);
-  useEffect(() => {
-    const el = viewportRef.current;
-    if (!el) return;
-    const update = () => setVw(el.offsetWidth);
-    update();
-    const ro = new ResizeObserver(update);
-    ro.observe(el);
-    return () => ro.disconnect();
-  }, []);
-
-  // Three concatenated copies with `pos` in the middle copy → always content on
-  // both sides. Silently snap back a copy-length (transition off) when it drifts
-  // into a clone, for a seamless infinite loop.
-  const [pos, setPos] = useState(n);
-  const [animate, setAnimate] = useState(true);
-
-  const goTo = (i: number) => {
-    setAnimate(true);
-    setPos(n + (((i % n) + n) % n));
-  };
-  const prev = () => {
-    setAnimate(true);
-    setPos((p) => p - 1);
-  };
-  const next = () => {
-    setAnimate(true);
-    setPos((p) => p + 1);
-  };
-
-  useEffect(() => {
-    if (reduceMotion || paused) return;
-    const id = setInterval(() => {
-      setAnimate(true);
-      setPos((p) => p + 1);
-    }, 3200);
-    return () => clearInterval(id);
-  }, [reduceMotion, paused]);
-
-  useEffect(() => {
-    if (pos >= n && pos < 2 * n) return;
-    const t = setTimeout(() => {
-      setAnimate(false);
-      setPos((p) => (p >= 2 * n ? p - n : p + n));
-    }, 560);
-    return () => clearTimeout(t);
-  }, [pos, n]);
-
-  useEffect(() => {
-    if (animate) return;
-    let raf2 = 0;
-    const raf1 = requestAnimationFrame(() => {
-      raf2 = requestAnimationFrame(() => setAnimate(true));
-    });
-    return () => {
-      cancelAnimationFrame(raf1);
-      cancelAnimationFrame(raf2);
-    };
-  }, [animate]);
-
-  const GAP = 24;
-  const cardW = Math.min(vw * 0.4, 440);
-  const step = cardW + GAP;
-  const translate = vw / 2 - pos * step - cardW / 2;
-  const items = [...focusItems, ...focusItems, ...focusItems];
+  const topRow = focusItems.slice(0, 3);
+  const bottomRow = focusItems.slice(3);
 
   return (
     <section
@@ -175,83 +123,49 @@ export default function EngagementCTA() {
           </p>
         </motion.div>
 
-        {/* WE FOCUS ON — subheading + wavy + carousel */}
+        {/* WE FOCUS ON — subheading + wavy + static three-over-two grid */}
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.25 }}
-          transition={{ duration: 0.6, ease: EASE }}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.2 }}
+          variants={stagger}
           style={{ textAlign: "center" }}
         >
           <SectionHeading>WE FOCUS ON:</SectionHeading>
           <WavyLine />
 
-          {/* Carousel: prev arrow · three cards · next arrow */}
           <div
-            onMouseEnter={() => setPaused(true)}
-            onMouseLeave={() => setPaused(false)}
             style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "clamp(8px, 1.6vw, 22px)",
-              marginTop: "clamp(32px, 4.5vw, 52px)",
+              maxWidth: 1070,
+              margin: "0 auto",
+              marginTop: "clamp(28px, 4vw, 44px)",
             }}
           >
-            <ArrowButton dir="prev" onClick={prev} />
-
-            <div ref={viewportRef} style={{ flex: 1, overflow: "hidden" }}>
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: GAP,
-                  transform: `translateX(${translate}px)`,
-                  transition: animate ? "transform 0.5s cubic-bezier(0.22, 1, 0.36, 1)" : "none",
-                  willChange: "transform",
-                }}
-              >
-                {items.map((label, i) => (
-                  <div key={i} style={{ flexShrink: 0, width: cardW }}>
-                    <FocusCard label={label} center={i === pos} instant={!animate} />
-                  </div>
-                ))}
-              </div>
+            {/* Top row — three cards */}
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: GAP }}>
+              {topRow.map((item, i) => (
+                <motion.div key={item.title} variants={fadeUp}>
+                  <FocusCard item={item} highlight={i === HIGHLIGHT} />
+                </motion.div>
+              ))}
             </div>
 
-            <ArrowButton dir="next" onClick={next} />
-          </div>
-
-          {/* Dash indicators */}
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              gap: 8,
-              marginTop: 28,
-            }}
-          >
-            {focusItems.map((item, i) => {
-              const isActive = i === ((pos % n) + n) % n;
-              return (
-                <button
-                  key={item}
-                  onClick={() => goTo(i)}
-                  aria-label={`Go to ${item}`}
-                  aria-current={isActive}
-                  style={{
-                    width: isActive ? 30 : 24,
-                    height: 4,
-                    borderRadius: 2,
-                    background: isActive ? "var(--sp-green)" : "#334155",
-                    border: "none",
-                    padding: 0,
-                    cursor: "pointer",
-                    transition: "width 0.3s ease, background 0.3s ease",
-                  }}
-                />
-              );
-            })}
+            {/* Bottom row — two cards, centred under the trio */}
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(2, 1fr)",
+                gap: GAP,
+                width: BOTTOM_W,
+                margin: `${GAP}px auto 0`,
+              }}
+            >
+              {bottomRow.map((item) => (
+                <motion.div key={item.title} variants={fadeUp}>
+                  <FocusCard item={item} highlight={false} />
+                </motion.div>
+              ))}
+            </div>
           </div>
         </motion.div>
       </Container>
@@ -260,84 +174,58 @@ export default function EngagementCTA() {
 }
 
 // ─── Single focus card ──────────────────────────────────────────────────────
-function FocusCard({
-  label,
-  center,
-  instant,
-}: {
-  label: string;
-  center: boolean;
-  instant?: boolean;
-}) {
+// Dark tile with a white icon over a white label; the highlighted card (and any
+// card on hover) fills with the brand green instead.
+function FocusCard({ item, highlight }: { item: (typeof focusItems)[number]; highlight: boolean }) {
+  const [hover, setHover] = useState(false);
+  const green = highlight || hover;
   return (
     <div
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
       style={{
-        aspectRatio: "1.85 / 1",
+        aspectRatio: "1.87 / 1",
         display: "flex",
+        flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
         textAlign: "center",
-        padding: "20px 22px",
+        gap: "clamp(12px, 1.5vw, 20px)",
+        padding: "clamp(14px, 1.8vw, 24px) clamp(12px, 1.6vw, 22px)",
         borderRadius: 0,
-        background: center ? "var(--sp-surface-dark)" : "#fff",
-        border: "2px solid var(--sp-green)",
-        transform: center ? "scale(1.05)" : "scale(1)",
-        boxShadow: center
-          ? "0 24px 48px -22px rgba(0,0,0,0.45)"
-          : "0 6px 18px -10px rgba(0,0,0,0.12)",
-        transition: instant
-          ? "none"
-          : "background 0.4s ease, transform 0.4s ease, box-shadow 0.4s ease",
+        background: green ? "var(--sp-green)" : "var(--sp-surface-dark)",
+        transition: "background 0.3s ease",
       }}
     >
+      {/* The SVG is used as a CSS mask so its silhouette takes the icon colour. */}
+      <span
+        aria-hidden="true"
+        style={{
+          width: "clamp(38px, 3.6vw, 54px)",
+          height: "clamp(38px, 3.6vw, 54px)",
+          flexShrink: 0,
+          backgroundColor: "#fff",
+          WebkitMaskImage: `url(${item.icon})`,
+          maskImage: `url(${item.icon})`,
+          WebkitMaskRepeat: "no-repeat",
+          maskRepeat: "no-repeat",
+          WebkitMaskPosition: "center",
+          maskPosition: "center",
+          WebkitMaskSize: "contain",
+          maskSize: "contain",
+        }}
+      />
       <span
         style={{
           fontFamily: "var(--sp-font-sans)",
-          fontSize: "clamp(20px, 2.31vw, 30px)",
+          fontSize: "clamp(16px, 1.75vw, 26px)",
           fontWeight: 500,
           lineHeight: 1.2,
-          color: center ? "#fff" : "var(--sp-green)",
-          transition: instant ? "none" : "color 0.4s ease",
+          color: "#fff",
         }}
       >
-        {label}
+        {item.title}
       </span>
     </div>
-  );
-}
-
-// ─── Round prev / next arrow ────────────────────────────────────────────────
-function ArrowButton({ dir, onClick }: { dir: "prev" | "next"; onClick: () => void }) {
-  const [hover, setHover] = useState(false);
-  return (
-    <button
-      onClick={onClick}
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
-      aria-label={dir === "prev" ? "Previous" : "Next"}
-      style={{
-        flexShrink: 0,
-        width: 40,
-        height: 40,
-        borderRadius: "50%",
-        background: "#fff",
-        border: `1.5px solid ${hover ? "var(--sp-green)" : "#000"}`,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        cursor: "pointer",
-        transition: "border-color 0.25s ease",
-      }}
-    >
-      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <path
-          d={dir === "prev" ? "M15 5 L8 12 L15 19" : "M9 5 L16 12 L9 19"}
-          stroke={hover ? "var(--sp-green)" : "#000"}
-          strokeWidth="2.6"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-    </button>
   );
 }

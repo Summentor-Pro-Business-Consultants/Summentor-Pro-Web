@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence, useReducedMotion, type Variants } from "framer-motion";
-import { ChevronLeft, ChevronRight, ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import Container from "@/components/ui/Container";
 import EdgeGreenGradient from "@/components/ui/EdgeGreenGradient";
 import PageHeading from "@/components/ui/PageHeading";
@@ -26,26 +26,33 @@ const stagger: Variants = {
   show: { transition: { staggerChildren: 0.1, delayChildren: 0.05 } },
 };
 
+// Rendered as a static five-across row; the middle entry carries the green
+// highlight, so the order here is also the visual order.
 const focusEnablers = [
   {
-    title: "Meaningful business interactions",
-    desc: "Curated environments that move past transactional networking into genuine dialogue.",
-  },
-  {
-    title: "Strategic partnerships",
-    desc: "Long-term collaborations between businesses, institutions, and ecosystem stakeholders.",
-  },
-  {
-    title: "Industry dialogue",
-    desc: "Structured conversations across MSMEs, enterprises, and policymakers.",
-  },
-  {
+    icon: "/icons/cooperation.svg",
     title: "Government-industry engagement",
     desc: "Facilitated B2G pathways that turn policy access into real opportunity.",
   },
   {
+    icon: "/icons/diagram.svg",
     title: "High-value networking opportunities",
     desc: "Qualified introductions designed around intent, not volume.",
+  },
+  {
+    icon: "/icons/team-leader.svg",
+    title: "Meaningful business interactions",
+    desc: "Curated environments that move past transactional networking into genuine dialogue.",
+  },
+  {
+    icon: "/icons/handshake.svg",
+    title: "Strategic partnerships",
+    desc: "Long-term collaborations between businesses, institutions, and ecosystem stakeholders.",
+  },
+  {
+    icon: "/icons/increase.svg",
+    title: "Industry dialogue",
+    desc: "Structured conversations across MSMEs, enterprises, and policymakers.",
   },
 ];
 
@@ -443,78 +450,8 @@ function PullQuote() {
 
 // ─── 4. What Makes Us Different ─────────────────────────────────────────────
 function WhatMakesUsDifferent() {
-  const reduceMotion = useReducedMotion();
-  const [paused, setPaused] = useState(false);
-
-  const n = focusEnablers.length;
-
-  // Measure the viewport so the active card centres with neighbours peeking in.
-  const viewportRef = useRef<HTMLDivElement>(null);
-  const [vw, setVw] = useState(1100);
-  useEffect(() => {
-    const el = viewportRef.current;
-    if (!el) return;
-    const update = () => setVw(el.offsetWidth);
-    update();
-    const ro = new ResizeObserver(update);
-    ro.observe(el);
-    return () => ro.disconnect();
-  }, []);
-
-  // Three concatenated copies with `pos` in the middle copy → always content on
-  // both sides. Silently snap back a copy-length (transition off) when it drifts
-  // into a clone, for a seamless infinite loop.
-  const [pos, setPos] = useState(n);
-  const [animate, setAnimate] = useState(true);
-
-  const prev = () => {
-    setAnimate(true);
-    setPos((p) => p - 1);
-  };
-  const next = () => {
-    setAnimate(true);
-    setPos((p) => p + 1);
-  };
-  const goTo = (i: number) => {
-    setAnimate(true);
-    setPos(n + (((i % n) + n) % n));
-  };
-
-  useEffect(() => {
-    if (reduceMotion || paused) return;
-    const t = setInterval(() => {
-      setAnimate(true);
-      setPos((p) => p + 1);
-    }, 3200);
-    return () => clearInterval(t);
-  }, [reduceMotion, paused]);
-
-  useEffect(() => {
-    if (pos >= n && pos < 2 * n) return;
-    const t = setTimeout(() => {
-      setAnimate(false);
-      setPos((p) => (p >= 2 * n ? p - n : p + n));
-    }, 560);
-    return () => clearTimeout(t);
-  }, [pos, n]);
-
-  useEffect(() => {
-    if (animate) return;
-    let raf2 = 0;
-    const raf1 = requestAnimationFrame(() => {
-      raf2 = requestAnimationFrame(() => setAnimate(true));
-    });
-    return () => {
-      cancelAnimationFrame(raf1);
-      cancelAnimationFrame(raf2);
-    };
-  }, [animate]);
-
-  const GAP = 24;
-  const cardW = Math.min(vw * 0.4, 440);
-  const step = cardW + GAP;
-  const translate = vw / 2 - pos * step - cardW / 2;
-  const items = [...focusEnablers, ...focusEnablers, ...focusEnablers];
+  // The middle card carries the green highlight.
+  const highlight = Math.floor(focusEnablers.length / 2);
 
   return (
     <section
@@ -526,7 +463,7 @@ function WhatMakesUsDifferent() {
       }}
     >
       <EdgeGreenGradient side="left" />
-      <Container>
+      <Container wide>
         <motion.div
           initial="hidden"
           whileInView="show"
@@ -569,41 +506,34 @@ function WhatMakesUsDifferent() {
           WE FOCUS ON ENABLING:
         </SectionHeading>
 
-        {/* Carousel: prev arrow · three cards · next arrow */}
-        <div
-          onMouseEnter={() => setPaused(true)}
-          onMouseLeave={() => setPaused(false)}
-          style={{ display: "flex", alignItems: "center", gap: "clamp(8px, 1.6vw, 22px)" }}
+        {/* Static row — all five enablers side by side, middle one highlighted */}
+        <motion.div
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.2 }}
+          variants={stagger}
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(5, 1fr)",
+            gap: 8,
+            alignItems: "stretch",
+            // Slightly narrower than the container so the tiles shrink a touch
+            // (the aspect ratio pulls their height down with the width) while
+            // the icon and label sizes stay put.
+            maxWidth: 1320,
+            margin: "0 auto",
+          }}
         >
-          <ArrowButton direction="left" disabled={false} onClick={prev} />
-
-          <div ref={viewportRef} style={{ flex: 1, overflow: "hidden" }}>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: GAP,
-                transform: `translateX(${translate}px)`,
-                transition: animate ? "transform 0.5s cubic-bezier(0.22, 1, 0.36, 1)" : "none",
-                willChange: "transform",
-              }}
-            >
-              {items.map((it, i) => (
-                <div key={i} style={{ flexShrink: 0, width: cardW }}>
-                  <EnablerCard label={it.title} center={i === pos} instant={!animate} />
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <ArrowButton direction="right" disabled={false} onClick={next} />
-        </div>
-
-        <Dots count={n} active={((pos % n) + n) % n} onSelect={goTo} />
+          {focusEnablers.map((it, i) => (
+            <motion.div key={it.title} variants={fadeUp}>
+              <EnablerCard item={it} highlight={i === highlight} />
+            </motion.div>
+          ))}
+        </motion.div>
       </Container>
 
       {/* Closing line — its own wide container so it can span wider than the
-          carousel without enlarging the cards. */}
+          row without enlarging the cards. */}
       <Container wide>
         <p
           style={{
@@ -628,51 +558,63 @@ function WhatMakesUsDifferent() {
 // Single enabler card — the centre card is dark with green text; the two
 // side cards are white with a green outline and black text (matches design).
 function EnablerCard({
-  label,
-  center,
-  instant,
+  item,
+  highlight,
 }: {
-  label: string;
-  center: boolean;
-  instant?: boolean;
+  item: (typeof focusEnablers)[number];
+  highlight: boolean;
 }) {
   const [hover, setHover] = useState(false);
+  // Dark by default, green for the highlighted card — and green on hover so the
+  // whole row stays interactive. Icon and label are white on both fills.
+  const green = highlight || hover;
   return (
     <div
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
       style={{
-        aspectRatio: "1.85 / 1",
+        height: "100%",
+        aspectRatio: "1.12 / 1",
         display: "flex",
+        flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
         textAlign: "center",
-        padding: "20px 22px",
+        gap: "clamp(14px, 1.8vw, 26px)",
+        padding: "clamp(16px, 2vw, 26px) clamp(10px, 1.2vw, 18px)",
         borderRadius: 0,
-        background: center ? "var(--sp-surface-dark)" : "#fff",
-        border: "2px solid var(--sp-green)",
-        transform: center ? "scale(1.05)" : "scale(1)",
-        boxShadow: center
-          ? "0 24px 48px -22px rgba(0,0,0,0.45)"
-          : "0 6px 18px -10px rgba(0,0,0,0.12)",
-        transition: instant
-          ? "none"
-          : "background 0.4s ease, transform 0.4s ease, box-shadow 0.4s ease",
+        background: green ? "var(--sp-green)" : "var(--sp-surface-dark)",
+        transition: "background 0.3s ease",
       }}
     >
+      {/* The SVG is used as a CSS mask so its silhouette takes the icon colour. */}
+      <span
+        aria-hidden="true"
+        style={{
+          width: "clamp(40px, 4.2vw, 62px)",
+          height: "clamp(40px, 4.2vw, 62px)",
+          flexShrink: 0,
+          backgroundColor: "#fff",
+          WebkitMaskImage: `url(${item.icon})`,
+          maskImage: `url(${item.icon})`,
+          WebkitMaskRepeat: "no-repeat",
+          maskRepeat: "no-repeat",
+          WebkitMaskPosition: "center",
+          maskPosition: "center",
+          WebkitMaskSize: "contain",
+          maskSize: "contain",
+        }}
+      />
       <span
         style={{
           fontFamily: "var(--sp-font-sans)",
-          fontSize: "clamp(20px, 2.31vw, 30px)",
+          fontSize: "clamp(15px, 1.62vw, 23px)",
           fontWeight: 500,
           lineHeight: 1.2,
-          // Bright green on the dark centre card; the darker green on a hovered
-          // white side card so it stays legible (matches PlatformCard).
-          color: center ? "var(--sp-green-bright)" : hover ? "var(--sp-green)" : "#000",
-          transition: instant ? "none" : "color 0.4s ease",
+          color: "#fff",
         }}
       >
-        {label}
+        {item.title}
       </span>
     </div>
   );
@@ -1141,43 +1083,6 @@ function GreenArrow({
 }
 
 // ─── Shared controls ────────────────────────────────────────────────────────
-function ArrowButton({
-  direction,
-  disabled,
-  onClick,
-}: {
-  direction: "left" | "right";
-  disabled: boolean;
-  onClick: () => void;
-}) {
-  const Icon = direction === "left" ? ChevronLeft : ChevronRight;
-  return (
-    <button
-      onClick={onClick}
-      disabled={disabled}
-      aria-label={direction === "left" ? "Previous" : "Next"}
-      // Hidden on mobile — carousels stay usable via auto-rotate + dots.
-      className="hidden sm:flex"
-      style={{
-        flexShrink: 0,
-        alignSelf: "center",
-        width: 40,
-        height: 40,
-        borderRadius: "50%",
-        border: "1px solid #000",
-        background: "#fff",
-        cursor: disabled ? "default" : "pointer",
-        opacity: disabled ? 0.35 : 1,
-        alignItems: "center",
-        justifyContent: "center",
-        transition: "opacity 0.2s, background 0.2s",
-      }}
-    >
-      <Icon size={26} color="#000" strokeWidth={2.5} />
-    </button>
-  );
-}
-
 function Dots({
   count,
   active,
