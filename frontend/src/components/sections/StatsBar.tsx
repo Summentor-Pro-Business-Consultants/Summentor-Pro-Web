@@ -19,7 +19,7 @@ const engagements: { img: string; num?: string; label: string }[] = [
     label: "Business Stakeholders Engaged",
   },
   {
-    img: "/images/engagements/meeting-union-minister-msme.jpeg",
+    img: "/images/engagements/gov-industry-participation.jpeg",
     label: "Government & Industry Participation Across Strategic Platforms & Initiatives",
   },
   {
@@ -27,12 +27,12 @@ const engagements: { img: string; num?: string; label: string }[] = [
     label: "Ecosystem Participation Across MSMEs, Enterprises & Institutions",
   },
   {
-    img: "/images/engagements/meeting-deputy-cm-odisha.jpeg",
+    img: "/images/engagements/strategic-collaborations.jpeg",
     num: "100+",
     label: "Strategic Collaborations Facilitated",
   },
   {
-    img: "/images/engagements/meeting-cm-delhi.jpeg",
+    img: "/images/engagements/multu-sector-industry-platforms.jpeg",
     label: "Multi-Sector Industry Platforms Executed",
   },
 ];
