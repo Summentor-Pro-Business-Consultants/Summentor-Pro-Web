@@ -1,30 +1,25 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import Container from "@/components/ui/Container";
 
 // ---------------------------------------------------------------------------
 // Footer content (modelled on the shared design)
 // ---------------------------------------------------------------------------
 
-const servicesLinks = [
-  { label: "Customer Experience", href: "#" },
-  { label: "Training Programs", href: "#" },
-  { label: "Business Strategy", href: "#" },
-  { label: "Training Program", href: "#" },
-  { label: "ESG Consulting", href: "#" },
-  { label: "Development Hub", href: "#" },
+const quickLinks = [
+  { label: "About", href: "/about" },
+  { label: "Solutions", href: "/services" },
+  { label: "Platforms", href: "/events" },
 ];
 
-const resourcesLinks: { label: string; href: string; badge?: string }[] = [
-  { label: "Contact us", href: "/contact" },
-  { label: "Team Member", href: "#" },
-  { label: "Recognitions", href: "#" },
-  { label: "Careers", href: "#", badge: "NEW" },
-  { label: "News", href: "/blogs" },
-  { label: "Feedback", href: "/contact" },
+const legalLinks = [
+  { label: "Privacy Policy", href: "/privacy-policy" },
+  { label: "Terms of Service", href: "/terms-of-service" },
+  { label: "Disclaimer", href: "/disclaimer" },
+  { label: "Refund & Cancellation Policy", href: "/refund-policy" },
+  { label: "Cookies Policy", href: "/cookies-policy" },
 ];
 
 // Brand-glyph paths (simple-icons, 24×24) so the icons don't depend on a
@@ -56,6 +51,9 @@ const SOCIALS = [
 // margin so the card straddles the footer's slant boundary 50/50.
 const CTA_OVERLAP = 96;
 
+// Outline words that slide across the footer in a seamless loop.
+const WATERMARK_WORDS = ["Enterprise", "Leadership"];
+
 // ---------------------------------------------------------------------------
 // Small building blocks
 // ---------------------------------------------------------------------------
@@ -65,7 +63,7 @@ function ColumnHeading({ children }: { children: React.ReactNode }) {
     <div
       style={{
         fontFamily: "var(--sp-font-sans)",
-        fontSize: 13.7,
+        fontSize: 15,
         fontWeight: 600,
         color: "#fff",
         marginBottom: 20,
@@ -87,7 +85,7 @@ function FooterLink({ href, label, badge }: { href: string; label: string; badge
         alignItems: "center",
         gap: 8,
         fontFamily: "var(--sp-font-sans)",
-        fontSize: 12,
+        fontSize: 13,
         color: "var(--sp-navy-300)",
         textDecoration: "none",
         transition: "color 0.15s ease",
@@ -151,34 +149,12 @@ function SocialIcon({ label, href, path }: { label: string; href: string; path: 
   );
 }
 
-// White Summentor Pro lockup (the PNG is colour artwork — the filter forces it
-// to pure white so it reads on the dark footer).
-function WhiteLogo({ height }: { height: number }) {
-  return (
-    <Link href="/" aria-label="Summentor Pro home" style={{ display: "inline-block" }}>
-      {}
-      <img
-        src="/brand/summentor-pro-logo.png"
-        alt="Summentor Pro"
-        style={{
-          height,
-          width: "auto",
-          display: "block",
-          filter: "brightness(0) invert(1)",
-        }}
-      />
-    </Link>
-  );
-}
-
 // ---------------------------------------------------------------------------
 // Footer
 // ---------------------------------------------------------------------------
 
 export default function Footer() {
   const pathname = usePathname();
-  const router = useRouter();
-  const [email, setEmail] = useState("");
   const isServices = pathname === "/services";
   // The straddling green CTA band is hidden on About + Platforms (their last
   // section already serves as the closer). Solutions shows the band but with
@@ -195,13 +171,6 @@ export default function Footer() {
   ].includes(pathname);
   const hideCta = ["/about", "/events", "/contact"].includes(pathname) || isLegal;
   const flatFooter = ["/about", "/services", "/events", "/contact"].includes(pathname) || isLegal;
-
-  // The newsletter "Send Message" currently routes to the contact page — there
-  // is no dedicated newsletter endpoint yet.
-  const handleSubscribe = (e: React.FormEvent) => {
-    e.preventDefault();
-    router.push("/contact");
-  };
 
   return (
     <>
@@ -379,154 +348,54 @@ export default function Footer() {
               ? `56px`
               : `calc(var(--sp-slant) + 48px)`
             : flatFooter
-              ? `${CTA_OVERLAP + 40}px`
-              : `calc(var(--sp-slant) + ${CTA_OVERLAP + 28}px)`,
+              ? `${CTA_OVERLAP + 20}px`
+              : `calc(var(--sp-slant) + ${CTA_OVERLAP + 12}px)`,
           paddingBottom: 28,
         }}
       >
         <Container style={{ maxWidth: 1320 }}>
-          {/* Newsletter bar */}
-          <form
-            onSubmit={handleSubscribe}
-            style={{
-              background: "rgba(255,255,255,0.025)",
-              border: "1px solid var(--sp-navy-700)",
-              borderRadius: 18,
-              padding: "clamp(14px, 2vw, 18px) clamp(16px, 2.5vw, 26px)",
-              display: "flex",
-              alignItems: "center",
-              gap: "clamp(14px, 3vw, 28px)",
-              flexWrap: "wrap",
-            }}
-          >
-            <WhiteLogo height={100} />
-
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Enter email"
-              aria-label="Email address"
-              className="sp-news-input"
-              style={{
-                flex: "1 1 200px",
-                minWidth: 0,
-                background: "transparent",
-                border: "none",
-                outline: "none",
-                color: "#fff",
-                fontFamily: "var(--sp-font-sans)",
-                fontSize: 12.8,
-              }}
-            />
-
-            <button
-              type="submit"
-              style={{
-                flexShrink: 0,
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 12,
-                background: "#1d8687",
-                color: "#fff",
-                border: "none",
-                borderRadius: 999,
-                padding: "10px 12px 10px 24px",
-                fontFamily: "var(--sp-font-sans)",
-                fontSize: 12.8,
-                fontWeight: 500,
-                cursor: "pointer",
-                transition: "background 0.2s ease",
-              }}
-              onMouseEnter={(e) => (e.currentTarget.style.background = "#176b6c")}
-              onMouseLeave={(e) => (e.currentTarget.style.background = "#1d8687")}
-            >
-              Send Message
-              <span
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  width: 30,
-                  height: 30,
-                  borderRadius: "50%",
-                  background: "#0e2d2e",
-                }}
-              >
-                <svg viewBox="0 0 24 24" width={15} height={15} fill="none" aria-hidden="true">
-                  <path
-                    d="M7 17 17 7M9 7h8v8"
-                    stroke="#fff"
-                    strokeWidth={2}
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </span>
-            </button>
-          </form>
-
           {/* Columns */}
           <div
             className="grid gap-10"
             style={{
               gridTemplateColumns: "repeat(auto-fit, minmax(170px, 1fr))",
-              paddingTop: "clamp(40px, 5vw, 60px)",
-              paddingBottom: "clamp(32px, 4vw, 48px)",
+              paddingTop: "clamp(10px, 1.6vw, 18px)",
+              paddingBottom: "clamp(14px, 2vw, 24px)",
             }}
           >
             {/* Brand column */}
             <div style={{ gridColumn: "span 2" }} className="min-w-0">
-              <WhiteLogo height={88} />
               <p
                 style={{
                   fontFamily: "var(--sp-font-sans)",
-                  fontSize: 12,
-                  lineHeight: 1.45,
+                  fontSize: 13,
+                  lineHeight: 1.5,
                   color: "var(--sp-navy-300)",
-                  marginTop: 20,
                   maxWidth: 280,
                 }}
               >
-                Developing personalize our customer journeys to increase satisfaction and loyalty of
-                our expansion.
+                Summentor Pro works with MSMEs, enterprises, industry leaders, and institutions to
+                enable strategic growth through consulting, business platforms, market expansion
+                initiatives, and ecosystem-driven collaborations.
               </p>
-              <img
-                src="/icons/awards_final.svg"
-                alt="18 Clutch Awards · 5 Awwwards"
-                style={{
-                  display: "block",
-                  width: "min(208px, 100%)",
-                  height: "auto",
-                  marginTop: 26,
-                  // The laurels are a dark PNG inside the SVG — force the whole
-                  // mark (laurels + already-white text) to pure white.
-                  filter: "brightness(0) invert(1)",
-                }}
-              />
             </div>
 
-            {/* Services */}
+            {/* Quick Links */}
             <div>
-              <ColumnHeading>Services</ColumnHeading>
+              <ColumnHeading>Quick Links</ColumnHeading>
               <div className="flex flex-col gap-3">
-                {servicesLinks.map((link) => (
+                {quickLinks.map((link) => (
                   <FooterLink key={link.label} href={link.href} label={link.label} />
                 ))}
               </div>
             </div>
 
-            {/* Resources */}
+            {/* Legal */}
             <div>
-              <ColumnHeading>Resources</ColumnHeading>
+              <ColumnHeading>Legal</ColumnHeading>
               <div className="flex flex-col gap-3">
-                {resourcesLinks.map((link) => (
-                  <FooterLink
-                    key={link.label}
-                    href={link.href}
-                    label={link.label}
-                    badge={link.badge}
-                  />
+                {legalLinks.map((link) => (
+                  <FooterLink key={link.label} href={link.href} label={link.label} />
                 ))}
               </div>
             </div>
@@ -540,7 +409,7 @@ export default function Footer() {
                   alignItems: "center",
                   gap: 9,
                   fontFamily: "var(--sp-font-sans)",
-                  fontSize: 12,
+                  fontSize: 13,
                   color: "var(--sp-navy-300)",
                 }}
               >
@@ -554,15 +423,15 @@ export default function Footer() {
                     strokeLinejoin="round"
                   />
                 </svg>
-                Mon–Fri 10am–10pm
+                Mon – Fri &nbsp; 10am – 7pm
               </div>
               <p
                 style={{
                   fontFamily: "var(--sp-font-sans)",
-                  fontSize: 10.7,
+                  fontSize: 11.7,
                   color: "var(--sp-navy-400)",
                   marginTop: 16,
-                  lineHeight: 1.45,
+                  lineHeight: 1.5,
                 }}
               >
                 5th Block, SPD Plaza, #52, 1st Floor,
@@ -581,71 +450,45 @@ export default function Footer() {
           style={{
             position: "relative",
             overflow: "hidden",
-            marginTop: "clamp(8px, 2vw, 20px)",
-            paddingBlock: "clamp(20px, 3vw, 36px)",
+            marginTop: 0,
+            paddingBlock: "clamp(6px, 1.2vw, 14px)",
           }}
         >
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: "clamp(12px, 2.2vw, 30px)",
-              whiteSpace: "nowrap",
-            }}
-          >
-            <span
-              aria-hidden="true"
-              style={{
-                fontFamily: "var(--sp-font-display)",
-                fontSize: "clamp(39px, 7.7vw, 110px)",
-                fontWeight: 700,
-                lineHeight: 1,
-                letterSpacing: "0.01em",
-                color: "transparent",
-                WebkitTextStroke: "1px rgba(255,255,255,0.16)",
-              }}
-            >
-              Enterprise
-            </span>
-            <img
-              src="/images/engagements/textile-women-empowerment-odisha.jpeg"
-              alt="Summentor Pro engagement"
-              style={{
-                flexShrink: 0,
-                width: "clamp(108px, 14vw, 168px)",
-                height: "clamp(64px, 8.5vw, 92px)",
-                objectFit: "cover",
-                borderRadius: 0,
-                transform: "translateY(10px)",
-              }}
-            />
-            <span
-              aria-hidden="true"
-              style={{
-                fontFamily: "var(--sp-font-display)",
-                fontSize: "clamp(39px, 7.7vw, 110px)",
-                fontWeight: 700,
-                lineHeight: 1,
-                letterSpacing: "0.01em",
-                color: "transparent",
-                WebkitTextStroke: "1px rgba(255,255,255,0.16)",
-              }}
-            >
-              Leadership
-            </span>
-            <img
-              src="/images/engagements/msme-consulting-2.jpeg"
-              alt="Summentor Pro engagement"
-              style={{
-                flexShrink: 0,
-                width: "clamp(108px, 14vw, 168px)",
-                height: "clamp(64px, 8.5vw, 92px)",
-                objectFit: "cover",
-                borderRadius: 0,
-                transform: "translateY(10px)",
-              }}
-            />
+          {/* Two identical halves; translating the track by -50% brings the
+              second half exactly onto the first for a seamless infinite loop. */}
+          <div className="sp-footer-marquee" style={{ display: "flex", width: "max-content" }}>
+            {[0, 1].map((copy) => (
+              <div
+                key={copy}
+                aria-hidden="true"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "clamp(24px, 4vw, 72px)",
+                  paddingRight: "clamp(24px, 4vw, 72px)",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {[0, 1, 2]
+                  .flatMap(() => WATERMARK_WORDS)
+                  .map((word, i) => (
+                    <span
+                      key={`${copy}-${i}`}
+                      style={{
+                        fontFamily: "var(--sp-font-display)",
+                        fontSize: "clamp(39px, 7.7vw, 110px)",
+                        fontWeight: 700,
+                        lineHeight: 1,
+                        letterSpacing: "0.01em",
+                        color: "transparent",
+                        WebkitTextStroke: "1px rgba(255,255,255,0.16)",
+                      }}
+                    >
+                      {word}
+                    </span>
+                  ))}
+              </div>
+            ))}
           </div>
         </div>
 
@@ -679,27 +522,13 @@ export default function Footer() {
               © {new Date().getFullYear()} Summentor Pro Business Consultants. All rights reserved.
             </div>
 
-            {/* Legal + admin — pinned right on desktop */}
+            {/* Admin — pinned right on desktop. The legal links now live in
+                their own footer column, so only the discreet admin entry
+                remains down here. */}
             <div
               className="flex flex-wrap justify-center items-center gap-x-6 gap-y-2 lg:absolute lg:right-0 lg:top-1/2 lg:-translate-y-1/2"
               style={{ fontFamily: "var(--sp-font-sans)", fontSize: 11.2 }}
             >
-              <Link
-                href="/privacy-policy"
-                style={{ color: "var(--sp-navy-300)", textDecoration: "none" }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = "var(--sp-green-bright)")}
-                onMouseLeave={(e) => (e.currentTarget.style.color = "var(--sp-navy-300)")}
-              >
-                Privacy Policy
-              </Link>
-              <Link
-                href="/terms-of-service"
-                style={{ color: "var(--sp-navy-300)", textDecoration: "none" }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = "var(--sp-green-bright)")}
-                onMouseLeave={(e) => (e.currentTarget.style.color = "var(--sp-navy-300)")}
-              >
-                Terms &amp; Condition
-              </Link>
               <Link
                 href="/admin/dashboard"
                 style={{
@@ -720,7 +549,17 @@ export default function Footer() {
         </Container>
 
         <style>{`
-          .sp-news-input::placeholder { color: var(--sp-navy-300); opacity: 1; }
+          @keyframes sp-footer-marquee {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
+          }
+          .sp-footer-marquee {
+            animation: sp-footer-marquee 32s linear infinite;
+            will-change: transform;
+          }
+          @media (prefers-reduced-motion: reduce) {
+            .sp-footer-marquee { animation: none; }
+          }
         `}</style>
       </footer>
     </>

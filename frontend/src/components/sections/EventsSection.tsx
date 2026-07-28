@@ -31,6 +31,7 @@ const platforms = [
       "/images/groups/women/women-2.jpg",
       "/images/groups/women/women-3.jpg",
       "/images/groups/women/women-4.jpg",
+      "/images/groups/women/women-5.jpg",
     ],
     photoAlt: "Women Empowerment & Leadership Initiatives",
   },

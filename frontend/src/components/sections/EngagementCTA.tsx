@@ -20,8 +20,8 @@ const stagger: Variants = {
 };
 
 // The five focus areas from the content file ("We focus on:"). Laid out three
-// over two, so the order here is the visual order and index 1 — the middle of
-// the top row — carries the green highlight.
+// over two, so the order here is the visual order. Cards are dark by default
+// and only turn green on hover.
 const focusItems = [
   { icon: "/icons/diagram.svg", title: "Curated networking opportunities" },
   { icon: "/icons/cooperation.svg", title: "Strategic business engagement" },
@@ -30,7 +30,6 @@ const focusItems = [
   { icon: "/icons/increase.svg", title: "Long-term ecosystem development" },
 ];
 
-const HIGHLIGHT = 1;
 const GAP = 8;
 // Bottom row spans exactly two of the top row's three columns (plus one gap),
 // so every card is the same width and the pair centres under the trio.
@@ -143,9 +142,9 @@ export default function EngagementCTA() {
           >
             {/* Top row — three cards */}
             <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: GAP }}>
-              {topRow.map((item, i) => (
+              {topRow.map((item) => (
                 <motion.div key={item.title} variants={fadeUp}>
-                  <FocusCard item={item} highlight={i === HIGHLIGHT} />
+                  <FocusCard item={item} />
                 </motion.div>
               ))}
             </div>
@@ -162,7 +161,7 @@ export default function EngagementCTA() {
             >
               {bottomRow.map((item) => (
                 <motion.div key={item.title} variants={fadeUp}>
-                  <FocusCard item={item} highlight={false} />
+                  <FocusCard item={item} />
                 </motion.div>
               ))}
             </div>
@@ -174,11 +173,11 @@ export default function EngagementCTA() {
 }
 
 // ─── Single focus card ──────────────────────────────────────────────────────
-// Dark tile with a white icon over a white label; the highlighted card (and any
-// card on hover) fills with the brand green instead.
-function FocusCard({ item, highlight }: { item: (typeof focusItems)[number]; highlight: boolean }) {
+// Dark tile with a white icon over a white label; on hover it fills with the
+// brand green.
+function FocusCard({ item }: { item: (typeof focusItems)[number] }) {
   const [hover, setHover] = useState(false);
-  const green = highlight || hover;
+  const green = hover;
   return (
     <div
       onMouseEnter={() => setHover(true)}
