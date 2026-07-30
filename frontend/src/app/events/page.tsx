@@ -4,9 +4,10 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, useReducedMotion, type Variants } from "framer-motion";
-import { ChevronLeft, ChevronRight, ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import Container from "@/components/ui/Container";
 import EdgeGreenGradient from "@/components/ui/EdgeGreenGradient";
+import HeroVideoBackground from "@/components/ui/HeroVideoBackground";
 import PageHeading from "@/components/ui/PageHeading";
 import SectionHeading from "@/components/ui/SectionHeading";
 import WavyLine from "@/components/ui/WavyLine";
@@ -150,15 +151,10 @@ function Hero() {
         clipPath: "polygon(0 0, 100% 0, 100% calc(100% - var(--sp-slant)), 0 100%)",
       }}
     >
-      <Image
-        src="/images/engagements/msme-consulting-2.jpeg"
-        alt=""
-        aria-hidden="true"
-        fill
-        quality={100}
-        priority
-        sizes="100vw"
-        style={{ objectFit: "cover", objectPosition: "center", opacity: 0.25 }}
+      <HeroVideoBackground
+        src="/videos/spro-website.mp4"
+        poster="/images/engagements/msme-consulting-2.jpeg"
+        opacity={0.5}
       />
       <div
         aria-hidden="true"
@@ -237,79 +233,12 @@ function Hero() {
 }
 
 // ─── 2. Why Our Platforms Matter ────────────────────────────────────────────
+// Static composition: four white cards in the corners with one tall dark
+// green-accent card standing in the centre. `designedTo[0]` is the centre.
 function WhyOurPlatformsMatter() {
-  const reduceMotion = useReducedMotion();
-  const [paused, setPaused] = useState(false);
-
-  const n = designedTo.length;
-
-  // Measure the viewport so the active card centres with neighbours peeking in.
-  const viewportRef = useRef<HTMLDivElement>(null);
-  const [vw, setVw] = useState(1100);
-  useEffect(() => {
-    const el = viewportRef.current;
-    if (!el) return;
-    const update = () => setVw(el.offsetWidth);
-    update();
-    const ro = new ResizeObserver(update);
-    ro.observe(el);
-    return () => ro.disconnect();
-  }, []);
-
-  // Three concatenated copies with `pos` in the middle copy → always content on
-  // both sides. Silently snap back a copy-length (transition off) when it drifts
-  // into a clone, for a seamless infinite loop.
-  const [pos, setPos] = useState(n);
-  const [animate, setAnimate] = useState(true);
-
-  const prev = () => {
-    setAnimate(true);
-    setPos((p) => p - 1);
-  };
-  const next = () => {
-    setAnimate(true);
-    setPos((p) => p + 1);
-  };
-  const goTo = (i: number) => {
-    setAnimate(true);
-    setPos(n + (((i % n) + n) % n));
-  };
-
-  useEffect(() => {
-    if (reduceMotion || paused) return;
-    const t = setInterval(() => {
-      setAnimate(true);
-      setPos((p) => p + 1);
-    }, 3200);
-    return () => clearInterval(t);
-  }, [reduceMotion, paused]);
-
-  useEffect(() => {
-    if (pos >= n && pos < 2 * n) return;
-    const t = setTimeout(() => {
-      setAnimate(false);
-      setPos((p) => (p >= 2 * n ? p - n : p + n));
-    }, 560);
-    return () => clearTimeout(t);
-  }, [pos, n]);
-
-  useEffect(() => {
-    if (animate) return;
-    let raf2 = 0;
-    const raf1 = requestAnimationFrame(() => {
-      raf2 = requestAnimationFrame(() => setAnimate(true));
-    });
-    return () => {
-      cancelAnimationFrame(raf1);
-      cancelAnimationFrame(raf2);
-    };
-  }, [animate]);
-
-  const GAP = 24;
-  const cardW = Math.min(vw * 0.4, 440);
-  const step = cardW + GAP;
-  const translate = vw / 2 - pos * step - cardW / 2;
-  const items = [...designedTo, ...designedTo, ...designedTo];
+  const centre = designedTo[0]!;
+  const left = [designedTo[1]!, designedTo[2]!];
+  const right = [designedTo[3]!, designedTo[4]!];
 
   return (
     <section
@@ -365,117 +294,136 @@ function WhyOurPlatformsMatter() {
           Our platforms are designed to:
         </SectionHeading>
 
-        {/* Carousel: prev arrow · three cards · next arrow */}
-        <div
-          onMouseEnter={() => setPaused(true)}
-          onMouseLeave={() => setPaused(false)}
-          style={{ display: "flex", alignItems: "center", gap: "clamp(8px, 1.6vw, 22px)" }}
+        {/* Two white cards | tall dark centre card | two white cards. On mobile
+            the columns collapse and the five cards simply stack. */}
+        <motion.div
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.2 }}
+          variants={stagger}
+          className="grid grid-cols-1 md:grid-cols-3"
+          style={{
+            gap: "clamp(14px, 1.6vw, 20px)",
+            maxWidth: 1160,
+            margin: "0 auto",
+            alignItems: "stretch",
+          }}
         >
-          <ArrowButton direction="left" onClick={prev} />
-
-          <div ref={viewportRef} style={{ flex: 1, overflow: "hidden" }}>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: GAP,
-                transform: `translateX(${translate}px)`,
-                transition: animate ? "transform 0.5s cubic-bezier(0.22, 1, 0.36, 1)" : "none",
-                willChange: "transform",
-              }}
-            >
-              {items.map((it, i) => (
-                <div key={i} style={{ flexShrink: 0, width: cardW }}>
-                  <PlatformCard item={it} center={i === pos} instant={!animate} />
-                </div>
-              ))}
-            </div>
+          {/* Left column */}
+          <div className="md:col-start-1 md:row-start-1">
+            <PlatformCard item={left[0]!} />
+          </div>
+          <div className="md:col-start-1 md:row-start-2">
+            <PlatformCard item={left[1]!} />
           </div>
 
-          <ArrowButton direction="right" onClick={next} />
-        </div>
+          {/* Centre — dark, spans both rows */}
+          <div className="md:col-start-2 md:row-start-1 md:row-span-2">
+            <PlatformCard item={centre} center />
+          </div>
 
-        <Dots count={n} active={((pos % n) + n) % n} onSelect={goTo} />
+          {/* Right column */}
+          <div className="md:col-start-3 md:row-start-1">
+            <PlatformCard item={right[0]!} />
+          </div>
+          <div className="md:col-start-3 md:row-start-2">
+            <PlatformCard item={right[1]!} />
+          </div>
+        </motion.div>
+
+        {/* Decorative progress dashes to match the design (first one active). */}
+        <div
+          aria-hidden="true"
+          className="flex justify-center items-center"
+          style={{ gap: 10, marginTop: "clamp(26px, 3.4vw, 40px)" }}
+        >
+          {designedTo.map((_, i) => (
+            <span
+              key={i}
+              style={{
+                width: i === 0 ? 30 : 24,
+                height: 4,
+                borderRadius: 2,
+                background: i === 0 ? "var(--sp-green)" : "#334155",
+              }}
+            />
+          ))}
+        </div>
       </Container>
     </section>
   );
 }
 
-// Single "designed to" card — the centre card is dark with a green icon +
-// text; the side cards are white with a dark icon + text (matches design).
-function PlatformCard({
-  item,
-  center,
-  instant,
-}: {
-  item: (typeof designedTo)[number];
-  center: boolean;
-  instant?: boolean;
-}) {
+// Single "designed to" card. The centre card is dark and tall with a green icon
+// + green title laid out vertically; the side cards are white with a dark icon
+// to the left of a black title (green on hover). Matches the design.
+function PlatformCard({ item, center }: { item: (typeof designedTo)[number]; center?: boolean }) {
   const [hover, setHover] = useState(false);
-  // Green accent (icon + title) applies to the centre card and to any card on
-  // hover. Uses the darker brand green (var(--sp-green)) so it stays legible on the
-  // white side cards too.
   const accent = center || hover;
+
+  const icon = (
+    <span
+      aria-hidden="true"
+      style={{
+        width: center ? "clamp(56px, 5vw, 78px)" : "clamp(42px, 3.6vw, 52px)",
+        height: center ? "clamp(56px, 5vw, 78px)" : "clamp(42px, 3.6vw, 52px)",
+        flexShrink: 0,
+        backgroundColor: accent ? "var(--sp-green)" : "#1a1a1a",
+        WebkitMaskImage: `url(${item.icon})`,
+        maskImage: `url(${item.icon})`,
+        WebkitMaskRepeat: "no-repeat",
+        maskRepeat: "no-repeat",
+        WebkitMaskPosition: "center",
+        maskPosition: "center",
+        WebkitMaskSize: "contain",
+        maskSize: "contain",
+        transition: "background-color 0.3s ease",
+      }}
+    />
+  );
+
+  const title = (
+    <h3
+      style={{
+        fontFamily: "var(--sp-font-sans)",
+        fontSize: center ? "clamp(22px, 2.3vw, 30px)" : "clamp(17px, 1.8vw, 23px)",
+        fontWeight: 500,
+        lineHeight: 1.2,
+        textAlign: center ? "center" : "left",
+        color: center ? "var(--sp-green-bright)" : hover ? "var(--sp-green)" : "#000",
+        margin: 0,
+        transition: "color 0.3s ease",
+      }}
+    >
+      {item.title}
+    </h3>
+  );
+
   return (
     <div
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
       style={{
+        height: "100%",
         display: "flex",
-        flexDirection: "column",
+        flexDirection: center ? "column" : "row",
         alignItems: "center",
         justifyContent: "center",
-        textAlign: "center",
-        gap: 16,
-        padding: "clamp(18px, 2.3vw, 28px) 18px",
+        gap: center ? "clamp(16px, 2vw, 26px)" : "clamp(14px, 1.8vw, 22px)",
+        padding: center
+          ? "clamp(28px, 3.4vw, 46px) clamp(20px, 2.4vw, 32px)"
+          : "clamp(22px, 2.4vw, 32px) clamp(22px, 2.4vw, 30px)",
         borderRadius: 0,
         background: center ? "var(--sp-surface-dark)" : "#fff",
         border: center ? "2px solid var(--sp-green)" : "1px solid #E5E7EB",
-        transform: center ? "scale(1.05)" : "scale(1)",
         boxShadow: center
           ? "0 24px 48px -22px rgba(0,0,0,0.45)"
           : "0 6px 18px -10px rgba(0,0,0,0.10)",
-        transition: instant
-          ? "none"
-          : "background 0.4s ease, transform 0.4s ease, box-shadow 0.4s ease",
+        transition: "border-color 0.3s ease, box-shadow 0.3s ease",
       }}
     >
-      {/* The SVG is used as a CSS mask so its silhouette takes the card's
-          icon colour (green on the centre card, dark on the side cards). */}
-      <span
-        aria-hidden="true"
-        style={{
-          width: 72,
-          height: 72,
-          flexShrink: 0,
-          backgroundColor: accent ? "var(--sp-green)" : "#1a1a1a",
-          WebkitMaskImage: `url(${item.icon})`,
-          maskImage: `url(${item.icon})`,
-          WebkitMaskRepeat: "no-repeat",
-          maskRepeat: "no-repeat",
-          WebkitMaskPosition: "center",
-          maskPosition: "center",
-          WebkitMaskSize: "contain",
-          maskSize: "contain",
-          transition: instant ? "none" : "background-color 0.4s ease",
-        }}
-      />
-      <h3
-        style={{
-          fontFamily: "var(--sp-font-sans)",
-          fontSize: "clamp(20px, 2.48vw, 29px)",
-          fontWeight: 500,
-          lineHeight: 1.2,
-          // Bright green on the dark centre card; the darker green on a hovered
-          // white side card so it stays legible on white.
-          color: center ? "var(--sp-green-bright)" : hover ? "var(--sp-green)" : "#000",
-          margin: 0,
-          transition: instant ? "none" : "color 0.4s ease",
-        }}
-      >
-        {item.title}
-      </h3>
+      {icon}
+      {title}
     </div>
   );
 }
@@ -1160,41 +1108,6 @@ function GreenArrow({
       }}
     >
       <Icon size={iconSize} color="#000" strokeWidth={2.4} />
-    </button>
-  );
-}
-
-function ArrowButton({
-  direction,
-  onClick,
-  dark,
-}: {
-  direction: "left" | "right";
-  onClick: () => void;
-  dark?: boolean;
-}) {
-  const Icon = direction === "left" ? ChevronLeft : ChevronRight;
-  return (
-    <button
-      onClick={onClick}
-      aria-label={direction === "left" ? "Previous" : "Next"}
-      // Hidden on mobile — carousels stay usable via auto-rotate + dots.
-      className="hidden sm:flex"
-      style={{
-        flexShrink: 0,
-        alignSelf: "center",
-        width: 40,
-        height: 40,
-        borderRadius: "50%",
-        border: dark ? "1px solid rgba(255,255,255,0.18)" : "1px solid #000",
-        background: dark ? "rgba(255,255,255,0.06)" : "#fff",
-        cursor: "pointer",
-        alignItems: "center",
-        justifyContent: "center",
-        transition: "background 0.2s ease",
-      }}
-    >
-      <Icon size={26} color={dark ? "#fff" : "#000"} strokeWidth={2.5} />
     </button>
   );
 }
