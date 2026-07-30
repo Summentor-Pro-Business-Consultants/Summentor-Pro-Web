@@ -8,9 +8,10 @@ import Container from "@/components/ui/Container";
 import PageHeading from "@/components/ui/PageHeading";
 
 // Background hero video (lives in /public/videos) — compressed 720p H.264
-// loop (~8 MB, down from the 100 MB master) tuned for a muted, half-opacity
-// background under the dark overlay.
-const HERO_VIDEO = "/videos/spro-website.mp4";
+// loop (~14 MB, down from the 160 MB master) tuned for a muted, half-opacity
+// background under the dark overlay. The home page uses its own video;
+// other pages reuse spro-website.mp4.
+const HERO_VIDEO = "/videos/spro-home.mp4";
 const HERO_POSTER = "/images/engagements/msme-consulting-2.jpeg";
 
 export default function Hero() {

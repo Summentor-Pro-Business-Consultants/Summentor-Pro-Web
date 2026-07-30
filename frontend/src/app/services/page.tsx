@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
+import HeroVideoBackground from "@/components/ui/HeroVideoBackground";
 import { motion, AnimatePresence, type Variants } from "framer-motion";
 import Container from "@/components/ui/Container";
 import EdgeGreenGradient from "@/components/ui/EdgeGreenGradient";
@@ -140,15 +140,10 @@ function Hero() {
         clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 calc(100% - var(--sp-slant)))",
       }}
     >
-      <Image
-        src="/images/engagements/meeting-union-minister-msme.jpeg"
-        alt=""
-        aria-hidden="true"
-        fill
-        quality={100}
-        priority
-        sizes="100vw"
-        style={{ objectFit: "cover", objectPosition: "center", opacity: 0.25 }}
+      <HeroVideoBackground
+        src="/videos/spro-website.mp4"
+        poster="/images/engagements/meeting-union-minister-msme.jpeg"
+        opacity={0.5}
       />
       <div
         aria-hidden="true"
