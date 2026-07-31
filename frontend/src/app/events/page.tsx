@@ -67,7 +67,6 @@ const featuredPlatforms = [
       "Policymakers & ecosystem enablers",
       "Solution providers & business stakeholders",
     ],
-    photo: "/images/engagements/msme-consulting-2.jpeg",
   },
   {
     title: "Women Empowerment & Leadership Initiatives",
@@ -78,7 +77,6 @@ const featuredPlatforms = [
       "Ecosystem support",
       "Collaborative growth platforms",
     ],
-    photo: "/images/engagements/textile-women-empowerment-odisha.jpeg",
   },
   {
     title: "Global Smart Build Summit",
@@ -90,7 +88,6 @@ const featuredPlatforms = [
       "Solution providers",
       "Innovation-led collaboration",
     ],
-    photo: "/images/engagements/meeting-deputy-cm-odisha.jpeg",
   },
   {
     title: "Rural & Urban Development Excellence Awards",
@@ -102,23 +99,15 @@ const featuredPlatforms = [
       "Infrastructure & social development",
       "Leadership & excellence",
     ],
-    photo: "/images/engagements/csr-farmers-odisha-1.jpeg",
-  },
-];
-
-const upcomingPlatforms = [
-  {
-    title: "MSME Textile Investor Meet – Women-Led Cluster Launch, New Delhi",
-    desc: "Enabling Textile Growth & Women-Led Employment Opportunities",
   },
 ];
 
 const highlightPhotos = [
-  "/images/engagements/meeting-mos-msme.jpeg",
-  "/images/engagements/meeting-cm-delhi.jpeg",
-  "/images/engagements/meeting-union-minister-msme.jpeg",
-  "/images/engagements/meeting-defence-minister.jpeg",
-  "/images/engagements/msme-consulting-1.jpeg",
+  "/images/groups/highlights/gov-industry-participation.jpeg",
+  "/images/groups/highlights/meeting-cm-delhi.jpeg",
+  "/images/groups/highlights/msme-4.jpg",
+  "/images/groups/highlights/msme-consulting-2.jpeg",
+  "/images/groups/highlights/multu-sector-industry-platforms.jpeg",
 ];
 
 // ─── Page ───────────────────────────────────────────────────────────────────
@@ -128,7 +117,6 @@ export default function PlatformsPage() {
       <Hero />
       <WhyOurPlatformsMatter />
       <FeaturedPlatforms />
-      <UpcomingPlatforms />
       <PartnerCTA />
       <PlatformHighlights />
     </>
@@ -330,25 +318,6 @@ function WhyOurPlatformsMatter() {
             <PlatformCard item={right[1]!} />
           </div>
         </motion.div>
-
-        {/* Decorative progress dashes to match the design (first one active). */}
-        <div
-          aria-hidden="true"
-          className="flex justify-center items-center"
-          style={{ gap: 10, marginTop: "clamp(26px, 3.4vw, 40px)" }}
-        >
-          {designedTo.map((_, i) => (
-            <span
-              key={i}
-              style={{
-                width: i === 0 ? 30 : 24,
-                height: 4,
-                borderRadius: 2,
-                background: i === 0 ? "var(--sp-green)" : "#334155",
-              }}
-            />
-          ))}
-        </div>
       </Container>
     </section>
   );
@@ -551,18 +520,6 @@ function FeaturedPlatforms() {
                       transition: animate ? "filter 0.45s ease, opacity 0.45s ease" : "none",
                     }}
                   >
-                    {/* Image */}
-                    <div style={{ position: "relative", width: "100%", aspectRatio: "16 / 6" }}>
-                      <Image
-                        src={p.photo}
-                        alt={p.title}
-                        fill
-                        quality={100}
-                        sizes="(max-width: 768px) 90vw, 80vw"
-                        style={{ objectFit: "cover" }}
-                      />
-                    </div>
-
                     {/* Content */}
                     <div style={{ padding: "clamp(16px, 2.2vw, 28px) clamp(30px, 4vw, 50px)" }}>
                       <h3
@@ -677,105 +634,7 @@ function FeaturedPlatforms() {
   );
 }
 
-// ─── 4. Upcoming Platforms ──────────────────────────────────────────────────
-function UpcomingPlatforms() {
-  const [hovered, setHovered] = useState<number | null>(null);
-
-  return (
-    <section
-      style={{
-        background: "#fff",
-        padding: "clamp(56px, 8vw, 80px) 0",
-        position: "relative",
-        overflow: "hidden",
-      }}
-    >
-      <EdgeGreenGradient side="left" />
-      <Container wide>
-        <div style={{ textAlign: "center", marginBottom: 40, position: "relative" }}>
-          <SectionHeading>
-            UPCOMING{" "}
-            <span style={{ fontWeight: 900, WebkitTextStroke: "1px currentColor" }}>PLATFORMS</span>
-          </SectionHeading>
-          <WavyLine />
-        </div>
-
-        <motion.div
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.2 }}
-          variants={stagger}
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: 26,
-            position: "relative",
-            maxWidth: 1240,
-            margin: "0 auto",
-          }}
-        >
-          {upcomingPlatforms.map((p, i) => {
-            const hover = hovered === i;
-            return (
-              <motion.div
-                key={i}
-                variants={fadeUp}
-                onMouseEnter={() => setHovered(i)}
-                onMouseLeave={() => setHovered(null)}
-                style={{
-                  // Black by default, green on hover (title + text turn black).
-                  background: hover ? "var(--sp-green)" : "var(--sp-navy-900)",
-                  color: "#fff",
-                  borderRadius: 38,
-                  padding: "clamp(30px, 4.5vw, 52px) clamp(48px, 7.5vw, 104px)",
-                  textAlign: "center",
-                  border: hover ? "1px solid var(--sp-green)" : "1px solid rgba(255,255,255,0.06)",
-                  boxShadow: hover
-                    ? "0 14px 36px rgba(5,161,113,0.28)"
-                    : "0 4px 16px rgba(0,0,0,0.08)",
-                  // The top card stays sharp; the ones below are softly blurred
-                  // (cleared on hover so an interacted card reads clearly).
-                  filter: i > 0 && !hover ? "blur(2.5px)" : "none",
-                  cursor: "default",
-                  transition:
-                    "background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease",
-                }}
-              >
-                <p
-                  style={{
-                    fontFamily: "var(--sp-font-sans)",
-                    fontSize: "clamp(27px, 3.16vw, 43px)",
-                    fontWeight: 500,
-                    margin: "0 0 14px",
-                    lineHeight: 1.15,
-                    color: hover ? "#000" : "#fff",
-                    transition: "color 0.3s ease",
-                  }}
-                >
-                  {p.title}
-                </p>
-                <p
-                  style={{
-                    fontFamily: "var(--sp-font-sans)",
-                    fontSize: "clamp(22px, 2.48vw, 33px)",
-                    margin: 0,
-                    lineHeight: 1.35,
-                    color: hover ? "rgba(0,0,0,0.85)" : "rgba(255,255,255,0.9)",
-                    transition: "color 0.3s ease",
-                  }}
-                >
-                  {p.desc}
-                </p>
-              </motion.div>
-            );
-          })}
-        </motion.div>
-      </Container>
-    </section>
-  );
-}
-
-// ─── 5. Partner CTA ─────────────────────────────────────────────────────────
+// ─── 4. Partner CTA ─────────────────────────────────────────────────────────
 function PartnerCTA() {
   return (
     <section
@@ -952,21 +811,23 @@ function PlatformHighlights() {
   }, [animate]);
 
   const GAP = 20;
-  const cardW = Math.min(vw * 0.56, 900);
+  // Card width sized off the strip's actual width so 2 full + 1 half peek fit
+  // inside the 1320px container regardless of viewport.
+  const cardW = Math.min(vw * 0.42, 560);
   const translate = -pos * (cardW + GAP);
   const photos = [...highlightPhotos, ...highlightPhotos, ...highlightPhotos];
 
   // The photo row is rendered OUTSIDE the dark section and pulled up so the
   // section's slanted bottom cuts through the middle of the (full) photos.
-  const OVERLAP = 235;
+  const OVERLAP = 130;
 
   return (
     <>
       <section
         style={{
           background: "var(--sp-dark-grad-b)",
-          // Extra bottom space hosts the upper half of the straddling photos.
-          padding: "clamp(56px, 8vw, 80px) 0 clamp(238px, 22vw, 305px)",
+          // Bottom space hosts the upper half of the straddling photos.
+          padding: "clamp(56px, 8vw, 80px) 0 clamp(110px, 10vw, 160px)",
           position: "relative",
           zIndex: 1,
           overflow: "hidden",
@@ -998,7 +859,7 @@ function PlatformHighlights() {
           paddingBottom: "clamp(56px, 8vw, 100px)",
         }}
       >
-        <Container style={{ maxWidth: 1340 }}>
+        <Container style={{ maxWidth: 1320 }}>
           <div ref={viewportRef} style={{ position: "relative" }}>
             <div style={{ overflow: "hidden" }}>
               <div
@@ -1010,14 +871,16 @@ function PlatformHighlights() {
                 }}
               >
                 {photos.map((src, i) => {
+                  // Active + next card are in colour; cards further back are B&W.
                   const isActive = i === pos;
+                  const isNext = i === pos + 1;
                   return (
                     <div
                       key={i}
                       style={{
                         flexShrink: 0,
                         width: cardW,
-                        aspectRatio: "16 / 10.5",
+                        aspectRatio: "16 / 10",
                         position: "relative",
                         overflow: "hidden",
                         boxShadow: "0 28px 56px -20px rgba(0,0,0,0.6)",
@@ -1028,12 +891,10 @@ function PlatformHighlights() {
                         alt=""
                         fill
                         quality={100}
-                        sizes="(max-width: 768px) 90vw, 66vw"
+                        sizes="(max-width: 768px) 90vw, 42vw"
                         style={{
                           objectFit: "cover",
-                          // Active photo in colour; the peeking next one in B&W
-                          // and slightly blurred.
-                          filter: isActive ? "none" : "grayscale(1) blur(3px)",
+                          filter: i <= pos + 1 ? "none" : "grayscale(1) blur(3px)",
                           transition: animate ? "filter 0.5s ease" : "none",
                         }}
                       />
