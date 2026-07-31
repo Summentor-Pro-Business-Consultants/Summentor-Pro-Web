@@ -78,7 +78,7 @@ export default function CredibilityBand() {
           position: relative;
           flex-shrink: 0;
           width: clamp(340px, 42vw, 560px);
-          aspect-ratio: 16 / 11;
+          aspect-ratio: 16 / 9;
           border-radius: 18px;
           overflow: hidden;
           border: 1px solid rgba(0,0,0,0.06);
