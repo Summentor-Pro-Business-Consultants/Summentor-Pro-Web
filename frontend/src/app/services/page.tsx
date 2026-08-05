@@ -141,9 +141,9 @@ function Hero() {
       }}
     >
       <HeroVideoBackground
-        src="/videos/spro-website.mp4"
+        src="/videos/solutions.mp4"
         poster="/images/engagements/meeting-union-minister-msme.jpeg"
-        opacity={0.5}
+        opacity={0.8}
       />
       <div
         aria-hidden="true"
@@ -151,7 +151,7 @@ function Hero() {
           position: "absolute",
           inset: 0,
           background:
-            "linear-gradient(to bottom, rgba(8,8,8,0.65) 0%, rgba(8,8,8,0.82) 60%, #080808 100%)",
+            "linear-gradient(to bottom, rgba(8,8,8,0.4) 0%, rgba(8,8,8,0.55) 58%, rgba(8,8,8,0.9) 88%, #080808 100%)",
         }}
       />
 

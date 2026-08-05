@@ -55,6 +55,10 @@ import StatusDonutChart from "@/components/admin/charts/StatusDonutChart";
 import HorizontalBarChart from "@/components/admin/charts/HorizontalBarChart";
 import TrafficSourceChart from "@/components/admin/charts/TrafficSourceChart";
 import VerticalBarChart from "@/components/admin/charts/VerticalBarChart";
+import EngagementFunnelChart, {
+  type FunnelStep,
+} from "@/components/admin/charts/EngagementFunnelChart";
+import ScrollDepthChart, { type ScrollBucket } from "@/components/admin/charts/ScrollDepthChart";
 import FormConversionChart, {
   type ConversionDataPoint,
 } from "@/components/admin/charts/FormConversionChart";
@@ -194,6 +198,15 @@ function WebsiteTab() {
   const [sources, setSources] = useState<Array<{ source: string; count: number }>>([]);
   const [sections, setSections] = useState<Array<{ page: string; count: number }>>([]);
   const [conversion, setConversion] = useState<Record<string, number>>({});
+  const [funnel, setFunnel] = useState<{ steps: FunnelStep[]; conversionPct: number }>({
+    steps: [],
+    conversionPct: 0,
+  });
+  const [scroll, setScroll] = useState<{ totalSessions: number; buckets: ScrollBucket[] }>({
+    totalSessions: 0,
+    buckets: [],
+  });
+  const [ctas, setCtas] = useState<Array<{ label: string; count: number }>>([]);
   const [period, setPeriod] = useState("today");
   const [newSubs, setNewSubs] = useState<Record<string, number>>({});
   const [trend, setTrend] = useState<Array<{ date: string; count: number }>>([]);
@@ -232,6 +245,18 @@ function WebsiteTab() {
     adminApi
       .formConversion()
       .then((d) => setConversion(d as Record<string, number>))
+      .catch(() => {});
+    adminApi
+      .engagementFunnel()
+      .then(setFunnel)
+      .catch(() => {});
+    adminApi
+      .scrollDepth()
+      .then(setScroll)
+      .catch(() => {});
+    adminApi
+      .ctaClicks()
+      .then(setCtas)
       .catch(() => {});
     adminApi
       .contactTrend()
@@ -384,6 +409,63 @@ function WebsiteTab() {
             ] satisfies ConversionDataPoint[]
           }
         />
+      </div>
+
+      {/* ── Row 5b: Engagement funnel + scroll depth ──────────────────────── */}
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, marginBottom: 24 }}>
+        <div style={card}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "baseline",
+              justifyContent: "space-between",
+              marginBottom: 16,
+            }}
+          >
+            <span style={{ fontSize: 12.8, fontWeight: 700, color: "#1E293B" }}>
+              Engagement Funnel — Last 30 Days
+            </span>
+            <span style={{ fontSize: 10.2, color: "#64748B" }}>
+              {funnel.conversionPct}% visit → submit
+            </span>
+          </div>
+          <EngagementFunnelChart steps={funnel.steps} />
+        </div>
+        <div style={card}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "baseline",
+              justifyContent: "space-between",
+              marginBottom: 16,
+            }}
+          >
+            <span style={{ fontSize: 12.8, fontWeight: 700, color: "#1E293B" }}>
+              Scroll Depth — Last 30 Days
+            </span>
+            <span style={{ fontSize: 10.2, color: "#64748B" }}>
+              {scroll.totalSessions.toLocaleString()} sessions
+            </span>
+          </div>
+          {scroll.buckets.length === 0 ? noData : <ScrollDepthChart buckets={scroll.buckets} />}
+        </div>
+      </div>
+
+      {/* ── Row 5c: Top CTAs ──────────────────────────────────────────────── */}
+      <div style={{ ...card, marginBottom: 24 }}>
+        <SectionTitle label="Top CTAs — Last 30 Days" />
+        {ctas.length === 0 ? (
+          noData
+        ) : (
+          <HorizontalBarChart
+            data={ctas}
+            labelKey="label"
+            valueKey="count"
+            tooltipName="Clicks"
+            color="#05a171"
+            colorAlt="#4ED0A3"
+          />
+        )}
       </div>
 
       {/* ── Row 6: New Submissions period filter ──────────────────────────── */}

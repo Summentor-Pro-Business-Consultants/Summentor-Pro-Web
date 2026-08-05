@@ -452,7 +452,9 @@ registry.registerPath({
               .array(
                 z
                   .object({
-                    title: z.string().openapi({ example: "Leadership Roundtable — Bengaluru 2025" }),
+                    title: z
+                      .string()
+                      .openapi({ example: "Leadership Roundtable — Bengaluru 2025" }),
                     city: z.string().openapi({ example: "Bengaluru" }),
                     registrations: z.number().openapi({ example: 42 }),
                   })
@@ -562,7 +564,9 @@ registry.registerPath({
                 event: z
                   .object({
                     id: z.string().uuid(),
-                    title: z.string().openapi({ example: "Leadership Roundtable — Bengaluru 2025" }),
+                    title: z
+                      .string()
+                      .openapi({ example: "Leadership Roundtable — Bengaluru 2025" }),
                     city: z.string().openapi({ example: "Bengaluru" }),
                     eventDate: z.string().datetime(),
                     status: z.string().openapi({ example: "upcoming" }),

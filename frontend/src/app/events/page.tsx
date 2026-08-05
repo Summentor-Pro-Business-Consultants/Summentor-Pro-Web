@@ -140,9 +140,9 @@ function Hero() {
       }}
     >
       <HeroVideoBackground
-        src="/videos/spro-website.mp4"
+        src="/videos/platforms.mp4"
         poster="/images/engagements/msme-consulting-2.jpeg"
-        opacity={0.5}
+        opacity={0.8}
       />
       <div
         aria-hidden="true"
@@ -150,7 +150,7 @@ function Hero() {
           position: "absolute",
           inset: 0,
           background:
-            "linear-gradient(to bottom, rgba(8,8,8,0.65) 0%, rgba(8,8,8,0.82) 60%, #080808 100%)",
+            "linear-gradient(to bottom, rgba(8,8,8,0.4) 0%, rgba(8,8,8,0.55) 58%, rgba(8,8,8,0.9) 88%, #080808 100%)",
         }}
       />
 
@@ -228,6 +228,12 @@ function WhyOurPlatformsMatter() {
   const left = [designedTo[1]!, designedTo[2]!];
   const right = [designedTo[3]!, designedTo[4]!];
 
+  // Exactly one card carries the dark treatment at a time: whichever is hovered,
+  // falling back to the centre card. Hover state lives here rather than in the
+  // card because a card can't know that a sibling is hovered.
+  const [hovered, setHovered] = useState<number | null>(null);
+  const activeIndex = hovered ?? 0;
+
   return (
     <section
       style={{
@@ -299,23 +305,49 @@ function WhyOurPlatformsMatter() {
         >
           {/* Left column */}
           <div className="md:col-start-1 md:row-start-1">
-            <PlatformCard item={left[0]!} />
+            <PlatformCard
+              item={left[0]!}
+              active={activeIndex === 1}
+              onHover={setHovered}
+              index={1}
+            />
           </div>
           <div className="md:col-start-1 md:row-start-2">
-            <PlatformCard item={left[1]!} />
+            <PlatformCard
+              item={left[1]!}
+              active={activeIndex === 2}
+              onHover={setHovered}
+              index={2}
+            />
           </div>
 
-          {/* Centre — dark, spans both rows */}
+          {/* Centre — tall, spans both rows; dark by default */}
           <div className="md:col-start-2 md:row-start-1 md:row-span-2">
-            <PlatformCard item={centre} center />
+            <PlatformCard
+              item={centre}
+              center
+              active={activeIndex === 0}
+              onHover={setHovered}
+              index={0}
+            />
           </div>
 
           {/* Right column */}
           <div className="md:col-start-3 md:row-start-1">
-            <PlatformCard item={right[0]!} />
+            <PlatformCard
+              item={right[0]!}
+              active={activeIndex === 3}
+              onHover={setHovered}
+              index={3}
+            />
           </div>
           <div className="md:col-start-3 md:row-start-2">
-            <PlatformCard item={right[1]!} />
+            <PlatformCard
+              item={right[1]!}
+              active={activeIndex === 4}
+              onHover={setHovered}
+              index={4}
+            />
           </div>
         </motion.div>
       </Container>
@@ -323,13 +355,27 @@ function WhyOurPlatformsMatter() {
   );
 }
 
-// Single "designed to" card. The centre card is dark and tall with a green icon
-// + green title laid out vertically; the side cards are white with a dark icon
-// to the left of a black title (green on hover). Matches the design.
-function PlatformCard({ item, center }: { item: (typeof designedTo)[number]; center?: boolean }) {
-  const [hover, setHover] = useState(false);
-  const accent = center || hover;
-
+// Single "designed to" card.
+//
+// Two independent concerns, deliberately kept apart:
+//   `center` — LAYOUT only. The middle card is tall (spans both rows) and stacks
+//              its icon above the title; the others are short and horizontal.
+//              Fixed per position, so hovering never reflows the grid.
+//   `active` — the DARK treatment (dark fill, green border, green icon + title).
+//              Follows the hovered card, defaulting to the centre one.
+function PlatformCard({
+  item,
+  center,
+  active,
+  index,
+  onHover,
+}: {
+  item: (typeof designedTo)[number];
+  center?: boolean;
+  active: boolean;
+  index: number;
+  onHover: (i: number | null) => void;
+}) {
   const icon = (
     <span
       aria-hidden="true"
@@ -337,7 +383,7 @@ function PlatformCard({ item, center }: { item: (typeof designedTo)[number]; cen
         width: center ? "clamp(56px, 5vw, 78px)" : "clamp(42px, 3.6vw, 52px)",
         height: center ? "clamp(56px, 5vw, 78px)" : "clamp(42px, 3.6vw, 52px)",
         flexShrink: 0,
-        backgroundColor: accent ? "var(--sp-green)" : "#1a1a1a",
+        backgroundColor: active ? "var(--sp-green)" : "#1a1a1a",
         WebkitMaskImage: `url(${item.icon})`,
         maskImage: `url(${item.icon})`,
         WebkitMaskRepeat: "no-repeat",
@@ -359,7 +405,7 @@ function PlatformCard({ item, center }: { item: (typeof designedTo)[number]; cen
         fontWeight: 500,
         lineHeight: 1.2,
         textAlign: center ? "center" : "left",
-        color: center ? "var(--sp-green-bright)" : hover ? "var(--sp-green)" : "#000",
+        color: active ? "var(--sp-green-bright)" : "#000",
         margin: 0,
         transition: "color 0.3s ease",
       }}
@@ -370,8 +416,8 @@ function PlatformCard({ item, center }: { item: (typeof designedTo)[number]; cen
 
   return (
     <div
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
+      onMouseEnter={() => onHover(index)}
+      onMouseLeave={() => onHover(null)}
       style={{
         height: "100%",
         display: "flex",
@@ -383,12 +429,15 @@ function PlatformCard({ item, center }: { item: (typeof designedTo)[number]; cen
           ? "clamp(28px, 3.4vw, 46px) clamp(20px, 2.4vw, 32px)"
           : "clamp(22px, 2.4vw, 32px) clamp(22px, 2.4vw, 30px)",
         borderRadius: 0,
-        background: center ? "var(--sp-surface-dark)" : "#fff",
-        border: center ? "2px solid var(--sp-green)" : "1px solid #E5E7EB",
-        boxShadow: center
+        // Border width is constant so the card never shifts as it darkens —
+        // only the colour changes.
+        background: active ? "var(--sp-surface-dark)" : "#fff",
+        border: active ? "2px solid var(--sp-green)" : "2px solid #E5E7EB",
+        boxShadow: active
           ? "0 24px 48px -22px rgba(0,0,0,0.45)"
           : "0 6px 18px -10px rgba(0,0,0,0.10)",
-        transition: "border-color 0.3s ease, box-shadow 0.3s ease",
+        cursor: "default",
+        transition: "background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease",
       }}
     >
       {icon}

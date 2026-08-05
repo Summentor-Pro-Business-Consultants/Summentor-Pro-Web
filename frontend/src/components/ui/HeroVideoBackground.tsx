@@ -12,7 +12,7 @@ import { useReducedMotion } from "framer-motion";
 export default function HeroVideoBackground({
   src,
   poster,
-  opacity = 0.5,
+  opacity = 0.8,
   objectPosition = "center",
 }: {
   src: string;
