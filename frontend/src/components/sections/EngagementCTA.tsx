@@ -20,8 +20,8 @@ const stagger: Variants = {
 };
 
 // The five focus areas from the content file ("We focus on:"). Laid out three
-// over two, so the order here is the visual order. Cards are dark by default
-// and only turn green on hover.
+// over two, so the order here is also the visual order and the index space that
+// HIGHLIGHT / activeIndex refer to.
 const focusItems = [
   { icon: "/icons/diagram.svg", title: "Curated networking opportunities" },
   { icon: "/icons/cooperation.svg", title: "Strategic business engagement" },
@@ -35,9 +35,18 @@ const GAP = 8;
 // so every card is the same width and the pair centres under the trio.
 const BOTTOM_W = `calc((100% - ${GAP * 2}px) / 3 * 2 + ${GAP}px)`;
 
+// "Strategic business engagement" — middle of the top row — is green by default.
+const HIGHLIGHT = 1;
+
 export default function EngagementCTA() {
   const topRow = focusItems.slice(0, 3);
   const bottomRow = focusItems.slice(3);
+
+  // Exactly one card is green at a time: whichever is hovered, falling back to
+  // HIGHLIGHT. Hover lives here, not in the card, because a card can't know
+  // that a sibling is hovered.
+  const [hovered, setHovered] = useState<number | null>(null);
+  const activeIndex = hovered ?? HIGHLIGHT;
 
   return (
     <section
@@ -130,7 +139,7 @@ export default function EngagementCTA() {
           variants={stagger}
           style={{ textAlign: "center" }}
         >
-          <SectionHeading>WE FOCUS ON:</SectionHeading>
+          <SectionHeading>WE FOCUS ON</SectionHeading>
           <WavyLine />
 
           <div
@@ -142,9 +151,14 @@ export default function EngagementCTA() {
           >
             {/* Top row — three cards */}
             <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: GAP }}>
-              {topRow.map((item) => (
+              {topRow.map((item, i) => (
                 <motion.div key={item.title} variants={fadeUp}>
-                  <FocusCard item={item} />
+                  <FocusCard
+                    item={item}
+                    active={activeIndex === i}
+                    index={i}
+                    onHover={setHovered}
+                  />
                 </motion.div>
               ))}
             </div>
@@ -159,9 +173,16 @@ export default function EngagementCTA() {
                 margin: `${GAP}px auto 0`,
               }}
             >
-              {bottomRow.map((item) => (
+              {/* Bottom row continues the same index space — offset by the
+                  three cards above so `activeIndex` maps to focusItems. */}
+              {bottomRow.map((item, i) => (
                 <motion.div key={item.title} variants={fadeUp}>
-                  <FocusCard item={item} />
+                  <FocusCard
+                    item={item}
+                    active={activeIndex === i + topRow.length}
+                    index={i + topRow.length}
+                    onHover={setHovered}
+                  />
                 </motion.div>
               ))}
             </div>
@@ -173,15 +194,24 @@ export default function EngagementCTA() {
 }
 
 // ─── Single focus card ──────────────────────────────────────────────────────
-// Dark tile with a white icon over a white label; on hover it fills with the
-// brand green.
-function FocusCard({ item }: { item: (typeof focusItems)[number] }) {
-  const [hover, setHover] = useState(false);
-  const green = hover;
+// Dark tile with a white icon over a white label. The active card (hovered, or
+// HIGHLIGHT by default) fills with brand green. `active` is owned by the parent
+// so only ever one card is green at a time.
+function FocusCard({
+  item,
+  active,
+  index,
+  onHover,
+}: {
+  item: (typeof focusItems)[number];
+  active: boolean;
+  index: number;
+  onHover: (i: number | null) => void;
+}) {
   return (
     <div
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
+      onMouseEnter={() => onHover(index)}
+      onMouseLeave={() => onHover(null)}
       style={{
         aspectRatio: "1.87 / 1",
         display: "flex",
@@ -192,7 +222,7 @@ function FocusCard({ item }: { item: (typeof focusItems)[number] }) {
         gap: "clamp(12px, 1.5vw, 20px)",
         padding: "clamp(14px, 1.8vw, 24px) clamp(12px, 1.6vw, 22px)",
         borderRadius: 0,
-        background: green ? "var(--sp-green)" : "var(--sp-surface-dark)",
+        background: active ? "var(--sp-green)" : "var(--sp-surface-dark)",
         transition: "background 0.3s ease",
       }}
     >

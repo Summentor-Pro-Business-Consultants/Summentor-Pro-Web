@@ -365,6 +365,23 @@ export const adminApi = {
   /** Form conversion funnel: page views → submissions, with conversion rate. */
   formConversion: () => request<Record<string, number>>("/admin/analytics/form-conversion"),
 
+  /** Most-clicked CTAs over the last 30 days, ranked by click volume. */
+  ctaClicks: () => request<Array<{ label: string; count: number }>>("/admin/analytics/cta-clicks"),
+
+  /** Share of sessions reaching each scroll milestone over the last 30 days. */
+  scrollDepth: () =>
+    request<{
+      totalSessions: number;
+      buckets: Array<{ depth: string; sessions: number; pct: number }>;
+    }>("/admin/analytics/scroll-depth"),
+
+  /** Multi-step funnel: visited → engaged → form started → submitted. */
+  engagementFunnel: () =>
+    request<{
+      steps: Array<{ step: string; sessions: number; pct: number }>;
+      conversionPct: number;
+    }>("/admin/analytics/engagement-funnel"),
+
   /** System-wide event stats: counts by status and average registrations per event. */
   eventsOverview: () => request<Record<string, number>>("/admin/analytics/events-overview"),
 

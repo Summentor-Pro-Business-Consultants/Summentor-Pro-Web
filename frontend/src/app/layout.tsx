@@ -4,6 +4,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import PublicLayout from "@/components/layout/PublicLayout";
 import TrackPageView from "@/components/TrackPageView";
+import TrackScrollDepth from "@/components/TrackScrollDepth";
 
 // Body font — Poppins. 400 (Regular) for body copy, heavier weights for
 // labels/buttons/emphasis.
@@ -50,6 +51,7 @@ export default function RootLayout({
     >
       <body>
         <TrackPageView />
+        <TrackScrollDepth />
         <PublicLayout>{children}</PublicLayout>
       </body>
     </html>

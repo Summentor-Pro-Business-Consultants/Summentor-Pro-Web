@@ -71,6 +71,17 @@ router.get("/page-views-by-section", analyticsController.pageViewsBySection);
 // GET /form-conversion — funnel from form page views to actual submissions.
 router.get("/form-conversion", analyticsController.formConversion);
 
+// --- Behavioural event analytics (tracked_events) ---
+// GET /cta-clicks — most-clicked calls-to-action, ranked by volume.
+router.get("/cta-clicks", analyticsController.ctaClicks);
+
+// GET /scroll-depth — share of sessions reaching each scroll milestone.
+router.get("/scroll-depth", analyticsController.scrollDepth);
+
+// GET /engagement-funnel — visited → engaged → form started → submitted,
+//                          counted by distinct session.
+router.get("/engagement-funnel", analyticsController.engagementFunnel);
+
 // --- Events analytics ---
 // GET /events-overview — system-wide event stats and average registrations per event.
 router.get("/events-overview", analyticsController.eventsOverview);

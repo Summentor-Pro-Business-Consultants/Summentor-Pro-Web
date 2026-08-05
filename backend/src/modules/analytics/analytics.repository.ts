@@ -555,3 +555,124 @@ export async function getEventAnalytics(eventId: string) {
     recentRegistrations,
   };
 }
+
+// ---------------------------------------------------------------------------
+// Behavioural event analytics (tracked_events)
+// ---------------------------------------------------------------------------
+
+/**
+ * Returns the most-clicked CTAs over the last `days` days.
+ *
+ * Grouped by `label` (the button caption) so the dashboard can rank which
+ * calls-to-action actually earn clicks. Unlabelled clicks are ignored.
+ */
+export async function getCtaClicks(days = 30, limit = 10) {
+  const since = new Date();
+  since.setDate(since.getDate() - days);
+
+  const rows = await prisma.trackedEvent.groupBy({
+    by: ["label"],
+    where: { name: "cta_click", createdAt: { gte: since }, label: { not: null } },
+    _count: { _all: true },
+    orderBy: { _count: { label: "desc" } },
+    take: limit,
+  });
+
+  return rows.map((r) => ({ label: r.label ?? "Unknown", count: r._count._all }));
+}
+
+/**
+ * Returns how far visitors scroll, as the share of sessions reaching each
+ * milestone over the last `days` days.
+ *
+ * Milestones are cumulative by nature (a session reaching 75 % also passed
+ * 50 %), so each bucket counts distinct sessions whose deepest recorded
+ * scroll was at least that percentage.
+ */
+export async function getScrollDepth(days = 30) {
+  const since = new Date();
+  since.setDate(since.getDate() - days);
+
+  const rows = await prisma.$queryRaw<
+    { d25: bigint; d50: bigint; d75: bigint; d100: bigint; total: bigint }[]
+  >`
+    SELECT
+      COUNT(DISTINCT session_id) FILTER (WHERE value >= 25)  AS d25,
+      COUNT(DISTINCT session_id) FILTER (WHERE value >= 50)  AS d50,
+      COUNT(DISTINCT session_id) FILTER (WHERE value >= 75)  AS d75,
+      COUNT(DISTINCT session_id) FILTER (WHERE value >= 100) AS d100,
+      COUNT(DISTINCT session_id)                             AS total
+    FROM tracked_events
+    WHERE name = 'scroll_depth'
+      AND created_at >= ${since}
+      AND session_id IS NOT NULL
+  `;
+
+  const r = rows[0];
+  const total = Number(r?.total ?? 0);
+  const pct = (n: number) => (total > 0 ? Math.round((n / total) * 100) : 0);
+
+  const buckets = [
+    { depth: "25%", sessions: Number(r?.d25 ?? 0) },
+    { depth: "50%", sessions: Number(r?.d50 ?? 0) },
+    { depth: "75%", sessions: Number(r?.d75 ?? 0) },
+    { depth: "100%", sessions: Number(r?.d100 ?? 0) },
+  ];
+
+  return {
+    totalSessions: total,
+    buckets: buckets.map((b) => ({ ...b, pct: pct(b.sessions) })),
+  };
+}
+
+/**
+ * Builds a real multi-step engagement funnel over the last `days` days.
+ *
+ * Each step counts DISTINCT sessions, so a visitor is counted once no matter
+ * how many events they fire. Steps are measured independently rather than as
+ * strict subsets — a session that submits without a recorded `form_start`
+ * (e.g. tracking blocked mid-journey) still counts at the submit step, which
+ * keeps the conversion figure honest.
+ */
+export async function getEngagementFunnel(days = 30) {
+  const since = new Date();
+  since.setDate(since.getDate() - days);
+
+  const [visitRows, eventRows] = await Promise.all([
+    prisma.$queryRaw<{ count: bigint }[]>`
+      SELECT COUNT(DISTINCT session_id) AS count
+      FROM page_views
+      WHERE created_at >= ${since} AND session_id IS NOT NULL
+    `,
+    prisma.$queryRaw<{ scrolled: bigint; started: bigint; submitted: bigint }[]>`
+      SELECT
+        COUNT(DISTINCT session_id) FILTER (
+          WHERE name = 'scroll_depth' AND value >= 50
+        ) AS scrolled,
+        COUNT(DISTINCT session_id) FILTER (WHERE name = 'form_start')  AS started,
+        COUNT(DISTINCT session_id) FILTER (WHERE name = 'form_submit') AS submitted
+      FROM tracked_events
+      WHERE created_at >= ${since} AND session_id IS NOT NULL
+    `,
+  ]);
+
+  const visited = Number(visitRows[0]?.count ?? 0);
+  const scrolled = Number(eventRows[0]?.scrolled ?? 0);
+  const started = Number(eventRows[0]?.started ?? 0);
+  const submitted = Number(eventRows[0]?.submitted ?? 0);
+
+  // Percentages are relative to the top of the funnel so the chart reads as a
+  // single descending shape rather than step-to-step ratios.
+  const pct = (n: number) => (visited > 0 ? Math.round((n / visited) * 100) : 0);
+
+  return {
+    steps: [
+      { step: "Visited", sessions: visited, pct: visited > 0 ? 100 : 0 },
+      { step: "Engaged (50% scroll)", sessions: scrolled, pct: pct(scrolled) },
+      { step: "Form started", sessions: started, pct: pct(started) },
+      { step: "Form submitted", sessions: submitted, pct: pct(submitted) },
+    ],
+    // Overall visit → submit conversion, the single number worth watching.
+    conversionPct: pct(submitted),
+  };
+}

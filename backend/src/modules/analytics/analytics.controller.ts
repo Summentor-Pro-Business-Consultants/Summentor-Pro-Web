@@ -140,6 +140,39 @@ export const formConversion = asyncHandler(async (_req: Request, res: Response) 
 });
 
 /**
+ * GET /admin/analytics/cta-clicks
+ *
+ * Returns the most-clicked calls-to-action over the last 30 days, ranked by
+ * click volume and grouped by the button caption.
+ */
+export const ctaClicks = asyncHandler(async (_req: Request, res: Response) => {
+  const data = await analyticsService.getCtaClicks();
+  new SuccessResponse("CTA clicks retrieved", data).send(res);
+});
+
+/**
+ * GET /admin/analytics/scroll-depth
+ *
+ * Returns the share of sessions reaching each scroll milestone (25/50/75/100 %)
+ * over the last 30 days.
+ */
+export const scrollDepth = asyncHandler(async (_req: Request, res: Response) => {
+  const data = await analyticsService.getScrollDepth();
+  new SuccessResponse("Scroll depth retrieved", data).send(res);
+});
+
+/**
+ * GET /admin/analytics/engagement-funnel
+ *
+ * Returns the multi-step funnel — visited → engaged → form started → submitted
+ * — counted by distinct session over the last 30 days.
+ */
+export const engagementFunnel = asyncHandler(async (_req: Request, res: Response) => {
+  const data = await analyticsService.getEngagementFunnel();
+  new SuccessResponse("Engagement funnel retrieved", data).send(res);
+});
+
+/**
  * GET /admin/analytics/events-overview
  *
  * Returns a high-level summary across all events: counts by status, total

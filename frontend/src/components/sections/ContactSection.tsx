@@ -1,6 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
+import { usePathname } from "next/navigation";
+import { trackEvent } from "@/lib/tracking";
 import HeroVideoBackground from "@/components/ui/HeroVideoBackground";
 import { motion, type Variants } from "framer-motion";
 import Container from "@/components/ui/Container";
@@ -109,10 +111,13 @@ function Hero() {
         clipPath: "polygon(0 0, 100% 0, 100% calc(100% - var(--sp-slant)), 0 100%)",
       }}
     >
+      {/* No dedicated contact video ships yet — the About film stands in as the
+          most general-purpose company footage. Swap to /videos/contact.mp4
+          once one exists. */}
       <HeroVideoBackground
-        src="/videos/spro-website.mp4"
+        src="/videos/about.mp4"
         poster="/images/engagements/meeting-cm-delhi.jpeg"
-        opacity={0.5}
+        opacity={0.8}
       />
       <div
         aria-hidden="true"
@@ -120,7 +125,7 @@ function Hero() {
           position: "absolute",
           inset: 0,
           background:
-            "linear-gradient(to bottom, rgba(8,8,8,0.6) 0%, rgba(8,8,8,0.8) 60%, #080808 100%)",
+            "linear-gradient(to bottom, rgba(8,8,8,0.4) 0%, rgba(8,8,8,0.55) 58%, rgba(8,8,8,0.9) 88%, #080808 100%)",
         }}
       />
 
@@ -178,15 +183,25 @@ function Hero() {
 
 // ─── Form ───────────────────────────────────────────────────────────────────
 function FormBlock() {
+  const pathname = usePathname();
   const [form, setForm] = useState<FormState>(EMPTY_FORM);
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
+  // Funnel: `form_start` fires once, on the first field the visitor touches.
+  const startedRef = useRef(false);
 
   const set =
     (field: keyof FormState) =>
-    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+      // Funnel: record the first interaction with the form, once per mount.
+      // The ref is read here inside the change handler, never during render.
+      if (!startedRef.current) {
+        startedRef.current = true;
+        void trackEvent("form_start", pathname, { label: "Contact form", properties: { field } });
+      }
       setForm((prev) => ({ ...prev, [field]: e.target.value }));
+    };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -244,9 +259,11 @@ function FormBlock() {
         const body = (await res.json().catch(() => ({}))) as { message?: string };
         throw new Error(body.message ?? "Failed to submit");
       }
+      void trackEvent("form_submit", pathname, { label: "Contact form" });
       setSubmitted(true);
       setForm(EMPTY_FORM);
     } catch (err) {
+      void trackEvent("form_error", pathname, { label: "Contact form" });
       setError(
         err instanceof Error && err.message !== "Failed to submit"
           ? err.message

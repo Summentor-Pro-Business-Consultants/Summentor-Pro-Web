@@ -3,18 +3,20 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { motion, useReducedMotion } from "framer-motion";
 import Container from "@/components/ui/Container";
 import PageHeading from "@/components/ui/PageHeading";
+import { trackEvent } from "@/lib/tracking";
 
-// Background hero video (lives in /public/videos) — compressed 720p H.264
-// loop (~14 MB, down from the 160 MB master) tuned for a muted, half-opacity
-// background under the dark overlay. The home page uses its own video;
-// other pages reuse spro-website.mp4.
-const HERO_VIDEO = "/videos/spro-home.mp4";
+// Background hero video (lives in /public/videos), tuned for a muted,
+// half-opacity background under the dark overlay. Each page has its own film —
+// home.mp4 here, about/solutions/platforms.mp4 on their respective pages.
+const HERO_VIDEO = "/videos/home.mp4";
 const HERO_POSTER = "/images/engagements/msme-consulting-2.jpeg";
 
 export default function Hero() {
+  const pathname = usePathname();
   // Production-grade reduced-motion handling: an autoplaying background video
   // is exactly the kind of large, continuous motion that should NOT play for
   // visitors who ask for reduced motion — they get the still poster instead.
@@ -69,7 +71,7 @@ export default function Hero() {
           quality={100}
           priority
           sizes="100vw"
-          style={{ objectFit: "cover", objectPosition: "center", opacity: 0.6 }}
+          style={{ objectFit: "cover", objectPosition: "center", opacity: 0.85 }}
         />
       ) : (
         <video
@@ -88,7 +90,7 @@ export default function Hero() {
             height: "100%",
             objectFit: "cover",
             objectPosition: "center",
-            opacity: 0.65,
+            opacity: 0.85,
           }}
         >
           <source src={HERO_VIDEO} type="video/mp4" />
@@ -101,7 +103,7 @@ export default function Hero() {
           position: "absolute",
           inset: 0,
           background:
-            "linear-gradient(135deg, rgba(8,8,8,0.62) 0%, rgba(8,8,8,0.4) 60%, rgba(8,8,8,0.55) 100%)",
+            "linear-gradient(135deg, rgba(8,8,8,0.45) 0%, rgba(8,8,8,0.28) 60%, rgba(8,8,8,0.4) 100%)",
         }}
       />
 
@@ -164,7 +166,16 @@ export default function Hero() {
             style={{ marginTop: 52 }}
           >
             {/* Explore Solutions — green outlined pill, transparent fill */}
-            <Link href="/services" style={{ textDecoration: "none" }}>
+            <Link
+              href="/services"
+              style={{ textDecoration: "none" }}
+              onClick={() =>
+                void trackEvent("cta_click", pathname, {
+                  label: "Explore Solutions",
+                  properties: { href: "/services", location: "hero" },
+                })
+              }
+            >
               <button
                 style={{
                   fontFamily: "var(--sp-font-sans)",
@@ -195,7 +206,16 @@ export default function Hero() {
             </Link>
 
             {/* Partner With Us — green outlined pill, transparent fill */}
-            <Link href="/contact" style={{ textDecoration: "none" }}>
+            <Link
+              href="/contact"
+              style={{ textDecoration: "none" }}
+              onClick={() =>
+                void trackEvent("cta_click", pathname, {
+                  label: "Partner With Us",
+                  properties: { href: "/contact", location: "hero" },
+                })
+              }
+            >
               <button
                 style={{
                   fontFamily: "var(--sp-font-sans)",

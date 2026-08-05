@@ -13,7 +13,7 @@ import WavyLine from "@/components/ui/WavyLine";
 const EASE = [0.22, 1, 0.36, 1] as const;
 
 // Same landing video as the home hero (compressed 720p loop in /public/videos).
-const HERO_VIDEO = "/videos/spro-website.mp4";
+const HERO_VIDEO = "/videos/about.mp4";
 const HERO_POSTER = "/images/engagements/msme-consulting-2.jpeg";
 
 const fadeUp: Variants = {
@@ -184,7 +184,7 @@ function Hero() {
           quality={100}
           priority
           sizes="100vw"
-          style={{ objectFit: "cover", objectPosition: "center top", opacity: 0.5 }}
+          style={{ objectFit: "cover", objectPosition: "center top", opacity: 0.8 }}
         />
       ) : (
         <video
@@ -203,7 +203,7 @@ function Hero() {
             height: "100%",
             objectFit: "cover",
             objectPosition: "center",
-            opacity: 0.55,
+            opacity: 0.8,
           }}
         >
           <source src={HERO_VIDEO} type="video/mp4" />
@@ -215,7 +215,7 @@ function Hero() {
           position: "absolute",
           inset: 0,
           background:
-            "linear-gradient(to bottom, rgba(8,8,8,0.6) 0%, rgba(8,8,8,0.78) 60%, #080808 100%)",
+            "linear-gradient(to bottom, rgba(8,8,8,0.4) 0%, rgba(8,8,8,0.55) 58%, rgba(8,8,8,0.9) 88%, #080808 100%)",
         }}
       />
       <Container wide>
@@ -450,8 +450,14 @@ function PullQuote() {
 
 // ─── 4. What Makes Us Different ─────────────────────────────────────────────
 function WhatMakesUsDifferent() {
-  // The middle card carries the green highlight.
+  // The middle card carries the green highlight by default.
   const highlight = Math.floor(focusEnablers.length / 2);
+
+  // Exactly one card is green at a time: whichever is hovered, falling back to
+  // the middle one. Hover lives here, not in the card, because a card can't
+  // know that a sibling is hovered.
+  const [hovered, setHovered] = useState<number | null>(null);
+  const activeIndex = hovered ?? highlight;
 
   return (
     <section
@@ -526,7 +532,7 @@ function WhatMakesUsDifferent() {
         >
           {focusEnablers.map((it, i) => (
             <motion.div key={it.title} variants={fadeUp}>
-              <EnablerCard item={it} highlight={i === highlight} />
+              <EnablerCard item={it} active={activeIndex === i} index={i} onHover={setHovered} />
             </motion.div>
           ))}
         </motion.div>
@@ -555,23 +561,24 @@ function WhatMakesUsDifferent() {
   );
 }
 
-// Single enabler card — the centre card is dark with green text; the two
-// side cards are white with a green outline and black text (matches design).
+// Single enabler card — dark tile with a white icon over a white label. The
+// active card (hovered, or the middle one by default) fills with brand green.
+// `active` is owned by the parent so only ever one card is green at a time.
 function EnablerCard({
   item,
-  highlight,
+  active,
+  index,
+  onHover,
 }: {
   item: (typeof focusEnablers)[number];
-  highlight: boolean;
+  active: boolean;
+  index: number;
+  onHover: (i: number | null) => void;
 }) {
-  const [hover, setHover] = useState(false);
-  // Dark by default, green for the highlighted card — and green on hover so the
-  // whole row stays interactive. Icon and label are white on both fills.
-  const green = highlight || hover;
   return (
     <div
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
+      onMouseEnter={() => onHover(index)}
+      onMouseLeave={() => onHover(null)}
       style={{
         height: "100%",
         aspectRatio: "1.12 / 1",
@@ -583,7 +590,7 @@ function EnablerCard({
         gap: "clamp(14px, 1.8vw, 26px)",
         padding: "clamp(16px, 2vw, 26px) clamp(10px, 1.2vw, 18px)",
         borderRadius: 0,
-        background: green ? "var(--sp-green)" : "var(--sp-surface-dark)",
+        background: active ? "var(--sp-green)" : "var(--sp-surface-dark)",
         transition: "background 0.3s ease",
       }}
     >

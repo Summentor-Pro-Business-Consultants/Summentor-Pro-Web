@@ -149,6 +149,25 @@ export async function getFormConversion() {
   return analyticsRepo.getFormConversion(30);
 }
 
+// ---------------------------------------------------------------------------
+// Behavioural event analytics
+// ---------------------------------------------------------------------------
+
+/** Top CTAs by click volume over the last 30 days. */
+export async function getCtaClicks() {
+  return analyticsRepo.getCtaClicks(30);
+}
+
+/** Share of sessions reaching each scroll milestone over the last 30 days. */
+export async function getScrollDepth() {
+  return analyticsRepo.getScrollDepth(30);
+}
+
+/** Multi-step visit → engage → form-start → submit funnel, last 30 days. */
+export async function getEngagementFunnel() {
+  return analyticsRepo.getEngagementFunnel(30);
+}
+
 /**
  * Returns a high-level summary across all events in the system.
  *
