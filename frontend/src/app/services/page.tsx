@@ -142,7 +142,7 @@ function Hero() {
     >
       <HeroVideoBackground
         src="/videos/solutions.mp4"
-        poster="/images/engagements/meeting-union-minister-msme.jpeg"
+        poster="/images/video-posters/solutions.jpg"
         opacity={0.8}
       />
       <div

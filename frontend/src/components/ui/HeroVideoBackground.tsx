@@ -37,6 +37,32 @@ export default function HeroVideoBackground({
     if (p) p.catch(() => {});
   }, [showStill]);
 
+  // Fade the backdrop up from the section's dark gradient so nothing "pops" in.
+  //
+  // This deliberately triggers on mount rather than on `canplay`: the poster
+  // paints inside the <video> element, so fading on canplay would keep the
+  // poster hidden until the video buffered — exactly what the poster exists to
+  // avoid. Starting the fade immediately means the poster arrives mid-fade, and
+  // because the poster IS the video's first frame, the later hand-off to actual
+  // playback is invisible.
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    // Two frames so the initial opacity:0 is painted before the transition runs.
+    let raf2 = 0;
+    const raf1 = requestAnimationFrame(() => {
+      raf2 = requestAnimationFrame(() => setVisible(true));
+    });
+    return () => {
+      cancelAnimationFrame(raf1);
+      cancelAnimationFrame(raf2);
+    };
+  }, []);
+
+  // Reduced-motion visitors get the still at full strength with no fade.
+  const fadeStyle = reduceMotion
+    ? { opacity }
+    : { opacity: visible ? opacity : 0, transition: "opacity 0.7s ease-out" };
+
   if (showStill) {
     return (
       <Image
@@ -47,7 +73,7 @@ export default function HeroVideoBackground({
         quality={100}
         priority
         sizes="100vw"
-        style={{ objectFit: "cover", objectPosition, opacity }}
+        style={{ objectFit: "cover", objectPosition, ...fadeStyle }}
       />
     );
   }
@@ -69,7 +95,7 @@ export default function HeroVideoBackground({
         height: "100%",
         objectFit: "cover",
         objectPosition,
-        opacity,
+        ...fadeStyle,
       }}
     >
       <source src={src} type="video/mp4" />

@@ -116,7 +116,7 @@ function Hero() {
           once one exists. */}
       <HeroVideoBackground
         src="/videos/about.mp4"
-        poster="/images/engagements/meeting-cm-delhi.jpeg"
+        poster="/images/video-posters/about.jpg"
         opacity={0.8}
       />
       <div
