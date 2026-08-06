@@ -14,7 +14,8 @@ const EASE = [0.22, 1, 0.36, 1] as const;
 
 // Same landing video as the home hero (compressed 720p loop in /public/videos).
 const HERO_VIDEO = "/videos/about.mp4";
-const HERO_POSTER = "/images/engagements/msme-consulting-2.jpeg";
+// The video's own first frame, so the still-to-playback hand-off is invisible.
+const HERO_POSTER = "/images/video-posters/about.jpg";
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 24 },
@@ -151,6 +152,24 @@ function Hero() {
   useEffect(() => setMounted(true), []);
   const showStill = mounted && reduceMotion;
 
+  // Fade the backdrop up from the dark gradient so nothing pops in. Triggered
+  // on mount, not on `canplay`: the poster paints inside the <video>, so
+  // waiting for playback would hide the poster — the very thing it's there for.
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    let raf2 = 0;
+    const raf1 = requestAnimationFrame(() => {
+      raf2 = requestAnimationFrame(() => setVisible(true));
+    });
+    return () => {
+      cancelAnimationFrame(raf1);
+      cancelAnimationFrame(raf2);
+    };
+  }, []);
+  const fadeStyle = reduceMotion
+    ? { opacity: 0.8 }
+    : { opacity: visible ? 0.8 : 0, transition: "opacity 0.7s ease-out" };
+
   const videoRef = useRef<HTMLVideoElement>(null);
   useEffect(() => {
     const v = videoRef.current;
@@ -184,7 +203,7 @@ function Hero() {
           quality={100}
           priority
           sizes="100vw"
-          style={{ objectFit: "cover", objectPosition: "center top", opacity: 0.8 }}
+          style={{ objectFit: "cover", objectPosition: "center top", ...fadeStyle }}
         />
       ) : (
         <video
@@ -203,7 +222,7 @@ function Hero() {
             height: "100%",
             objectFit: "cover",
             objectPosition: "center",
-            opacity: 0.8,
+            ...fadeStyle,
           }}
         >
           <source src={HERO_VIDEO} type="video/mp4" />

@@ -11,7 +11,7 @@ const tabs = [
   {
     id: "textile",
     label: "Women\nEmpowerment",
-    title: "Textile & Women Empowerment Initiative – Odisha",
+    title: "Textile & Women Empowerment Initiative",
     desc: "Supported the establishment of a textile unit in Balasore, Odisha focused on creating employment opportunities for women through skilling, stitching, and livelihood development initiatives.",
     bullets: ["Women empowerment", "Rural employment", "Skill development", "MSME support"],
     photos: [
@@ -21,7 +21,7 @@ const tabs = [
       "/images/groups/women/women-4.jpg",
       "/images/groups/women/women-5.jpg",
     ],
-    photoAlt: "Textile & Women Empowerment Initiative – Odisha",
+    photoAlt: "Textile & Women Empowerment Initiative",
   },
   {
     id: "msme",
@@ -48,7 +48,7 @@ const tabs = [
   {
     id: "ecotourism",
     label: "Eco-Tourism\nFacilitation",
-    title: "Architectural, Eco-Tourism & Infrastructure Project Facilitation – Northeast India",
+    title: "Architectural, Eco-Tourism & Infrastructure Project Facilitation",
     desc: "Facilitated business expansion and project engagement opportunities for a Chennai-based architect in Northeast India, supporting discussions across architectural services, eco-tourism development and infrastructure-related initiatives, including helipad construction projects.",
     bullets: [
       "Business expansion",
@@ -64,12 +64,12 @@ const tabs = [
       "/images/groups/tourism/tourism-3.jpg",
       "/images/groups/tourism/tourism-4.jpg",
     ],
-    photoAlt: "Architectural, Eco-Tourism & Infrastructure Project Facilitation – Northeast India",
+    photoAlt: "Architectural, Eco-Tourism & Infrastructure Project Facilitation",
   },
   {
     id: "waste",
     label: "Waste-to\nEnergy",
-    title: "Biomethanation & Waste-to-Energy Initiative – Assam",
+    title: "Biomethanation & Waste-to-Energy Initiative",
     desc: "Facilitated a biomethanation project in Guwahati, Assam for a Bengaluru-based client focused on sustainable waste management and renewable energy generation.",
     bullets: ["Sustainability", "Renewable energy", "Industrial facilitation", "Waste management"],
     photos: [
@@ -78,12 +78,12 @@ const tabs = [
       "/images/groups/energy/energy-3.jpg",
       "/images/groups/energy/energy-4.jpg",
     ],
-    photoAlt: "Biomethanation & Waste-to-Energy Initiative – Assam",
+    photoAlt: "Biomethanation & Waste-to-Energy Initiative",
   },
   {
     id: "farmers",
     label: "Farmers\nCSR",
-    title: "CSR Initiative for Farmers – Odisha",
+    title: "CSR Initiative for Farmers",
     desc: "Supported a CSR-led agricultural initiative in Balasore, Odisha focused on improving rural livelihoods and strengthening agricultural productivity through collaboration with a social entrepreneur. The initiative aimed to introduce new and specialized crop varieties to local farmers to enhance productivity, profitability, and long-term agricultural sustainability.",
     bullets: [
       "CSR engagement",
@@ -98,7 +98,7 @@ const tabs = [
       "/images/engagements/csr-farmers-odisha-2.jpeg",
       "/images/engagements/csr-farmers-odisha-3.jpeg",
     ],
-    photoAlt: "CSR Initiative for Farmers – Odisha",
+    photoAlt: "CSR Initiative for Farmers",
   },
 ];
 

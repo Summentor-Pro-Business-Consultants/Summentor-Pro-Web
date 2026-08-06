@@ -141,7 +141,7 @@ function Hero() {
     >
       <HeroVideoBackground
         src="/videos/platforms.mp4"
-        poster="/images/engagements/msme-consulting-2.jpeg"
+        poster="/images/video-posters/platforms.jpg"
         opacity={0.8}
       />
       <div
@@ -868,7 +868,9 @@ function PlatformHighlights() {
 
   // The photo row is rendered OUTSIDE the dark section and pulled up so the
   // section's slanted bottom cuts through the middle of the (full) photos.
-  const OVERLAP = 130;
+  // How far the photo row is pulled up into the dark band above it. Larger =
+  // more of each photo sits inside the black, straddling its slanted edge.
+  const OVERLAP = 195;
 
   return (
     <>
@@ -876,7 +878,10 @@ function PlatformHighlights() {
         style={{
           background: "var(--sp-dark-grad-b)",
           // Bottom space hosts the upper half of the straddling photos.
-          padding: "clamp(56px, 8vw, 80px) 0 clamp(110px, 10vw, 160px)",
+          // Bottom padding sets both the height of the dark band and the gap
+          // under the heading: the photo row is pulled back up by OVERLAP, so
+          // the visible gap is (padding - OVERLAP).
+          padding: "clamp(56px, 8vw, 80px) 0 clamp(250px, 22vw, 330px)",
           position: "relative",
           zIndex: 1,
           overflow: "hidden",
